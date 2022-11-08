@@ -14,6 +14,7 @@ tem mais umas quantas mas só eu sei
 
 ## Frontend
 primeiro temos [**angular**](https://angular.io/) escolhido pelo architeto  
+temos [template](https://demos.creative-tim.com/paper-dashboard-angular/#/typography)  
 mas precisamos de algo para ficar bonitinho  
 
 quote de um site "*Tailwind CSS can be used to make websites in the fastest and the easiest way.*"  
