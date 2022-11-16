@@ -20,6 +20,8 @@ mas precisamos de algo para ficar bonitinho
 quote de um site "*Tailwind CSS can be used to make websites in the fastest and the easiest way.*"  
 n preciso que me digam mais nada
 
+DevOps cansado: "*Two of the most powerful technologies today for building Restful API applications are the Spring Boot and the NodeJS frameworks.*"
+
 logo vamos usar [**daisyui**](https://daisyui.com/) que baseia no [**tailwindcss**](https://tailwindcss.com/)  
 além disso pq o daniel disse  
 e pelos vistos a pareidrieds achou piada  
