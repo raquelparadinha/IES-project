@@ -1,0 +1,6 @@
+heart_beat - 70 70
+stress_level - 50 50
+glicose_level - 70 70
+uric_acid - 5 3
+cholesterol - 150 70
+toxic_screen - 1 2
