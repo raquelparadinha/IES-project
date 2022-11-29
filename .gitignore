@@ -110,4 +110,7 @@ fabric.properties
 .idea/**/markdown-navigator/
 
 # End of https://www.gitignore.io/api/intellij
+
+# mankiss nesga
 venv
+__pycache__
