@@ -16,6 +16,7 @@ public class Inmate {
     private int sentence_time;      // years
     private String work_station;
     private Boolean solitary;
+
     private static long counter = 1000;
 
     public Inmate () {
