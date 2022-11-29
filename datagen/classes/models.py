@@ -1,16 +1,16 @@
 class Inmate():
     cntr = 0
-    def __init__(self, startlocation, workstation=None):
+    def __init__(self, startlocation, workstation=None, application=None):
         self.id = Inmate.cntr
         Inmate.cntr += 1
 
-
         self.location = startlocation
         self.workstation = workstation
+        self.application = application
 
     def __str__(self):
-        return 'Inmate{}'.format(self.id)
- 
+        return 'Inmate{} is at {}'.format(self.id, self.location)
+
 class Location():
     def __init__(self, name: str, access: bool, connections: set):
 
@@ -23,6 +23,7 @@ class Location():
 
 class Sensor():
     def __init__(self, entry, exit):
+
         self.entry = entry
         self.exit = exit
 
@@ -31,6 +32,7 @@ class Sensor():
 
 class Workstation():
     def __init__(self, name, listings, minimum, maximum, expected):
+
         self.name = name
         self.listings = listings
         self.minimum = minimum

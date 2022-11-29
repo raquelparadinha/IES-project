@@ -24,12 +24,3 @@ class Receiver():
 
         print('waiting for messages...')
         self.channel.start_consuming()
-
-
-
-
-if __name__ == '__main__':
-    receiver = Receiver()
-    receiver.conninit()
-    receiver.recv()
-    receiver.connclose()

@@ -38,6 +38,8 @@ class Simulator():
             connections = {l.rstrip() for l in d[2].split(' ')}        
             self.locations.append(Location(name, access, connections))
 
+        for l in self.locations: print(l)
+
         # init sensors
         self.sensors = []
         for l in self.locations:
@@ -45,6 +47,8 @@ class Simulator():
                 for c in [spot for spot in self.locations if spot.name in l.connections]:
                     if c.access:
                         self.sensors.append(Sensor(l, c))
+
+        for s in self.sensors: print(s)
 
         # init health values
         self.healthvalues = {}
@@ -54,6 +58,8 @@ class Simulator():
             values = [int(v.rstrip()) for v in d[1].split(' ')]
             valuesdict = {'mean': values[0], 'range': values[1]}
             self.healthvalues[key] = valuesdict
+
+        print(self.healthvalues)
 
         # init workstations
         self.workstations = []
@@ -66,12 +72,16 @@ class Simulator():
             expected = int(d[4])
             self.workstations.append(Workstation(name, listings, minimum, maximum, expected))
 
+        for w in self.workstations: print(w)
+
         # init inamtes
         self.inmates = []
         for i in range(max_n):
             cellblocks = [l for l in self.locations if l.name.startswith('Cell')]
             block = randint(0, len(cellblocks) - 1)
-            self.inmates.append(Inmate(cellblocks[block], self.workstations[0]))
+            self.inmates.append(Inmate(cellblocks[block]))
+
+        for i in self.inmates: print(i)
 
     def moveInmate(self):
         inmateidx = randint(1, len(self.inmates)) - 1
@@ -79,26 +89,23 @@ class Simulator():
         possiblesensors = [s for s in self.sensors if s.entry == self.inmates[inmateidx].location]
         sensoridx = randint(1, len(possiblesensors)) - 1
 
-        print('{} {}'.format(self.inmates[inmateidx], possiblesensors[sensoridx]))
         self.inmates[inmateidx].location = possiblesensors[sensoridx].exit
-        return {'inmate': self.inmates[inmateidx], 'sensor': self.sensors[sensoridx]}
+        return self.inmates[inmateidx], possiblesensors[sensoridx]
 
     def makeHealthcheck(self):
         healthcheck = {key: normal(self.healthvalues[key]['mean'], self.healthvalues[key]['range'], 1)[0] for key in self.healthvalues.keys()}
         healthcheck = {key: int(healthcheck[key]) if healthcheck[key] > 0 else 0 for key in healthcheck.keys()}
-        print(healthcheck)
-        return {'healthcheck': healthcheck}
 
-    def workstationApply(self, inmate):
+        return healthcheck
+
+    def workstationApply(self):
         available = [w for w in self.workstations if len(w.workers) < w.listings]
         workstationidx = randint(1, len(available)) - 1
         
-        print('{} applied to {}'.format(inmate, self.workstations[workstationidx]))
-        return {'workstation': self.workstations[workstationidx]}
+        return self.workstations[workstationidx]
 
-    def workstationWork(self, inmateidx):
-        workstation = self.inmates[inmateidx].workstation
+    def workstationWork(self, inmate):
+        workstation = inmate.workstation
         workquota = randint(workstation.minimum, workstation.maximum)
         
-        print('{} worked {} at {}'.format(self.inmates[inmateidx], workquota, workstation))
-        return {'inmate': self.inmates[inmateidx], 'workquota': workquota}
+        return workquota
