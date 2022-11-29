@@ -5,8 +5,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("Biometrics")
 public class Biometrics {
+
     @Id
     private long inmate_id;
+
     private int heart_beat;         // normal from 60 to 100 beats
 
     private int stress_level;       // 0 to 25 is a resting state
@@ -85,7 +87,7 @@ public class Biometrics {
     @Override
     public String toString() {
         return String.format(
-            "Inmate [ID: %d, Heart beat: %d, Strees level: %d, Glicose level: %d, Uric Acid: %d, Cholesterol: %d, Toxic screen: %s", 
+            "Inmate [ID: %d, Heart beat: %d, Strees level: %d, Glicose level: %d, Uric Acid: %d, Cholesterol: %d, Toxic screen: %s]", 
             inmate_id, heart_beat, stress_level, glicose_level, uric_acid, cholesterol, toxic_screen);
     }
 }
