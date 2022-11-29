@@ -1,11 +1,11 @@
 Entrance - false - VisitorWing StaffWing
-Visitor Wing - false - Entrance StaffWing Patio
-Staff Wing - false - VisitorWing Entrance Infirmary Patio
-Job Wing - true - Patio
+VisitorWing - false - Entrance StaffWing Patio
+StaffWing - false - VisitorWing Entrance Infirmary Patio
+JobWing - true - Patio
 Patio - true - Infirmary StaffWing CellBlock1 CellBlock2 JobWing Showers Canteen Solitary
 Infirmary - false - StaffWing Patio
-Cell Block 1 - true - Patio
-Cell Block 2 - true - Patio
+CellBlock1 - true - Patio Showers
+CellBlock2 - true - Patio Canteen
 Showers - true - Solitary Patio
 Solitary - false - Showers Canteen
 Canteen - true - Patio Solitary
