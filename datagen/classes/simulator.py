@@ -6,7 +6,7 @@ from classes import Inmate, Location, Sensor, Workstation
 
 max_n = 1
 
-class Generator():
+class Simulator():
     def __init__(self, layoutfile, healthfile, workstationsfile):
         try: 
             with open(layoutfile, 'r') as f:
@@ -81,20 +81,24 @@ class Generator():
 
         print('{} {}'.format(self.inmates[inmateidx], possiblesensors[sensoridx]))
         self.inmates[inmateidx].location = possiblesensors[sensoridx].exit
+        return {'inmate': self.inmates[inmateidx], 'sensor': self.sensors[sensoridx]}
 
-    def healthcheck(self):
+    def makeHealthcheck(self):
         healthcheck = {key: normal(self.healthvalues[key]['mean'], self.healthvalues[key]['range'], 1)[0] for key in self.healthvalues.keys()}
         healthcheck = {key: int(healthcheck[key]) if healthcheck[key] > 0 else 0 for key in healthcheck.keys()}
         print(healthcheck)
+        return {'healthcheck': healthcheck}
 
-    def workstationApply(self, inmateidx):
+    def workstationApply(self, inmate):
         available = [w for w in self.workstations if len(w.workers) < w.listings]
         workstationidx = randint(1, len(available)) - 1
         
-        print('{} applied to {}'.format(self.inmates[inmateidx], self.workstations[workstationidx]))
+        print('{} applied to {}'.format(inmate, self.workstations[workstationidx]))
+        return {'workstation': self.workstations[workstationidx]}
 
     def workstationWork(self, inmateidx):
         workstation = self.inmates[inmateidx].workstation
         workquota = randint(workstation.minimum, workstation.maximum)
         
         print('{} worked {} at {}'.format(self.inmates[inmateidx], workquota, workstation))
+        return {'inmate': self.inmates[inmateidx], 'workquota': workquota}

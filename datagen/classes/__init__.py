@@ -1,4 +1,4 @@
-from .common import Inmate, Location, Sensor, Workstation
-from .generator import Generator
+from .models import Inmate, Location, Sensor, Workstation
+from .simulator import Simulator
 
-__all__ = ['Inmate', 'Location', 'Sensor', 'Workstation', 'Generator']
+__all__ = ['Inmate', 'Location', 'Sensor', 'Workstation', 'Simulator']
