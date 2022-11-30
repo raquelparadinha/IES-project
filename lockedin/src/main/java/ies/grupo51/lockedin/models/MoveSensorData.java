@@ -3,7 +3,7 @@ package ies.grupo51.lockedin.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Document("movesensordata")
 public class MoveSensorData {
     
     @Id
