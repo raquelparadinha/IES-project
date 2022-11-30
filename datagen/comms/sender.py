@@ -16,5 +16,5 @@ class Sender():
 
     def publish(self, type, args):
         msg = json.dumps({'type': type, 'args': args})
-        self.channel.basic_publish(exchange='', routing_key=type, body=msg)
+        self.channel.basic_publish(exchange='', routing_key=self.queue, body=msg)
         print('sent {}'.format(msg))
