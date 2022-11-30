@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("warden")
 public class Warden {
+
     @Id
     private long id;
 
@@ -14,6 +15,7 @@ public class Warden {
     private String email;
     private String phone;
     private LocalDate birth_date;
+
     private static long counter = 1;
 
     public Warden() {
@@ -21,12 +23,14 @@ public class Warden {
     }
 
     public Warden(String name, String email, String phone, LocalDate birth_date) {
+        this.id = Warden.counter++;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.birth_date = birth_date;
-        this.id = Warden.counter++;
     }
+
+    // SETS
 
     public void setName(String name) {
         this.name = name;
@@ -40,6 +44,8 @@ public class Warden {
     public void setBirth_date(LocalDate birth_date) {
         this.birth_date = birth_date;
     }
+
+    // GETS
 
     public long getId() {
         return id;
