@@ -3,8 +3,6 @@ import json
 
 class Receiver():
     def __init__(self):
-        self.exchange = ''
-        self.routingkey = ''
         self.queue = 'datagen'
 
     def conninit(self):
