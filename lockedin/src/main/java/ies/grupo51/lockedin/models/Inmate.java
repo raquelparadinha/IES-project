@@ -63,6 +63,12 @@ public class Inmate {
     public void setMove_logs(ArrayList<MoveSensorData> move_logs) {
         this.move_logs = move_logs;
     }
+    public static void setCounter(long counter) {
+        Inmate.counter = counter;
+    }
+    public void setId(long id) {
+        this.id = id;
+    }
 
     // GETS
     
@@ -72,7 +78,7 @@ public class Inmate {
     public ArrayList<MoveSensorData> getMove_logs() {
         return move_logs;
     }
-    public long getid() {
+    public long getId() {
         return id;
     }
     public String getName() {
@@ -92,6 +98,9 @@ public class Inmate {
     }
     public Boolean getSolitary() {
         return solitary;
+    }
+    public static long getCounter() {
+        return counter;
     }
 
     // CUSTOM FUNCTIONS FOR MODEL
@@ -117,19 +126,4 @@ public class Inmate {
             id, name, birth_date.toString(), entry_date.toString(), sentence_ending.toString(), inmateJob.toString(), solitary?"YES":"NO");
     }
 
-    public long getId() {
-        return id;
-    }
-
-    // public void setId(long id) {
-    //     this.id = id;
-    // }
-
-    public static long getCounter() {
-        return counter;
-    }
-
-    // public static void setCounter(long counter) {
-    //     Inmate.counter = counter;
-    // }
 }
