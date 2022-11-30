@@ -84,17 +84,8 @@ public class Area {
 
     @Override
     public String toString() {
-        String result = String.format(
-            "Area [ID: %d, Name: %s, Connections: ",
-            id, name);
-
-        for (Area conn : connections) {
-            result += String.format("%s, ", conn.getName());
-        }
-        result += String.format(
-            " Capacity: %d, Reserved: %s]",
-            capacity, reserved?"YES":"NO");    
-    
-        return result;
+        return String.format(
+            "Area [ID: %d, Name: %s, Connections: %s, Capacity: %d, Reserved: %s]",
+            id, name, connections, capacity, reserved?"YES":"NO");
     }
 }
