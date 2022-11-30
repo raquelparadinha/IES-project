@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("inmatejob")
-public class InmateJob {
+public class Workstation {
 
     @Id
     private long id;
@@ -19,12 +19,12 @@ public class InmateJob {
 
     private static long counter = 100;
 
-    public InmateJob(){
-        this.id = InmateJob.counter++;
+    public Workstation(){
+        this.id = Workstation.counter++;
     }
 
-    public InmateJob(Area working_station, DateFormat start_time, int duration, DateFormat end_time, String description){
-        this.id = InmateJob.counter++;
+    public Workstation(Area working_station, DateFormat start_time, int duration, DateFormat end_time, String description) {
+        this.id = Workstation.counter++;
         this.working_station = working_station;
         this.start_time = start_time;
         this.duration = duration;

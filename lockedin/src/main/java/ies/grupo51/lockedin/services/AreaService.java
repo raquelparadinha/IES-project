@@ -39,7 +39,7 @@ public class AreaService {
         existingArea.setName(area.getName());
         existingArea.setConnections(area.getConnections());
         existingArea.setArea_logs(area.getArea_logs());
-        existingArea.setReserved(area.getReserved());
+        existingArea.setAccess(area.getAccess());
         existingArea.setCapacity(area.getCapacity());
 
         return repository.save(existingArea);

@@ -15,7 +15,7 @@ public class Biometrics {
     private int glicose_level;
     private int uric_acid;
     private int cholesterol;
-    private String toxic_screen;   
+    private int toxic_screen;
 
     private static long counter = 0;
 
@@ -23,7 +23,7 @@ public class Biometrics {
         Biometrics.counter++;
     }
 
-    public Biometrics(long inmate_id, int heart_beat, int stress_level, int glicose_level, int uric_acid, int cholesterol, String toxic_screen) {
+    public Biometrics(long inmate_id, int heart_beat, int stress_level, int glicose_level, int uric_acid, int cholesterol, int toxic_screen) {
         this.id = Biometrics.counter++;
         this.inmate_id = inmate_id;
         this.heart_beat = heart_beat;
@@ -54,7 +54,7 @@ public class Biometrics {
     public int getStress_level() {
         return stress_level;
     }
-    public String getToxic_screen() {
+    public int getToxic_screen() {
         return toxic_screen;
     }
     public int getUric_acid() {
@@ -81,7 +81,7 @@ public class Biometrics {
     public void setStress_level(int stress_level) {
         this.stress_level = stress_level;
     }
-    public void setToxic_screen(String toxic_screen) {
+    public void setToxic_screen(int toxic_screen) {
         this.toxic_screen = toxic_screen;
     }
     public void setUric_acid(int uric_acid) {
@@ -91,7 +91,7 @@ public class Biometrics {
     @Override
     public String toString() {
         return String.format(
-            "Inmate [ID: %d, Heart beat: %d, Strees level: %d, Glicose level: %d, Uric Acid: %d, Cholesterol: %d, Toxic screen: %s]", 
+            "Inmate [ID: %d, Heart beat: %d, Strees level: %d, Glicose level: %d, Uric Acid: %d, Cholesterol: %d, Toxic screen: %d]", 
             inmate_id, heart_beat, stress_level, glicose_level, uric_acid, cholesterol, toxic_screen);
     }
 }

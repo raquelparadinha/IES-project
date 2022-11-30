@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class HealthSensorData {
+public class Healthcheck {
 
     @Id
     private long id;
@@ -14,12 +14,12 @@ public class HealthSensorData {
 
     private static long counter = 100;
 
-    public HealthSensorData() {
-        this.id = HealthSensorData.counter++;
+    public Healthcheck() {
+        this.id = Healthcheck.counter++;
     }
 
-    public HealthSensorData(long inmate_id, Biometrics biometrics) {
-        this.id = HealthSensorData.counter++;
+    public Healthcheck(long inmate_id, Biometrics biometrics) {
+        this.id = Healthcheck.counter++;
         this.inmate_id = inmate_id;
         this.biometrics = biometrics;
     }
@@ -30,7 +30,7 @@ public class HealthSensorData {
         this.biometrics = biometrics;
     }
     public static void setCounter(long counter) {
-        HealthSensorData.counter = counter;
+        Healthcheck.counter = counter;
     }
     public void setId(long id) {
         this.id = id;
