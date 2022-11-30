@@ -5,7 +5,7 @@ import java.util.Set;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("Prison")
+@Document("prison")
 public class Prison {
 
     @Id
@@ -26,7 +26,7 @@ public class Prison {
         this.id = Prison.counter++;
     }
 
-    public Prison(long id, String name, Set<Area> areas, Set<Guard> guards, Set<Inmate> inmates, Warden warden){
+    public Prison(String name, Set<Area> areas, Set<Guard> guards, Set<Inmate> inmates, Warden warden){
         this.id = Prison.counter++;
         this.name = name;
         this.areas = areas;
@@ -38,7 +38,8 @@ public class Prison {
         this.warden = warden;
     }
 
-
+    // GETS
+    
     public Set<Area> getAreas() {
         return areas;
     }
@@ -63,6 +64,9 @@ public class Prison {
     public Warden getWarden() {
         return warden;
     }
+
+    // SETS
+    
     public void setAreas(Set<Area> areas) {
         this.areas = areas;
     }
@@ -89,6 +93,21 @@ public class Prison {
     }
     public void setWarden(Warden warden) {
         this.warden = warden;
+    }
+
+    // CUSTOM FUNCTIONS FOR MODEL
+
+    public void setNewArea(Area area){
+        this.areas.add(area);
+        this.num_areas = areas.size();
+    }
+    public void setNewGuard(Guard guard){
+        this.guards.add(guard);
+        this.num_guards = guards.size();
+    }
+    public void setNewInmate(Inmate inmate){
+        this.inmates.add(inmate);
+        this.num_inmates = inmates.size();
     }
 
     @Override

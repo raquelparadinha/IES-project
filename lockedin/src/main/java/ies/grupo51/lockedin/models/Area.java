@@ -1,5 +1,6 @@
 package ies.grupo51.lockedin.models;
 
+import java.util.Set;
 import java.util.ArrayList;
 
 import org.springframework.data.annotation.Id;
@@ -7,32 +8,37 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("area")
 public class Area {
+    
     @Id
     private long id;
 
     private String name;
-    private ArrayList<Area> connections;
+    private Set<Area> connections;
     private int capacity;
     private Boolean reserved;
-    private static long counter = 1;
+    private ArrayList<MoveSensorData> area_logs;
+
+    private static long counter = 0;
+
 
     public Area() {
         this.id = Area.counter++;
-        this.connections = new ArrayList<>();
     }
 
-    public Area(String name, ArrayList<Area> connections, int capacity, Boolean reserved) {
+    public Area(String name, Set<Area> connections, int capacity, Boolean reserved) {
+        this.id = Area.counter++;
         this.name = name;
         this.connections = connections;
         this.capacity = capacity;
         this.reserved = reserved;
-        this.id = Area.counter++;
     }
+
+    // SETS
 
     public void setName(String name) {
         this.name = name;
     }
-    public void setConnections(ArrayList<Area> connections) {
+    public void setConnections(Set<Area> connections) {
         this.connections = connections;
     }
     public void setCapacity(int capacity) {
@@ -41,6 +47,11 @@ public class Area {
     public void setReserved(Boolean reserved) {
         this.reserved = reserved;
     }
+    public ArrayList<MoveSensorData> getArea_logs() {
+        return area_logs;
+    }
+
+    // GETS
 
     public long getId() {
         return id;
@@ -48,7 +59,7 @@ public class Area {
     public String getName() {
         return name;
     }
-    public ArrayList<Area> getConnections() {
+    public Set<Area> getConnections() {
         return connections;
     }
     public int getCapacity() {
@@ -56,6 +67,19 @@ public class Area {
     }
     public Boolean getReserved() {
         return reserved;
+    }
+    public void setArea_logs(ArrayList<MoveSensorData> area_logs) {
+        this.area_logs = area_logs;
+    }
+
+    // CUSTOM FUNCTIONS FOR MODEL
+
+    public void addNewLog(MoveSensorData log){
+        this.area_logs.add(log);
+    }
+
+    public MoveSensorData getLastLog(){
+        return this.area_logs.get(-1);
     }
 
     @Override
@@ -67,7 +91,6 @@ public class Area {
         for (Area conn : connections) {
             result += String.format("%s, ", conn.getName());
         }
-        
         result += String.format(
             " Capacity: %d, Reserved: %s]",
             capacity, reserved?"YES":"NO");    

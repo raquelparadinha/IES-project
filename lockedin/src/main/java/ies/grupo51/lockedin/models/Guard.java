@@ -1,7 +1,7 @@
 package ies.grupo51.lockedin.models;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,23 +14,25 @@ public class Guard {
     private String name;
     private String email;
     private String phone;
-    private LocalDate birth_date;
-    private ArrayList<Area> areas;
+    private DateFormat birth_date;
+    private Set<Area> areas;
+
     private static long counter = 100;
-    // private String password;
 
     public Guard () {
         this.id = Guard.counter++;
     }
 
-    public Guard (String name, String email, String phone, LocalDate birth_date, ArrayList<Area> areas) {
+    public Guard (String name, String email, String phone, DateFormat birth_date, Set<Area> areas) {
+        this.id = Guard.counter++;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.birth_date = birth_date;
         this.areas = areas;
-        this.id = Guard.counter++;
     }
+
+    // SETS
 
     public void setName(String name) {
         this.name = name;
@@ -41,14 +43,16 @@ public class Guard {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    public void setBirth_date(LocalDate birth_date) {
+    public void setBirth_date(DateFormat birth_date) {
         this.birth_date = birth_date;
     }
-    public void setAreas(ArrayList<Area> areas) {
+    public void setAreas(Set<Area> areas) {
         this.areas = areas;
     }
 
-    public long getid() {
+    // GETS
+
+    public long getId() {
         return id;
     }
     public String getName() {
@@ -60,24 +64,18 @@ public class Guard {
     public String getPhone() {
         return phone;
     }
-    public LocalDate getBirth_date() {
+    public DateFormat getBirth_date() {
         return birth_date;
     }
-    public ArrayList<Area> getAreas() {
+    public Set<Area> getAreas() {
         return areas;
     }
 
     @Override
     public String toString() {
         String result = String.format(
-            "Guard [ID: %d, Name: %s, Email: %s, Phone: %s, Birth date: %s, Areas: ", 
-            id, name, email, phone, birth_date);
-
-        for (Area a : areas) {
-            result += String.format("%s, ", a.getName());
-        }
-        result += "]";
-
+            "Guard [ID: %d, Name: %s, Email: %s, Phone: %s, Birth date: %s, Areas: %s]", 
+            id, name, email, phone, birth_date.toString(), areas);
         return result;
     }
 }
