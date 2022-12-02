@@ -14,7 +14,7 @@ class Sender():
     def connclose(self):
         self.connection.close()
 
-    def publish(self, type, args):
-        msg = json.dumps({'type': type, 'args': args})
+    def publish(self, type, inmateid, arg):
+        msg = json.dumps({'type': type, 'inmateid': inmateid, 'arg': arg})
         self.channel.basic_publish(exchange='', routing_key=self.queue, body=msg)
         print('sent {}'.format(msg))
