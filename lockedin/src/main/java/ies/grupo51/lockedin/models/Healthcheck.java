@@ -57,7 +57,7 @@ public class Healthcheck {
     @Override
     public String toString() {
         return String.format(
-            "HealthSensorData [ID: %d, Inmate ID: %d, Biometrics: %s]",
+            "Healthcheck [ID: %d, Inmate ID: %d, Biometrics: %s]",
             this.id, this.inmate_id, this.biometrics.toString());
     }
 }

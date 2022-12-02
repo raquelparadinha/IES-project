@@ -1,9 +1,11 @@
 package ies.grupo51.lockedin.repositories;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 import ies.grupo51.lockedin.models.Workstation;
 
-public interface InmateJobRepository extends MongoRepository <Workstation, Long> {
+@Repository
+public interface WorkstationRepository extends MongoRepository <Workstation, Long> {
     
 }

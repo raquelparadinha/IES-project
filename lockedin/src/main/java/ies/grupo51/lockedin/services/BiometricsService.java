@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
 import ies.grupo51.lockedin.models.Biometrics;
 import ies.grupo51.lockedin.repositories.BiometricsRepository;
 
@@ -27,12 +28,12 @@ public class BiometricsService {
         return repository.findAll();
     }
 
-    public Biometrics getBiometricsById(long id) {
-        return repository.findById(id).orElse(null);
+    public Biometrics getBiometricsById(long id) throws ResourceNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 
-    public Biometrics updatBiometrics(Biometrics biometrics) {
-        Biometrics existingBiometrics = repository.findById(biometrics.getId()).orElse(null);
+    public Biometrics updatBiometrics(Biometrics biometrics) throws ResourceNotFoundException {
+        Biometrics existingBiometrics = repository.findById(biometrics.getId()).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
         
         if (existingBiometrics == null){ return null; }
         

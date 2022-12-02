@@ -1,6 +1,7 @@
 package ies.grupo51.lockedin.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,7 +13,7 @@ public class MoveSensor {
     private long id;
     private Area entry;
     private Area exit;
-    private ArrayList<MoveSensorData> logs;
+    private List<MoveSensorData> logs;
 
     private static long counter = 0;
 
@@ -38,7 +39,7 @@ public class MoveSensor {
     public Area getExit() {
         return exit;
     }
-    public ArrayList<MoveSensorData> getLogs() {
+    public List<MoveSensorData> getLogs() {
         return logs;
     }
 
@@ -53,7 +54,7 @@ public class MoveSensor {
     public void setExit(Area exit) {
         this.exit = exit;
     }
-    public void setLogs(ArrayList<MoveSensorData> logs) {
+    public void setLogs(List<MoveSensorData> logs) {
         this.logs = logs;
     }
 

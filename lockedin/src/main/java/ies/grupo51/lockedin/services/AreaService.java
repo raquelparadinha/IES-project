@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
 import ies.grupo51.lockedin.models.Area;
 import ies.grupo51.lockedin.repositories.AreaRepository;
 
@@ -27,12 +28,12 @@ public class AreaService {
         return repository.findAll();
     }
 
-    public Area getAreaById(long id) {
-        return repository.findById(id).orElse(null);
+    public Area getAreaById(long id) throws ResourceNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 
-    public Area updateArea(Area area) {
-        Area existingArea = repository.findById(area.getId()).orElse(null);
+    public Area updateArea(Area area) throws ResourceNotFoundException {
+        Area existingArea = repository.findById(area.getId()).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
         
         if (existingArea == null){ return null; }
 

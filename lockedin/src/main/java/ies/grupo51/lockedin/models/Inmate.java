@@ -2,6 +2,9 @@ package ies.grupo51.lockedin.models;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,10 +19,10 @@ public class Inmate {
     private DateFormat birth_date;
     private DateFormat entry_date;
     private DateFormat sentence_ending;      // years
-    private Workstation workstation;
     private Boolean solitary;
-    private ArrayList<Healthcheck> health_logs;
-    private ArrayList<MoveSensorData> move_logs;
+    private Set<Workstation> shifts;
+    private List<Healthcheck> health_logs;
+    private List<MoveSensorData> move_logs;
 
     private static long counter = 1000;
 
@@ -27,14 +30,16 @@ public class Inmate {
         this.id = Inmate.counter++;
     }
 
-    public Inmate (String name, DateFormat birth_date, DateFormat entry_date, DateFormat sentence_ending, Workstation workstation, Boolean solitary) {
+    public Inmate (String name, DateFormat birth_date, DateFormat entry_date, DateFormat sentence_ending, Boolean solitary) {
         this.id = Inmate.counter++;
         this.name = name;
         this.birth_date = birth_date;
         this.entry_date = entry_date;
         this.sentence_ending = sentence_ending;
-        this.workstation = workstation;
         this.solitary = solitary;
+        this.shifts = new HashSet<>();
+        this.health_logs = new ArrayList<>();
+        this.move_logs = new ArrayList<>();
     }
 
     // SETS
@@ -51,16 +56,16 @@ public class Inmate {
     public void setSentence_ending(DateFormat sentence_ending) {
         this.sentence_ending = sentence_ending;
     }
-    public void setWorkstation(Workstation workstation) {
-        this.workstation = workstation;
+    public void setShifts(Set<Workstation> shifts) {
+        this.shifts = shifts;
     }
     public void setSolitary(Boolean solitary) {
         this.solitary = solitary;
     } 
-    public void setHealth_logs(ArrayList<Healthcheck> health_logs) {
+    public void setHealth_logs(List<Healthcheck> health_logs) {
         this.health_logs = health_logs;
     }
-    public void setMove_logs(ArrayList<MoveSensorData> move_logs) {
+    public void setMove_logs(List<MoveSensorData> move_logs) {
         this.move_logs = move_logs;
     }
     public static void setCounter(long counter) {
@@ -72,10 +77,10 @@ public class Inmate {
 
     // GETS
     
-    public ArrayList<Healthcheck> getHealth_logs() {
+    public List<Healthcheck> getHealth_logs() {
         return health_logs;
     }
-    public ArrayList<MoveSensorData> getMove_logs() {
+    public List<MoveSensorData> getMove_logs() {
         return move_logs;
     }
     public long getId() {
@@ -93,8 +98,8 @@ public class Inmate {
     public DateFormat getSentence_ending() {
         return sentence_ending;
     }
-    public Workstation getWorkstation() {
-        return workstation;
+    public Set<Workstation> getShifts() {
+        return shifts;
     }
     public Boolean getSolitary() {
         return solitary;
@@ -119,11 +124,15 @@ public class Inmate {
         return this.health_logs.get(-1);
     }
 
+    public void addShift(Workstation workstation) {
+        this.shifts.add(workstation);
+    }
+
     @Override
     public String toString() {
         return String.format(
-            "Inmate [ID: %d, Name: %s, Birth date: %s, Entry date: %s, Sentence End: %d, Job: %s, Solitary Confinement: %s]", 
-            id, name, birth_date.toString(), entry_date.toString(), sentence_ending.toString(), workstation.toString(), solitary?"YES":"NO");
+            "Inmate [ID: %d, Name: %s, Birth date: %s, Entry date: %s, Sentence End: %d, Solitary Confinement: %s]", 
+            id, name, birth_date.toString(), entry_date.toString(), sentence_ending.toString(), solitary?"YES":"NO");
     }
 
 }

@@ -1,7 +1,7 @@
 package ies.grupo51.lockedin.models;
 
 import java.util.Set;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,7 +16,7 @@ public class Area {
     private Set<Area> connections;
     private int capacity;
     private Boolean access;
-    private ArrayList<MoveSensorData> area_logs;
+    private List<MoveSensorData> area_logs;
 
     private static long counter = 0;
 
@@ -47,7 +47,7 @@ public class Area {
     public void setAccess(Boolean access) {
         this.access = access;
     }
-    public ArrayList<MoveSensorData> getArea_logs() {
+    public List<MoveSensorData> getArea_logs() {
         return area_logs;
     }
 
@@ -68,7 +68,7 @@ public class Area {
     public Boolean getAccess() {
         return access;
     }
-    public void setArea_logs(ArrayList<MoveSensorData> area_logs) {
+    public void setArea_logs(List<MoveSensorData> area_logs) {
         this.area_logs = area_logs;
     }
 
@@ -86,6 +86,6 @@ public class Area {
     public String toString() {
         return String.format(
             "Area [ID: %d, Name: %s, Connections: %s, Capacity: %d, Access: %s]",
-            id, name, connections, capacity, access?"YES":"NO");
+            this.id, this.name, this.connections, this.capacity, this.access?"YES":"NO");
     }
 }

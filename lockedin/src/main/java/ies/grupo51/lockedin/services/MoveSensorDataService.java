@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
 import ies.grupo51.lockedin.models.MoveSensorData;
 import ies.grupo51.lockedin.repositories.MoveSensorDataRepository;
 
@@ -27,12 +28,12 @@ public class MoveSensorDataService {
         return repository.findAll();
     }
 
-    public MoveSensorData getMoveSensorDataById(long id) {
-        return repository.findById(id).orElse(null);
+    public MoveSensorData getMoveSensorDataById(long id) throws ResourceNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 
-    public MoveSensorData updateMoveSensorData(MoveSensorData moveSensorData) {
-        MoveSensorData existingMoveSensorData = repository.findById(moveSensorData.getId()).orElse(null);
+    public MoveSensorData updateMoveSensorData(MoveSensorData moveSensorData) throws ResourceNotFoundException {
+        MoveSensorData existingMoveSensorData = repository.findById(moveSensorData.getId()).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
         
         if (existingMoveSensorData == null){ return null; }
         
