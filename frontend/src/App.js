@@ -9,6 +9,7 @@ import {
   UserOutlined,
   PoweroffOutlined,
 } from "@ant-design/icons/lib/icons";
+import Logo from "./images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
 
 function App() {
   return (
@@ -40,7 +41,7 @@ export function Header() {
         fontWeight: "bold",
       }}
     >
-      Header
+      <img src={Logo} alt="logo" style={{ height: "100%" }} />
     </div>
   );
 }
@@ -107,7 +108,7 @@ export function SideMenu() {
           },
         ]}
       ></Menu>
-      {/* <Content /> */}
+      <Content />
     </div>
   );
 }
@@ -119,6 +120,8 @@ function Content() {
         <Route path="/" element={<div>Home</div>}></Route>
         <Route path="/dashboard" element={<div>Dashboard</div>}></Route>
         <Route path="/userlist" element={<div>User List</div>}></Route>
+        <Route path="/prisioners" element={<div>Prisioners</div>}></Route>
+        <Route path="/guards" element={<div>Guards</div>}></Route>
         <Route path="/profile" element={<div>Profile</div>}></Route>
         <Route path="/signout" element={<div>Sign Out</div>}></Route>
       </Routes>
