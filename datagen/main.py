@@ -15,7 +15,7 @@ def main():
     while(True):
         inmate, sensor = sim.moveInmate()
         print('Move: {} {}'.format(inmate, sensor))
-        sender.publish('sensor', inmate.id, sensor.id)
+        sender.publish('sensor', inmate.id, sensor.exit)
 
         if sensor.exit.name == 'JobWing':
             if inmate.workstation == None:
