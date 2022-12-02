@@ -20,11 +20,11 @@ public class HealthcheckService {
         return repository.save(healthcheck);
     }
 
-    public List<Healthcheck> saveHealthchecks(Set<Healthcheck> healthchecks) {
-        return repository.saveAll(healthchecks);
+    public List<Healthcheck> saveHealthcheck(Set<Healthcheck> healthcheck) {
+        return repository.saveAll(healthcheck);
     }
 
-    public List<Healthcheck> getHealthchecks() {
+    public List<Healthcheck> getHealthcheck() {
         return repository.findAll();
     }
 
@@ -36,10 +36,15 @@ public class HealthcheckService {
         Healthcheck existingHealthcheck = repository.findById(healthcheck.getId()).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
         
         if (existingHealthcheck == null){ return null; }
-
-        existingHealthcheck.setBiometrics(healthcheck.getBiometrics());
+        
+        existingHealthcheck.setCholesterol(healthcheck.getCholesterol());
+        existingHealthcheck.setGlicose_level(healthcheck.getGlicose_level());
+        existingHealthcheck.setHeart_beat(healthcheck.getHeart_beat());
         existingHealthcheck.setInmate_id(healthcheck.getInmate_id());
-
+        existingHealthcheck.setStress_level(healthcheck.getStress_level());
+        existingHealthcheck.setToxic_screen(healthcheck.getToxic_screen());
+        existingHealthcheck.setUric_acid(healthcheck.getUric_acid());
+        
         return repository.save(existingHealthcheck);
     }
 }
