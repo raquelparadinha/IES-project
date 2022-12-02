@@ -10,6 +10,7 @@ import {
   PoweroffOutlined,
 } from "@ant-design/icons/lib/icons";
 import Logo from "./images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
+import PrisionersList from "./components/prisionersList/prisionersList";
 
 function App() {
   return (
@@ -115,12 +116,12 @@ export function SideMenu() {
 
 function Content() {
   return (
-    <div>
+    <div style={{width: "100%"}}>
       <Routes>
         <Route path="/" element={<div>Home</div>}></Route>
         <Route path="/dashboard" element={<div>Dashboard</div>}></Route>
         <Route path="/userlist" element={<div>User List</div>}></Route>
-        <Route path="/prisioners" element={<div>Prisioners</div>}></Route>
+        <Route path="/prisioners" element={<PrisionersList />}></Route>
         <Route path="/guards" element={<div>Guards</div>}></Route>
         <Route path="/profile" element={<div>Profile</div>}></Route>
         <Route path="/signout" element={<div>Sign Out</div>}></Route>
