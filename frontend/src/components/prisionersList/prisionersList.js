@@ -1,8 +1,10 @@
-import { Button, Table } from "antd";
+import { Button, Modal, Table, Input, Space } from "antd";
 import { useState } from "react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib/icons";
 
 function PrisionersList() {
+  const [isEditing, setisEditing] = useState(false);
+  const [editingPrisioner, setEditingPrisioner] = useState(null);
   const [dataSource, setDataSource] = useState([
     {
       id: 1,
@@ -41,8 +43,18 @@ function PrisionersList() {
         return (
           <>
             {" "}
-            <EditOutlined style={{ color: "green", marginLeft: 12 }} />
-            <DeleteOutlined style={{ color: "red", marginLeft: 12 }} />
+            <EditOutlined
+              onClick={() => {
+                onEditPrisioner(record);
+              }}
+              style={{ color: "green", marginLeft: 12 }}
+            />
+            <DeleteOutlined
+              onClick={() => {
+                onDeletePrisioner(record);
+              }}
+              style={{ color: "red", marginLeft: 12 }}
+            />
           </>
         );
       },
@@ -62,11 +74,87 @@ function PrisionersList() {
       return [...pre, newPrisioner];
     });
   };
+  const onDeletePrisioner = (record) => {
+    Modal.confirm({
+      title: "You REALLY want to delete this priosioner?",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: () => {
+        setDataSource((pre) => {
+          return pre.filter((prisioner) => prisioner.id !== record.id);
+        });
+      },
+    });
+  };
+  const onEditPrisioner = (record) => {
+    setisEditing(true);
+    // ... para fazer copia, tendi nada
+    setEditingPrisioner({ ...record });
+  };
+
+  const ResetEditing = () => {
+    setisEditing(false);
+    setEditingPrisioner(null);
+  };
 
   return (
     <div>
       <Table columns={columns} dataSource={dataSource}></Table>
-      <Button onClick={onAddPrisioner}>Add new prisioner</Button>
+      <Button onClick={onAddPrisioner} shape={"round"} style={{marginLeft: "45%"}} type="primary">Add new prisioner</Button>
+      <Modal
+        title="Edit Prisioner"
+        visible={isEditing}
+        okText="Save"
+        okType="primary"
+        onCancel={() => {
+          ResetEditing();
+        }}
+        onOk={() => {
+          setDataSource((pre) => {
+            return pre.map((prisioner) => {
+              if (prisioner.id === editingPrisioner.id) {
+                return editingPrisioner;
+              } else {
+                return prisioner;
+              }
+            });
+          });
+          ResetEditing();
+        }}
+      >
+        {" "}
+        <Space direction="vertical" style={{ width: "100%", height: "100%" }}>
+          <Input
+            addonBefore="Name"
+            value={editingPrisioner?.name}
+            onChange={(e) => {
+              setEditingPrisioner((pre) => {
+                return { ...pre, name: e.target.value };
+              });
+            }}
+          />
+          <Input
+            addonBefore="Email"
+            value={editingPrisioner?.email}
+            onChange={(e) => {
+              setEditingPrisioner((pre) => {
+                return { ...pre, email: e.target.value };
+              });
+            }}
+          />
+          <Input
+            addonBefore="Adress"
+            value={editingPrisioner?.adress}
+            onChange={(e) => {
+              setEditingPrisioner((pre) => {
+                return { ...pre, adress: e.target.value };
+              });
+            }}
+          />
+        </Space>
+      </Modal>
+      {/* o ? é para dizer que o argumento é opcional */}
     </div>
   );
 }
