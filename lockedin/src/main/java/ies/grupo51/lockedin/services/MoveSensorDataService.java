@@ -38,7 +38,7 @@ public class MoveSensorDataService {
         if (existingMoveSensorData == null){ return null; }
         
         existingMoveSensorData.setInmate_id(moveSensorData.getInmate_id());
-        existingMoveSensorData.setNew_area(moveSensorData.getNew_area());
+        existingMoveSensorData.setMove_sensor(moveSensorData.getMove_sensor());
         
         return repository.save(existingMoveSensorData);
     }

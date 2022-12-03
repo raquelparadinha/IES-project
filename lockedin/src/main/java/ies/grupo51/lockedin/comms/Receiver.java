@@ -2,30 +2,38 @@ package ies.grupo51.lockedin.comms;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONString;
+
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
+import ies.grupo51.lockedin.models.MoveSensor;
+import ies.grupo51.lockedin.models.MoveSensorData;
 import ies.grupo51.lockedin.services.MoveSensorDataService;
+import ies.grupo51.lockedin.services.MoveSensorService;
 
 public class Receiver {
+
+    @Autowired
+    private MoveSensorService moveSensorService;
 
     @Autowired
     private MoveSensorDataService moveSensorDataService;
 
     @RabbitListener(queues = CommsConfig.QUEUE)
-    public void listen(String receivedmsg) {
+    public void listen(String receivedmsg) throws ResourceNotFoundException {
         System.out.print("Received from datagen: " + receivedmsg);
 
         try {
             JSONObject jmsg = new JSONObject(receivedmsg);
             String type = jmsg.getString("type");
-            JSONObject args = new JSONObject(jmsg.getString("args"));
-
+            long inmateid = jmsg.getInt("inmateid");
+            String arg = jmsg.getString("arg");
+            
             switch("type") {
                 case "sensor":
-                    long inmateid = jmsg.getInt("inmateid");
-                    long sensorid = jmsg.getInt("sensorid");
+                    MoveSensor moveSensor = moveSensorService.getMoveSensorById(Integer.parseInt(arg));
+                    moveSensorDataService.saveMoveSensorData(new MoveSensorData(inmateid, moveSensor));
                     break;
                 case "apply":
                     break;

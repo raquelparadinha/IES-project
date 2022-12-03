@@ -10,7 +10,7 @@ public class MoveSensorData {
     private long id;
 
     private long inmate_id;
-    private Area new_area;
+    private MoveSensor move_sensor;
 
     private static long counter = 0;
 
@@ -18,10 +18,10 @@ public class MoveSensorData {
         this.id = MoveSensorData.counter++;
     }
 
-    public MoveSensorData(long inmate_id, Area new_area) {
+    public MoveSensorData(long inmate_id, MoveSensor move_sensor) {
         this.id = MoveSensorData.counter++;
         this.inmate_id = inmate_id;
-        this.new_area = new_area;
+        this.move_sensor = move_sensor;
     }
 
     // SETS
@@ -35,8 +35,8 @@ public class MoveSensorData {
     public void setInmate_id(long inmate_id) {
         this.inmate_id = inmate_id;
     }
-    public void setNew_area(Area new_area) {
-        this.new_area = new_area;
+    public void setMove_sensor(MoveSensor move_sensor) {
+        this.move_sensor = move_sensor;
     }
 
     // GETS
@@ -50,14 +50,14 @@ public class MoveSensorData {
     public long getInmate_id() {
         return inmate_id;
     }
-    public Area getNew_area() {
-        return new_area;
+    public MoveSensor getMove_sensor() {
+        return move_sensor;
     }
 
     @Override
     public String toString() {
         return String.format(
-            "MoveSensorData [ID: %d, Inmate ID: %d, New Area: %d]", 
-            this.id, this.inmate_id, this.new_area);
+            "MoveSensorData [ID: %d, Inmate ID: %d, New MoveSensor: %d]", 
+            this.id, this.inmate_id, this.move_sensor);
     }
 }
