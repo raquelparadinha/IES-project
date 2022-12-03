@@ -1,13 +1,13 @@
 version: "3.8"
 services:
   mongo:
-    image: mongo:lastest
+    image: mongo:latest
     env_file: ./.env
     container_name: mongo
     hostname: mongo
     restart: unless-stopped
     ports:
-      -$MONGO_HOST_PORT:27017
+      - $MONGO_HOST_PORT:27017
     environment:
       - MONGO_INITDB_ROOT_USERNAME=$MONGO_ROOT_USERNAME
       - MONGO_INITDB_ROOT_PASSWORD=$MONGO_ROOT_PASSWORD
@@ -15,9 +15,8 @@ services:
       - MONGO_DB_PASSWORD=$MONGO_DB_PASSWORD
 
     volumes:
-      - $MONGO_DATA_HOST_PATH:/data/db/
-      # - $MONGO_LOG_HOST_PATH:/var/log/mongodb/
-      - $MONGO_INITDB_SCRIPTS_HOST_PATH:/docker-entrypoint-initdb.d/
+      - $mongodb/data:/data/db/
+      - $mongodb/initdb.d:/docker-entrypoint-initdb.d/
 
     networks:
       - main-network
@@ -47,8 +46,7 @@ services:
     container_name: $APP_NAME
     restart: on-failure
     depends_on:
-      mongo:
-        condition: service_healthy
+      - mongo
     ports:
       - $SERVER_HOST_PORT:8080
     environment:
@@ -65,14 +63,16 @@ services:
     networks:
       - main-network
 
-  reactclient:
-    build: ./frontend
-    container_name: reactclient
-    ports:
-      - 3001:3000
-    stdin_open: true
-    restart: unless-stopped
-    image: lockedin-frontend
+  # PILISSE DO PAULO
+
+  # reactclient:
+  #   build: ./frontend
+  #   container_name: reactclient
+  #   ports:
+  #     - 3001:3000
+  #   stdin_open: true
+  #   restart: unless-stopped
+  #   image: lockedin-frontend
 
 networks:
   main-network:
