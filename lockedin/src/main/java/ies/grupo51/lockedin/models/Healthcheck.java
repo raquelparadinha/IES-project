@@ -1,7 +1,5 @@
 package ies.grupo51.lockedin.models;
 
-import java.util.UUID;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,9 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Healthcheck {
 
     @Id
-    private UUID id;
+    private long id;
 
-    private UUID inmate_id;
+    private long inmate_id;
     private int heart_beat;
     private int stress_level;
     private int glicose_level;
@@ -22,11 +20,11 @@ public class Healthcheck {
     private static long counter = 0;
 
     public Healthcheck() {
-        this.id = UUID.randomUUID();
+        this.id = 0;
     }
 
-    public Healthcheck(UUID inmate_id, int heart_beat, int stress_level, int glicose_level, int uric_acid, int cholesterol, int toxic_screen) {
-        this.id = UUID.randomUUID();
+    public Healthcheck(long id, long inmate_id, int heart_beat, int stress_level, int glicose_level, int uric_acid, int cholesterol, int toxic_screen) {
+        this.id = id;
         this.inmate_id = inmate_id;
         this.heart_beat = heart_beat;
         this.stress_level = stress_level;
@@ -38,7 +36,7 @@ public class Healthcheck {
 
     // GETS
 
-    public UUID getId() {
+    public long getId() {
         return id;
     }
     public int getCholesterol() {
@@ -50,7 +48,7 @@ public class Healthcheck {
     public int getHeart_beat() {
         return heart_beat;
     }
-    public UUID getInmate_id() {
+    public long getInmate_id() {
         return inmate_id;
     }
     public int getStress_level() {
@@ -68,7 +66,7 @@ public class Healthcheck {
 
     // SETS
 
-    public void setId(UUID id) {
+    public void setId(long id) {
         this.id = id;
     }
     public void setCholesterol(int cholesterol) {
@@ -80,7 +78,7 @@ public class Healthcheck {
     public void setHeart_beat(int heart_beat) {
         this.heart_beat = heart_beat;
     }
-    public void setInmate_id(UUID inmate_id) {
+    public void setInmate_id(long inmate_id) {
         this.inmate_id = inmate_id;
     }
     public void setStress_level(int stress_level) {
@@ -99,7 +97,7 @@ public class Healthcheck {
     @Override
     public String toString() {
         return String.format(
-            "Healthcheck [Inmate ID: %s, Heart beat: %d, Strees level: %d, Glicose level: %d, Uric Acid: %d, Cholesterol: %d, Toxic screen: %d]", 
-            inmate_id.toString(), heart_beat, stress_level, glicose_level, uric_acid, cholesterol, toxic_screen);
+            "Healthcheck [Inmate ID: %d, Heart beat: %d, Strees level: %d, Glicose level: %d, Uric Acid: %d, Cholesterol: %d, Toxic screen: %d]", 
+            inmate_id, heart_beat, stress_level, glicose_level, uric_acid, cholesterol, toxic_screen);
     }
 }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Guard implements Staff {
 
     @Id
-    private UUID id;
+    private long id;
 
     private String name;
     private String email;
@@ -26,13 +25,13 @@ public class Guard implements Staff {
     private static long counter = 100;
 
     public Guard () {
-        this.id = UUID.randomUUID();
+        this.id = 0;
         this.shifts = new HashSet<>();
         this.messages = new ArrayList<>();
     }
 
-    public Guard (String name, String email, String phone, Date birth_date) {
-        this.id = UUID.randomUUID();
+    public Guard (long id, String name, String email, String phone, Date birth_date) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -44,7 +43,7 @@ public class Guard implements Staff {
     // SETS
 
     @Override
-    public void setId(UUID id){
+    public void setId(long id){
         this.id = id;
     }
     @Override
@@ -76,7 +75,7 @@ public class Guard implements Staff {
     // GETS
 
     @Override
-    public UUID getId() {
+    public long getId() {
         return id;
     }
     @Override
@@ -120,8 +119,8 @@ public class Guard implements Staff {
     @Override
     public String toString() {
         String result = String.format(
-            "Guard [ID: %s, Name: %s, Email: %s, Phone: %s, Birth date: %s]", 
-            this.id.toString(), this.name, this.email, this.phone, this.birth_date.toString());
+            "Guard [ID: %d, Name: %s, Email: %s, Phone: %s, Birth date: %s]", 
+            this.id, this.name, this.email, this.phone, this.birth_date.toString());
         return result;
     }
 }

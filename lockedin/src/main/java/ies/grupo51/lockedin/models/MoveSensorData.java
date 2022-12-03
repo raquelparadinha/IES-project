@@ -1,7 +1,5 @@
 package ies.grupo51.lockedin.models;
 
-import java.util.UUID;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,19 +7,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class MoveSensorData {
     
     @Id
-    private UUID id;
+    private long id;
 
-    private UUID inmate_id;
+    private long inmate_id;
     private MoveSensor move_sensor;
 
     private static long counter = 0;
 
     public MoveSensorData() {
-        this.id = UUID.randomUUID();
+        this.id = 0;
     }
 
-    public MoveSensorData(UUID inmate_id, MoveSensor move_sensor) {
-        this.id = UUID.randomUUID();
+    public MoveSensorData(long id, long inmate_id, MoveSensor move_sensor) {
+        this.id = id;
         this.inmate_id = inmate_id;
         this.move_sensor = move_sensor;
     }
@@ -31,10 +29,10 @@ public class MoveSensorData {
     public static void setCounter(long counter) {
         MoveSensorData.counter = counter;
     }
-    public void setId(UUID id) {
+    public void setId(long id) {
         this.id = id;
     }
-    public void setInmate_id(UUID inmate_id) {
+    public void setInmate_id(long inmate_id) {
         this.inmate_id = inmate_id;
     }
     public void setMove_sensor(MoveSensor move_sensor) {
@@ -46,10 +44,10 @@ public class MoveSensorData {
     public static long getCounter() {
         return counter;
     }
-    public UUID getId() {
+    public long getId() {
         return id;
     }
-    public UUID getInmate_id() {
+    public long getInmate_id() {
         return inmate_id;
     }
     public MoveSensor getMove_sensor() {
@@ -59,7 +57,7 @@ public class MoveSensorData {
     @Override
     public String toString() {
         return String.format(
-            "MoveSensorData [ID: %s, Inmate ID: %d, New MoveSensor: %d]", 
-            this.id.toString(), this.inmate_id, this.move_sensor);
+            "MoveSensorData [ID: %d, Inmate ID: %d, New MoveSensor: %d]", 
+            this.id, this.inmate_id, this.move_sensor);
     }
 }

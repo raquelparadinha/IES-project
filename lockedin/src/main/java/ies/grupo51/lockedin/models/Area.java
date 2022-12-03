@@ -1,7 +1,6 @@
 package ies.grupo51.lockedin.models;
 
 import java.util.Set;
-import java.util.UUID;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -11,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Area {
     
     @Id
-    private UUID id;
+    private long id;
 
     private String name;
     private Set<Area> connections;
@@ -23,11 +22,11 @@ public class Area {
 
 
     public Area() {
-        this.id = UUID.randomUUID();
+        this.id = 0;
     }
 
-    public Area(String name, Set<Area> connections, int capacity, Boolean access) {
-        this.id = UUID.randomUUID();
+    public Area(long id, String name, Set<Area> connections, int capacity, Boolean access) {
+        this.id = id;
         this.name = name;
         this.connections = connections;
         this.capacity = capacity;
@@ -54,7 +53,7 @@ public class Area {
     public static void setCounter(long counter) {
         Area.counter = counter;
     }
-    public void setId(UUID id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -63,7 +62,7 @@ public class Area {
     public static long getCounter() {
         return counter;
     }
-    public UUID getId() {
+    public long getId() {
         return id;
     }
     public String getName() {
@@ -96,6 +95,6 @@ public class Area {
     public String toString() {
         return String.format(
             "Area [ID: %d, Name: %s, Connections: %s, Capacity: %d, Access: %s]",
-            this.id.toString(), this.name, this.connections, this.capacity, this.access?"YES":"NO");
+            this.id, this.name, this.connections, this.capacity, this.access?"YES":"NO");
     }
 }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Inmate {
     
     @Id
-    private UUID id;
+    private long id;
 
     private String name;
     private Date birth_date;
@@ -28,14 +27,14 @@ public class Inmate {
     private static long counter = 1000;
 
     public Inmate () {
-        this.id = UUID.randomUUID();
+        this.id = 0;
         this.shifts = new HashSet<>();
         this.health_logs = new ArrayList<>();
         this.move_logs = new ArrayList<>();
     }
 
-    public Inmate (String name, Date birth_date, Date entry_date, Date sentence_ending, Boolean solitary) {
-        this.id = UUID.randomUUID();
+    public Inmate (long id, String name, Date birth_date, Date entry_date, Date sentence_ending, Boolean solitary) {
+        this.id = id;
         this.name = name;
         this.birth_date = birth_date;
         this.entry_date = entry_date;
@@ -75,7 +74,7 @@ public class Inmate {
     public static void setCounter(long counter) {
         Inmate.counter = counter;
     }
-    public void setId(UUID id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -87,7 +86,7 @@ public class Inmate {
     public List<MoveSensorData> getMove_logs() {
         return move_logs;
     }
-    public UUID getId() {
+    public long getId() {
         return id;
     }
     public String getName() {
@@ -136,7 +135,7 @@ public class Inmate {
     public String toString() {
         return String.format(
             "Inmate [ID: %s, Name: %s, Birth date: %s, Entry date: %s, Sentence End: %d, Solitary Confinement: %s]", 
-            id.toString(), name, birth_date.toString(), entry_date.toString(), sentence_ending.toString(), solitary?"YES":"NO");
+            id, name, birth_date.toString(), entry_date.toString(), sentence_ending.toString(), solitary?"YES":"NO");
     }
 
 }
