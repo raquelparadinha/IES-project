@@ -3,8 +3,6 @@ import json
 
 class Sender():
     def __init__(self):
-        self.exchange = ''
-        self.routingkey = 'datagen'
         self.queue = 'datagen'
 
     def conninit(self):
@@ -16,12 +14,7 @@ class Sender():
     def connclose(self):
         self.connection.close()
 
-    def send(self, msg):
-        self.channel.basic_publish(exchange=self.exchange, routing_key=self.routingkey, body=msg)
+    def publish(self, type, inmateid, arg):
+        msg = json.dumps({'type': type, 'inmateid': inmateid, 'arg': arg})
+        self.channel.basic_publish(exchange='', routing_key=self.queue, body=msg)
         print('sent {}'.format(msg))
-
-if __name__ == '__main__':
-    sender = Sender()
-    sender.conninit()
-    sender.send('hello')
-    sender.connclose()
