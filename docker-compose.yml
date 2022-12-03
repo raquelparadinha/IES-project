@@ -24,6 +24,20 @@ services:
 
     command: ["--bind_ip", "0.0.0.0"]
 
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - $RABBITMQ_HTTP_LOCAL_PORT:$RABBITMQ_HTTP_DOCKER_PORT
+      - $RABBITMQ_AMQP_LOCAL_PORT:$RABBITMQ_AMQP_DOCKER_PORT
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+
   web:
     build: 
       context: ./lockedin
