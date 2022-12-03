@@ -1,6 +1,6 @@
 package ies.grupo51.lockedin.models;
 
-import java.text.DateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,9 +17,9 @@ public class Inmate {
     private UUID id;
 
     private String name;
-    private DateFormat birth_date;
-    private DateFormat entry_date;
-    private DateFormat sentence_ending;      // years
+    private Date birth_date;
+    private Date entry_date;
+    private Date sentence_ending;      // years
     private Boolean solitary;
     private Set<Workstation> shifts;
     private List<Healthcheck> health_logs;
@@ -34,7 +34,7 @@ public class Inmate {
         this.move_logs = new ArrayList<>();
     }
 
-    public Inmate (String name, DateFormat birth_date, DateFormat entry_date, DateFormat sentence_ending, Boolean solitary) {
+    public Inmate (String name, Date birth_date, Date entry_date, Date sentence_ending, Boolean solitary) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.birth_date = birth_date;
@@ -51,13 +51,13 @@ public class Inmate {
     public void setName(String name) {
         this.name = name;
     }
-    public void setBirth_date(DateFormat birth_date) {
+    public void setBirth_date(Date birth_date) {
         this.birth_date = birth_date;
     }
-    public void setEntry_date(DateFormat entry_date) {
+    public void setEntry_date(Date entry_date) {
         this.entry_date = entry_date;
     }
-    public void setSentence_ending(DateFormat sentence_ending) {
+    public void setSentence_ending(Date sentence_ending) {
         this.sentence_ending = sentence_ending;
     }
     public void setShifts(Set<Workstation> shifts) {
@@ -93,13 +93,13 @@ public class Inmate {
     public String getName() {
         return name;
     }
-    public DateFormat getBirth_date() {
+    public Date getBirth_date() {
         return birth_date;
     }
-    public DateFormat getEntry_date() {
+    public Date getEntry_date() {
         return entry_date;
     }
-    public DateFormat getSentence_ending() {
+    public Date getSentence_ending() {
         return sentence_ending;
     }
     public Set<Workstation> getShifts() {
