@@ -2,6 +2,7 @@ package ies.grupo51.lockedin.services;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class MoveSensorService {
         return repository.findAll();
     }
 
-    public MoveSensor getMoveSensorById(long id) throws ResourceNotFoundException {
+    public MoveSensor getMoveSensorById(UUID id) throws ResourceNotFoundException {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 

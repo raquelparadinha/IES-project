@@ -4,6 +4,7 @@ package ies.grupo51.lockedin.models;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Warden implements Staff {
 
     @Id
-    private long id;
+    private UUID id;
 
     private String name;
     private String email;
@@ -23,11 +24,12 @@ public class Warden implements Staff {
     private static long counter = 1;
 
     public Warden() {
-        this.id = Warden.counter++;
+        this.id = UUID.randomUUID();
+        this.messages = new ArrayList<>();
     }
 
     public Warden(String name, String email, String phone, DateFormat birth_date) {
-        this.id = Warden.counter++;
+        this.id = UUID.randomUUID();
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -38,7 +40,7 @@ public class Warden implements Staff {
     // SETS
     
     @Override
-    public void setId(long id){
+    public void setId(UUID id){
         this.id = id;
     }
     @Override
@@ -61,11 +63,14 @@ public class Warden implements Staff {
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
+    public static void setCounter(long counter) {
+        Warden.counter = counter;
+    }
 
     // GETS
 
     @Override
-    public long getId() {
+    public UUID getId() {
         return id;
     }
     @Override
@@ -88,6 +93,9 @@ public class Warden implements Staff {
     public List<Message> getMessages() {
         return messages;
     }
+    public static long getCounter() {
+        return counter;
+    }
 
     // CUSTOM
 
@@ -99,7 +107,7 @@ public class Warden implements Staff {
     @Override
     public String toString() {
         return String.format(
-            "Warden [ID: %d, Name: %s, Email: %s, Phone: %s, Birth date: %s]", 
-            id, name, email, phone, birth_date);
+            "Warden [ID: %s, Name: %s, Email: %s, Phone: %s, Birth date: %s]", 
+            this.id.toString(), this.name, this.email, this.phone, this.birth_date);
     }
 }

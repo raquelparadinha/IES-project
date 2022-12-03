@@ -1,6 +1,7 @@
 package ies.grupo51.lockedin.models;
 
 import java.text.DateFormat;
+import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -9,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Workstation {
 
     @Id
-    private long id;
+    private UUID id;
 
     private Area working_station;
     private String description;
@@ -20,11 +21,11 @@ public class Workstation {
     private static long counter = 100;
 
     public Workstation(){
-        this.id = Workstation.counter++;
+        this.id = UUID.randomUUID();
     }
 
     public Workstation(Area working_station, DateFormat start_time, int duration, DateFormat end_time, String description) {
-        this.id = Workstation.counter++;
+        this.id = UUID.randomUUID();
         this.working_station = working_station;
         this.start_time = start_time;
         this.duration = duration;
@@ -43,7 +44,7 @@ public class Workstation {
     public void setEnd_time(DateFormat end_time) {
         this.end_time = end_time;
     }
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
     public void setStart_time(DateFormat start_time) {
@@ -51,6 +52,9 @@ public class Workstation {
     }
     public void setWorking_station(Area working_station) {
         this.working_station = working_station;
+    }
+    public static void setCounter(long counter) {
+        Workstation.counter = counter;
     }
     
     // GETS
@@ -64,7 +68,7 @@ public class Workstation {
     public DateFormat getEnd_time() {
         return end_time;
     }
-    public long getId() {
+    public UUID getId() {
         return id;
     }
     public DateFormat getStart_time() {
@@ -73,11 +77,14 @@ public class Workstation {
     public Area getWorking_station() {
         return working_station;
     }
+    public static long getCounter() {
+        return counter;
+    }
 
     @Override
     public String toString() {
         return String.format(
-            "InmateJob [ID: %d, Working Station: %s, Start Time: %s, Duration: %d, End Time: %s, Description: %s]", 
-            this.id, this.working_station.toString(), this.start_time.toString(), this.duration, this.end_time.toString(), this.description);
+            "InmateJob [ID: %s, Working Station: %s, Start Time: %s, Duration: %d, End Time: %s, Description: %s]", 
+            this.id.toString(), this.working_station.toString(), this.start_time.toString(), this.duration, this.end_time.toString(), this.description);
     }
 }

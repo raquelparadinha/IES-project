@@ -5,14 +5,16 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("guard")
 public class Guard implements Staff {
+
     @Id
-    private long id;
+    private UUID id;
 
     private String name;
     private String email;
@@ -24,11 +26,13 @@ public class Guard implements Staff {
     private static long counter = 100;
 
     public Guard () {
-        this.id = Guard.counter++;
+        this.id = UUID.randomUUID();
+        this.shifts = new HashSet<>();
+        this.messages = new ArrayList<>();
     }
 
     public Guard (String name, String email, String phone, DateFormat birth_date) {
-        this.id = Guard.counter++;
+        this.id = UUID.randomUUID();
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -37,20 +41,10 @@ public class Guard implements Staff {
         this.messages = new ArrayList<>();
     }
 
-    public Guard (String name, String email, String phone, DateFormat birth_date, Set<Workstation> shifts) {
-        this.id = Guard.counter++;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.birth_date = birth_date;
-        this.shifts = shifts;
-        this.messages = new ArrayList<>();
-    }
-
     // SETS
 
     @Override
-    public void setId(long id){
+    public void setId(UUID id){
         this.id = id;
     }
     @Override
@@ -75,11 +69,14 @@ public class Guard implements Staff {
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
+    public static void setCounter(long counter) {
+        Guard.counter = counter;
+    }
 
     // GETS
 
     @Override
-    public long getId() {
+    public UUID getId() {
         return id;
     }
     @Override
@@ -105,6 +102,9 @@ public class Guard implements Staff {
     public List<Message> getMessages() {
         return messages;
     }
+    public static long getCounter() {
+        return counter;
+    }
 
     // CUSTOM
 
@@ -120,8 +120,8 @@ public class Guard implements Staff {
     @Override
     public String toString() {
         String result = String.format(
-            "Guard [ID: %d, Name: %s, Email: %s, Phone: %s, Birth date: %s]", 
-            this.id, this.name, this.email, this.phone, this.birth_date.toString());
+            "Guard [ID: %s, Name: %s, Email: %s, Phone: %s, Birth date: %s]", 
+            this.id.toString(), this.name, this.email, this.phone, this.birth_date.toString());
         return result;
     }
 }
