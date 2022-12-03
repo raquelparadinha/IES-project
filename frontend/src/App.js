@@ -11,6 +11,7 @@ import {
 } from "@ant-design/icons/lib/icons";
 import Logo from "./images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
 import PrisionersList from "./components/prisionersList/prisionersList";
+import Login from "./components/Login/Login";
 
 function App() {
   return (
@@ -71,7 +72,7 @@ export function SideMenu() {
     <div style={{ display: "flex", flexDirection: "row", flex: 1 }}>
       <Menu
         onClick={({ key }) => {
-          if (key === "signout") {
+          if (key === "l") {
             // TODO, não fiz e continuo lindo
           } else {
             navigate(key);
@@ -102,8 +103,8 @@ export function SideMenu() {
           },
           { label: "Profile", key: "/profile", icon: <UserOutlined /> },
           {
-            label: "SignOut",
-            key: "signout",
+            label: "Login",
+            key: "/login",
             icon: <PoweroffOutlined />,
             danger: true,
           },
@@ -124,7 +125,7 @@ function Content() {
         <Route path="/prisioners" element={<PrisionersList />}></Route>
         <Route path="/guards" element={<div>Guards</div>}></Route>
         <Route path="/profile" element={<div>Profile</div>}></Route>
-        <Route path="/signout" element={<div>Sign Out</div>}></Route>
+        <Route path="/login" element={<Login />}></Route>
       </Routes>
     </div>
   );
