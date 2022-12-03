@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +51,7 @@ public class StaffController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Staff> getStaffMember(@PathVariable(value = "id") long id) throws ResourceNotFoundException {
+    public ResponseEntity<Staff> getStaffMember(@PathVariable(value = "id") UUID id) throws ResourceNotFoundException {
         Staff data = wardenService.getWardenById(id);
         if (data == null) {
             data = guardService.getGuardById(id);
@@ -58,7 +59,7 @@ public class StaffController {
         return ResponseEntity.ok().body(data);
     }
     @GetMapping("/{id}/shifts")
-    public ResponseEntity<Set<Workstation>> getStaffMemberShifts(@PathVariable(value = "id") long id) throws ResourceNotFoundException {
+    public ResponseEntity<Set<Workstation>> getStaffMemberShifts(@PathVariable(value = "id") UUID id) throws ResourceNotFoundException {
         Set<Workstation> data = new HashSet<>();
         Guard guard = guardService.getGuardById(id);
         if (guard != null) {
@@ -67,7 +68,7 @@ public class StaffController {
         return ResponseEntity.ok().body(data);
     }
     @GetMapping("/{id}/messages")
-    public ResponseEntity<List<Message>> getStaffMemberMessages(@PathVariable(value = "id") long id) throws ResourceNotFoundException {
+    public ResponseEntity<List<Message>> getStaffMemberMessages(@PathVariable(value = "id") UUID id) throws ResourceNotFoundException {
         List<Message> data = new ArrayList<>();
         Guard guard = guardService.getGuardById(id);
         if (guard != null) {
@@ -77,8 +78,8 @@ public class StaffController {
     }
 
     @GetMapping("/{staff_id}/shifts/{shift_id}")
-    public ResponseEntity<Workstation> getShiftStaff(   @PathVariable(value = "staff_id") long staff_id, 
-                                                        @PathVariable(value = "shift_id") long shift_id) 
+    public ResponseEntity<Workstation> getShiftStaff(   @PathVariable(value = "staff_id") UUID staff_id, 
+                                                        @PathVariable(value = "shift_id") UUID shift_id) 
                                                         throws ResourceNotFoundException {
         Guard guard = guardService.getGuardById(staff_id);
         if (guard != null) {
@@ -91,8 +92,8 @@ public class StaffController {
         return ResponseEntity.ok().body(null);
     }
     @GetMapping("/{staff_id}/messages/{message_id}")
-    public ResponseEntity<Message> getMessage(  @PathVariable(value = "staff_id") long staff_id, 
-                                                @PathVariable(value = "messages_id") long message_id) 
+    public ResponseEntity<Message> getMessage(  @PathVariable(value = "staff_id") UUID staff_id, 
+                                                @PathVariable(value = "messages_id") UUID message_id) 
                                                 throws ResourceNotFoundException {
         Warden warden = wardenService.getWardenById(staff_id);
         if (warden != null) {
