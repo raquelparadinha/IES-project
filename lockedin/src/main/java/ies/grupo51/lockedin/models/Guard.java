@@ -1,6 +1,6 @@
 package ies.grupo51.lockedin.models;
 
-import java.text.DateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,7 +19,7 @@ public class Guard implements Staff {
     private String name;
     private String email;
     private String phone;
-    private DateFormat birth_date;
+    private Date birth_date;
     private Set<Workstation> shifts;
     private List<Message> messages;
 
@@ -31,7 +31,7 @@ public class Guard implements Staff {
         this.messages = new ArrayList<>();
     }
 
-    public Guard (String name, String email, String phone, DateFormat birth_date) {
+    public Guard (String name, String email, String phone, Date birth_date) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.email = email;
@@ -59,7 +59,7 @@ public class Guard implements Staff {
         this.phone = phone;
     }
     @Override
-    public void setBirth_date(DateFormat birth_date) {
+    public void setBirth_date(Date birth_date) {
         this.birth_date = birth_date;
     }
     public void setShifts(Set<Workstation> shifts) {
@@ -92,7 +92,7 @@ public class Guard implements Staff {
         return phone;
     }
     @Override
-    public DateFormat getBirth_date() {
+    public Date getBirth_date() {
         return birth_date;
     }
     public Set<Workstation> getShifts() {

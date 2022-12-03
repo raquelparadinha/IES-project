@@ -1,6 +1,6 @@
 package ies.grupo51.lockedin.models;
 
-import java.text.DateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
@@ -14,9 +14,9 @@ public class Workstation {
 
     private Area working_station;
     private String description;
-    private DateFormat start_time;
+    private Date start_time;
     private int duration;
-    private DateFormat end_time;
+    private Date end_time;
 
     private static long counter = 100;
 
@@ -24,7 +24,7 @@ public class Workstation {
         this.id = UUID.randomUUID();
     }
 
-    public Workstation(Area working_station, DateFormat start_time, int duration, DateFormat end_time, String description) {
+    public Workstation(Area working_station, Date start_time, int duration, Date end_time, String description) {
         this.id = UUID.randomUUID();
         this.working_station = working_station;
         this.start_time = start_time;
@@ -41,13 +41,13 @@ public class Workstation {
     public void setDuration(int duration) {
         this.duration = duration;
     }
-    public void setEnd_time(DateFormat end_time) {
+    public void setEnd_time(Date end_time) {
         this.end_time = end_time;
     }
     public void setId(UUID id) {
         this.id = id;
     }
-    public void setStart_time(DateFormat start_time) {
+    public void setStart_time(Date start_time) {
         this.start_time = start_time;
     }
     public void setWorking_station(Area working_station) {
@@ -65,13 +65,13 @@ public class Workstation {
     public int getDuration() {
         return duration;
     }
-    public DateFormat getEnd_time() {
+    public Date getEnd_time() {
         return end_time;
     }
     public UUID getId() {
         return id;
     }
-    public DateFormat getStart_time() {
+    public Date getStart_time() {
         return start_time;
     }
     public Area getWorking_station() {

@@ -1,7 +1,7 @@
 package ies.grupo51.lockedin.models;
 
 
-import java.text.DateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +18,7 @@ public class Warden implements Staff {
     private String name;
     private String email;
     private String phone;
-    private DateFormat birth_date;
+    private Date birth_date;
     private List<Message> messages;
 
     private static long counter = 1;
@@ -28,7 +28,7 @@ public class Warden implements Staff {
         this.messages = new ArrayList<>();
     }
 
-    public Warden(String name, String email, String phone, DateFormat birth_date) {
+    public Warden(String name, String email, String phone, Date birth_date) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.email = email;
@@ -56,7 +56,7 @@ public class Warden implements Staff {
         this.phone = phone;
     }
     @Override
-    public void setBirth_date(DateFormat birth_date) {
+    public void setBirth_date(Date birth_date) {
         this.birth_date = birth_date;
     }
     @Override
@@ -86,7 +86,7 @@ public class Warden implements Staff {
         return phone;
     }
     @Override
-    public DateFormat getBirth_date() {
+    public Date getBirth_date() {
         return birth_date;
     }
     @Override
@@ -108,6 +108,6 @@ public class Warden implements Staff {
     public String toString() {
         return String.format(
             "Warden [ID: %s, Name: %s, Email: %s, Phone: %s, Birth date: %s]", 
-            this.id.toString(), this.name, this.email, this.phone, this.birth_date);
+            this.id.toString(), this.name, this.email, this.phone, this.birth_date.toString());
     }
 }
