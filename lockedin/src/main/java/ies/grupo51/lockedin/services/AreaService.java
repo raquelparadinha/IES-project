@@ -38,8 +38,6 @@ public class AreaService {
         if (existingArea == null){ return null; }
 
         existingArea.setName(area.getName());
-        existingArea.setConnections(area.getConnections());
-        existingArea.setArea_logs(area.getArea_logs());
         existingArea.setAccess(area.getAccess());
         existingArea.setCapacity(area.getCapacity());
 
