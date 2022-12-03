@@ -32,8 +32,8 @@ public class Receiver {
             
             switch("type") {
                 case "sensor":
-                    MoveSensor moveSensor = moveSensorService.getMoveSensorById(Integer.parseInt(arg));
-                    moveSensorDataService.saveMoveSensorData(new MoveSensorData(inmateid, moveSensor));
+                    //MoveSensor moveSensor = moveSensorService.getMoveSensorById(Integer.parseInt(arg));
+                    //moveSensorDataService.saveMoveSensorData(new MoveSensorData(inmateid, moveSensor));
                     break;
                 case "apply":
                     break;
