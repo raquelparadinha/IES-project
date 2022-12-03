@@ -1,0 +1,44 @@
+[
+  {
+    "name": "heart_beat",
+    "genvals": {
+      "mean": 70,
+      "range": 70
+    }
+  },
+  {
+    "name": "stress_level",
+    "genvals": {
+      "mean": 50,
+      "range": 50
+    }
+  },
+  {
+    "name": "glicose_level",
+    "genvals": {
+      "mean": 70,
+      "range": 70
+    }
+  },
+  {
+    "name": "uric_acid",
+    "genvals": {
+      "mean": 5,
+      "range": 3
+    }
+  },
+  {
+    "name": "cholesterol",
+    "genvals": {
+      "mean": 150,
+      "range": 70
+    }
+  },
+  {
+    "name": "toxic_screen",
+    "genvals": {
+      "mean": 1,
+      "range": 2
+    }
+  }
+]
