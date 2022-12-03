@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Inmate {
     
     @Id
-    private long id;
+    private UUID id;
 
     private String name;
     private DateFormat birth_date;
@@ -27,11 +28,14 @@ public class Inmate {
     private static long counter = 1000;
 
     public Inmate () {
-        this.id = Inmate.counter++;
+        this.id = UUID.randomUUID();
+        this.shifts = new HashSet<>();
+        this.health_logs = new ArrayList<>();
+        this.move_logs = new ArrayList<>();
     }
 
     public Inmate (String name, DateFormat birth_date, DateFormat entry_date, DateFormat sentence_ending, Boolean solitary) {
-        this.id = Inmate.counter++;
+        this.id = UUID.randomUUID();
         this.name = name;
         this.birth_date = birth_date;
         this.entry_date = entry_date;
@@ -71,7 +75,7 @@ public class Inmate {
     public static void setCounter(long counter) {
         Inmate.counter = counter;
     }
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -83,7 +87,7 @@ public class Inmate {
     public List<MoveSensorData> getMove_logs() {
         return move_logs;
     }
-    public long getId() {
+    public UUID getId() {
         return id;
     }
     public String getName() {
@@ -110,10 +114,13 @@ public class Inmate {
 
     // CUSTOM FUNCTIONS FOR MODEL
 
-    public void addNewMoveLog(MoveSensorData log){
+    public void addShift(Workstation workstation) {
+        this.shifts.add(workstation);
+    }
+    public void addMoveLog(MoveSensorData log){
         this.move_logs.add(log);
     }
-    public void addNewHeathLog(Healthcheck log){
+    public void addHeathLog(Healthcheck log){
         this.health_logs.add(log);
     }
 
@@ -124,15 +131,12 @@ public class Inmate {
         return this.health_logs.get(-1);
     }
 
-    public void addShift(Workstation workstation) {
-        this.shifts.add(workstation);
-    }
 
     @Override
     public String toString() {
         return String.format(
-            "Inmate [ID: %d, Name: %s, Birth date: %s, Entry date: %s, Sentence End: %d, Solitary Confinement: %s]", 
-            id, name, birth_date.toString(), entry_date.toString(), sentence_ending.toString(), solitary?"YES":"NO");
+            "Inmate [ID: %s, Name: %s, Birth date: %s, Entry date: %s, Sentence End: %d, Solitary Confinement: %s]", 
+            id.toString(), name, birth_date.toString(), entry_date.toString(), sentence_ending.toString(), solitary?"YES":"NO");
     }
 
 }

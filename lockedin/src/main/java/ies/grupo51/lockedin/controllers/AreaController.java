@@ -1,6 +1,7 @@
 package ies.grupo51.lockedin.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class AreaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Area> getAreaUsingId(@PathVariable(value = "id") long id) throws ResourceNotFoundException {
+    public ResponseEntity<Area> getAreaUsingId(@PathVariable(value = "id") UUID id) throws ResourceNotFoundException {
         return ResponseEntity.ok().body(areaService.getAreaById(id));
     }
 

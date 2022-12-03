@@ -2,12 +2,13 @@ package ies.grupo51.lockedin.models;
 
 import java.text.DateFormat;
 import java.util.List;
+import java.util.UUID;
 
 public interface Staff {
 
     // SETS
 
-    public void setId(long id);
+    public void setId(UUID id);
     public void setName(String name);
     public void setEmail(String email);
     public void setPhone(String phone);
@@ -16,7 +17,7 @@ public interface Staff {
 
     // GETS
 
-    public long getId();
+    public UUID getId();
     public List<Message> getMessages();
     public String getName();
     public String getEmail();

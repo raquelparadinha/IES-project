@@ -1,5 +1,7 @@
 package ies.grupo51.lockedin.models;
 
+import java.util.UUID;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -7,20 +9,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Message {
     
     @Id
-    private long id;
+    private UUID id;
 
     private String type;
-    private long reciever_id;
-    private long sender_id;
+    private UUID reciever_id;
+    private UUID sender_id;
     private String content;
 
     private static long counter = 1000;
 
     public Message() {
-        this.id = Message.counter++;
+        this.id = UUID.randomUUID();
     }
     
-    public Message(String type, long reciever_id, long sender_id, String content) {
+    public Message(String type, UUID reciever_id, UUID sender_id, String content) {
         this.type = type;
         this.reciever_id = reciever_id;
         this.sender_id = sender_id;
@@ -35,13 +37,13 @@ public class Message {
     public static void setCounter(long counter) {
         Message.counter = counter;
     }
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
-    public void setReciever_id(long reciever_id) {
+    public void setReciever_id(UUID reciever_id) {
         this.reciever_id = reciever_id;
     }
-    public void setSender_id(long sender_id) {
+    public void setSender_id(UUID sender_id) {
         this.sender_id = sender_id;
     }
     public void setType(String type) {
@@ -56,13 +58,13 @@ public class Message {
     public static long getCounter() {
         return counter;
     }
-    public long getId() {
+    public UUID getId() {
         return id;
     }
-    public long getReciever_id() {
+    public UUID getReciever_id() {
         return reciever_id;
     }
-    public long getSender_id() {
+    public UUID getSender_id() {
         return sender_id;
     }
     public String getType() {
@@ -72,8 +74,8 @@ public class Message {
     @Override
     public String toString(){
         return String.format(
-            "Message : [ID: %d, Receiver :%d, Sender: %d, Content: %s]", 
-            this.id, this.reciever_id, this.sender_id, this.content);
+            "Message : [ID: %s, Type: %s, Receiver :%s, Sender: %s, Content: %s]", 
+            this.id.toString(), this.type, this.reciever_id.toString(), this.sender_id.toString(), this.content);
     }
     
 }

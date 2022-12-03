@@ -1,6 +1,8 @@
 package ies.grupo51.lockedin.models;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -9,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Prison {
 
     @Id
-    private long id;
+    private UUID id;
 
     private String name;
     private Set<Area> areas;
@@ -23,19 +25,24 @@ public class Prison {
     private static long counter = 0;
     
     public Prison() {
-        this.id = Prison.counter++;
+        this.id = UUID.randomUUID();
+        this.areas = new HashSet<>();
+        this.num_areas = areas.size();
+        this.guards = new HashSet<>();
+        this.num_guards = guards.size();
+        this.inmates = new HashSet<>();
+        this.num_inmates = inmates.size();
     }
 
-    public Prison(String name, Set<Area> areas, Set<Guard> guards, Set<Inmate> inmates, Warden warden){
-        this.id = Prison.counter++;
+    public Prison(String name){
+        this.id = UUID.randomUUID();
         this.name = name;
-        this.areas = areas;
+        this.areas = new HashSet<>();
         this.num_areas = areas.size();
-        this.guards = guards;
+        this.guards = new HashSet<>();
         this.num_guards = guards.size();
-        this.inmates = inmates;
+        this.inmates = new HashSet<>();
         this.num_inmates = inmates.size();
-        this.warden = warden;
     }
 
     // GETS
@@ -52,7 +59,7 @@ public class Prison {
     public int getNum_guards() {
         return num_guards;
     }
-    public long getId() {
+    public UUID getId() {
         return id;
     }
     public Set<Inmate> getInmates() {
@@ -64,13 +71,19 @@ public class Prison {
     public Warden getWarden() {
         return warden;
     }
+    public static long getCounter() {
+        return counter;
+    }
+    public int getNum_inmates() {
+        return num_inmates;
+    }
 
     // SETS
     
     public void setAreas(Set<Area> areas) {
         this.areas = areas;
     }
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
     public void setNum_areas(int num_areas) {
@@ -94,18 +107,21 @@ public class Prison {
     public void setWarden(Warden warden) {
         this.warden = warden;
     }
+    public static void setCounter(long counter) {
+        Prison.counter = counter;
+    }
 
     // CUSTOM FUNCTIONS FOR MODEL
 
-    public void setNewArea(Area area){
+    public void addNewArea(Area area){
         this.areas.add(area);
         this.num_areas = areas.size();
     }
-    public void setNewGuard(Guard guard){
+    public void addNewGuard(Guard guard){
         this.guards.add(guard);
         this.num_guards = guards.size();
     }
-    public void setNewInmate(Inmate inmate){
+    public void addNewInmate(Inmate inmate){
         this.inmates.add(inmate);
         this.num_inmates = inmates.size();
     }
