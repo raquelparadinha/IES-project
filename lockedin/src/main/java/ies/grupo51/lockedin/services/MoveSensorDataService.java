@@ -31,15 +31,4 @@ public class MoveSensorDataService {
     public MoveSensorData getMoveSensorDataById(long id) throws ResourceNotFoundException {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
-
-    public MoveSensorData updateMoveSensorData(MoveSensorData moveSensorData) throws ResourceNotFoundException {
-        MoveSensorData existingMoveSensorData = repository.findById(moveSensorData.getId()).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
-        
-        if (existingMoveSensorData == null){ return null; }
-        
-        existingMoveSensorData.setInmate_id(moveSensorData.getInmate_id());
-        existingMoveSensorData.setMove_sensor(moveSensorData.getMove_sensor());
-        
-        return repository.save(existingMoveSensorData);
-    }
 }

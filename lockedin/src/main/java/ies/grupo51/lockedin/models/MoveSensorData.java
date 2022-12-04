@@ -9,19 +9,18 @@ public class MoveSensorData {
     @Id
     private long id;
 
-    private long inmate_id;
-    private MoveSensor move_sensor;
+    private long inmateId;
+    private long moveSensorId;
 
     private static long counter = 0;
 
     public MoveSensorData() {
-        this.id = 0;
+
     }
 
-    public MoveSensorData(long id, long inmate_id, MoveSensor move_sensor) {
-        this.id = id;
-        this.inmate_id = inmate_id;
-        this.move_sensor = move_sensor;
+    public MoveSensorData(long inmateId, long moveSensorId) {
+        this.inmateId = inmateId;
+        this.moveSensorId = moveSensorId;
     }
 
     // SETS
@@ -32,11 +31,11 @@ public class MoveSensorData {
     public void setId(long id) {
         this.id = id;
     }
-    public void setInmate_id(long inmate_id) {
-        this.inmate_id = inmate_id;
+    public void setInmate_id(long inmateId) {
+        this.inmateId = inmateId;
     }
-    public void setMove_sensor(MoveSensor move_sensor) {
-        this.move_sensor = move_sensor;
+    public void setMove_sensor_id(long moveSensorId) {
+        this.moveSensorId = moveSensorId;
     }
 
     // GETS
@@ -48,16 +47,16 @@ public class MoveSensorData {
         return id;
     }
     public long getInmate_id() {
-        return inmate_id;
+        return inmateId;
     }
-    public MoveSensor getMove_sensor() {
-        return move_sensor;
+    public long getMove_sensor_id() {
+        return moveSensorId;
     }
 
     @Override
     public String toString() {
         return String.format(
-            "MoveSensorData [ID: %d, Inmate ID: %d, New MoveSensor: %d]", 
-            this.id, this.inmate_id, this.move_sensor);
+            "MoveSensorData [ID: %d, Inmate ID: %d, New MoveSensorID: %d]", 
+            this.id, this.inmateId, this.moveSensorId);
     }
 }
