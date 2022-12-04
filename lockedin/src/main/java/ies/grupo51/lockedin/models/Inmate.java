@@ -19,7 +19,7 @@ public class Inmate {
     private String name;
     private Date birth_date;
     private Date entry_date;
-    private Date sentence_ending;      // years
+    private Date sentence_ending;
     private Boolean solitary;
     private Set<Workstation> shifts;
     private List<Healthcheck> health_logs;
