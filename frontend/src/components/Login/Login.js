@@ -2,23 +2,35 @@ import React from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
+
+export let Logged = false
+
+export function SetLogged(params) {
+    Logged = params
+}
+
 const Login = () => {
   const navigate = useNavigate();
+  // o que fazer quando carregamos no login
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
+    // nesgisse, nãp está como deve porque não está a DB pronta
     if (values.remember) {
+        Logged = true
       navigate("/dashboard");
     } else {
       countDown();
     }
   };
+
+  // mensagem de erro qunado login invalido
   const countDown = () => {
     let secondsToGo = 3;
 
     const modal = Modal.error({
       title: "Login Invalid",
       content: `This modal will be destroyed after ${secondsToGo} second.`,
-      okType: "danger"
+      okType: "danger",
     });
 
     const timer = setInterval(() => {
@@ -33,13 +45,14 @@ const Login = () => {
       modal.destroy();
     }, secondsToGo * 1000);
   };
+  // form
   return (
     <div
       style={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: "25vh",
+        height: "100%"
       }}
     >
       <Form
@@ -97,8 +110,7 @@ const Login = () => {
             block
           >
             Log in
-          </Button>
-          Or <a href="/signup">register now!</a>
+          </Button> 
         </Form.Item>
       </Form>
     </div>

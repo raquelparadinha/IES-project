@@ -7,11 +7,13 @@ import {
   DashboardOutlined,
   UnorderedListOutlined,
   UserOutlined,
-  PoweroffOutlined,
+  LogoutOutlined,
+  LoginOutlined,
 } from "@ant-design/icons/lib/icons";
 import Logo from "./images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
 import PrisionersList from "./components/prisionersList/prisionersList";
 import Login from "./components/Login/Login";
+import { Logged, SetLogged } from "./components/Login/Login";
 
 function App() {
   return (
@@ -72,43 +74,15 @@ export function SideMenu() {
     <div style={{ display: "flex", flexDirection: "row", flex: 1 }}>
       <Menu
         onClick={({ key }) => {
-          if (key === "l") {
-            // TODO, não fiz e continuo lindo
+          if (key === "logout") {
+            SetLogged(false);
+            navigate("/dashboard");
           } else {
             navigate(key);
           }
         }}
         defaultSelectedKeys={[window.location.pathname]}
-        items={[
-          { label: "Home", key: "/", icon: <HomeOutlined /> },
-          {
-            label: "Dashboard",
-            key: "/dashboard",
-            icon: <DashboardOutlined />,
-          },
-          {
-            label: "Users List",
-            key: "/UserList",
-            icon: <UnorderedListOutlined />,
-            children: [
-              {
-                label: "Prisioners",
-                key: "/prisioners",
-              },
-              {
-                label: "Guards",
-                key: "/guards",
-              },
-            ],
-          },
-          { label: "Profile", key: "/profile", icon: <UserOutlined /> },
-          {
-            label: "Login",
-            key: "/login",
-            icon: <PoweroffOutlined />,
-            danger: true,
-          },
-        ]}
+        items={islogged(Logged)}
       ></Menu>
       <Content />
     </div>
@@ -117,7 +91,7 @@ export function SideMenu() {
 
 function Content() {
   return (
-    <div style={{width: "100%"}}>
+    <div style={{ width: "100%" }}>
       <Routes>
         <Route path="/" element={<div>Home</div>}></Route>
         <Route path="/dashboard" element={<div>Dashboard</div>}></Route>
@@ -129,6 +103,70 @@ function Content() {
       </Routes>
     </div>
   );
+}
+function islogged(params) {
+  if (params) {
+    return [
+      { label: "Home", key: "/", icon: <HomeOutlined /> },
+      {
+        label: "Dashboard",
+        key: "/dashboard",
+        icon: <DashboardOutlined />,
+      },
+      {
+        label: "Users List",
+        key: "/UserList",
+        icon: <UnorderedListOutlined />,
+        children: [
+          {
+            label: "Prisioners",
+            key: "/prisioners",
+          },
+          {
+            label: "Guards",
+            key: "/guards",
+          },
+        ],
+      },
+      { label: "Profile", key: "/profile", icon: <UserOutlined /> },
+      {
+        label: "LogOut",
+        key: "logout",
+        icon: <LogoutOutlined />,
+        danger: true,
+      },
+    ];
+  }
+  return [
+    { label: "Home", key: "/", icon: <HomeOutlined /> },
+    {
+      label: "Dashboard",
+      key: "/dashboard",
+      icon: <DashboardOutlined />,
+    },
+    {
+      label: "Users List",
+      key: "/UserList",
+      icon: <UnorderedListOutlined />,
+      children: [
+        {
+          label: "Prisioners",
+          key: "/prisioners",
+        },
+        {
+          label: "Guards",
+          key: "/guards",
+        },
+      ],
+    },
+    { label: "Profile", key: "/profile", icon: <UserOutlined /> },
+    {
+      label: "Login",
+      key: "/login",
+      icon: <LoginOutlined />,
+      style: { color: "red" },
+    },
+  ];
 }
 
 export default App;

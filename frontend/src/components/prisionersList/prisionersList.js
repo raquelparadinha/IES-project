@@ -3,41 +3,79 @@ import { useState } from "react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib/icons";
 
 function PrisionersList() {
+  const countDown = () => {
+    let secondsToGo = 5;
+
+    const modal = Modal.error({
+      title: "Edit Invalid, insert only 'true' or 'false'.",
+      content: `This modal will be destroyed after ${secondsToGo} second.`,
+      okType: "danger",
+    });
+
+    const timer = setInterval(() => {
+      secondsToGo -= 1;
+      modal.update({
+        content: `This modal will be destroyed after ${secondsToGo} second.`,
+      });
+    }, 1000);
+
+    setTimeout(() => {
+      clearInterval(timer);
+      modal.destroy();
+    }, secondsToGo * 1000);
+  };
   const [isEditing, setisEditing] = useState(false);
   const [editingPrisioner, setEditingPrisioner] = useState(null);
   const [dataSource, setDataSource] = useState([
     {
       id: 1,
       name: "Pareidreds",
-      email: "Presi@aenossa.com",
-      adress: "Rua do Espanha",
+      birthdate: "10-06-2001",
+      sentence: "21-10-2021",
+      duration: 1000,
+      workstation: "Ser puta",
+      solitary: false.toString(),
     },
     {
       id: 2,
       name: "Soralexina",
-      email: "surtado@devops.com",
-      adress: "Rua do Sun Tzu",
+      birthdate: "10-06-2001",
+      sentence: "21-10-2021",
+      duration: 1000,
+      workstation: "Ser gay",
+      solitary: false.toString(),
     },
     {
       id: 3,
       name: "MancoGordo",
-      email: "Estiador@aenossa.com",
-      adress: "Rua da Paiva",
+      birthdate: "10-06-2001",
+      sentence: "21-10-2021",
+      duration: 1000,
+      workstation: "Ser drogado",
+      solitary: true.toString(),
     },
     {
       id: 4,
       name: "PP_segundo",
-      email: "trabalhador@honesto.com",
-      adress: "Rua do Choro",
+      birthdate: "10-06-2001",
+      sentence: "21-10-2021",
+      duration: 1000,
+      workstation: "Ser lindo",
+      solitary: false.toString(),
     },
   ]);
   const columns = [
+    // prisioner main traits
     { key: 1, title: "ID", dataIndex: "id" },
     { key: 2, title: "Name", dataIndex: "name" },
-    { key: 3, title: "Email", dataIndex: "email" },
-    { key: 4, title: "Adress", dataIndex: "adress" },
+    { key: 3, title: "Birthdate", dataIndex: "birthdate" },
+    { key: 4, title: "Sentece Start", dataIndex: "sentence" },
+    { key: 5, title: "Duration (Days?)", dataIndex: "duration" },
+    { key: 6, title: "Workstation", dataIndex: "workstation" },
+    { key: 7, title: "Solitary", dataIndex: "solitary" },
+
     {
-      key: 5,
+      key: 8,
       title: "Actions",
       render: (record) => {
         return (
@@ -67,8 +105,11 @@ function PrisionersList() {
     const newPrisioner = {
       id: randomNumber,
       name: "Cotovelo da Perna " + randomNumber,
-      email: "cotovelo@chaminé.com " + randomNumber,
-      adress: "Bar do irmão " + randomNumber,
+      birthdate: "10-06-2001",
+      sentence: "21-10-2021",
+      duration: 1000,
+      workstation: "Ser lindo",
+      solitary: false.toString(),
     };
     setDataSource((pre) => {
       return [...pre, newPrisioner];
@@ -101,7 +142,14 @@ function PrisionersList() {
   return (
     <div>
       <Table columns={columns} dataSource={dataSource}></Table>
-      <Button onClick={onAddPrisioner} shape={"round"} style={{marginLeft: "45%"}} type="primary">Add new prisioner</Button>
+      <Button
+        onClick={onAddPrisioner}
+        shape={"round"}
+        style={{ marginLeft: "45%" }}
+        type="primary"
+      >
+        Add new prisioner
+      </Button>
       <Modal
         title="Edit Prisioner"
         visible={isEditing}
@@ -112,13 +160,23 @@ function PrisionersList() {
         }}
         onOk={() => {
           setDataSource((pre) => {
-            return pre.map((prisioner) => {
-              if (prisioner.id === editingPrisioner.id) {
-                return editingPrisioner;
-              } else {
-                return prisioner;
-              }
-            });
+            if (
+              editingPrisioner.solitary === "true" ||
+              editingPrisioner.solitary === "false"
+            ) {
+            //   editingPrisioner.solitary = editingPrisioner.solitary === "true";
+            //   console.log(editingPrisioner.solitary.type())
+              return pre.map((prisioner) => {
+                if (prisioner.id === editingPrisioner.id) {
+                  return editingPrisioner;
+                } else {
+                  return prisioner;
+                }
+              });
+            } else {
+              countDown();
+              return pre;
+            }
           });
           ResetEditing();
         }}
@@ -135,20 +193,47 @@ function PrisionersList() {
             }}
           />
           <Input
-            addonBefore="Email"
-            value={editingPrisioner?.email}
+            addonBefore="Birthdate"
+            value={editingPrisioner?.birthdate}
             onChange={(e) => {
               setEditingPrisioner((pre) => {
-                return { ...pre, email: e.target.value };
+                return { ...pre, birthdate: e.target.value };
               });
             }}
           />
           <Input
-            addonBefore="Adress"
-            value={editingPrisioner?.adress}
+            addonBefore="Sentence Start"
+            value={editingPrisioner?.sentence}
             onChange={(e) => {
               setEditingPrisioner((pre) => {
-                return { ...pre, adress: e.target.value };
+                return { ...pre, sentence: e.target.value };
+              });
+            }}
+          />
+          <Input
+            addonBefore="Duration"
+            value={editingPrisioner?.duration}
+            onChange={(e) => {
+              setEditingPrisioner((pre) => {
+                return { ...pre, duration: e.target.value };
+              });
+            }}
+          />
+          <Input
+            addonBefore="Workstation"
+            value={editingPrisioner?.workstation}
+            onChange={(e) => {
+              setEditingPrisioner((pre) => {
+                return { ...pre, workstation: e.target.value };
+              });
+            }}
+          />
+          <Input
+            addonBefore="Solitary"
+            value={editingPrisioner?.solitary}
+            onChange={(e) => {
+              setEditingPrisioner((pre) => {
+                return { ...pre, solitary: e.target.value.toLowerCase() };
               });
             }}
           />
