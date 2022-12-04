@@ -14,6 +14,7 @@ import Logo from "./images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jp
 import PrisionersList from "./components/prisionersList/prisionersList";
 import Login from "./components/Login/Login";
 import { Logged, SetLogged } from "./components/Login/Login";
+import Dashboard from "./components/Dashboard/dashboard";
 
 function App() {
   return (
@@ -92,7 +93,7 @@ function Content() {
     <div style={{ width: "100%" }}>
       <Routes>
         <Route path="/" element={<div>Home</div>}></Route>
-        <Route path="/dashboard" element={<div>Dashboard</div>}></Route>
+        <Route path="/dashboard" element={<div><Dashboard /></div>}></Route>
         <Route path="/userlist" element={<div>User List</div>}></Route>
         <Route path="/prisioners" element={<PrisionersList />}></Route>
         <Route path="/guards" element={<div>Guards</div>}></Route>
