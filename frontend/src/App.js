@@ -25,9 +25,7 @@ function App() {
         height: "100vh",
       }}
     >
-      <Header />
       <SideMenu />
-      <Footer />
     </div>
   );
 }
