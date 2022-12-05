@@ -22,7 +22,7 @@ import ies.grupo51.lockedin.services.InmateService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/staff")
+@RequestMapping("/api/inmate")
 public class InmateController {
     
     // SERVICES
