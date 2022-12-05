@@ -1,78 +1,83 @@
 version: "3.8"
+volumes:
+  datafiles:
+  
 services:
-  mongo:
+  mongodb:
     image: mongo:latest
-    env_file: ./.env
-    container_name: mongo
-    hostname: mongo
+    container_name: mongodb
+    hostname: mongodb
     restart: unless-stopped
     ports:
-      - $MONGO_HOST_PORT:27017
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=$MONGO_ROOT_USERNAME
-      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_ROOT_PASSWORD
-      - MONGO_DB_USERNAME=$MONGO_DB_USERNAME
-      - MONGO_DB_PASSWORD=$MONGO_DB_PASSWORD
+      - 27017:27017
+
+    ## AINDA NAO ENTENDI MUITO BEM ESTA CENA DOS USERS 
+    ## SE USARMOS ISTO DEMOS DE USAR AUTENTICAÇAO PARA PEDIR À DB
+    # environment:
+    #   - MONGO_INITDB_ROOT_USERNAME=root
+    #   - MONGO_INITDB_ROOT_PASSWORD=root
+    #   - MONGO_INITDB_DATABASE=mongodb
+    #   - MONGO_DB_USERNAME=grupo
+    #   - MONGO_DB_PASSWORD=estiado
 
     volumes:
-      - $mongodb/data:/data/db/
-      - $mongodb/initdb.d:/docker-entrypoint-initdb.d/
+      - ./mongodb/initdb.d/:/docker-entrypoint-initdb.d/
+      - datafiles:/data/db
 
     networks:
       - main-network
 
-    command: ["--bind_ip", "0.0.0.0"]
+    # SO ESTOU A GUARDAR POR GUARDAR QUE ESTA LINHA FEZ ME PERDER A BELEZA
+    # command: ["--bind_ip", "localhost"]
 
-  rabbitmq:
-    image: rabbitmq:3.11-management
-    container_name: rabbitmq
-    hostname: rabbitmq
-    ports:
-      - $RABBITMQ_HTTP_LOCAL_PORT:$RABBITMQ_HTTP_DOCKER_PORT
-      - $RABBITMQ_AMQP_LOCAL_PORT:$RABBITMQ_AMQP_DOCKER_PORT
-    healthcheck:
-      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
-      interval: 10s
-      timeout: 10s
-      retries: 10
+  # rabbitmq:
+  #   image: rabbitmq:3.11-management
+  #   container_name: rabbitmq
+  #   hostname: rabbitmq
+  #   ports:
+  #     - 15672:15672
+  #     - 5672:5672
+  #   healthcheck:
+  #     test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+  #     interval: 10s
+  #     timeout: 10s
+  #     retries: 10
 
 
   web:
-    build: 
-      context: ./lockedin
-      dockerfile: Dockerfile
-    env_file: ./.env
-    image: $APP_NAME
-    container_name: $APP_NAME
+    build: ./lockedin
+    image: lockedin
+    container_name: lockedin
     restart: on-failure
     depends_on:
-      - mongo
+      - mongodb
     ports:
-      - $SERVER_HOST_PORT:8080
+      - 5001:8080
     environment:
       - SERVER_PORT=8080
       - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_APPLICATION_NAME=$APP_NAME
-      - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=$MONGO_DB
-      - SPRING_DATA_MONGODB_AUTO_INDEX_CREATION=$MONGO_AUTO_INDEX_CREATION
-      - SPRING_DATA_MONGODB_HOST=mongo
+      - SPRING_APPLICATION_NAME=lockedin
+      - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=mongodb
+      - SPRING_DATA_MONGODB_AUTO_INDEX_CREATION=true
+      - SPRING_DATA_MONGODB_HOST=mongodb
       - SPRING_DATA_MONGODB_PORT=27017
-      - SPRING_DATA_MONGODB_USERNAME=$MONGO_DB_USERNAME
-      - SPRING_DATA_MONGODB_PASSWORD=$MONGO_DB_PASSWORD
-      - SPRING_DATA_MONGODB_DATABASE=$MONGO_DB
+      - SPRING_DATA_MONGODB_USERNAME=grupo
+      - SPRING_DATA_MONGODB_PASSWORD=estiado
+      - SPRING_DATA_MONGODB_DATABASE=mongodb
+
     networks:
       - main-network
 
-  reactclient:
-    build: ./frontend
-    container_name: reactclient
-    ports:
-      - 3001:3000
-    stdin_open: true
-    restart: unless-stopped
-    image: lockedin-frontend
+  # reactclient:
+  #   build: ./frontend
+  #   container_name: reactclient
+  #   ports:
+  #     - 3001:3000
+  #   stdin_open: true
+  #   restart: unless-stopped
+  #   image: lockedin-frontend
 
 networks:
   main-network:
     external:
-      name: $NETWORK_NAME
+      name: lockedin-network
