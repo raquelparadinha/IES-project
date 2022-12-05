@@ -1,26 +1,19 @@
+import { Space, Col, Row } from "antd";
 import InmateNumbers from "./InmateNumbers/InmateNumbers";
 import DashboardTabs from "./Tabs/tabs";
 
 const Dashboard = () => (
   <>
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-      }}
-    >
-      <InmateNumbers />
-    </div>
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-      }}
-    >
-      <DashboardTabs />
-    </div>
+    <Row>
+      <Space align="start">
+        <Col push={1}>
+          <InmateNumbers />
+        </Col>
+        <Col push={1}>
+          <DashboardTabs />
+        </Col>
+      </Space>
+    </Row>
   </>
 );
 
