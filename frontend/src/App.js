@@ -3,7 +3,6 @@ import "./App.css";
 import { Menu } from "antd";
 import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import {
-  HomeOutlined,
   DashboardOutlined,
   UnorderedListOutlined,
   UserOutlined,
@@ -15,6 +14,7 @@ import PrisionersList from "./components/prisionersList/prisionersList";
 import Login from "./components/Login/Login";
 import { Logged, SetLogged } from "./components/Login/Login";
 import Dashboard from "./components/Dashboard/dashboard";
+import GuardsList from "./components/GuardsList/guardsList";
 
 function App() {
   return (
@@ -93,10 +93,24 @@ function Content() {
     <div style={{ width: "100%" }}>
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" />}></Route>
-        <Route path="/dashboard" element={<div><Dashboard /></div>}></Route>
+        <Route
+          path="/dashboard"
+          element={
+            <div>
+              <Dashboard />
+            </div>
+          }
+        ></Route>
         <Route path="/userlist" element={<div>User List</div>}></Route>
         <Route path="/prisioners" element={<PrisionersList />}></Route>
-        <Route path="/guards" element={<div>Guards</div>}></Route>
+        <Route
+          path="/guards"
+          element={
+            <div>
+              <GuardsList />
+            </div>
+          }
+        ></Route>
         <Route path="/profile" element={<div>Profile</div>}></Route>
         <Route path="/login" element={<Login />}></Route>
       </Routes>
