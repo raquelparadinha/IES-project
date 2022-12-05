@@ -1,7 +1,7 @@
 import "antd/dist/reset.css";
 import "./App.css";
 import { Menu } from "antd";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import {
   HomeOutlined,
   DashboardOutlined,
@@ -92,7 +92,7 @@ function Content() {
   return (
     <div style={{ width: "100%" }}>
       <Routes>
-        <Route path="/" element={<div>Home</div>}></Route>
+        <Route path="/" element={<Navigate to="/dashboard" />}></Route>
         <Route path="/dashboard" element={<div><Dashboard /></div>}></Route>
         <Route path="/userlist" element={<div>User List</div>}></Route>
         <Route path="/prisioners" element={<PrisionersList />}></Route>
@@ -106,7 +106,6 @@ function Content() {
 function islogged(params) {
   if (params) {
     return [
-      { label: "Home", key: "/", icon: <HomeOutlined /> },
       {
         label: "Dashboard",
         key: "/dashboard",
@@ -137,7 +136,6 @@ function islogged(params) {
     ];
   }
   return [
-    { label: "Home", key: "/", icon: <HomeOutlined /> },
     {
       label: "Dashboard",
       key: "/dashboard",

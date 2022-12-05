@@ -7,7 +7,7 @@ function PrisionersList() {
     let secondsToGo = 5;
 
     const modal = Modal.error({
-      title: "Edit Invalid, insert only 'true' or 'false'.",
+      title: "Solitary state invalid, insert only 'true' or 'false'.",
       content: `This modal will be destroyed after ${secondsToGo} second.`,
       okType: "danger",
     });
@@ -141,7 +141,7 @@ function PrisionersList() {
 
   return (
     <div>
-      <Table columns={columns} dataSource={dataSource}></Table>
+      <Table columns={columns} dataSource={dataSource} pagination={{defaultPageSize: 14}}></Table>
       <Button
         onClick={onAddPrisioner}
         shape={"round"}
