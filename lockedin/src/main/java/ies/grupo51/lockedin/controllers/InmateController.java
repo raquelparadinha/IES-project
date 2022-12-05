@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,12 +37,12 @@ public class InmateController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Inmate> getInmateById(@PathVariable(value = "id") UUID id) throws ResourceNotFoundException {
+    public ResponseEntity<Inmate> getInmateById(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
         return ResponseEntity.ok().body(inmateService.getInmateById(id));
     }
 
     @GetMapping("/{inmate_id}/shifts")
-    public ResponseEntity<Set<Workstation>> getInmateShifts(@PathVariable(value = "id") UUID id) throws ResourceNotFoundException {
+    public ResponseEntity<Set<Workstation>> getInmateShifts(@PathVariable(value = "id") long id) throws ResourceNotFoundException {
         Inmate inmate = inmateService.getInmateById(id);
         if (inmate != null) {
             return ResponseEntity.ok().body(inmate.getShifts());
@@ -54,8 +53,8 @@ public class InmateController {
     }
 
     @GetMapping("/{inmate_id}/shifts/{shift_id}")
-    public ResponseEntity<Workstation> getShiftInmate(  @PathVariable(value = "id") UUID inmate_id,
-                                                        @PathVariable(value = "id") UUID shift_id) 
+    public ResponseEntity<Workstation> getShiftInmate(  @PathVariable(value = "id") long inmate_id,
+                                                        @PathVariable(value = "id") long shift_id) 
                                                         throws ResourceNotFoundException {
         Inmate inmate = inmateService.getInmateById(inmate_id);
         if (inmate != null) {
@@ -183,4 +182,18 @@ public class InmateController {
         return ResponseEntity.ok().body(data);
     }
 
+    // @GetMapping("/{inmate_id}/shifts/{shift_id}")
+    // public ResponseEntity<Workstation> getShiftInmate(  @PathVariable(value = "id") long inmate_id,
+    //                                                     @PathVariable(value = "id") long shift_id) 
+    //                                                     throws ResourceNotFoundException {
+    //     Inmate inmate = inmateService.getInmateById(inmate_id);
+    //     if (inmate != null) {
+    //         for (Workstation shift : inmate.getShifts()) {
+    //             if (shift.getId() == shift_id) {
+    //                 return ResponseEntity.ok().body(shift);
+    //             }
+    //         }
+    //     } 
+    //     return ResponseEntity.ok().body(null);
+    // }
 }

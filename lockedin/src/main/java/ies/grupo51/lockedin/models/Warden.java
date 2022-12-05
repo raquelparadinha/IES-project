@@ -4,7 +4,6 @@ package ies.grupo51.lockedin.models;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Warden implements Staff {
 
     @Id
-    private UUID id;
+    private long id;
 
     private String name;
     private String email;
@@ -24,12 +23,12 @@ public class Warden implements Staff {
     private static long counter = 1;
 
     public Warden() {
-        this.id = UUID.randomUUID();
+        this.id = 0;
         this.messages = new ArrayList<>();
     }
 
-    public Warden(String name, String email, String phone, Date birth_date) {
-        this.id = UUID.randomUUID();
+    public Warden(long id, String name, String email, String phone, Date birth_date) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -40,7 +39,7 @@ public class Warden implements Staff {
     // SETS
     
     @Override
-    public void setId(UUID id){
+    public void setId(long id){
         this.id = id;
     }
     @Override
@@ -70,7 +69,7 @@ public class Warden implements Staff {
     // GETS
 
     @Override
-    public UUID getId() {
+    public long getId() {
         return id;
     }
     @Override
@@ -107,7 +106,7 @@ public class Warden implements Staff {
     @Override
     public String toString() {
         return String.format(
-            "Warden [ID: %s, Name: %s, Email: %s, Phone: %s, Birth date: %s]", 
-            this.id.toString(), this.name, this.email, this.phone, this.birth_date.toString());
+            "Warden [ID: %d, Name: %s, Email: %s, Phone: %s, Birth date: %s]", 
+            this.id, this.name, this.email, this.phone, this.birth_date.toString());
     }
 }

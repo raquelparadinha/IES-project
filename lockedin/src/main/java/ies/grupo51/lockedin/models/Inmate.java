@@ -2,10 +2,7 @@ package ies.grupo51.lockedin.models;
 
 import java.util.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,34 +11,35 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Inmate {
     
     @Id
-    private UUID id;
+    private long id;
 
     private String name;
     private Date birth_date;
     private Date entry_date;
     private Date sentence_ending;
     private Boolean solitary;
-    private Set<Workstation> shifts;
+    private Workstation application;
+    private Workstation workstation;
     private List<Healthcheck> health_logs;
     private List<MoveSensorData> move_logs;
 
     private static long counter = 1000;
 
     public Inmate () {
-        this.id = UUID.randomUUID();
-        this.shifts = new HashSet<>();
+        this.id = 0;
         this.health_logs = new ArrayList<>();
         this.move_logs = new ArrayList<>();
     }
 
-    public Inmate (String name, Date birth_date, Date entry_date, Date sentence_ending, Boolean solitary) {
-        this.id = UUID.randomUUID();
+    public Inmate (long id, String name, Date birth_date, Date entry_date, Date sentence_ending, Boolean solitary, Workstation application, Workstation workstation) {
+        this.id = id;
         this.name = name;
         this.birth_date = birth_date;
         this.entry_date = entry_date;
         this.sentence_ending = sentence_ending;
         this.solitary = solitary;
-        this.shifts = new HashSet<>();
+        this.application = application;
+        this.workstation = workstation;
         this.health_logs = new ArrayList<>();
         this.move_logs = new ArrayList<>();
     }
@@ -60,12 +58,15 @@ public class Inmate {
     public void setSentence_ending(Date sentence_ending) {
         this.sentence_ending = sentence_ending;
     }
-    public void setShifts(Set<Workstation> shifts) {
-        this.shifts = shifts;
-    }
     public void setSolitary(Boolean solitary) {
         this.solitary = solitary;
     } 
+    public void setApplication(Workstation application) {
+        this.application = application;
+    }
+    public void setWorkstation(Workstation workstation) {
+        this.workstation = workstation;
+    }
     public void setHealth_logs(List<Healthcheck> health_logs) {
         this.health_logs = health_logs;
     }
@@ -75,7 +76,7 @@ public class Inmate {
     public static void setCounter(long counter) {
         Inmate.counter = counter;
     }
-    public void setId(UUID id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -87,7 +88,7 @@ public class Inmate {
     public List<MoveSensorData> getMove_logs() {
         return move_logs;
     }
-    public UUID getId() {
+    public long getId() {
         return id;
     }
     public String getName() {
@@ -102,11 +103,14 @@ public class Inmate {
     public Date getSentence_ending() {
         return sentence_ending;
     }
-    public Set<Workstation> getShifts() {
-        return shifts;
-    }
     public Boolean getSolitary() {
         return solitary;
+    }
+    public Workstation getApplication() {
+        return application;
+    }
+    public Workstation getWorkstation() {
+        return workstation;
     }
     public static long getCounter() {
         return counter;
@@ -114,9 +118,6 @@ public class Inmate {
 
     // CUSTOM FUNCTIONS FOR MODEL
 
-    public void addShift(Workstation workstation) {
-        this.shifts.add(workstation);
-    }
     public void addMoveLog(MoveSensorData log){
         this.move_logs.add(log);
     }
@@ -131,12 +132,10 @@ public class Inmate {
         return this.health_logs.get(-1);
     }
 
-
     @Override
     public String toString() {
         return String.format(
             "Inmate [ID: %s, Name: %s, Birth date: %s, Entry date: %s, Sentence End: %d, Solitary Confinement: %s]", 
-            id.toString(), name, birth_date.toString(), entry_date.toString(), sentence_ending.toString(), solitary?"YES":"NO");
+            id, name, birth_date.toString(), entry_date.toString(), sentence_ending.toString(), solitary?"YES":"NO");
     }
-
 }

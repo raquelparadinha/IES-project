@@ -2,7 +2,6 @@ package ies.grupo51.lockedin.services;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,7 @@ public class HealthcheckService {
         return repository.findAll();
     }
 
-    public Healthcheck getHealthcheckById(UUID id) throws ResourceNotFoundException {
+    public Healthcheck getHealthcheckById(long id) throws ResourceNotFoundException {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 

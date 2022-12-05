@@ -1,5 +1,0 @@
-mail_sorting - 10 - 18 - 60 - 25
-carpentry - 5 - 2 - 10 - 4
-waste_disposal - 8 - 20 - 40 - 25
-janitor - 10 - 5 - 15 - 8
-gardening - 3 - 5 - 6 - 10

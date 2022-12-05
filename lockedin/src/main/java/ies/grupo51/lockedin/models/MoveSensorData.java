@@ -1,7 +1,5 @@
 package ies.grupo51.lockedin.models;
 
-import java.util.UUID;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,21 +7,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class MoveSensorData {
     
     @Id
-    private UUID id;
+    private long id;
 
-    private UUID inmate_id;
-    private Area new_area;
+    private long inmateId;
+    private long moveSensorId;
 
     private static long counter = 0;
 
     public MoveSensorData() {
-        this.id = UUID.randomUUID();
+
     }
 
-    public MoveSensorData(UUID inmate_id, Area new_area) {
-        this.id = UUID.randomUUID();
-        this.inmate_id = inmate_id;
-        this.new_area = new_area;
+    public MoveSensorData(long inmateId, long moveSensorId) {
+        this.inmateId = inmateId;
+        this.moveSensorId = moveSensorId;
     }
 
     // SETS
@@ -31,14 +28,14 @@ public class MoveSensorData {
     public static void setCounter(long counter) {
         MoveSensorData.counter = counter;
     }
-    public void setId(UUID id) {
+    public void setId(long id) {
         this.id = id;
     }
-    public void setInmate_id(UUID inmate_id) {
-        this.inmate_id = inmate_id;
+    public void setInmate_id(long inmateId) {
+        this.inmateId = inmateId;
     }
-    public void setNew_area(Area new_area) {
-        this.new_area = new_area;
+    public void setMove_sensor_id(long moveSensorId) {
+        this.moveSensorId = moveSensorId;
     }
 
     // GETS
@@ -46,20 +43,20 @@ public class MoveSensorData {
     public static long getCounter() {
         return counter;
     }
-    public UUID getId() {
+    public long getId() {
         return id;
     }
-    public UUID getInmate_id() {
-        return inmate_id;
+    public long getInmate_id() {
+        return inmateId;
     }
-    public Area getNew_area() {
-        return new_area;
+    public long getMove_sensor_id() {
+        return moveSensorId;
     }
 
     @Override
     public String toString() {
         return String.format(
-            "MoveSensorData [ID: %s, Inmate ID: %s, New Area: %d]", 
-            this.id.toString(), this.inmate_id.toString(), this.new_area);
+            "MoveSensorData [ID: %d, Inmate ID: %d, New MoveSensorID: %d]", 
+            this.id, this.inmateId, this.moveSensorId);
     }
 }

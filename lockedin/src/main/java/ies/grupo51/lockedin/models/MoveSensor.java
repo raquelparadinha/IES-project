@@ -2,7 +2,6 @@ package ies.grupo51.lockedin.models;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class MoveSensor {
     
     @Id
-    private UUID id;
+    private long id;
     private Area entry;
     private Area exit;
     private List<MoveSensorData> logs;
@@ -19,12 +18,12 @@ public class MoveSensor {
     private static long counter = 0;
 
     public MoveSensor() {
-        this.id = UUID.randomUUID();
+        this.id = 0;
         this.logs = new ArrayList<>();
     }
     
-    public MoveSensor(String name, Area entry, Area exit) {
-        this.id = UUID.randomUUID();
+    public MoveSensor(long id, String name, Area entry, Area exit) {
+        this.id = id;
         this.entry = entry;
         this.exit = exit;
         this.logs = new ArrayList<>();
@@ -32,7 +31,7 @@ public class MoveSensor {
 
     // GETS
 
-    public UUID getId() {
+    public long getId() {
         return id;
     }
     public Area getEntry() {
@@ -50,7 +49,7 @@ public class MoveSensor {
 
     // SETS
 
-    public void setId(UUID id) {
+    public void setId(long id) {
         this.id = id;
     }
     public void setEntry(Area entry) {
@@ -79,8 +78,8 @@ public class MoveSensor {
     @Override
     public String toString() {
         return String.format(
-            "MoveSensor [ID: %s, Entry: %s, Exit: %s]", 
-            this.id.toString(), this.entry, this.exit);
+            "MoveSensor [ID: %d, Entry: %s, Exit: %s]", 
+            this.id, this.entry, this.exit);
     }
 
 }

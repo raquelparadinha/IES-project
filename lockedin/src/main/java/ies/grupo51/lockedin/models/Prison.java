@@ -2,7 +2,6 @@ package ies.grupo51.lockedin.models;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Prison {
 
     @Id
-    private UUID id;
+    private long id;
 
     private String name;
     private Set<Area> areas;
@@ -25,7 +24,7 @@ public class Prison {
     private static long counter = 0;
     
     public Prison() {
-        this.id = UUID.randomUUID();
+        this.id = 0;
         this.areas = new HashSet<>();
         this.num_areas = areas.size();
         this.guards = new HashSet<>();
@@ -34,8 +33,8 @@ public class Prison {
         this.num_inmates = inmates.size();
     }
 
-    public Prison(String name){
-        this.id = UUID.randomUUID();
+    public Prison(long id, String name){
+        this.id = id;
         this.name = name;
         this.areas = new HashSet<>();
         this.num_areas = areas.size();
@@ -59,7 +58,7 @@ public class Prison {
     public int getNum_guards() {
         return num_guards;
     }
-    public UUID getId() {
+    public long getId() {
         return id;
     }
     public Set<Inmate> getInmates() {
@@ -83,7 +82,7 @@ public class Prison {
     public void setAreas(Set<Area> areas) {
         this.areas = areas;
     }
-    public void setId(UUID id) {
+    public void setId(long id) {
         this.id = id;
     }
     public void setNum_areas(int num_areas) {
