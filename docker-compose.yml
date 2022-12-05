@@ -63,16 +63,14 @@ services:
     networks:
       - main-network
 
-  # PILISSE DO PAULO
-
-  # reactclient:
-  #   build: ./frontend
-  #   container_name: reactclient
-  #   ports:
-  #     - 3001:3000
-  #   stdin_open: true
-  #   restart: unless-stopped
-  #   image: lockedin-frontend
+  reactclient:
+    build: ./frontend
+    container_name: reactclient
+    ports:
+      - 3001:3000
+    stdin_open: true
+    restart: unless-stopped
+    image: lockedin-frontend
 
 networks:
   main-network:
