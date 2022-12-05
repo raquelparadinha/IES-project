@@ -2,10 +2,12 @@ package ies.grupo51.lockedin.services;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
 import ies.grupo51.lockedin.models.Guard;
 import ies.grupo51.lockedin.repositories.GuardRepository;
 
@@ -27,12 +29,12 @@ public class GuardService {
         return repository.findAll();
     }
 
-    public Guard getGuardById(long id) {
-        return repository.findById(id).orElse(null);
+    public Guard getGuardById(UUID id) throws ResourceNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 
-    public Guard updateGuard(Guard guard) {
-        Guard existingGuard = repository.findById(guard.getId()).orElse(null);
+    public Guard updateGuard(Guard guard) throws ResourceNotFoundException {
+        Guard existingGuard = repository.findById(guard.getId()).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
         
         if (existingGuard == null){ return null; }
 
@@ -40,7 +42,7 @@ public class GuardService {
         existingGuard.setEmail(guard.getEmail());
         existingGuard.setPhone(guard.getPhone());
         existingGuard.setBirth_date(guard.getBirth_date());
-        existingGuard.setAreas(guard.getAreas());
+        existingGuard.setShifts(guard.getShifts());
         
         return repository.save(existingGuard);
     }

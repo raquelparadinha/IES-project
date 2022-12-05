@@ -2,10 +2,12 @@ package ies.grupo51.lockedin.services;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
 import ies.grupo51.lockedin.models.MoveSensor;
 import ies.grupo51.lockedin.repositories.MoveSensorRepository;
 
@@ -27,18 +29,18 @@ public class MoveSensorService {
         return repository.findAll();
     }
 
-    public MoveSensor getMoveSensorById(long id) {
-        return repository.findById(id).orElse(null);
+    public MoveSensor getMoveSensorById(UUID id) throws ResourceNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 
-    public MoveSensor updatMoveSensor(MoveSensor moveSensor) {
-        MoveSensor existingMoveSensor = repository.findById(moveSensor.getId()).orElse(null);
+    public MoveSensor updatMoveSensor(MoveSensor moveSensor) throws ResourceNotFoundException {
+        MoveSensor existingMoveSensor = repository.findById(moveSensor.getId()).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
         
         if (existingMoveSensor == null){ return null; }
         
-        existingMoveSensor.setConnectingAreas(moveSensor.getConnectingAreas());
         existingMoveSensor.setLogs(moveSensor.getLogs());
-        existingMoveSensor.setName(moveSensor.getName());
+        existingMoveSensor.setEntry(moveSensor.getEntry());
+        existingMoveSensor.setExit(moveSensor.getExit());
         
         return repository.save(existingMoveSensor);
     }

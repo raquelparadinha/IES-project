@@ -2,10 +2,12 @@ package ies.grupo51.lockedin.services;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
 import ies.grupo51.lockedin.models.Area;
 import ies.grupo51.lockedin.repositories.AreaRepository;
 
@@ -27,19 +29,19 @@ public class AreaService {
         return repository.findAll();
     }
 
-    public Area getAreaById(long id) {
-        return repository.findById(id).orElse(null);
+    public Area getAreaById(UUID id) throws ResourceNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 
-    public Area updateArea(Area area) {
-        Area existingArea = repository.findById(area.getId()).orElse(null);
+    public Area updateArea(Area area) throws ResourceNotFoundException {
+        Area existingArea = repository.findById(area.getId()).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
         
         if (existingArea == null){ return null; }
 
         existingArea.setName(area.getName());
         existingArea.setConnections(area.getConnections());
         existingArea.setArea_logs(area.getArea_logs());
-        existingArea.setReserved(area.getReserved());
+        existingArea.setAccess(area.getAccess());
         existingArea.setCapacity(area.getCapacity());
 
         return repository.save(existingArea);

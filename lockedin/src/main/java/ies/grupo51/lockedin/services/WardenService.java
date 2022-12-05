@@ -2,10 +2,12 @@ package ies.grupo51.lockedin.services;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
 import ies.grupo51.lockedin.models.Warden;
 import ies.grupo51.lockedin.repositories.WardenRepository;
 
@@ -27,12 +29,12 @@ public class WardenService {
         return repository.findAll();
     }
 
-    public Warden getWardenById(long id) {
-        return repository.findById(id).orElse(null);
+    public Warden getWardenById(UUID id) throws ResourceNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 
-    public Warden updateWarden(Warden warden) {
-        Warden existingWarden = repository.findById(warden.getId()).orElse(null);
+    public Warden updateWarden(Warden warden) throws ResourceNotFoundException {
+        Warden existingWarden = repository.findById(warden.getId()).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
         
         if (existingWarden == null){ return null; }
         

@@ -1,7 +1,8 @@
 package ies.grupo51.lockedin.models;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,52 +11,59 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class MoveSensor {
     
     @Id
-    private long id;
-    private String name;
-    private Set<Area> connecting_areas;
-    private ArrayList<MoveSensorData> logs;
+    private UUID id;
+    private Area entry;
+    private Area exit;
+    private List<MoveSensorData> logs;
 
     private static long counter = 0;
 
     public MoveSensor() {
-        this.id = MoveSensor.counter++;
+        this.id = UUID.randomUUID();
+        this.logs = new ArrayList<>();
     }
     
-    public MoveSensor(String name, Set<Area> connecting_areas) {
-        this.id = MoveSensor.counter++;
-        this.name = name;
-        this.connecting_areas = connecting_areas;
+    public MoveSensor(String name, Area entry, Area exit) {
+        this.id = UUID.randomUUID();
+        this.entry = entry;
+        this.exit = exit;
         this.logs = new ArrayList<>();
     }
 
     // GETS
 
-    public Set<Area> getConnectingAreas() {
-        return connecting_areas;
-    }
-    public long getId() {
+    public UUID getId() {
         return id;
     }
-    public ArrayList<MoveSensorData> getLogs() {
+    public Area getEntry() {
+        return entry;
+    }
+    public Area getExit() {
+        return exit;
+    }
+    public List<MoveSensorData> getLogs() {
         return logs;
     }
-    public String getName() {
-        return name;
+    public static long getCounter() {
+        return counter;
     }
 
     // SETS
 
-    public void setConnectingAreas(Set<Area> connecting_areas) {
-        this.connecting_areas = connecting_areas;
-    }
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
-    public void setLogs(ArrayList<MoveSensorData> logs) {
+    public void setEntry(Area entry) {
+        this.entry = entry;
+    }
+    public void setExit(Area exit) {
+        this.exit = exit;
+    }
+    public void setLogs(List<MoveSensorData> logs) {
         this.logs = logs;
     }
-    public void setName(String name) {
-        this.name = name;
+    public static void setCounter(long counter) {
+        MoveSensor.counter = counter;
     }
 
     // CUSTOM FUNCTIONS FOR MODEL
@@ -71,8 +79,8 @@ public class MoveSensor {
     @Override
     public String toString() {
         return String.format(
-            "MoveSensor [ID: %d, Name: %d, Connecting Areas: %d]", 
-            this.id, this.name, this.connecting_areas);
+            "MoveSensor [ID: %s, Entry: %s, Exit: %s]", 
+            this.id.toString(), this.entry, this.exit);
     }
 
 }
