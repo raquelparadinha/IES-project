@@ -9,7 +9,7 @@ import org.springframework.amqp.core.Queue;
 
 @Configuration
 public class CommsConfig {
-    public static final String EXCHANGE = "";
+    public static final String EXCHANGE = "datagen";
     public static final String QUEUE = "datagen";
     public static final String ROUTING_KEY = "";
 

@@ -21,7 +21,7 @@ services:
     #   - MONGO_DB_PASSWORD=estiado
 
     volumes:
-      - ./mongodb/init-mongo.js/:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./mongodb/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
       - ./mongodb/data:/data/db
 
     networks:
@@ -30,18 +30,20 @@ services:
     # SO ESTOU A GUARDAR POR GUARDAR QUE ESTA LINHA FEZ ME PERDER A BELEZA
     # command: ["--bind_ip", "localhost"]
 
-  # rabbitmq:
-  #   image: rabbitmq:3.11-management
-  #   container_name: rabbitmq
-  #   hostname: rabbitmq
-  #   ports:
-  #     - 15672:15672
-  #     - 5672:5672
-  #   healthcheck:
-  #     test: [ "CMD", "nc", "-z", "localhost", "5672" ]
-  #     interval: 10s
-  #     timeout: 10s
-  #     retries: 10
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    networks:
+      - main-network
 
 
   web:
@@ -51,6 +53,7 @@ services:
     restart: on-failure
     depends_on:
       - mongodb
+      - rabbitmq
     ports:
       - 5001:8080
     environment:
@@ -64,18 +67,21 @@ services:
       - SPRING_DATA_MONGODB_USERNAME=grupo
       - SPRING_DATA_MONGODB_PASSWORD=estiado
       - SPRING_DATA_MONGODB_DATABASE=mongodb
+      - SPRING_RABBITMQ_HOST=rabbitmq
 
     networks:
       - main-network
 
-  # reactclient:
-  #   build: ./frontend
-  #   container_name: reactclient
-  #   ports:
-  #     - 3001:3000
-  #   stdin_open: true
-  #   restart: unless-stopped
-  #   image: lockedin-frontend
+  reactclient:
+    build: ./frontend
+    container_name: reactclient
+    ports:
+      - 3001:3000
+    stdin_open: true
+    depends_on:
+      - web
+    restart: unless-stopped
+    image: lockedin-frontend
 
 networks:
   main-network:
