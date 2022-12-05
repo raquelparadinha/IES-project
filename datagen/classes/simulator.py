@@ -1,10 +1,9 @@
 import json
-
 from random import randint
-from numpy.random import normal
 from time import sleep
 
 from classes import Inmate, Location, Sensor, Workstation
+from numpy.random import normal
 
 max_n = 1
 
