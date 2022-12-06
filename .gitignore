@@ -111,6 +111,13 @@ fabric.properties
 
 # End of https://www.gitignore.io/api/intellij
 
-# mankiss nesga
 venv
+.vscode/
 __pycache__/
+/frontend/node_modules/
+
+
+mongodb/data/
+mongodb/data/log/mongod.log
+mongodb/data/**/*.log
+/mongodb/data/**/*.log

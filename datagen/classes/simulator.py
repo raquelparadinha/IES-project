@@ -1,96 +1,108 @@
+import json
 from random import randint
-from numpy.random import normal
 from time import sleep
 
 from classes import Inmate, Location, Sensor, Workstation
+from numpy.random import normal
 
 max_n = 1
 
 class Simulator():
-    def __init__(self, layoutfile, healthfile, workstationsfile):
+    def __init__(self, layoutfile, sensorfile, healthfile, workstationsfile, inmatesfile):
         try: 
             with open(layoutfile, 'r') as f:
-                layoutf = f.readlines()
+                layoutf = json.load(f)
         except:
             print('Error opening layout file. Exiting...')
             exit(1)
 
         try:
+            with open(sensorfile, 'r') as f:
+                sensorf = json.load(f)
+        except:
+            print('Error opening sensor file. Exiting...')
+            exit(1)
+
+        try:
             with open(healthfile, 'r') as f:
-                healthf = f.readlines()
+                healthf = json.load(f)
         except:
             print('Error opening health file. Exiting...')
             exit(1)
 
         try:
             with open(workstationsfile, 'r') as f:
-                workstationsf = f.readlines()
+                workstationsf = json.load(f)
         except:
             print('Error opening workstations file. Exiting...')
             exit(1)
 
+        try:
+            with open(inmatesfile, 'r') as f:
+                inmatesf = json.load(f)
+        except:
+            print('Error opening inmates file. Exiting...')
+
+            exit(1)
+
         # init locations
         self.locations = []
-        for line in layoutf:
-            d = line.split(' - ')
-            name = d[0]
-            access = True if d[1] == 'true' else False
-            connections = {l.rstrip() for l in d[2].split(' ')}        
-            self.locations.append(Location(name, access, connections))
-
-        for l in self.locations: print(l)
+        for i in layoutf:
+            id = i['id']
+            name = i['name']
+            access = i['access']
+            connections = i['connections']
+            self.locations.append(Location(id, name, access, connections))
 
         # init sensors
         self.sensors = []
-        for l in self.locations:
-            if l.access:
-                for c in [spot for spot in self.locations if spot.name in l.connections]:
-                    if c.access:
-                        self.sensors.append(Sensor(l, c))
-
-        for s in self.sensors: print(s)
+        for i in sensorf:
+            id = i['id']
+            entry = [l for l in self.locations if i['entry'] == l.id][0]
+            out = [l for l in self.locations if i['exit'] == l.id][0]
+            active = i['active']
+            self.sensors.append(Sensor(id, entry, out, active))
 
         # init health values
         self.healthvalues = {}
-        for line in healthf:
-            d = line.split(' - ')
-            key = d[0]
-            values = [int(v.rstrip()) for v in d[1].split(' ')]
-            valuesdict = {'mean': values[0], 'range': values[1]}
-            self.healthvalues[key] = valuesdict
-
-        print(self.healthvalues)
+        for i in healthf:
+            name = i['name']
+            genvals = i['genvals']
+            self.healthvalues[name] = genvals
 
         # init workstations
         self.workstations = []
-        for line in workstationsf:
-            d = line.split(' - ')
-            name = d[0]
-            listings = int(d[1])
-            minimum = int(d[2])
-            maximum = int(d[3])
-            expected = int(d[4])
-            self.workstations.append(Workstation(name, listings, minimum, maximum, expected))
-
-        for w in self.workstations: print(w)
+        for i in workstationsf:
+            id = i['id']
+            name = i['name']
+            listings = i['listings']
+            workvalues = i['workvalues']
+            self.workstations.append(Workstation(id, name, listings, workvalues["minimum"], workvalues["maximum"], workvalues["expected"]))
 
         # init inamtes
         self.inmates = []
-        for i in range(max_n):
-            cellblocks = [l for l in self.locations if l.name.startswith('Cell')]
-            block = randint(0, len(cellblocks) - 1)
-            self.inmates.append(Inmate(cellblocks[block]))
+        possibleblocks = [l for l in self.locations if l.id in [7, 8]]
+        for i in inmatesf:
+            id = i['id']
+            startlocation = possibleblocks[randint(1, len(possibleblocks)) - 1]
+            self.inmates.append(Inmate(id, startlocation))
 
-        for i in self.inmates: print(i)
+        #for l in self.locations: print(l)
+        #for s in self.sensors: print(s)
+        #for hv in self.healthvalues: print(hv)
+        #for w in self.workstations: print(w)
+        #for i in self.inmates: print(i)
 
     def moveInmate(self):
         inmateidx = randint(1, len(self.inmates)) - 1
+        inmate = self.inmates[inmateidx]
 
-        possiblesensors = [s for s in self.sensors if s.entry == self.inmates[inmateidx].location]
+        possiblesensors = [s for s in self.sensors if s.active and s.entry == inmate.location]
         sensoridx = randint(1, len(possiblesensors)) - 1
+        sensor = possiblesensors[sensoridx]
 
-        self.inmates[inmateidx].location = possiblesensors[sensoridx].exit
-        return self.inmates[inmateidx], possiblesensors[sensoridx]
+        inmate.location = sensor.exit
+        return inmate, sensor
 
     def makeHealthcheck(self):
         healthcheck = {key: normal(self.healthvalues[key]['mean'], self.healthvalues[key]['range'], 1)[0] for key in self.healthvalues.keys()}

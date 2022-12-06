@@ -1,0 +1,52 @@
+package ies.grupo51.lockedin.services;
+
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
+import ies.grupo51.lockedin.models.Inmate;
+import ies.grupo51.lockedin.repositories.InmateRepository;
+
+@Service
+public class InmateService {
+    
+    @Autowired
+    private InmateRepository repository;
+
+    public Inmate saveInmate(Inmate inmate){
+        return repository.save(inmate);
+    }
+
+    public List<Inmate> saveInmates(Set<Inmate> inmates) {
+        return repository.saveAll(inmates);
+    }
+
+    public List<Inmate> getInmates() {
+        return repository.findAll();
+    }
+
+    public Inmate getInmateById(long id) throws ResourceNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
+    }
+
+    public Inmate updateInmate(Inmate inmate) throws ResourceNotFoundException {
+        Inmate existingInmate = repository.findById(inmate.getId()).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
+        
+        if (existingInmate == null){ return null; }
+        
+        existingInmate.setName(inmate.getName());
+        existingInmate.setBirthdate(inmate.getBirthdate());
+        existingInmate.setSolitary(inmate.getSolitary());
+        existingInmate.setEntryDate(inmate.getEntryDate());
+        existingInmate.setWorkLogIds(inmate.getWorkLogIds());
+        existingInmate.setWorkstationId(inmate.getWorkstationId());
+        existingInmate.setMoveLogIds(inmate.getMoveLogIds());
+        existingInmate.setHealthLogId(inmate.getHealthLogId());
+        existingInmate.setSentenceEnd(inmate.getSentenceEnd()); 
+        
+        return repository.save(existingInmate);
+    }
+}

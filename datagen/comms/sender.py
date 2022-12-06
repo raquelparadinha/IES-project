@@ -1,5 +1,7 @@
-import pika
 import json
+
+import pika
+
 
 class Sender():
     def __init__(self):
