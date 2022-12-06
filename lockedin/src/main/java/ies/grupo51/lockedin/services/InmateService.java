@@ -38,14 +38,14 @@ public class InmateService {
         if (existingInmate == null){ return null; }
         
         existingInmate.setName(inmate.getName());
-        existingInmate.setBirth_date(inmate.getBirth_date());
+        existingInmate.setBirthdate(inmate.getBirthdate());
         existingInmate.setSolitary(inmate.getSolitary());
-        existingInmate.setEntry_date(inmate.getEntry_date());
-        existingInmate.setApplication(inmate.getApplication());
-        existingInmate.setWorkstation(inmate.getWorkstation());
-        existingInmate.setMove_logs(inmate.getMove_logs());
-        existingInmate.setHealth_logs(inmate.getHealth_logs());
-        existingInmate.setSentence_ending(inmate.getSentence_ending()); 
+        existingInmate.setEntryDate(inmate.getEntryDate());
+        existingInmate.setWorkLogIds(inmate.getWorkLogIds());
+        existingInmate.setWorkstationId(inmate.getWorkstationId());
+        existingInmate.setMoveLogIds(inmate.getMoveLogIds());
+        existingInmate.setHealthLogId(inmate.getHealthLogId());
+        existingInmate.setSentenceEnd(inmate.getSentenceEnd()); 
         
         return repository.save(existingInmate);
     }

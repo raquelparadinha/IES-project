@@ -37,9 +37,9 @@ public class MoveSensorService {
         
         if (existingMoveSensor == null){ return null; }
         
-        existingMoveSensor.setLogs(moveSensor.getLogs());
-        existingMoveSensor.setEntry(moveSensor.getEntry());
-        existingMoveSensor.setExit(moveSensor.getExit());
+        existingMoveSensor.setMoveLogIds(moveSensor.getMoveLogIds());
+        existingMoveSensor.setEntryAreaId(moveSensor.getEntryAreaId());
+        existingMoveSensor.setExitAreaId(moveSensor.getExitAreaId());
         
         return repository.save(existingMoveSensor);
     }

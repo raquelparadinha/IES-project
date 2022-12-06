@@ -11,29 +11,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
-import ies.grupo51.lockedin.models.Area;
-import ies.grupo51.lockedin.services.AreaService;
+import ies.grupo51.lockedin.models.Guard;
+import ies.grupo51.lockedin.services.GuardService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/area")
-public class AreaController {
-    
+@RequestMapping("/api/guard")
+public class GuardController {
+
     // SERVICES
 
-    @Autowired
-    private AreaService areaService;
+    @Autowired 
+    private GuardService guardService;
 
     // GET METHODS
 
     @GetMapping("/")
-    public ResponseEntity<List<Area>> getAreas() {
-        return ResponseEntity.ok().body(areaService.getAreas());
+    public ResponseEntity<List<Guard>> getGuards() {
+        List<Guard> data = guardService.getGuards();
+        return ResponseEntity.ok().body(data);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Area> getAreaUsingId(@PathVariable(value = "id") long id) throws ResourceNotFoundException {
-        return ResponseEntity.ok().body(areaService.getAreaById(id));
+    public ResponseEntity<Guard> getGuardById(@PathVariable(value = "id") long id) throws ResourceNotFoundException {
+        Guard data = guardService.getGuardById(id);
+        return ResponseEntity.ok().body(data);
     }
-
 }

@@ -1,16 +1,12 @@
 package ies.grupo51.lockedin.models;
 
 import java.util.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("guard")
-public class Guard implements Staff {
+public class Guard {
 
     @Id
     private long id;
@@ -18,55 +14,48 @@ public class Guard implements Staff {
     private String name;
     private String email;
     private String phone;
-    private Date birth_date;
-    private Set<Workstation> shifts;
-    private List<Message> messages;
+    private Date birthdate;
+    private long areaId;
+    private String password;
 
     private static long counter = 100;
 
     public Guard () {
         this.id = 0;
-        this.shifts = new HashSet<>();
-        this.messages = new ArrayList<>();
     }
 
-    public Guard (long id, String name, String email, String phone, Date birth_date) {
+    public Guard (long id, String name, String email, String phone, Date birthdate, long areaId, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.birth_date = birth_date;
-        this.shifts = new HashSet<>();
-        this.messages = new ArrayList<>();
+        this.birthdate = birthdate;
+        this.areaId = areaId;
+        this.password = password;
     }
 
     // SETS
 
-    @Override
     public void setId(long id){
         this.id = id;
     }
-    @Override
     public void setName(String name) {
         this.name = name;
     }
-    @Override
     public void setEmail(String email) {
         this.email = email;
     }
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    @Override
-    public void setBirth_date(Date birth_date) {
-        this.birth_date = birth_date;
+    public void setBirthdate(Date birth_date) {
+        this.birthdate = birth_date;
     }
-    public void setShifts(Set<Workstation> shifts) {
-        this.shifts = shifts;
+    public String getPassword() {
+        return password;
     }
-    @Override
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
+    public long getAreaId() {
+        return areaId;
     }
     public static void setCounter(long counter) {
         Guard.counter = counter;
@@ -74,53 +63,36 @@ public class Guard implements Staff {
 
     // GETS
 
-    @Override
     public long getId() {
         return id;
     }
-    @Override
     public String getName() {
         return name;
     }
-    @Override
     public String getEmail() {
         return email;
     }
-    @Override
     public String getPhone() {
         return phone;
     }
-    @Override
-    public Date getBirth_date() {
-        return birth_date;
+    public Date getBirthdate() {
+        return birthdate;
     }
-    public Set<Workstation> getShifts() {
-        return shifts;
+    public void setAreaId(long areaId) {
+        this.areaId = areaId;
     }
-    @Override
-    public List<Message> getMessages() {
-        return messages;
+    public void setPassword(String password) {
+        this.password = password;
     }
     public static long getCounter() {
         return counter;
-    }
-
-    // CUSTOM
-
-    @Override
-    public void addMessage(Message message) {
-        this.messages.add(message);
-    }
-
-    public void addShift(Workstation workstation) {
-        this.shifts.add(workstation);
     }
 
     @Override
     public String toString() {
         String result = String.format(
             "Guard [ID: %d, Name: %s, Email: %s, Phone: %s, Birth date: %s]", 
-            this.id, this.name, this.email, this.phone, this.birth_date.toString());
+            this.id, this.name, this.email, this.phone, this.birthdate.toString());
         return result;
     }
 }

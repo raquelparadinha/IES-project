@@ -1,85 +1,80 @@
 package ies.grupo51.lockedin.models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("movesensor")
+@Document("moveSensor")
 public class MoveSensor {
     
     @Id
     private long id;
-    private Area entry;
-    private Area exit;
-    private List<MoveSensorData> logs;
+
+    private long entryAreaId;
+    private long exitAreaId;
+    private List<Long> moveLogIds;
 
     private static long counter = 0;
 
     public MoveSensor() {
         this.id = 0;
-        this.logs = new ArrayList<>();
     }
     
-    public MoveSensor(long id, String name, Area entry, Area exit) {
+    public MoveSensor(long id, long entryAreaId, long exitAreaId, List<Long> moveLogIds) {
         this.id = id;
-        this.entry = entry;
-        this.exit = exit;
-        this.logs = new ArrayList<>();
+        this.entryAreaId = entryAreaId;
+        this.exitAreaId = exitAreaId;
+        this.moveLogIds = moveLogIds;
     }
 
     // GETS
 
+    public static long getCounter() {
+        return counter;
+    }
+    public long getEntryAreaId() {
+        return entryAreaId;
+    }
+    public long getExitAreaId() {
+        return exitAreaId;
+    }
     public long getId() {
         return id;
     }
-    public Area getEntry() {
-        return entry;
-    }
-    public Area getExit() {
-        return exit;
-    }
-    public List<MoveSensorData> getLogs() {
-        return logs;
-    }
-    public static long getCounter() {
-        return counter;
+    public List<Long> getMoveLogIds() {
+        return moveLogIds;
     }
 
     // SETS
 
+    public static void setCounter(long counter) {
+        MoveSensor.counter = counter;
+    }
+    public void setEntryAreaId(long entryAreaId) {
+        this.entryAreaId = entryAreaId;
+    }
+    public void setExitAreaId(long exitAreaId) {
+        this.exitAreaId = exitAreaId;
+    }
     public void setId(long id) {
         this.id = id;
     }
-    public void setEntry(Area entry) {
-        this.entry = entry;
-    }
-    public void setExit(Area exit) {
-        this.exit = exit;
-    }
-    public void setLogs(List<MoveSensorData> logs) {
-        this.logs = logs;
-    }
-    public static void setCounter(long counter) {
-        MoveSensor.counter = counter;
+    public void setMoveLogIds(List<Long> moveLogIds) {
+        this.moveLogIds = moveLogIds;
     }
 
     // CUSTOM FUNCTIONS FOR MODEL
 
-    public void addNewLog(MoveSensorData log){
-        this.logs.add(log);
+    public void addMoveLogIds(long id){
+        this.moveLogIds.add(id);
     }
 
-    public MoveSensorData getLastLog(){
-        return this.logs.get(-1);
-    }
-    
     @Override
     public String toString() {
         return String.format(
-            "MoveSensor [ID: %d, Entry: %s, Exit: %s]", 
-            this.id, this.entry, this.exit);
+            "MoveSensor [ID: %d, Entry Area ID: %d, Exit Area ID: %d]", 
+            this.id, this.entryAreaId, this.exitAreaId);
     }
 
 }

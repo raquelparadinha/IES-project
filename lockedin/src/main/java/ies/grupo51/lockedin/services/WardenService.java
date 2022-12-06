@@ -40,7 +40,8 @@ public class WardenService {
         existingWarden.setName(warden.getName());
         existingWarden.setEmail(warden.getEmail());
         existingWarden.setPhone(warden.getPhone());
-        existingWarden.setBirth_date(warden.getBirth_date());
+        existingWarden.setBirthdate(warden.getBirthdate());
+        existingWarden.setPassword(warden.getPassword());
         
         return repository.save(existingWarden);
     }

@@ -40,8 +40,7 @@ public class GuardService {
         existingGuard.setName(guard.getName());
         existingGuard.setEmail(guard.getEmail());
         existingGuard.setPhone(guard.getPhone());
-        existingGuard.setBirth_date(guard.getBirth_date());
-        existingGuard.setShifts(guard.getShifts());
+        existingGuard.setBirthdate(guard.getBirthdate());
         
         return repository.save(existingGuard);
     }

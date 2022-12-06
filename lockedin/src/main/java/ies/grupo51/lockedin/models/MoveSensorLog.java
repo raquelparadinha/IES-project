@@ -3,39 +3,39 @@ package ies.grupo51.lockedin.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("movesensordata")
-public class MoveSensorData {
+@Document("moveSensorLog")
+public class MoveSensorLog {
     
     @Id
     private long id;
 
     private long inmateId;
-    private long moveSensorId;
+    private long sensorId;
 
     private static long counter = 0;
 
-    public MoveSensorData() {
+    public MoveSensorLog() {
 
     }
 
-    public MoveSensorData(long inmateId, long moveSensorId) {
+    public MoveSensorLog(long inmateId, long sensorId) {
         this.inmateId = inmateId;
-        this.moveSensorId = moveSensorId;
+        this.sensorId = sensorId;
     }
 
     // SETS
 
     public static void setCounter(long counter) {
-        MoveSensorData.counter = counter;
+        MoveSensorLog.counter = counter;
     }
     public void setId(long id) {
         this.id = id;
     }
-    public void setInmate_id(long inmateId) {
+    public void setInmateId(long inmateId) {
         this.inmateId = inmateId;
     }
-    public void setMove_sensor_id(long moveSensorId) {
-        this.moveSensorId = moveSensorId;
+    public void setSensorId(long sensorId) {
+        this.sensorId = sensorId;
     }
 
     // GETS
@@ -46,17 +46,17 @@ public class MoveSensorData {
     public long getId() {
         return id;
     }
-    public long getInmate_id() {
+    public long getInmateId() {
         return inmateId;
     }
-    public long getMove_sensor_id() {
-        return moveSensorId;
+    public long getSensorId() {
+        return sensorId;
     }
 
     @Override
     public String toString() {
         return String.format(
-            "MoveSensorData [ID: %d, Inmate ID: %d, New MoveSensorID: %d]", 
-            this.id, this.inmateId, this.moveSensorId);
+            "MoveSensorLog [ID: %d, Inmate ID: %d, Sensor ID: %d]", 
+            this.id, this.inmateId, this.sensorId);
     }
 }

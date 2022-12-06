@@ -37,13 +37,9 @@ public class PrisonService {
         
         if (existingPrison == null){ return null; }
         
-        existingPrison.setAreas(prison.getAreas());
-        existingPrison.setGuards(prison.getGuards());
-        existingPrison.setNum_areas(prison.getNum_areas());
-        existingPrison.setNum_guards(prison.getNum_guards());
-        existingPrison.setInmates(prison.getInmates());
         existingPrison.setName(prison.getName());
-        existingPrison.setWarden(prison.getWarden());
+        existingPrison.setDescription(prison.getDescription());
+        existingPrison.setAddress(prison.getAddress());
         
         return repository.save(existingPrison);
     }
