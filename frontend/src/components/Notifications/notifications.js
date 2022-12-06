@@ -1,33 +1,198 @@
 import React from "react";
-import { InfoCircleOutlined } from "@ant-design/icons";
-import { Timeline } from "antd";
-import { useNavigate } from "react-router";
+import { Card, Col } from "antd";
+import { DownOutlined } from "@ant-design/icons";
+import { Dropdown, message, Space } from "antd";
 
-const Navegar = () => {
-    const navigate = useNavigate()
-    navigate("/dashboard")
-}
-
+const onClick = ({ key }) => {
+  //message.info(`Click on item ${key}`);
+    message.info(<button onClick={message.success("Espera pelo próximo espisódio")}>Open</button>)
+};
+const items = [
+  {
+    label: "Mark as viewed",
+    key: "1",
+  },
+  {
+    label: "Favorite",
+    key: "2",
+  },
+  {
+    label: "Delete",
+    key: "3",
+  },
+];
 
 const Notifications = () => (
   <>
-    <br />
-    <Timeline pending={true}>
-      <Timeline.Item 
-        label="2015-09-01"
-        dot={<InfoCircleOutlined color="red" /> }
-      >
-        Create a services
-      </Timeline.Item>
-      <Timeline.Item label="2015-09-01 09:12:11">
-        Solve initial network problems
-      </Timeline.Item>
-      <Timeline.Item>Technical testing</Timeline.Item>
-      <Timeline.Item label="2015-09-01 09:12:11">
-        Network problems being solved
-      </Timeline.Item>
-    </Timeline>
+    <Col>
+      <Card title="Notifications">
+        <Card
+          type="inner"
+          title="ESTRINHO"
+          extra={
+            <Dropdown
+              menu={{
+                items,
+                onClick,
+              }}
+            >
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  More
+                  <DownOutlined />
+                </Space>
+              </a>
+            </Dropdown>
+          }
+        >
+          ESTRINHO MESMO COMPLICADO NA CANTINA
+        </Card>
+        <Card
+          style={{
+            marginTop: 16,
+          }}
+          type="inner"
+          title="ESTRINHO"
+          extra={
+            <Dropdown
+              menu={{
+                items,
+                onClick,
+              }}
+            >
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  More
+                  <DownOutlined />
+                </Space>
+              </a>
+            </Dropdown>
+          }
+        >
+          ESTRINHO MESMO COMPLICADO NA CANTINA
+        </Card>
+        <Card
+          style={{
+            marginTop: 16,
+          }}
+          type="inner"
+          title="ESTRINHO"
+          extra={
+            <Dropdown
+              menu={{
+                items,
+                onClick,
+              }}
+            >
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  More
+                  <DownOutlined />
+                </Space>
+              </a>
+            </Dropdown>
+          }
+        >
+          ESTRINHO MESMO COMPLICADO NA CANTINA
+        </Card>
+        <Card
+          style={{
+            marginTop: 16,
+          }}
+          type="inner"
+          title="ESTRINHO"
+          extra={
+            <Dropdown
+              menu={{
+                items,
+                onClick,
+              }}
+            >
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  More
+                  <DownOutlined />
+                </Space>
+              </a>
+            </Dropdown>
+          }
+        >
+          ESTRINHO MESMO COMPLICADO NA CANTINA
+        </Card>
+        <Card
+          style={{
+            marginTop: 16,
+          }}
+          type="inner"
+          title="ESTRINHO"
+          extra={
+            <Dropdown
+              menu={{
+                items,
+                onClick,
+              }}
+            >
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  More
+                  <DownOutlined />
+                </Space>
+              </a>
+            </Dropdown>
+          }
+        >
+          ESTRINHO MESMO COMPLICADO NA CANTINA
+        </Card>
+        <Card
+          style={{
+            marginTop: 16,
+          }}
+          type="inner"
+          title="ESTRINHO"
+          extra={
+            <Dropdown
+              menu={{
+                items,
+                onClick,
+              }}
+            >
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  More
+                  <DownOutlined />
+                </Space>
+              </a>
+            </Dropdown>
+          }
+        >
+          ESTRINHO MESMO COMPLICADO NA CANTINA
+        </Card>
+        <Card
+          style={{
+            marginTop: 16,
+          }}
+          type="inner"
+          title="ESTRINHO"
+          extra={
+            <Dropdown
+              menu={{
+                items,
+                onClick,
+              }}
+            >
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  More
+                  <DownOutlined />
+                </Space>
+              </a>
+            </Dropdown>
+          }
+        >
+          ESTRINHO MESMO COMPLICADO NA CANTINA
+        </Card>
+      </Card>
+    </Col>
   </>
 );
 export default Notifications;
-
