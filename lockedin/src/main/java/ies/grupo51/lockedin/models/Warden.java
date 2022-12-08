@@ -2,21 +2,33 @@ package ies.grupo51.lockedin.models;
 
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("warden")
-public class Warden {
+public class Warden extends User {
 
     @Id
     private long id;
 
     private String name;
+    @NotBlank
+    @Email
     private String email;
     private String phone;
     private Date birthdate;
+    @NotBlank
     private String password;
+
+    @DBRef
+    private Set<Role> roles = new HashSet<>();
 
     private static long counter = 0;
 
@@ -56,6 +68,9 @@ public class Warden {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     // GETS
 
@@ -79,6 +94,9 @@ public class Warden {
     }
     public String getPhone() {
         return phone;
+    }
+    public Set<Role> getRoles() {
+        return roles;
     }
 
     @Override

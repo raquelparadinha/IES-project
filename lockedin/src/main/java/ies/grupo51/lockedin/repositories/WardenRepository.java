@@ -7,5 +7,5 @@ import ies.grupo51.lockedin.models.Warden;
 
 @Repository
 public interface WardenRepository extends MongoRepository <Warden, Long> {
-    
+    Boolean existsByEmail(String email);
 }

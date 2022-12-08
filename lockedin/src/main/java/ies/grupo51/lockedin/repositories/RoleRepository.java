@@ -1,11 +1,11 @@
-package ies.grupo51.lockedin.auth.repositories;
+package ies.grupo51.lockedin.repositories;
 
 import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import ies.grupo51.lockedin.auth.models.ERole;
-import ies.grupo51.lockedin.auth.models.Role;
+import ies.grupo51.lockedin.models.ERole;
+import ies.grupo51.lockedin.models.Role;
 
 public interface RoleRepository extends MongoRepository<Role, String> {
   Optional<Role> findByName(ERole name);

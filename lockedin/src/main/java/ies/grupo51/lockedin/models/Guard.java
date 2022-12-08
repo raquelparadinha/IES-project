@@ -1,22 +1,34 @@
 package ies.grupo51.lockedin.models;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("guard")
-public class Guard {
+public class Guard extends User {
 
     @Id
     private long id;
 
     private String name;
+    @NotBlank
+    @Email
     private String email;
     private String phone;
     private Date birthdate;
     private long areaId;
+    @NotBlank
     private String password;
+
+    @DBRef
+    private Set<Role> roles = new HashSet<>();
 
     private static long counter = 100;
 
@@ -51,11 +63,14 @@ public class Guard {
     public void setBirthdate(Date birth_date) {
         this.birthdate = birth_date;
     }
-    public String getPassword() {
-        return password;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
-    public long getAreaId() {
-        return areaId;
+    public void setAreaId(long areaId) {
+        this.areaId = areaId;
+    }
+    public void setPassword(String password) {
+        this.password = password;
     }
     public static void setCounter(long counter) {
         Guard.counter = counter;
@@ -78,12 +93,15 @@ public class Guard {
     public Date getBirthdate() {
         return birthdate;
     }
-    public void setAreaId(long areaId) {
-        this.areaId = areaId;
+    public Set<Role> getRoles() {
+        return roles;
     }
-    public void setPassword(String password) {
-        this.password = password;
+    public String getPassword() {
+        return password;
     }
+    public long getAreaId() {
+        return areaId;
+    }    
     public static long getCounter() {
         return counter;
     }

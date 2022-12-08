@@ -20,15 +20,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ies.grupo51.lockedin.auth.models.ERole;
-import ies.grupo51.lockedin.auth.models.Role;
-import ies.grupo51.lockedin.auth.models.User;
+import ies.grupo51.lockedin.models.ERole;
+import ies.grupo51.lockedin.models.Role;
+import ies.grupo51.lockedin.models.Guard;
+import ies.grupo51.lockedin.models.Warden;
 import ies.grupo51.lockedin.auth.payload.request.LoginRequest;
 import ies.grupo51.lockedin.auth.payload.request.SignupRequest;
 import ies.grupo51.lockedin.auth.payload.response.JwtResponse;
 import ies.grupo51.lockedin.auth.payload.response.MessageResponse;
-import ies.grupo51.lockedin.auth.repositories.RoleRepository;
-import ies.grupo51.lockedin.auth.repositories.UserRepository;
+import ies.grupo51.lockedin.repositories.RoleRepository;
+import ies.grupo51.lockedin.repositories.GuardRepository;
+import ies.grupo51.lockedin.repositories.WardenRepository;
 import ies.grupo51.lockedin.auth.security.jwt.JwtUtils;
 import ies.grupo51.lockedin.auth.security.services.UserDetailsImpl;
 
@@ -40,7 +42,10 @@ public class AuthController {
 	AuthenticationManager authenticationManager;
 
 	@Autowired
-	UserRepository userRepository;
+	GuardRepository guardRepository;
+
+	@Autowired
+	WardenRepository wardenRepository;
 
 	@Autowired
 	RoleRepository roleRepository;
