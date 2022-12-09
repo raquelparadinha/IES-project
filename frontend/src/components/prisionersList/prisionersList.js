@@ -33,7 +33,7 @@ function PrisionersList() {
       birthdate: "10-06-2001",
       sentence: "21-10-2021",
       duration: 1000,
-      workstation: "Ser puta",
+      workstation: "Gardener",
       solitary: false.toString(),
     },
     {
@@ -42,7 +42,7 @@ function PrisionersList() {
       birthdate: "10-06-2001",
       sentence: "21-10-2021",
       duration: 1000,
-      workstation: "Ser gay",
+      workstation: "Worker",
       solitary: false.toString(),
     },
     {
@@ -51,7 +51,7 @@ function PrisionersList() {
       birthdate: "10-06-2001",
       sentence: "21-10-2021",
       duration: 1000,
-      workstation: "Ser drogado",
+      workstation: "Estiador",
       solitary: true.toString(),
     },
     {

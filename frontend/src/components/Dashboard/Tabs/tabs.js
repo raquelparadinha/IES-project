@@ -37,28 +37,40 @@ export default DashboardTabs;
 
 const data = [
   {
-    name: "Heart Beat",
-    uv: 4000,
+    name: 60,
+    qty: 10,
   },
   {
-    name: "Stress Levels",
-    uv: 3000,
+    name: 65,
+    qty: 5,
   },
   {
-    name: "Glicose Levels",
-    uv: 2000,
+    name: 70,
+    qty: 7,
   },
   {
-    name: "Uric Acid",
-    uv: 2780,
+    name: 75,
+    qty: 3,
   },
   {
-    name: "Cholesterol",
-    uv: 1890,
+    name: 80,
+    qty: 5,
   },
   {
-    name: "Toxic Screen",
-    uv: 2390,
+    name: 85,
+    qty: 9,
+  },
+  {
+    name: 85,
+    qty: 2,
+  },
+  {
+    name: 90,
+    qty: 8,
+  },
+  {
+    name: 95,
+    qty: 1,
   },
 ];
 
@@ -73,6 +85,7 @@ const Example = () => (
       left: 20,
       bottom: 5,
     }}
+    
   >
     <CartesianGrid strokeDasharray="3 3" />
     <XAxis dataKey="name" />
@@ -81,6 +94,6 @@ const Example = () => (
     <Legend verticalAlign="top" wrapperStyle={{ lineHeight: "40px" }} />
     <ReferenceLine y={0} stroke="#000" />
     <Brush dataKey="name" height={30} stroke="#8884d8" />
-    <Bar dataKey="uv" fill="#82ca9d" />
+    <Bar dataKey="qty" fill="#82ca9d" />
   </BarChart>
 );

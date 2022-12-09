@@ -17,6 +17,7 @@ import { Logged, SetLogged } from "./components/Login/Login";
 import Dashboard from "./components/Dashboard/dashboard";
 import GuardsList from "./components/GuardsList/guardsList";
 import Notifications from "./components/Notifications/notifications";
+import Profile from "./components/Profile/profile";
 
 function App() {
   return (
@@ -114,7 +115,7 @@ function Content() {
           }
         ></Route>
         <Route path="/notifications" element={<Notifications />}></Route>
-        <Route path="/profile" element={<div>Profile</div>}></Route>
+        <Route path="/profile" element={<Profile />}></Route>
         <Route path="/login" element={<Login />}></Route>
       </Routes>
     </div>

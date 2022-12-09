@@ -1,6 +1,7 @@
 import { Button, Modal, Table, Input, Space } from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib/icons";
+import axios from "axios";
 
 function GuardsList() {
   const countDown = () => {
@@ -24,42 +25,20 @@ function GuardsList() {
       modal.destroy();
     }, secondsToGo * 1000);
   };
+
+  const [dataSource, setDataSource] = useState();
+  const fetchData = () => {
+    return axios
+      .get("http://localhost:5001/api/guard/")
+      .then((response) => setDataSource(response.data));
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const [isEditing, setisEditing] = useState(false);
   const [editingPrisioner, setEditingPrisioner] = useState(null);
-  const [dataSource, setDataSource] = useState([
-    {
-      id: 1,
-      name: "Pareidreds",
-      email: "pareidreds@aenossa.com",
-      phone: 919293949,
-      birthdate: "10-06-2001",
-      areas: ["Entrace", "Visitors Wing", "Patio"],
-    },
-    {
-      id: 2,
-      name: "Soralexina",
-      email: "sora@devops.com",
-      phone: 919293949,
-      birthdate: "10-06-2001",
-      areas: ["Entrace", "Visitors Wing", "Patio"],
-    },
-    {
-      id: 3,
-      name: "MancoGordo",
-      email: "mankings@estiado.com",
-      phone: 919293949,
-      birthdate: "10-06-2001",
-      areas: ["Entrace", "Visitors Wing", "Patio"],
-    },
-    {
-      id: 4,
-      name: "PP_segundo",
-      email: "trabalhador@honesto.com",
-      phone: 919293949,
-      birthdate: "10-06-2001",
-      areas: ["Entrace", "Visitors Wing", "Patio"],
-    },
-  ]);
   const columns = [
     // prisioner main traits
     { key: 1, title: "ID", dataIndex: "id" },
@@ -67,7 +46,7 @@ function GuardsList() {
     { key: 3, title: "Email", dataIndex: "email" },
     { key: 4, title: "Phone", dataIndex: "phone" },
     { key: 5, title: "Birthdate", dataIndex: "birthdate" },
-    { key: 6, title: "Areas", dataIndex: "areas" },
+    { key: 6, title: "AreaID", dataIndex: "areaId" },
 
     {
       key: 7,
@@ -96,6 +75,7 @@ function GuardsList() {
 
   const onAddPrisioner = () => {
     // Aqui para fazer os adds de novo prisioneiro, está estatico aqui
+    console.log("DataSource: " + dataSource);
     const randomNumber = parseInt(Math.random() * 1000);
     const newPrisioner = {
       id: randomNumber,
