@@ -23,14 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 import ies.grupo51.lockedin.models.ERole;
 import ies.grupo51.lockedin.models.Role;
 import ies.grupo51.lockedin.models.Guard;
-import ies.grupo51.lockedin.models.Warden;
+// import ies.grupo51.lockedin.models.Warden;
 import ies.grupo51.lockedin.auth.payload.request.LoginRequest;
 import ies.grupo51.lockedin.auth.payload.request.SignupRequest;
 import ies.grupo51.lockedin.auth.payload.response.JwtResponse;
 import ies.grupo51.lockedin.auth.payload.response.MessageResponse;
 import ies.grupo51.lockedin.repositories.RoleRepository;
 import ies.grupo51.lockedin.repositories.GuardRepository;
-import ies.grupo51.lockedin.repositories.WardenRepository;
+// import ies.grupo51.lockedin.repositories.WardenRepository;
 import ies.grupo51.lockedin.auth.security.jwt.JwtUtils;
 import ies.grupo51.lockedin.auth.security.services.UserDetailsImpl;
 
@@ -44,8 +44,8 @@ public class AuthController {
 	@Autowired
 	GuardRepository guardRepository;
 
-	@Autowired
-	WardenRepository wardenRepository;
+	// @Autowired
+	// WardenRepository wardenRepository;
 
 	@Autowired
 	RoleRepository roleRepository;
@@ -60,7 +60,7 @@ public class AuthController {
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
 		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
@@ -72,28 +72,21 @@ public class AuthController {
 
 		return ResponseEntity.ok(new JwtResponse(jwt, 
 												 userDetails.getId(), 
-												 userDetails.getUsername(), 
 												 userDetails.getEmail(), 
 												 roles));
 	}
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-			return ResponseEntity
-					.badRequest()
-					.body(new MessageResponse("Error: Username is already taken!"));
-		}
 
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+		if (guardRepository.existsByEmail(signUpRequest.getEmail())) {
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse("Error: Email is already in use!"));
 		}
 
 		// Create new user's account
-		User user = new User(signUpRequest.getUsername(), 
-							 signUpRequest.getEmail(),
+		Guard user = new Guard(signUpRequest.getEmail(),
 							 encoder.encode(signUpRequest.getPassword()));
 
 		Set<String> strRoles = signUpRequest.getRoles();
@@ -112,12 +105,6 @@ public class AuthController {
 					roles.add(adminRole);
 
 					break;
-				// case "mod":
-				// 	Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-				// 			.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-				// 	roles.add(modRole);
-
-				// 	break;
 				default:
 					Role userRole = roleRepository.findByName(ERole.ROLE_USER)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -127,7 +114,7 @@ public class AuthController {
 		}
 
 		user.setRoles(roles);
-		userRepository.save(user);
+		guardRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}

@@ -9,13 +9,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import ies.grupo51.lockedin.models.User;
+import ies.grupo51.lockedin.models.Guard;
+import ies.grupo51.lockedin.models.Warden;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
-	private String id;
+	private long id;
 
 	private String email;
 
@@ -24,7 +26,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	private Collection<? extends GrantedAuthority> authorities;
 
-	public UserDetailsImpl(String id, String email, String password,
+	public UserDetailsImpl(long id, String email, String password,
 			Collection<? extends GrantedAuthority> authorities) {
 		this.id = id;
 		this.email = email;
@@ -32,14 +34,25 @@ public class UserDetailsImpl implements UserDetails {
 		this.authorities = authorities;
 	}
 
-	public static UserDetailsImpl build(User user) {
+	public static UserDetailsImpl build(Guard user) {
 		List<GrantedAuthority> authorities = user.getRoles().stream()
 				.map(role -> new SimpleGrantedAuthority(role.getName().name()))
 				.collect(Collectors.toList());
 
 		return new UserDetailsImpl(
 				user.getId(), 
-				user.getUsername(), 
+				user.getEmail(),
+				user.getPassword(), 
+				authorities);
+	}
+
+	public static UserDetailsImpl build(Warden user) {
+		List<GrantedAuthority> authorities = user.getRoles().stream()
+				.map(role -> new SimpleGrantedAuthority(role.getName().name()))
+				.collect(Collectors.toList());
+
+		return new UserDetailsImpl(
+				user.getId(), 
 				user.getEmail(),
 				user.getPassword(), 
 				authorities);
@@ -50,7 +63,7 @@ public class UserDetailsImpl implements UserDetails {
 		return authorities;
 	}
 
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -65,7 +78,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return username;
+		return email;
 	}
 
 	@Override

@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("guard")
-public class Guard extends User {
+public class Guard {
 
     @Id
     private long id;
@@ -34,6 +34,12 @@ public class Guard extends User {
 
     public Guard () {
         this.id = 0;
+    }
+
+    public Guard(String email, String password) {
+        this.id = 0;
+        this.email = email;
+        this.password = password;
     }
 
     public Guard (long id, String name, String email, String phone, Date birthdate, long areaId, String password) {

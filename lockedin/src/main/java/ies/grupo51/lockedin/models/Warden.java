@@ -3,6 +3,8 @@ package ies.grupo51.lockedin.models;
 
 import java.util.Date;
 import java.util.HashSet;
+// import java.util.HashSet;
+// import java.util.Set;
 import java.util.Set;
 
 import javax.validation.constraints.Email;
@@ -12,8 +14,13 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import ies.grupo51.lockedin.repositories.RoleRepository;
+
+// import ies.grupo51.lockedin.models.ERole;
+// import ies.grupo51.lockedin.repositories.RoleRepository;
+
 @Document("warden")
-public class Warden extends User {
+public class Warden {
 
     @Id
     private long id;
@@ -43,6 +50,11 @@ public class Warden extends User {
         this.phone = phone;
         this.birthdate = birthdate;
         this.password = password;
+        Role userRole = RoleRepository.findByName(ERole.ROLE_USER);
+		this.roles.add(userRole);
+        Role adminRole = RoleRepository.findByName(ERole.ROLE_ADMIN)
+				.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+		this.roles.add(adminRole);
     }
 
     // SETS
