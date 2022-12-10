@@ -34,8 +34,10 @@ public class InmateController {
     // GET METHODS
 
     @GetMapping("/")
-    public ResponseEntity<List<Inmate>> getInmates() {
-        return ResponseEntity.ok().body(inmateService.getInmates());
+    public List<Inmate> getInmates() {
+        List<Inmate> data = inmateService.getInmates();
+        System.out.println(data.toString());
+        return data;
     }
 
     @GetMapping("/{id}")
