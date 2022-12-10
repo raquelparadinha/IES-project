@@ -1,7 +1,8 @@
 import React from "react";
 import { Card, Col, Space } from "antd";
 
-const prisioner_info = () => {
+const prisioner_info = (id) => {
+    console.log("Aqui " + id)
   return (
     <Card title="Prisioner Personal Information">
       <Col
@@ -13,7 +14,7 @@ const prisioner_info = () => {
         <Space align="start">
           <Card title="Prisioner Data" style={{ width: "250px" }}>
             <p>Id: 12</p>
-            <p>Name: PP</p>
+            <p>Name: Paulo Pinto</p>
             <p>Birthdate: 12-10-2001</p>
             <p>Entry Date: 12-10-2021</p>
             <p>Sentence End: 12-10-2031</p>

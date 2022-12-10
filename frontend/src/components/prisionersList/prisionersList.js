@@ -1,6 +1,11 @@
 import { Button, Modal, Table, Input, Space } from "antd";
 import { useState } from "react";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+} from "@ant-design/icons/lib/icons";
+import { useNavigate } from "react-router";
 
 function PrisionersList() {
   const countDown = () => {
@@ -24,6 +29,7 @@ function PrisionersList() {
       modal.destroy();
     }, secondsToGo * 1000);
   };
+  const navigate = useNavigate();
   const [isEditing, setisEditing] = useState(false);
   const [editingPrisioner, setEditingPrisioner] = useState(null);
   const [dataSource, setDataSource] = useState([
@@ -32,7 +38,7 @@ function PrisionersList() {
       name: "Pareidreds",
       birthdate: "10-06-2001",
       sentence: "21-10-2021",
-      duration: 1000,
+      duration: "21-10-2031",
       workstation: "Gardener",
       solitary: false.toString(),
     },
@@ -41,7 +47,7 @@ function PrisionersList() {
       name: "Soralexina",
       birthdate: "10-06-2001",
       sentence: "21-10-2021",
-      duration: 1000,
+      duration: "21-10-2031",
       workstation: "Worker",
       solitary: false.toString(),
     },
@@ -50,7 +56,7 @@ function PrisionersList() {
       name: "MancoGordo",
       birthdate: "10-06-2001",
       sentence: "21-10-2021",
-      duration: 1000,
+      duration: "21-10-2031",
       workstation: "Estiador",
       solitary: true.toString(),
     },
@@ -59,7 +65,7 @@ function PrisionersList() {
       name: "PP_segundo",
       birthdate: "10-06-2001",
       sentence: "21-10-2021",
-      duration: 1000,
+      duration: "21-10-2031",
       workstation: "Ser lindo",
       solitary: false.toString(),
     },
@@ -70,7 +76,7 @@ function PrisionersList() {
     { key: 2, title: "Name", dataIndex: "name" },
     { key: 3, title: "Birthdate", dataIndex: "birthdate" },
     { key: 4, title: "Sentece Start", dataIndex: "sentence" },
-    { key: 5, title: "Duration (Days?)", dataIndex: "duration" },
+    { key: 5, title: "Sentence End", dataIndex: "duration" },
     { key: 6, title: "Workstation", dataIndex: "workstation" },
     { key: 7, title: "Solitary", dataIndex: "solitary" },
 
@@ -78,9 +84,15 @@ function PrisionersList() {
       key: 8,
       title: "Actions",
       render: (record) => {
+        // console.log(record.id)
         return (
           <>
-            {" "}
+            <EyeOutlined
+              onClick={() => {
+                navigate("/prisioners/" + record.id)
+              }}
+              style={{ color: "blue", marginLeft: 12 }}
+            />
             <EditOutlined
               onClick={() => {
                 onEditPrisioner(record);
@@ -141,7 +153,11 @@ function PrisionersList() {
 
   return (
     <div>
-      <Table columns={columns} dataSource={dataSource} pagination={{defaultPageSize: 14}}></Table>
+      <Table
+        columns={columns}
+        dataSource={dataSource}
+        pagination={{ defaultPageSize: 14 }}
+      ></Table>
       <Button
         onClick={onAddPrisioner}
         shape={"round"}
@@ -164,8 +180,8 @@ function PrisionersList() {
               editingPrisioner.solitary === "true" ||
               editingPrisioner.solitary === "false"
             ) {
-            //   editingPrisioner.solitary = editingPrisioner.solitary === "true";
-            //   console.log(editingPrisioner.solitary.type())
+              //   editingPrisioner.solitary = editingPrisioner.solitary === "true";
+              //   console.log(editingPrisioner.solitary.type())
               return pre.map((prisioner) => {
                 if (prisioner.id === editingPrisioner.id) {
                   return editingPrisioner;

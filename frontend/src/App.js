@@ -106,6 +106,7 @@ function Content() {
         ></Route>
         <Route path="/userlist" element={<div>User List</div>}></Route>
         <Route path="/prisioners" element={<PrisionersList />}></Route>
+        <Route path="/prisioners/:id" element={<Profile />}></Route>
         <Route
           path="/guards"
           element={

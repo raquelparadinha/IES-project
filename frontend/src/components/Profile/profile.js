@@ -1,10 +1,12 @@
-import { Card, Col, Row, Space, Timeline } from "antd";
+import { Card, Col, Row } from "antd";
 import React from "react";
 import { useState } from "react";
+import { useParams } from "react-router";
 import TheAvatar from "./Avatar/avatar";
 import prisioner_info from "./prisioner_info/prisioner_info";
 import timeline_prisioner from "./timeline/timeline";
 
+let url_params;
 const tabList = [
   {
     key: "prisioner_info",
@@ -15,12 +17,15 @@ const tabList = [
     tab: "Timeline",
   },
 ];
-const contentList = {
-  prisioner_info: prisioner_info(),
-  timeline: timeline_prisioner(),
-};
 
-const Profile = () => {
+function Profile() {
+  url_params = useParams();
+  console.log(url_params.id);
+  const contentList = {
+    prisioner_info: prisioner_info(url_params.id),
+    timeline: timeline_prisioner(),
+  };
+
   const [activeTabKey1, setActiveTabKey1] = useState("prisioner_info");
   const onTab1Change = (key) => {
     setActiveTabKey1(key);
@@ -60,5 +65,5 @@ const Profile = () => {
       </Card>
     </div>
   );
-};
+}
 export default Profile;
