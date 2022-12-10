@@ -20,8 +20,6 @@ import ies.grupo51.lockedin.auth.security.services.UserDetailsServiceImpl;
 
 @Configuration
 @EnableMethodSecurity(
-		// securedEnabled = true,
-		// jsr250Enabled = true,
 		prePostEnabled = true)
 public class WebSecurityConfig { 
 	@Autowired
@@ -63,8 +61,6 @@ public class WebSecurityConfig {
 
         .authorizeHttpRequests().requestMatchers("/api/auth/**").permitAll()
         .requestMatchers("/api/test/**").permitAll()
-        // .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-        // .antMatchers("/api/test/**").permitAll()
         
         .anyRequest().authenticated();
     

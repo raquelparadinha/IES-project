@@ -1,6 +1,5 @@
 package ies.grupo51.lockedin.models;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -13,9 +12,9 @@ public class Inmate {
     private long id;
 
     private String name;
-    private Date birthdate;
-    private Date entryDate;
-    private Date sentenceEnd;
+    private String birthdate;
+    private String entryDate;
+    private String sentenceEnd;
     private Boolean solitary;
     private long workstationId;
     private long healthLogId;
@@ -28,7 +27,7 @@ public class Inmate {
         this.id = 0;
     }
 
-    public Inmate (long id, String name, Date birthdate, Date entryDate, Date sentenceEnd, Boolean solitary, long workstationId, long healthLogId, List<Long> moveLogIds, List<Long> workLogIds) {
+    public Inmate (long id, String name, String birthdate, String entryDate, String sentenceEnd, Boolean solitary, long workstationId, long healthLogId, List<Long> moveLogIds, List<Long> workLogIds) {
         this.id = id;
         this.name = name;
         this.birthdate = birthdate;
@@ -46,13 +45,13 @@ public class Inmate {
     public void setName(String name) {
         this.name = name;
     }
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
     public static void setCounter(long counter) {
         Inmate.counter = counter;
     }
-    public void setEntryDate(Date entryDate) {
+    public void setEntryDate(String entryDate) {
         this.entryDate = entryDate;
     }
     public void setHealthLogId(long healthLogId) {
@@ -64,7 +63,7 @@ public class Inmate {
     public void setMoveLogIds(List<Long> moveLogIds) {
         this.moveLogIds = moveLogIds;
     }
-    public void setSentenceEnd(Date sentenceEnd) {
+    public void setSentenceEnd(String sentenceEnd) {
         this.sentenceEnd = sentenceEnd;
     }
     public void setSolitary(Boolean solitary) {
@@ -79,13 +78,13 @@ public class Inmate {
 
     // GETS
     
-    public Date getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
     public static long getCounter() {
         return counter;
     }
-    public Date getEntryDate() {
+    public String getEntryDate() {
         return entryDate;
     }
     public long getHealthLogId() {
@@ -100,7 +99,7 @@ public class Inmate {
     public String getName() {
         return name;
     }
-    public Date getSentenceEnd() {
+    public String getSentenceEnd() {
         return sentenceEnd;
     }
     public Boolean getSolitary() {
@@ -125,7 +124,7 @@ public class Inmate {
     @Override
     public String toString() {
         return String.format(
-            "Inmate [ID: %s, Name: %s, Birth Date: %s, Entry Date: %s, Sentence End: %d, Solitary Confinement: %s, Workstation ID: $d]", 
+            "Inmate [ID: %s, Name: %s, Birth String: %s, Entry String: %s, Sentence End: %d, Solitary Confinement: %s, Workstation ID: $d]", 
             this.id, this.name, this.birthdate.toString(), this.entryDate.toString(), this.sentenceEnd.toString(), this.solitary?"YES":"NO", this.workstationId);
     }
 }

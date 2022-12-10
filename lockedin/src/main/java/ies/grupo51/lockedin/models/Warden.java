@@ -1,7 +1,5 @@
 package ies.grupo51.lockedin.models;
 
-
-import java.util.Date;
 import java.util.HashSet;
 // import java.util.HashSet;
 // import java.util.Set;
@@ -10,14 +8,12 @@ import java.util.Set;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import ies.grupo51.lockedin.repositories.RoleRepository;
-
-// import ies.grupo51.lockedin.models.ERole;
-// import ies.grupo51.lockedin.repositories.RoleRepository;
+import ies.grupo51.lockedin.services.RoleService;
 
 @Document("warden")
 public class Warden {
@@ -30,7 +26,7 @@ public class Warden {
     @Email
     private String email;
     private String phone;
-    private Date birthdate;
+    private String birthdate;
     @NotBlank
     private String password;
 
@@ -39,27 +35,33 @@ public class Warden {
 
     private static long counter = 0;
 
+    @Autowired
+    private RoleService service;
+
     public Warden() {
         this.id = 0;
+        Role userRole = service.findRole(ERole.ROLE_USER);
+		this.roles.add(userRole);
+        Role adminRole = service.findRole(ERole.ROLE_ADMIN);
+		this.roles.add(adminRole);
     }
 
-    public Warden(long id, String name, String email, String phone, Date birthdate, String password) {
+    public Warden(long id, String name, String email, String phone, String birthdate, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.birthdate = birthdate;
         this.password = password;
-        Role userRole = RoleRepository.findByName(ERole.ROLE_USER);
+        Role userRole = service.findRole(ERole.ROLE_USER);
 		this.roles.add(userRole);
-        Role adminRole = RoleRepository.findByName(ERole.ROLE_ADMIN)
-				.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        Role adminRole = service.findRole(ERole.ROLE_ADMIN);
 		this.roles.add(adminRole);
     }
 
     // SETS
     
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
     public static void setCounter(long counter) {
@@ -86,7 +88,7 @@ public class Warden {
 
     // GETS
 
-    public Date getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
     public static long getCounter() {
@@ -114,7 +116,7 @@ public class Warden {
     @Override
     public String toString() {
         return String.format(
-            "Warden [ID: %d, Name: %s, Email: %s, Phone: %s, Birth Date: %s]", 
+            "Warden [ID: %d, Name: %s, Email: %s, Phone: %s, Birth String: %s]", 
             this.id, this.name, this.email, this.phone, this.birthdate.toString());
     }
 }
