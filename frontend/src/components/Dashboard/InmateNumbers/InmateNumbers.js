@@ -1,6 +1,7 @@
 import { Card, Col, Space } from "antd";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { LoadingOutlined } from "@ant-design/icons";
 
 function InmateNumbers() {
   const [dataSource, setDataSource] = useState();
@@ -19,9 +20,6 @@ function InmateNumbers() {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
-  if (dataSource !== undefined) {
-    console.log(dataSource);
-  }
 
   function SeeIfUndfined() {
     if (dataSource !== undefined) {
@@ -32,6 +30,12 @@ function InmateNumbers() {
           </p>
         </>
       ));
+    } else {
+      return (
+        <div>
+          <LoadingOutlined />
+        </div>
+      );
     }
   }
   return (
@@ -43,7 +47,11 @@ function InmateNumbers() {
           <br />
           <Card
             title="Areas"
-            style={{ textAlign: "center", alignItems: "center", width: "270px" }}
+            style={{
+              textAlign: "center",
+              alignItems: "center",
+              width: "270px",
+            }}
           >
             {SeeIfUndfined()}
             {/* <p>Entrance: 12 / 100</p>
