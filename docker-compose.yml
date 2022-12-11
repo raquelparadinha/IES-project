@@ -1,7 +1,7 @@
 version: "3.8"
 # volumes:
 #   datafiles:
-  
+
 services:
   mongodb:
     image: mongo:latest
@@ -11,7 +11,7 @@ services:
     ports:
       - 27017:27017
 
-    ## AINDA NAO ENTENDI MUITO BEM ESTA CENA DOS USERS 
+    ## AINDA NAO ENTENDI MUITO BEM ESTA CENA DOS USERS
     ## SE USARMOS ISTO DEMOS DE USAR AUTENTICAÇAO PARA PEDIR À DB
     # environment:
     #   - MONGO_INITDB_ROOT_USERNAME=root
@@ -45,7 +45,6 @@ services:
   #   networks:
   #     - main-network
 
-
   web:
     build: ./lockedin
     image: lockedin
@@ -59,7 +58,7 @@ services:
     environment:
       - SERVER_PORT=8080
       - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_APPLICATION_NAME=lockedin  
+      - SPRING_APPLICATION_NAME=lockedin
       - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=lockedin
       - SPRING_DATA_MONGODB_AUTO_INDEX_CREATION=true
       - SPRING_DATA_MONGODB_HOST=mongodb
@@ -72,16 +71,16 @@ services:
     networks:
       - main-network
 
-  # reactclient:
-  #   build: ./frontend
-  #   container_name: reactclient
-  #   ports:
-  #     - 3001:3000
-  #   stdin_open: true
-  #   depends_on:
-  #     - web
-  #   restart: unless-stopped
-  #   image: lockedin-frontend
+  reactclient:
+    build: ./frontend
+    container_name: reactclient
+    ports:
+      - 3001:3000
+    stdin_open: true
+    depends_on:
+      - web
+    restart: unless-stopped
+    image: lockedin-frontend
 
 networks:
   main-network:
