@@ -125,7 +125,7 @@ public class Inmate {
     @Override
     public String toString() {
         return String.format(
-            "Inmate [ID: %s, Name: %s, Birth Date: %s, Entry Date: %s, Sentence End: %d, Solitary Confinement: %s, Workstation ID: $d]", 
+            "Inmate [ID: %s, Name: %s, Birth Date: %s, Entry Date: %s, Sentence End: %s, Solitary Confinement: %s, Workstation ID: $d]", 
             this.id, this.name, this.birthDate.toString(), this.entryDate.toString(), this.sentenceEnd.toString(), this.solitary?"YES":"NO", this.workstationId);
     }
 }

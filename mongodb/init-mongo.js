@@ -21,17 +21,17 @@ db.createUser(
 
 db.createCollection('area');
 
-db.area.insertOne({_id:1,name:'entrance',capacity:20,access:true});
-db.area.insertOne({_id:2,name:'visitorwing',capacity:20,access:true});
-db.area.insertOne({_id:3,name:'staffwing',capacity:30,access:true});
-db.area.insertOne({_id:4,name:'jobwing',capacity:30,access:true});
-db.area.insertOne({_id:5,name:'patio',capacity:300,access:true});
-db.area.insertOne({_id:6,name:'infirmary',capacity:15,access:true});
-db.area.insertOne({_id:7,name:'cellblock1',capacity:200,access:true});
-db.area.insertOne({_id:8,name:'cellblock2',capacity:150,access:true});
-db.area.insertOne({_id:9,name:'showers',capacity:100,access:true});
-db.area.insertOne({_id:10,name:'solitary',capacity:30,access:true});
-db.area.insertOne({_id:11,name:'canteen',capacity:270,access:true});
+db.area.insertOne({_id:1,name:'entrance',capacity:20,access:true,currentInmatesIds:[]});
+db.area.insertOne({_id:2,name:'visitorwing',capacity:20,access:true,currentInmatesIds:[]});
+db.area.insertOne({_id:3,name:'staffwing',capacity:30,access:true,currentInmatesIds:[]});
+db.area.insertOne({_id:4,name:'jobwing',capacity:30,access:true,currentInmatesIds:[]});
+db.area.insertOne({_id:5,name:'patio',capacity:300,access:true,currentInmatesIds:[]});
+db.area.insertOne({_id:6,name:'infirmary',capacity:15,access:true,currentInmatesIds:[]});
+db.area.insertOne({_id:7,name:'cellblock1',capacity:200,access:true,currentInmatesIds:[]});
+db.area.insertOne({_id:8,name:'cellblock2',capacity:150,access:true,currentInmatesIds:[]});
+db.area.insertOne({_id:9,name:'showers',capacity:100,access:true,currentInmatesIds:[]});
+db.area.insertOne({_id:10,name:'solitary',capacity:30,access:true,currentInmatesIds:[]});
+db.area.insertOne({_id:11,name:'canteen',capacity:270,access:true,currentInmatesIds:[]});
 
 db.createCollection('guard');
 
