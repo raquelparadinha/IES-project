@@ -13,7 +13,7 @@ public class LoginRequest {
 		return email;
 	}
 
-	public void setUEmail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
