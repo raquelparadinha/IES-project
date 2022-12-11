@@ -7,21 +7,30 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ies.grupo51.lockedin.auth.models.User;
-import ies.grupo51.lockedin.auth.repositories.UserRepository;
+import ies.grupo51.lockedin.models.Guard;
+import ies.grupo51.lockedin.models.Warden;
+import ies.grupo51.lockedin.repositories.GuardRepository;
+import ies.grupo51.lockedin.repositories.WardenRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
-	UserRepository userRepository;
+	GuardRepository guardRepository;
+
+	@Autowired
+	WardenRepository wardenRepository;
 
 	@Override
 	@Transactional
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUsername(username)
-				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
-
-		return UserDetailsImpl.build(user);
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		try {
+			Guard user = guardRepository.findByEmail(email);
+			return UserDetailsImpl.build(user);
+		} catch (Exception e) {
+			Warden user = wardenRepository.findByEmail(email)
+					.orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + email));;
+			return UserDetailsImpl.build(user);
+		} 
 	}
 
 }

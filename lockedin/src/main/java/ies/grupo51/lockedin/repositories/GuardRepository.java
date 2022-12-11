@@ -7,5 +7,7 @@ import ies.grupo51.lockedin.models.Guard;
 
 @Repository
 public interface GuardRepository extends MongoRepository <Guard, Long> {
-    
+    Boolean existsByEmail(String email);
+
+    Guard findByEmail(String email);
 }

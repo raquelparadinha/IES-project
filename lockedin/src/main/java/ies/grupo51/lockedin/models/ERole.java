@@ -1,4 +1,4 @@
-package ies.grupo51.lockedin.auth.models;
+package ies.grupo51.lockedin.models;
 
 public enum ERole {
     ROLE_USER,
