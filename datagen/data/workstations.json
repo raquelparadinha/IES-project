@@ -1,52 +1,5 @@
-[
-  {
-    "id": 1,
-    "name": "mail_sorting",
-    "listings": 10,
-    "workvalues": {
-      "minimum": 18,
-      "maximum": 60,
-      "expected": 25
-    }
-  },
-  {
-    "id": 2,
-    "name": "carpentry",
-    "listings": 5,
-    "workvalues": {
-      "minimum": 2,
-      "maximum": 10,
-      "expected": 4
-    }
-  },
-  {
-    "id": 3,
-    "name": "waste_disposal",
-    "listings": 8,
-    "workvalues": {
-      "minimum": 20,
-      "maximum": 40,
-      "expected": 25
-    }
-  },
-  {
-    "id": 4,
-    "name": "janitor",
-    "listings": 10,
-    "workvalues": {
-      "minimum": 5,
-      "maximum": 15,
-      "expected": 8
-    }
-  },
-  {
-    "id": 5,
-    "name": "gardening",
-    "listings": 3,
-    "workvalues": {
-      "minimum": 5,
-      "maximum": 10,
-      "expected": 6
-    }
-  }
-]
+[{"id":1,"name":"mail_sorting","description":"mail_sorting","capacity":10,"currentWorkerIds":[],"expectedQuota":16},
+{"id":2,"name":"carpentry","description":"carpentry","capacity":5,"currentWorkerIds":[],"expectedQuota":25},
+{"id":3,"name":"waste_disposal","description":"waste_disposal","capacity":8,"currentWorkerIds":[],"expectedQuota":25},
+{"id":4,"name":"janitor","description":"janitor","capacity":10,"currentWorkerIds":[],"expectedQuota":30},
+{"id":5,"name":"gardening","description":"gardening","capacity":3,"currentWorkerIds":[],"expectedQuota":20}]
