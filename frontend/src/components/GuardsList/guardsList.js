@@ -92,7 +92,7 @@ function GuardsList() {
   };
   const onDeletePrisioner = (record) => {
     Modal.confirm({
-      title: "You REALLY want to delete this priosioner?",
+      title: "You REALLY want to delete this prisioner?",
       okText: "Yes",
       okType: "danger",
       cancelText: "No",

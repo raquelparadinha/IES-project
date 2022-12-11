@@ -26,7 +26,7 @@ function App() {
   const fetchData = () => {
     try {
       return axios
-        .get("http://localhost:5001/api/guard/")
+        .get("http://localhost:5001/api/area/")
         .then((response) => setDataSource(response.data));
     } catch {
       console.log("Deu pylance");
