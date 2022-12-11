@@ -1,7 +1,7 @@
 import "antd/dist/reset.css";
 import "./App.css";
-import { Menu, Breadcrumb } from "antd";
-import { Route, Routes, useNavigate, Navigate, Link } from "react-router-dom";
+import { Menu } from "antd";
+import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import {
   DashboardOutlined,
   UnorderedListOutlined,
@@ -10,7 +10,7 @@ import {
   LoginOutlined,
   NotificationOutlined,
 } from "@ant-design/icons/lib/icons";
-import Logo from "./images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
+//import Logo from "./images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
 import PrisionersList from "./components/prisionersList/prisionersList";
 import Login from "./components/Login/Login";
 import { Logged, SetLogged } from "./components/Login/Login";
@@ -18,15 +18,19 @@ import Dashboard from "./components/Dashboard/dashboard";
 import GuardsList from "./components/GuardsList/guardsList";
 import Notifications from "./components/Notifications/notifications";
 import Profile from "./components/Profile/profile";
-import { useState, useEffect, setIterval } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 function App() {
   const [dataSource, setDataSource] = useState();
   const fetchData = () => {
-    return axios
-      .get("http://localhost:5001/api/guard/")
-      .then((response) => setDataSource(response.data));
+    try {
+      return axios
+        .get("http://localhost:5001/api/guard/")
+        .then((response) => setDataSource(response.data));
+    } catch {
+      console.log("Deu pylance");
+    }
   };
   useEffect(() => {
     const interval = setInterval(() => {
