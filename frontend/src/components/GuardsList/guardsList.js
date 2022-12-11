@@ -27,7 +27,7 @@ function GuardsList() {
   };
 
   const [dataSource, setDataSource] = useState();
-  const fetchData = () => {
+  const fetchData = async () => {
     return axios
       .get("http://localhost:5001/api/guard/")
       .then((response) => setDataSource(response.data));

@@ -1,7 +1,7 @@
 import "antd/dist/reset.css";
 import "./App.css";
-import { Menu } from "antd";
-import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
+import { Menu, Breadcrumb } from "antd";
+import { Route, Routes, useNavigate, Navigate, Link } from "react-router-dom";
 import {
   DashboardOutlined,
   UnorderedListOutlined,
@@ -18,8 +18,23 @@ import Dashboard from "./components/Dashboard/dashboard";
 import GuardsList from "./components/GuardsList/guardsList";
 import Notifications from "./components/Notifications/notifications";
 import Profile from "./components/Profile/profile";
+import { useState, useEffect, setIterval } from "react";
+import axios from "axios";
 
 function App() {
+  const [dataSource, setDataSource] = useState();
+  const fetchData = () => {
+    return axios
+      .get("http://localhost:5001/api/guard/")
+      .then((response) => setDataSource(response.data));
+  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData();
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+  console.log(dataSource);
   return (
     <div
       style={{
@@ -34,41 +49,41 @@ function App() {
   );
 }
 
-export function Header() {
-  return (
-    <div
-      style={{
-        height: 60,
-        backgroundColor: "orange",
-        color: "black",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        fontWeight: "bold",
-      }}
-    >
-      <img src={Logo} alt="logo" style={{ height: "100%" }} />
-    </div>
-  );
-}
+// export function Header() {
+//   return (
+//     <div
+//       style={{
+//         height: 60,
+//         backgroundColor: "orange",
+//         color: "black",
+//         display: "flex",
+//         justifyContent: "center",
+//         alignItems: "center",
+//         fontWeight: "bold",
+//       }}
+//     >
+//       <img src={Logo} alt="logo" style={{ height: "100%" }} />
+//     </div>
+//   );
+// }
 
-export function Footer() {
-  return (
-    <div
-      style={{
-        height: 60,
-        backgroundColor: "orange",
-        color: "black",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        fontWeight: "bold",
-      }}
-    >
-      Footer
-    </div>
-  );
-}
+// export function Footer() {
+//   return (
+//     <div
+//       style={{
+//         height: 60,
+//         backgroundColor: "orange",
+//         color: "black",
+//         display: "flex",
+//         justifyContent: "center",
+//         alignItems: "center",
+//         fontWeight: "bold",
+//       }}
+//     >
+//       Footer
+//     </div>
+//   );
+// }
 
 export function SideMenu() {
   const navigate = useNavigate();
@@ -91,9 +106,38 @@ export function SideMenu() {
   );
 }
 
+// const BreadCrumb = () => {
+//   const breadCrumbView = () => {
+//     const pathname = window.location.pathname;
+//     console.log(pathname)
+//     const pathnames = pathname.split("/").filter((item) => item);
+//     const capatilize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+//     return (
+//       <div>
+//         <Breadcrumb>
+//           {pathnames.map((name, index) => {
+//             const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
+//             const isLast = index === pathnames.length - 1;
+//             return isLast ? (
+//               <Breadcrumb.Item>{capatilize(name)}</Breadcrumb.Item>
+//             ) : (
+//               <Breadcrumb.Item>
+//                 <Link to={`${routeTo}`}>{capatilize(name)}</Link>
+//               </Breadcrumb.Item>
+//             );
+//           })}
+//         </Breadcrumb>
+//       </div>
+//     );
+//   };
+
+//   return <>{breadCrumbView()}</>;
+// };
+
 function Content() {
   return (
     <div style={{ width: "100%" }}>
+      {/* <BreadCrumb /> */}
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" />}></Route>
         <Route
