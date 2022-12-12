@@ -1,5 +1,7 @@
 package ies.grupo51.lockedin.models;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,6 +14,7 @@ public class Area {
     private String name;
     private int capacity;
     private Boolean access;
+    private List<Long> currentInmateIds;
 
     private static long counter = 0;
 
@@ -20,11 +23,12 @@ public class Area {
         this.id = 0;
     }
 
-    public Area(long id, String name, int capacity, Boolean access) {
+    public Area(long id, String name, int capacity, Boolean access, List<Long> currentInmateIds) {
         this.id = id;
         this.name = name;
         this.capacity = capacity;
         this.access = access;
+        this.currentInmateIds = currentInmateIds;
     }
 
     // SETS
@@ -44,6 +48,9 @@ public class Area {
     public void setId(long id) {
         this.id = id;
     }
+    public void setCurrentInmateIds(List<Long> currentInmateIds) {
+        this.currentInmateIds = currentInmateIds;
+    }
 
     // GETS
 
@@ -61,6 +68,9 @@ public class Area {
     }
     public Boolean getAccess() {
         return access;
+    }
+    public List<Long> getCurrentInmateIds() {
+        return currentInmateIds;
     }
 
     @Override

@@ -38,7 +38,7 @@ public class InmateService {
         if (existingInmate == null){ return null; }
         
         existingInmate.setName(inmate.getName());
-        existingInmate.setBirthdate(inmate.getBirthdate());
+        existingInmate.setBirthDate(inmate.getBirthDate());
         existingInmate.setSolitary(inmate.getSolitary());
         existingInmate.setEntryDate(inmate.getEntryDate());
         existingInmate.setWorkLogIds(inmate.getWorkLogIds());
