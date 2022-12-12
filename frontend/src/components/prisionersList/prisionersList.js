@@ -1,10 +1,11 @@
-import { Button, Modal, Table, Input, Space } from "antd";
-import { useState } from "react";
+import { Button, Modal, Table, Input, Space, Checkbox } from "antd";
+import { useState, useEffect } from "react";
 import {
   DeleteOutlined,
   EditOutlined,
   EyeOutlined,
 } from "@ant-design/icons/lib/icons";
+import axios from "axios";
 import { useNavigate } from "react-router";
 
 function PrisionersList() {
@@ -29,59 +30,34 @@ function PrisionersList() {
       modal.destroy();
     }, secondsToGo * 1000);
   };
+
+  const [dataSource, setDataSource] = useState();
+  const fetchData = () => {
+    console.log("dataaa");
+    return axios
+      .get("http://localhost:5001/api/inmate")
+      .then((response) => setDataSource(response.data));
+  };
+
+  useEffect(() => {
+    setInterval(fetchData(), 300000); // The function will be called
+  }, []);
+
   const navigate = useNavigate();
   const [isEditing, setisEditing] = useState(false);
   const [editingPrisioner, setEditingPrisioner] = useState(null);
-  const [dataSource, setDataSource] = useState([
-    {
-      id: 1,
-      name: "Pareidreds",
-      birthdate: "10-06-2001",
-      sentence: "21-10-2021",
-      duration: "21-10-2031",
-      workstation: "Gardener",
-      solitary: false.toString(),
-    },
-    {
-      id: 2,
-      name: "Soralexina",
-      birthdate: "10-06-2001",
-      sentence: "21-10-2021",
-      duration: "21-10-2031",
-      workstation: "Worker",
-      solitary: false.toString(),
-    },
-    {
-      id: 3,
-      name: "MancoGordo",
-      birthdate: "10-06-2001",
-      sentence: "21-10-2021",
-      duration: "21-10-2031",
-      workstation: "Estiador",
-      solitary: true.toString(),
-    },
-    {
-      id: 4,
-      name: "PP_segundo",
-      birthdate: "10-06-2001",
-      sentence: "21-10-2021",
-      duration: "21-10-2031",
-      workstation: "Ser lindo",
-      solitary: false.toString(),
-    },
-  ]);
+  //console.log(dataSource);
   const columns = [
     // prisioner main traits
     { key: 1, title: "ID", dataIndex: "id" },
     { key: 2, title: "Name", dataIndex: "name" },
-    { key: 3, title: "Birthdate", dataIndex: "birthdate" },
-    { key: 4, title: "Sentece Start", dataIndex: "sentence" },
-    { key: 5, title: "Sentence End", dataIndex: "duration" },
-    { key: 6, title: "Workstation", dataIndex: "workstation" },
-    { key: 7, title: "Solitary", dataIndex: "solitary" },
+    { key: 3, title: "Birthdate", dataIndex: "birthDate" },
+    { key: 4, title: "Sentece Start", dataIndex: "entryDate" },
+    { key: 5, title: "Sentence End", dataIndex: "sentenceEnd" },
+    { key: 6, title: "Workstation", dataIndex: "workstationId" },
 
     {
-      key: 8,
+      key: 7,
       title: "Actions",
       render: (record) => {
         // console.log(record.id)
@@ -89,7 +65,7 @@ function PrisionersList() {
           <>
             <EyeOutlined
               onClick={() => {
-                navigate("/prisioners/" + record.id)
+                navigate("/prisioners/" + record.id);
               }}
               style={{ color: "blue", marginLeft: 12 }}
             />
@@ -168,7 +144,7 @@ function PrisionersList() {
       </Button>
       <Modal
         title="Edit Prisioner"
-        visible={isEditing}
+        open={isEditing}
         okText="Save"
         okType="primary"
         onCancel={() => {
@@ -176,12 +152,7 @@ function PrisionersList() {
         }}
         onOk={() => {
           setDataSource((pre) => {
-            if (
-              editingPrisioner.solitary === "true" ||
-              editingPrisioner.solitary === "false"
-            ) {
-              //   editingPrisioner.solitary = editingPrisioner.solitary === "true";
-              //   console.log(editingPrisioner.solitary.type())
+            if (true) {
               return pre.map((prisioner) => {
                 if (prisioner.id === editingPrisioner.id) {
                   return editingPrisioner;
@@ -197,7 +168,6 @@ function PrisionersList() {
           ResetEditing();
         }}
       >
-        {" "}
         <Space direction="vertical" style={{ width: "100%", height: "100%" }}>
           <Input
             addonBefore="Name"
@@ -209,47 +179,39 @@ function PrisionersList() {
             }}
           />
           <Input
-            addonBefore="Birthdate"
-            value={editingPrisioner?.birthdate}
-            onChange={(e) => {
-              setEditingPrisioner((pre) => {
-                return { ...pre, birthdate: e.target.value };
-              });
-            }}
-          />
-          <Input
             addonBefore="Sentence Start"
-            value={editingPrisioner?.sentence}
+            value={editingPrisioner?.entryDate.split("T")[0]}
             onChange={(e) => {
               setEditingPrisioner((pre) => {
                 return { ...pre, sentence: e.target.value };
               });
             }}
           />
+
           <Input
-            addonBefore="Duration"
-            value={editingPrisioner?.duration}
+            addonBefore="Sentence End"
+            value={editingPrisioner?.sentenceEnd.split("T")[0]}
             onChange={(e) => {
               setEditingPrisioner((pre) => {
-                return { ...pre, duration: e.target.value };
+                return { ...pre, sentenceEnd: e.target.value };
               });
             }}
           />
           <Input
             addonBefore="Workstation"
-            value={editingPrisioner?.workstation}
+            value={editingPrisioner?.workstationId}
             onChange={(e) => {
               setEditingPrisioner((pre) => {
-                return { ...pre, workstation: e.target.value };
+                return { ...pre, workstationId: e.target.value };
               });
             }}
           />
-          <Input
+          <Checkbox
+            checked={editingPrisioner?.solitary}
             addonBefore="Solitary"
-            value={editingPrisioner?.solitary}
             onChange={(e) => {
               setEditingPrisioner((pre) => {
-                return { ...pre, solitary: e.target.value.toLowerCase() };
+                return { ...pre, solitary: e.target.checked };
               });
             }}
           />

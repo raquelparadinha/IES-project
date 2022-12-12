@@ -32,19 +32,24 @@ function GuardsList() {
   };
 
   const [dataSource, setDataSource] = useState();
-  const fetchData = async () => {
+  const fetchData = () => {
     return axios
-      .get("http://localhost:5001/api/guard/")
+      .get("http://localhost:5001/api/guard")
       .then((response) => setDataSource(response.data));
   };
 
   useEffect(() => {
-    fetchData();
+    setInterval(() => {
+      (() => {
+        fetchData();
+      })();
+    }, 30000);
   }, []);
 
   const navigate = useNavigate();
   const [isEditing, setisEditing] = useState(false);
   const [editingGuard, setEditingGuard] = useState(null);
+
   const columns = [
     // guard main traits
     { key: 1, title: "ID", dataIndex: "id" },
