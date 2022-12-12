@@ -45,6 +45,12 @@ class Simulator():
 
             exit(1)
 
+        # print(layoutf)
+        # print(sensorf)
+        # print(workstationsf)
+        # print(healthf)
+        # print(inmatesf)
+
         # init locations
         self.locations = []
         for i in layoutf:
@@ -52,15 +58,14 @@ class Simulator():
             name = i['name']
             capacity = i['capacity']
             access = i['access']
-            connections = i['connections']
-            self.locations.append(Location(id, name, access, capacity, connections))
+            self.locations.append(Location(id, name, access, capacity))
 
         # init sensors
         self.sensors = []
         for i in sensorf:
-            id = i['id']
-            entry = i['entryAreaId']
-            out = i['exitAreaId']
+            id = i['_id']
+            entry = [l for l in self.locations if l.id == i['entryAreaId']][0]
+            out = [l for l in self.locations if l.id == i['exitAreaId']][0]
             active = i['active']
             self.sensors.append(Sensor(id, entry, out, active))
 
@@ -74,25 +79,30 @@ class Simulator():
         # init workstations
         self.workstations = []
         for i in workstationsf:
-            id = i['id']
+            id = i['_id']
             name = i['name']
-            listings = i['listings']
-            workvalues = i['workvalues']
-            self.workstations.append(Workstation(id, name, listings, workvalues["minimum"], workvalues["maximum"], workvalues["expected"]))
+            listings = i['capacity']
+            self.workstations.append(Workstation(id, name, listings))
 
         # init inamtes
         self.inmates = []
         possibleblocks = [l for l in self.locations if l.id in [7, 8]]
         for i in inmatesf:
-            id = i['id']
+            id = i['_id']
             startlocation = possibleblocks[randint(1, len(possibleblocks)) - 1]
             self.inmates.append(Inmate(id, startlocation))
 
-        #for l in self.locations: print(l)
-        #for s in self.sensors: print(s)
-        #for hv in self.healthvalues: print(hv)
-        #for w in self.workstations: print(w)
-        #for i in self.inmates: print(i)
+        # print(self.locations)
+        # print(self.sensors)
+        # print(self.healthvalues)
+        # print(self.workstations)
+        # print(self.inmates)
+
+        # for l in self.locations: print(l)
+        # for s in self.sensors: print(s)
+        # for hv in self.healthvalues: print(hv)
+        # for w in self.workstations: print(w)
+        # for i in self.inmates: print(i)
 
     def moveInmate(self):
         inmateidx = randint(1, len(self.inmates)) - 1
@@ -111,14 +121,9 @@ class Simulator():
 
         return healthcheck
 
-    def workstationApply(self):
-        available = [w for w in self.workstations if len(w.workers) < w.listings]
-        workstationidx = randint(1, len(available)) - 1
-        
-        return self.workstations[workstationidx]
-
     def workstationWork(self, inmate):
-        workstation = inmate.workstation
-        workquota = randint(workstation.minimum, workstation.maximum)
+        workstationidx = randint(1, len(self.workstations)) - 1
+        workstation = self.workstations[workstationidx]
+        workquota = randint(0, 100)
         
         return workquota

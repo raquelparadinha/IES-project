@@ -22,14 +22,11 @@ class Sensor():
         return 's[in: {}, out: {}, act: {}]'.format(self.entry.name, self.exit.name, active)
 
 class Workstation():
-    def __init__(self, id: int, name: str, listings: int, minimum: int, maximum: int, expected: int):
+    def __init__(self, id: int, name: str, listings: int):
 
         self.id = id
         self.name = name
         self.listings = listings
-        self.minimum = minimum
-        self.maximum = maximum
-        self.expected = expected
 
         self.workers = {}
 
