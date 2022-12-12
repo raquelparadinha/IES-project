@@ -1,4 +1,13 @@
-import { Button, Modal, Table, Input, Space, Checkbox, DatePicker } from "antd";
+import {
+  Button,
+  Modal,
+  Table,
+  Input,
+  Space,
+  Checkbox,
+  DatePicker,
+  Form,
+} from "antd";
 import { useState, useEffect } from "react";
 import {
   DeleteOutlined,
@@ -51,6 +60,7 @@ function PrisionersList() {
 
   const navigate = useNavigate();
   const [isEditing, setisEditing] = useState(false);
+  const [isAdding, setisAdding] = useState(false);
   const [editingPrisioner, setEditingPrisioner] = useState(null);
   //console.log(dataSource);
   const columns = [
@@ -92,24 +102,6 @@ function PrisionersList() {
       },
     },
   ];
-
-  const onAddPrisioner = (new_prisioner) => {
-    // Aqui para fazer os adds de novo prisioneiro, está estatico aqui
-
-    try {
-      axios.put(
-        "http://localhost:5001/api/inmate/" + Edited_prisioner.id,
-        Edited_prisioner
-      );
-    } catch (error) {
-      console.log("Deu pylance");
-      return false;
-    }
-    return true;
-    setDataSource((pre) => {
-      return [...pre, newPrisioner];
-    });
-  };
   const onDeletePrisioner = (record) => {
     Modal.confirm({
       title: "You REALLY want to delete this priosioner?",
@@ -123,15 +115,24 @@ function PrisionersList() {
       },
     });
   };
+
   const onEditPrisioner = (record) => {
     setisEditing(true);
     // ... para fazer copia, tendi nada
     setEditingPrisioner({ ...record });
   };
 
+  const onAddPrisioner = () => {
+    setisAdding(true);
+  };
+
   const ResetEditing = () => {
     setisEditing(false);
     setEditingPrisioner(null);
+  };
+
+  const ResetAdding = () => {
+    setisAdding(false);
   };
 
   function editPrisioner(Edited_prisioner) {
@@ -149,6 +150,23 @@ function PrisionersList() {
     return true;
   }
 
+  const AddPrisioner = (new_prisioner) => {
+    // Aqui para fazer os adds de novo prisioneiro, está estatico aqui
+    try {
+      axios.post(
+        "http://localhost:5001/api/inmate/" + new_prisioner.id,
+        new_prisioner
+      );
+    } catch (error) {
+      console.log("Deu pylance");
+      return false;
+    }
+    setDataSource((pre) => {
+      return [...pre, new_prisioner];
+    });
+    return true;
+  };
+
   return (
     <div>
       <Table
@@ -157,7 +175,7 @@ function PrisionersList() {
         pagination={{ defaultPageSize: 14 }}
       ></Table>
       <Button
-        onClick={onAddPrisioner}
+        onClick={() => onAddPrisioner()}
         shape={"round"}
         style={{ marginLeft: "45%" }}
         type="primary"
@@ -210,25 +228,6 @@ function PrisionersList() {
               });
             }}
           />
-          {/* <Input
-            addonBefore="Sentence Start"
-            value={editingPrisioner?.entryDate}
-            onChange={(e) => {
-              setEditingPrisioner((pre) => {
-                return { ...pre, sentence: e.target.value };
-              });
-            }}
-          />
-
-          <Input
-            addonBefore="Sentence End"
-            value={editingPrisioner?.sentenceEnd}
-            onChange={(e) => {
-              setEditingPrisioner((pre) => {
-                return { ...pre, sentenceEnd: e.target.value };
-              });
-            }}
-          /> */}
           <RangePicker
             showTime
             defaultValue={[
@@ -255,7 +254,7 @@ function PrisionersList() {
             }}
           />
           <Input
-            addonBefore="Workstation"
+            addonBefore="Workstation ID"
             value={editingPrisioner?.workstationId}
             onChange={(e) => {
               setEditingPrisioner((pre) => {
@@ -275,6 +274,57 @@ function PrisionersList() {
         </Space>
       </Modal>
       {/* o ? é para dizer que o argumento é opcional */}
+      <Modal
+        title="Add Prisioner"
+        open={isAdding}
+        okText="Add"
+        okType="primary"
+        onCancel={() => ResetAdding()}
+      >
+        <Form onOk={AddPrisioner}>
+          <Form.Item
+            name="name"
+            rules={[
+              {
+                required: true,
+                message: "Please input the name!",
+              },
+            ]}
+          >
+            <Input addonBefore="Name" />
+          </Form.Item>
+          <Form.Item
+            name="workstation"
+            rules={[
+              {
+                required: true,
+                message: "Please input Workstation ID!",
+              },
+            ]}
+          >
+            <Input addonBefore="Workstation ID" />
+          </Form.Item>
+          <Form.Item
+            name="sentence"
+            rules={[
+              {
+                required: true,
+                message: "Please input Sentence Start and End!",
+              },
+            ]}
+          >
+            Sentence:{" "}
+            <RangePicker
+              showTime
+              format={dateFormat}
+              placeholder={["Sentence Start", "Sentence End"]}
+            />
+          </Form.Item>
+          <Form.Item>
+            Solitary: <Checkbox name="Solitary" />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 }
