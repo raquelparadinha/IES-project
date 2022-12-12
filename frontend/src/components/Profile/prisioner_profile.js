@@ -18,7 +18,7 @@ const tabList = [
   },
 ];
 
-function Profile() {
+function Prisioner_Profile() {
   url_params = useParams();
   console.log(url_params.id);
   const contentList = {
@@ -58,7 +58,6 @@ function Profile() {
       >
         <Row>
           <Col style={{ textAlign: "center" }}>
-            <Row></Row>
             {contentList[activeTabKey1]}
           </Col>
         </Row>
@@ -66,4 +65,4 @@ function Profile() {
     </div>
   );
 }
-export default Profile;
+export default Prisioner_Profile;

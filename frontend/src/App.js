@@ -17,9 +17,10 @@ import { Logged, SetLogged } from "./components/Login/Login";
 import Dashboard from "./components/Dashboard/dashboard";
 import GuardsList from "./components/GuardsList/guardsList";
 import Notifications from "./components/Notifications/notifications";
-import Profile from "./components/Profile/profile";
+import Prisioner_Profile from "./components/Profile/prisioner_profile";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Guard_Profile from "./components/Profile/guard_profile";
 
 function App() {
   const [dataSource, setDataSource] = useState();
@@ -154,7 +155,8 @@ function Content() {
         ></Route>
         <Route path="/userlist" element={<div>User List</div>}></Route>
         <Route path="/prisioners" element={<PrisionersList />}></Route>
-        <Route path="/prisioners/:id" element={<Profile />}></Route>
+        <Route path="/prisioners/:id" element={<Prisioner_Profile />}></Route>
+        <Route path="/guards/:id" element={<Guard_Profile />}></Route>
         <Route
           path="/guards"
           element={
@@ -164,7 +166,7 @@ function Content() {
           }
         ></Route>
         <Route path="/notifications" element={<Notifications />}></Route>
-        <Route path="/profile" element={<Profile />}></Route>
+        <Route path="/profile" element={<Prisioner_Profile />}></Route>
         <Route path="/login" element={<Login />}></Route>
       </Routes>
     </div>

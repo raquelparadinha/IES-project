@@ -1,7 +1,12 @@
 import { Button, Modal, Table, Input, Space } from "antd";
 import { useState, useEffect } from "react";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+} from "@ant-design/icons/lib/icons";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 function GuardsList() {
   const countDown = () => {
@@ -37,6 +42,7 @@ function GuardsList() {
     fetchData();
   }, []);
 
+  const navigate = useNavigate();
   const [isEditing, setisEditing] = useState(false);
   const [editingGuard, setEditingGuard] = useState(null);
   const columns = [
@@ -54,7 +60,12 @@ function GuardsList() {
       render: (record) => {
         return (
           <>
-            {" "}
+            <EyeOutlined
+              onClick={() => {
+                navigate("/guards/" + record.id);
+              }}
+              style={{ color: "blue", marginLeft: 12 }}
+            />
             <EditOutlined
               onClick={() => {
                 onEditGuard(record);
