@@ -39,6 +39,7 @@ function Guard_info(id) {
         </>
       );
     } else {
+      fetchData();
       return (
         <div>
           <LoadingOutlined />

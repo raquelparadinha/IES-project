@@ -93,18 +93,19 @@ function PrisionersList() {
     },
   ];
 
-  const onAddPrisioner = () => {
+  const onAddPrisioner = (new_prisioner) => {
     // Aqui para fazer os adds de novo prisioneiro, está estatico aqui
-    const randomNumber = parseInt(Math.random() * 1000);
-    const newPrisioner = {
-      id: randomNumber,
-      name: "Cotovelo da Perna " + randomNumber,
-      birthdate: "10-06-2001",
-      sentence: "21-10-2021",
-      duration: 1000,
-      workstation: "Ser lindo",
-      solitary: false.toString(),
-    };
+
+    try {
+      axios.put(
+        "http://localhost:5001/api/inmate/" + Edited_prisioner.id,
+        Edited_prisioner
+      );
+    } catch (error) {
+      console.log("Deu pylance");
+      return false;
+    }
+    return true;
     setDataSource((pre) => {
       return [...pre, newPrisioner];
     });
