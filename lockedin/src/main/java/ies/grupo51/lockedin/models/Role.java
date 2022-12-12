@@ -26,8 +26,8 @@ public class Role {
     this.id = id;
   }
 
-  public ERole getName() {
-    return name;
+  public String getName() {
+    return name.getName();
   }
 
   public void setName(ERole name) {

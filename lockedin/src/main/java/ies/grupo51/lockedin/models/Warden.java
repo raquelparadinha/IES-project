@@ -1,6 +1,8 @@
 package ies.grupo51.lockedin.models;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 // import java.util.HashSet;
 // import java.util.Set;
 import java.util.Set;
@@ -31,7 +33,7 @@ public class Warden {
     private String password;
 
     @DBRef
-    private Set<Role> roles = new HashSet<>();
+    private List<Role> roles = new ArrayList<>();
 
     private static long counter = 0;
 
@@ -82,7 +84,7 @@ public class Warden {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
@@ -109,7 +111,7 @@ public class Warden {
     public String getPhone() {
         return phone;
     }
-    public Set<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 

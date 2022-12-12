@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,22 +35,29 @@ public class AuthController {
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		Authentication authentication = authenticationManager.authenticate(
+		try {
+			Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
-		System.out.println("\nPassou aqui\n");
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String jwt = jwtUtils.generateJwtToken(authentication);
-		
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
-		List<String> roles = userDetails.getAuthorities().stream()
-				.map(item -> item.getAuthority())
-				.collect(Collectors.toList());
+			System.out.println("\nAUTENTICADO\n");
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			String jwt = jwtUtils.generateJwtToken(authentication);
+			
+			UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
+			List<String> roles = userDetails.getAuthorities().stream()
+					.map(item -> item.getAuthority())
+					.collect(Collectors.toList());
 
-		return ResponseEntity.ok(new JwtResponse(jwt, 
-												 userDetails.getId(), 
-												 userDetails.getEmail(), 
-												 roles));
+			return ResponseEntity.ok(new JwtResponse(jwt, 
+													userDetails.getId(), 
+													userDetails.getEmail(), 
+													roles));
+		} catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getCause());
+            System.out.println(e.getLocalizedMessage());
+            throw new BadCredentialsException("Invalid email/password supplied!");
+        }
 	}
 
 	// @PostMapping("/signup")

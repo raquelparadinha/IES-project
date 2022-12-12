@@ -1,6 +1,8 @@
 package ies.grupo51.lockedin.models;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.constraints.Email;
@@ -30,7 +32,7 @@ public class Guard {
     private String password;
 
     @DBRef
-    private Set<Role> roles = new HashSet<>();
+    private List<Role> roles = new ArrayList<>();
 
     private static long counter = 100;
     
@@ -72,7 +74,7 @@ public class Guard {
     public void setBirthdate(String birth_date) {
         this.birthdate = birth_date;
     }
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
     public void setAreaId(long areaId) {
@@ -102,7 +104,7 @@ public class Guard {
     public String getBirthdate() {
         return birthdate;
     }
-    public Set<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
     public String getPassword() {
