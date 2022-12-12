@@ -24,12 +24,16 @@ public class HealthLogService {
         return repository.saveAll(healthLog);
     }
 
-    public List<HealthLog> getHealthLog() {
+    public List<HealthLog> getHealthLogs() {
         return repository.findAll();
     }
 
     public HealthLog getHealthLogById(long id) throws ResourceNotFoundException {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
+    }
+
+    public HealthLog getHealthLogByInmateId(long inmateId) {
+        return repository.findByInmateId(inmateId);
     }
 
     public HealthLog updateHealthLog(HealthLog healthLog) throws ResourceNotFoundException {
