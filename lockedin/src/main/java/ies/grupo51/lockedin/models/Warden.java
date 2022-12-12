@@ -16,7 +16,7 @@ public class Warden {
     @NotBlank
     @Email
     private String email;
-    private String phone;
+    private long phone;
     private String birthdate;
     @NotBlank
     private String password;
@@ -27,7 +27,7 @@ public class Warden {
         this.id = 0;
     }
 
-    public Warden(long id, String name, String email, String phone, String birthdate, String password) {
+    public Warden(long id, String name, String email, long phone, String birthdate, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -56,7 +56,7 @@ public class Warden {
     public void setPassword(String password) {
         this.password = password;
     }
-    public void setPhone(String phone) {
+    public void setPhone(long phone) {
         this.phone = phone;
     }
 
@@ -80,14 +80,14 @@ public class Warden {
     public String getPassword() {
         return password;
     }
-    public String getPhone() {
+    public long getPhone() {
         return phone;
     }
 
     @Override
     public String toString() {
         return String.format(
-            "Warden [ID: %d, Name: %s, Email: %s, Phone: %s, Birth String: %s]", 
+            "Warden [ID: %d, Name: %s, Email: %s, Phone: %d, Birth String: %s]", 
             this.id, this.name, this.email, this.phone, this.birthdate.toString());
     }
 }

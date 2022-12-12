@@ -16,7 +16,7 @@ public class Guard {
     @NotBlank
     @Email
     private String email;
-    private String phone;
+    private long phone;
     private String birthdate;
     private long areaId;
     @NotBlank
@@ -28,7 +28,7 @@ public class Guard {
         this.id = 0;
     }
 
-    public Guard (long id, String name, String email, String phone, String birthdate, long areaId, String password) {
+    public Guard (long id, String name, String email, long phone, String birthdate, long areaId, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -49,7 +49,7 @@ public class Guard {
     public void setEmail(String email) {
         this.email = email;
     }
-    public void setPhone(String phone) {
+    public void setPhone(long phone) {
         this.phone = phone;
     }
     public void setBirthdate(String birth_date) {
@@ -76,7 +76,7 @@ public class Guard {
     public String getEmail() {
         return email;
     }
-    public String getPhone() {
+    public long getPhone() {
         return phone;
     }
     public String getBirthdate() {
@@ -95,7 +95,7 @@ public class Guard {
     @Override
     public String toString() {
         String result = String.format(
-            "Guard [ID: %d, Name: %s, Email: %s, Phone: %s, Birth date: %s]", 
+            "Guard [ID: %d, Name: %s, Email: %s, Phone: %d, Birth date: %s]", 
             this.id, this.name, this.email, this.phone, this.birthdate.toString());
         return result;
     }
