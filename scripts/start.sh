@@ -1,5 +1,4 @@
 #!/usr/bin/bash
-cd ..
 cd ./lockedin
 echo "--=[ Packaging ]=--"
 ./mvnw package
