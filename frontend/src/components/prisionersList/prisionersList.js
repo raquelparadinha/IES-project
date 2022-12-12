@@ -133,6 +133,10 @@ function PrisionersList() {
     setEditingPrisioner(null);
   };
 
+  function editPrisioner(Edited_prisioner) {
+    console.log(Edited_prisioner);
+  }
+
   return (
     <div>
       <Table
@@ -161,6 +165,7 @@ function PrisionersList() {
             if (true) {
               return pre.map((prisioner) => {
                 if (prisioner.id === editingPrisioner.id) {
+                  editPrisioner(editingPrisioner);
                   return editingPrisioner;
                 } else {
                   return prisioner;
