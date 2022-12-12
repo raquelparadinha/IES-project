@@ -129,6 +129,19 @@ function GuardsList() {
     setEditingGuard(null);
   };
 
+  function editGuard(Edited_guard) {
+    try {
+      axios.put(
+        "http://localhost:5001/api/guard/" + Edited_guard.id,
+        Edited_guard
+      );
+    } catch (error) {
+      console.log("Deu pylance");
+      return false;
+    }
+    return true;
+  }
+
   return (
     <div>
       <Table
@@ -158,7 +171,17 @@ function GuardsList() {
             if (true) {
               return pre.map((guard) => {
                 if (guard.id === editingGuard.id) {
-                  return editingGuard;
+                  const bool = editGuard(editingGuard);
+                  if (bool) {
+                    return editingGuard;
+                  } else {
+                    Modal.error({
+                      title: "Edit Error",
+                      content: `An error happened while changing the guard.`,
+                      okType: "danger",
+                    });
+                    return guard;
+                  }
                 } else {
                   return guard;
                 }
@@ -171,7 +194,6 @@ function GuardsList() {
           ResetEditing();
         }}
       >
-        {" "}
         <Space direction="vertical" style={{ width: "100%", height: "100%" }}>
           <Input
             addonBefore="Name"

@@ -134,7 +134,18 @@ function PrisionersList() {
   };
 
   function editPrisioner(Edited_prisioner) {
-    console.log(Edited_prisioner);
+    console.log(typeof Edited_prisioner);
+    console.log(Edited_prisioner.id);
+    try {
+      axios.put(
+        "http://localhost:5001/api/inmate/" + Edited_prisioner.id,
+        Edited_prisioner
+      );
+    } catch (error) {
+      console.log("Deu pylance");
+      return false;
+    }
+    return true;
   }
 
   return (
@@ -165,8 +176,17 @@ function PrisionersList() {
             if (true) {
               return pre.map((prisioner) => {
                 if (prisioner.id === editingPrisioner.id) {
-                  editPrisioner(editingPrisioner);
-                  return editingPrisioner;
+                  const bool = editPrisioner(editingPrisioner);
+                  if (bool) {
+                    return editingPrisioner;
+                  } else {
+                    Modal.error({
+                      title: "Edit Error",
+                      content: `An error happened while changing the prisioner.`,
+                      okType: "danger",
+                    });
+                    return prisioner;
+                  }
                 } else {
                   return prisioner;
                 }
