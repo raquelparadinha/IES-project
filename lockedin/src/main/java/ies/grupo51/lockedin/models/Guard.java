@@ -1,16 +1,16 @@
 package ies.grupo51.lockedin.models;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+// import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+// import java.util.Set;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+// import javax.validation.constraints.Email;
+// import javax.validation.constraints.NotBlank;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
+// import org.springframework.data.moncgodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import ies.grupo51.lockedin.services.RoleService;
@@ -22,16 +22,16 @@ public class Guard {
     private long id;
 
     private String name;
-    @NotBlank
-    @Email
+    // @NotBlank
+    // @Email
     private String email;
     private String phone;
     private String birthdate;
     private long areaId;
-    @NotBlank
+    // @NotBlank
     private String password;
 
-    @DBRef
+    // @DBRef
     private List<Role> roles = new ArrayList<>();
 
     private static long counter = 100;

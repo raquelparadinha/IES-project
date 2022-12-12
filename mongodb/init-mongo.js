@@ -35,8 +35,8 @@ db.area.insertOne({_id:11,name:'canteen',capacity:270,access:true,currentInmates
 
 db.createCollection('guard');
 
-db.guard.insertOne({_id:1,name:'Paulo Pinto',email:'ppnaopylance@buzzfeed.com',phone:9192345678,birthdate:'08/06/2002',areaId:9,password:'souinfeliz'});
-db.guard.insertOne({_id:2,name:'Licha Holdworth',email:'lholdworth1@buzzfeed.com',phone:4445307536,birthdate:'2/13/1971',areaId:9,password:'$2a$10$0xpOTf3dhyYdJn0C6wGnJelUMz5c9.xJkEauxC/cre/OQzRw4twnS'});
+db.guard.insertOne({_id:1,name:'Paulo Pinto',email:'ppnaopylance@buzzfeed.com',phone:9192345678,birthdate:'08/06/2002',areaId:9,password:'$2a$10$wtowWw4FXwxi1bzpVXZ6VuBgLriA7SHarnn9cEfUONAxsA71tyC1q'});
+db.guard.insertOne({_id:2,name:'Licha Holdworth',email:'lholdworth1@buzzfeed.com',phone:4445307536,birthdate:'2/13/1971',areaId:9,password:'fnf0vG'});
 db.guard.insertOne({_id:3,name:'Aime Gaudin',email:'agaudin2@geocities.jp',phone:8106854523,birthdate:'7/4/1989',areaId:10,password:'WU3b3PWEJlH'});
 db.guard.insertOne({_id:4,name:'Julie Narrie',email:'jnarrie3@globo.com',phone:4361360010,birthdate:'12/19/2021',areaId:6,password:'9KVn231TBj27'});
 db.guard.insertOne({_id:5,name:'Dian Messier',email:'dmessier4@youtube.com',phone:1934769823,birthdate:'01/20/2022',areaId:7,password:'wzPMvT6in'});

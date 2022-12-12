@@ -22,6 +22,8 @@ import ies.grupo51.lockedin.auth.payload.request.LoginRequest;
 import ies.grupo51.lockedin.auth.payload.response.JwtResponse;
 import ies.grupo51.lockedin.auth.security.jwt.JwtUtils;
 import ies.grupo51.lockedin.auth.security.services.UserDetailsImpl;
+import ies.grupo51.lockedin.models.Guard;
+import ies.grupo51.lockedin.repositories.GuardRepository;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -31,15 +33,27 @@ public class AuthController {
 	AuthenticationManager authenticationManager;
 
 	@Autowired
+	GuardRepository repository;
+
+	@Autowired
 	JwtUtils jwtUtils;
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		try {
+		// try {
+			Guard test = repository.findByEmail(loginRequest.getEmail());
+			System.out.println("\n"+ test.toString()+ "\n");
+			System.out.println("\n"+ loginRequest.getEmail() + "\n" + loginRequest.getPassword());
+			authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken( loginRequest.getEmail(), loginRequest.getPassword()));
+					
+			System.out.println("\nAUTENTICADO\n");
+           
+			UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
+			System.out.println("\n"+ credentials.getCredentials().toString() + "\n" );
 			Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-
-			System.out.println("\nAUTENTICADO\n");
+			
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			String jwt = jwtUtils.generateJwtToken(authentication);
 			
@@ -52,12 +66,12 @@ public class AuthController {
 													userDetails.getId(), 
 													userDetails.getEmail(), 
 													roles));
-		} catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println(e.getCause());
-            System.out.println(e.getLocalizedMessage());
-            throw new BadCredentialsException("Invalid email/password supplied!");
-        }
+		// } catch (Exception e) {
+        //     System.out.println(e.getMessage());
+        //     System.out.println(e.getCause());
+        //     System.out.println(e.getLocalizedMessage());
+        //     // throw new BadCredentialsException("Invalid email/password supplied!");
+        // }
 	}
 
 	// @PostMapping("/signup")
