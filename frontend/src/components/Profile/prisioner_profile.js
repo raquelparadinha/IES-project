@@ -20,7 +20,7 @@ const tabList = [
 
 function Prisioner_Profile() {
   url_params = useParams();
-  console.log(url_params.id);
+  //console.log(url_params.id);
   const contentList = {
     prisioner_info: prisioner_info(url_params.id),
     timeline: timeline_prisioner(),

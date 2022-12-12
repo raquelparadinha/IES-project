@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Col, Space } from "antd";
 
 const prisioner_info = (id) => {
-  console.log("Aqui " + id);
+  // console.log("Aqui " + id);
   const title_ = "Prisioner " + id + " Data";
   return (
     <Card title="Prisioner Personal Information">
@@ -13,7 +13,7 @@ const prisioner_info = (id) => {
         }}
       >
         <Space align="start">
-          <Card title={title_} style={{ width: "250px" }}>
+          <Card title={title_} style={{ width: "250px", height: "350px" }}>
             <p>Id: 12</p>
             <p>Name: Paulo Pinto</p>
             <p>Birthdate: 12-10-2001</p>
@@ -23,7 +23,10 @@ const prisioner_info = (id) => {
             <p>WorkStationId: 1234567890</p>
             <p>Health Log Id: 0987654321</p>
           </Card>
-          <Card title="Health status" style={{ width: "250px" }}>
+          <Card
+            title="Health status"
+            style={{ width: "250px", height: "350px" }}
+          >
             <p>HeartBeat: 70</p>
             <p>Stress Levels: 15%</p>
             <p>Glicose Levels: 33</p>

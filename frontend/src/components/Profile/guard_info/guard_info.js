@@ -60,10 +60,10 @@ function Guard_info(id) {
         }}
       >
         <Space align="start">
-          <Card title={title_} style={{ width: "350px" }}>
+          <Card title={title_} style={{ width: "300px", height: "300px" }}>
             {SeeIfUndfined()}
           </Card>
-          <Card title="Area" style={{ width: "250px" }}>
+          <Card title="Area" style={{ width: "250px", height: "300px" }}>
             <p style={{ textAlign: "left" }}>
               <RightCircleFilled /> Area Guards:
             </p>

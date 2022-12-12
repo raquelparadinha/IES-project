@@ -39,7 +39,7 @@ function App() {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
-  console.log(dataSource);
+  // console.log(dataSource);
   return (
     <div
       style={{

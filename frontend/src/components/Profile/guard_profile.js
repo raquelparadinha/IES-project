@@ -19,7 +19,7 @@ const tabList = [
 
 function Guard_Profile() {
   url_params = useParams();
-  console.log(url_params.id);
+  //console.log(url_params.id);
   const contentList = {
     guard_info: guard_info(url_params.id),
     // timeline: timeline_guard(),

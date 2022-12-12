@@ -15,7 +15,7 @@ const Login = () => {
   const navigate = useNavigate();
   // o que fazer quando carregamos no login
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+    //console.log("Received values of form: ", values);
     // nesgisse, nãp está como deve porque não está a DB pronta
     if (values.remember) {
       Logged = true;
