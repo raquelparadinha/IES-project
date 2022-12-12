@@ -180,7 +180,7 @@ function PrisionersList() {
           />
           <Input
             addonBefore="Sentence Start"
-            value={editingPrisioner?.entryDate.split("T")[0]}
+            value={editingPrisioner?.entryDate}
             onChange={(e) => {
               setEditingPrisioner((pre) => {
                 return { ...pre, sentence: e.target.value };
@@ -190,7 +190,7 @@ function PrisionersList() {
 
           <Input
             addonBefore="Sentence End"
-            value={editingPrisioner?.sentenceEnd.split("T")[0]}
+            value={editingPrisioner?.sentenceEnd}
             onChange={(e) => {
               setEditingPrisioner((pre) => {
                 return { ...pre, sentenceEnd: e.target.value };

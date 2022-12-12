@@ -32,7 +32,7 @@ function Guard_info(id) {
         <>
           <p>Id: {dataSource.id}</p>
           <p>AreaID: {dataSource.areaId}</p>
-          <p>Birthdate: {dataSource.birthdate.split("T")[0]}</p>
+          <p>Birthdate: {dataSource.birthdate}</p>
           <p>Phone: {dataSource.phone}</p>
           <p>Email: {dataSource.email}</p>
         </>
