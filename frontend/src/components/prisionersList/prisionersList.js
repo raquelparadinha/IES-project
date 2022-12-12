@@ -1,4 +1,4 @@
-import { Button, Modal, Table, Input, Space, Checkbox } from "antd";
+import { Button, Modal, Table, Input, Space, Checkbox, DatePicker } from "antd";
 import { useState, useEffect } from "react";
 import {
   DeleteOutlined,
@@ -7,6 +7,12 @@ import {
 } from "@ant-design/icons/lib/icons";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+dayjs.extend(customParseFormat);
+
+const { RangePicker } = DatePicker;
+const dateFormat = "MM/DD/YYYY";
 
 function PrisionersList() {
   const countDown = () => {
@@ -178,7 +184,7 @@ function PrisionersList() {
               });
             }}
           />
-          <Input
+          {/* <Input
             addonBefore="Sentence Start"
             value={editingPrisioner?.entryDate}
             onChange={(e) => {
@@ -194,6 +200,31 @@ function PrisionersList() {
             onChange={(e) => {
               setEditingPrisioner((pre) => {
                 return { ...pre, sentenceEnd: e.target.value };
+              });
+            }}
+          /> */}
+          <RangePicker
+            showTime
+            defaultValue={[
+              dayjs(editingPrisioner?.entryDate, dateFormat),
+              dayjs(editingPrisioner?.sentenceEnd, dateFormat),
+            ]}
+            format={dateFormat}
+            onChange={(e) => {
+              setEditingPrisioner((pre) => {
+                console.log("E: ", e);
+                if (e === null) {
+                  return { ...pre };
+                } else {
+                  console.log(pre);
+                  console.log(e[0].format(dateFormat));
+                  console.log(e[1].format(dateFormat));
+                  return {
+                    ...pre,
+                    entryDate: e[0].format(dateFormat),
+                    sentenceEnd: e[1].format(dateFormat),
+                  };
+                }
               });
             }}
           />

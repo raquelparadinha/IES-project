@@ -15,6 +15,7 @@ function Guard_info(id) {
         .then((response) => setDataSource(response.data));
     } catch {
       console.log("Deu pylance");
+      fetchData();
     }
   };
   useEffect(() => {

@@ -33,9 +33,13 @@ function GuardsList() {
 
   const [dataSource, setDataSource] = useState();
   const fetchData = () => {
-    return axios
-      .get("http://localhost:5001/api/guard")
-      .then((response) => setDataSource(response.data));
+    try {
+      return axios
+        .get("http://localhost:5001/api/guard")
+        .then((response) => setDataSource(response.data));
+    } catch (error) {
+      fetchData();
+    }
   };
 
   useEffect(() => {
