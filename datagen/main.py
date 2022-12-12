@@ -3,16 +3,16 @@ from time import sleep
 from classes import *
 from comms import *
 
-layoutfile = 'data/layout.json'
-sensorfile = 'data/sensors.json'
-healthfile = 'data/health.json'
-workstationsfile = 'data/workstations.json'
-inmatesfile = 'data/inmates_single.json'
+areasfile = 'mongodb/seeddata/areas.json'
+sensorfile = 'mongodb/seeddata/moveSensors.json'
+healthfile = 'datagen/data/health.json'
+workstationsfile = 'mongodb/seeddata/workstations.json'
+inmatesfile = 'mongodb/seeddata/inmates.json'
 
 def main():
-    sim = Simulator(layoutfile, sensorfile, healthfile, workstationsfile, inmatesfile)
+    sim = Simulator(areasfile, sensorfile, workstationsfile, inmatesfile, healthfile)
     sender = Sender()
-    receiver = Receiver()
+    # receiver = Receiver()
 
     sender.conninit()
     

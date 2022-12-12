@@ -8,19 +8,19 @@ from numpy.random import normal
 max_n = 1
 
 class Simulator():
-    def __init__(self, layoutfile, sensorfile, healthfile, workstationsfile, inmatesfile):
+    def __init__(self, areasfile, sensorfile, workstationsfile, inmatesfile, healthfile):
         try: 
-            with open(layoutfile, 'r') as f:
+            with open(areasfile, 'r') as f:
                 layoutf = json.load(f)
         except:
-            print('Error opening layout file. Exiting...')
+            print('Error opening areas file. Exiting...')
             exit(1)
 
         try:
             with open(sensorfile, 'r') as f:
                 sensorf = json.load(f)
         except:
-            print('Error opening sensor file. Exiting...')
+            print('Error opening sensors file. Exiting...')
             exit(1)
 
         try:
@@ -48,18 +48,19 @@ class Simulator():
         # init locations
         self.locations = []
         for i in layoutf:
-            id = i['id']
+            id = i['_id']
             name = i['name']
+            capacity = i['capacity']
             access = i['access']
             connections = i['connections']
-            self.locations.append(Location(id, name, access, connections))
+            self.locations.append(Location(id, name, access, capacity, connections))
 
         # init sensors
         self.sensors = []
         for i in sensorf:
             id = i['id']
-            entry = [l for l in self.locations if i['entry'] == l.id][0]
-            out = [l for l in self.locations if i['exit'] == l.id][0]
+            entry = i['entryAreaId']
+            out = i['exitAreaId']
             active = i['active']
             self.sensors.append(Sensor(id, entry, out, active))
 

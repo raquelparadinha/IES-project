@@ -2,31 +2,39 @@ import json
 
 from classes import *
 
-with open('data/layout.json', 'r') as f:
-    layoutf = json.load(f)
+def main():
+    with open('mongodb/seeddata/moveSensors.json', 'r') as f:
+        sensordata = json.load(f)
 
-locations = []
-for i in layoutf:
-    id = i['id']
-    name = i['name']
-    access = i['access']
-    connections = i['connections']
-    locations.append(Location(id, name, access, connections))
+    with open('mongodb/seeddata/areas.json', 'r') as f:
+        areadata = json.load(f)
 
-sensors = []
-idcnt = 0
-for l in locations:
-    for c in [loc for loc in locations if loc.id in l.connections]:
-        idcnt += 1
-        sensors.append(Sensor(idcnt, l, c, l.access and c.access))
+    locations = []
+    for i in areadata:
+        id = i['_id']
+        name = i['name']
+        capacity = i['capacity']
+        access = i['access']
+        locations.append(Location(id, name, access, capacity))
+    
+    sensors = []
+    for i in sensordata:
+        id = i['_id']
+        entry = i['entryAreaId']
+        out = i['exitAreaId']
+        entryArea = [l for l in locations if l.id == entry][0]
+        outArea = [l for l in locations if l.id == out][0]
+        active = entryArea.access and outArea.access
+        sensors.append(Sensor(id, entryArea, outArea, active))
 
-for l in locations: print(l)
-for s in sensors: print(s.id)
+    jsonsensors = [{"_id": s.id, "entryAreaId": s.entry.id, "exitAreaId": s.exit.id, "active": s.active, "moveLogIds": []} for s in sensors]
 
-with open('data/sensors.json', 'w') as f:
-    f.write('[')
-    for s in sensors:
-        dict = {'id': s.id, 'entry': s.entry.id, 'exit': s.exit.id, 'active': s.active}
-        f.write(json.dumps(dict))
-        f.write(', \n')
-    f.write(']')
+    with open('moveSensors.json', 'w') as f:
+        for s in jsonsensors:
+            jsonstr = s.__str__().replace('\'', '"').replace("False", "false").replace("True", "true")
+            print(jsonstr)
+            f.write(jsonstr)
+            f.write(',')
+
+if __name__ == '__main__':
+    main()
