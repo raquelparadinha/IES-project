@@ -1,19 +1,10 @@
 package ies.grupo51.lockedin.models;
 
-import java.util.HashSet;
-// import java.util.HashSet;
-// import java.util.Set;
-import java.util.Set;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import ies.grupo51.lockedin.services.RoleService;
 
 @Document("warden")
 public class Warden {
@@ -30,20 +21,10 @@ public class Warden {
     @NotBlank
     private String password;
 
-    @DBRef
-    private Set<Role> roles = new HashSet<>();
-
     private static long counter = 0;
-
-    @Autowired
-    private RoleService service;
 
     public Warden() {
         this.id = 0;
-        Role userRole = service.findRole(ERole.ROLE_USER);
-		this.roles.add(userRole);
-        Role adminRole = service.findRole(ERole.ROLE_ADMIN);
-		this.roles.add(adminRole);
     }
 
     public Warden(long id, String name, String email, String phone, String birthdate, String password) {
@@ -53,10 +34,6 @@ public class Warden {
         this.phone = phone;
         this.birthdate = birthdate;
         this.password = password;
-        Role userRole = service.findRole(ERole.ROLE_USER);
-		this.roles.add(userRole);
-        Role adminRole = service.findRole(ERole.ROLE_ADMIN);
-		this.roles.add(adminRole);
     }
 
     // SETS
@@ -82,9 +59,6 @@ public class Warden {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 
     // GETS
 
@@ -108,9 +82,6 @@ public class Warden {
     }
     public String getPhone() {
         return phone;
-    }
-    public Set<Role> getRoles() {
-        return roles;
     }
 
     @Override
