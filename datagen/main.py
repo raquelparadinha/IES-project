@@ -17,21 +17,9 @@ def main():
     sender.conninit()
     
     while(True):
-        inmate, sensor = sim.moveInmate()
-        sender.publish('sensor', inmate.id, sensor.id)
-
-        if sensor.exit.id == 4:
-            if inmate.workstation == None:
-                ws = sim.workstationApply() 
-                sender.publish('apply', inmate.id, ws.id)
-
-            else:
-                wq = sim.workstationWork(inmate)
-                sender.publish('work', inmate.id, wq)
-
-        elif sensor.exit.id == 6:
-            hc = sim.makeHealthcheck()
-            sender.publish('health', inmate.id, hc)
+        messages = sim.run()
+        for m in messages:
+            sender.publish(m)
 
         sleep(1)
 

@@ -1,4 +1,4 @@
-class Location():
+class Area():
     def __init__(self, id: int, name: str, access: bool, capacity: int):
 
         self.id = id
@@ -10,7 +10,7 @@ class Location():
         return 'a[name: {}]'.format(self.name)
 
 class Sensor():
-    def __init__(self, id: int, entry: Location, exit: Location, active: bool):
+    def __init__(self, id: int, entry: Area, exit: Area, active: bool):
 
         self.id = id
         self.entry = entry
@@ -28,20 +28,17 @@ class Workstation():
         self.name = name
         self.listings = listings
 
-        self.workers = {}
-
     def __str__(self):
         return 'ws[name: {}]'.format(self.name)
 
 class Inmate():
     cntr = 0
-    def __init__(self, id: int, startlocation: Location, workstation: Workstation = None, application: Workstation = None):
+    def __init__(self, id: int, startarea: Area):
         
         self.id = id
         
-        self.location = startlocation
-        self.workstation = workstation
-        self.application = application
+        self.area = startarea
+
 
     def __str__(self):
-        return 'inm[id: {}, area: {}]'.format(self.id, self.location)
+        return 'inm[id: {}, area: {}]'.format(self.id, self.area)
