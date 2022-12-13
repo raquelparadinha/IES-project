@@ -15,10 +15,11 @@ public class MoveSensorLog {
     private static long counter = 0;
 
     public MoveSensorLog() {
-
+        this.id = 0;
     }
 
-    public MoveSensorLog(long inmateId, long sensorId) {
+    public MoveSensorLog(long id, long inmateId, long sensorId) {
+        this.id = id;
         this.inmateId = inmateId;
         this.sensorId = sensorId;
     }

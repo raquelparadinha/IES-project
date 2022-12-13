@@ -1,11 +1,13 @@
-import json
-
 import pika
-
 
 class Receiver():
     def __init__(self):
-        self.queue = 'datagen'
+        self.queue = 'backend'
+        
+        self.conninit()
+
+    def __exit__(self):
+        self.connclose()
 
     def conninit(self):
         self.connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672))
@@ -16,9 +18,9 @@ class Receiver():
     def connclose(self):
         self.connection.close()
 
-    def recv(self):
+    def recv(self, sim):
         def callback(ch, method, properties, body):
-            print('recv {}'.format(body))
+            sim.processmsg(body)
         
         self.channel.basic_consume(queue=self.queue, on_message_callback=callback, auto_ack=True)
 

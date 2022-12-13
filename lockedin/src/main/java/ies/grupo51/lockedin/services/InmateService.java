@@ -42,7 +42,6 @@ public class InmateService {
         existingInmate.setSolitary(inmate.getSolitary());
         existingInmate.setEntryDate(inmate.getEntryDate());
         existingInmate.setWorkLogIds(inmate.getWorkLogIds());
-        existingInmate.setWorkstationId(inmate.getWorkstationId());
         existingInmate.setMoveLogIds(inmate.getMoveLogIds());
         existingInmate.setHealthLogId(inmate.getHealthLogId());
         existingInmate.setSentenceEnd(inmate.getSentenceEnd()); 

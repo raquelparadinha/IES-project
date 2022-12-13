@@ -7,33 +7,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
-import ies.grupo51.lockedin.models.MoveSensorLog;
-import ies.grupo51.lockedin.repositories.MoveSensorLogRepository;
+import ies.grupo51.lockedin.models.Alert;
+import ies.grupo51.lockedin.repositories.AlertRepository;
 
 @Service
-public class MoveSensorLogService {
+public class AlertService {
     
-    @Autowired private MoveSensorLogRepository repository;
+    @Autowired
+    private AlertRepository repository;
     
-    public MoveSensorLog saveMoveSensorLog(MoveSensorLog moveSensorLog){
-        return repository.save(moveSensorLog);
+    public Alert saveAlert(Alert alert){
+        return repository.save(alert);
     }
 
-    public List<MoveSensorLog> saveMoveSensorLogs(Set<MoveSensorLog> moveSensorLog) {
-        return repository.saveAll(moveSensorLog);
+    public List<Alert> saveAlerts(Set<Alert> alerts) {
+        return repository.saveAll(alerts);
     }
 
-    public List<MoveSensorLog> getMoveSensorLogs() {
+    public List<Alert> getAlerts() {
         return repository.findAll();
     }
 
-    public MoveSensorLog getMoveSensorLogById(long id) throws ResourceNotFoundException {
+    public Alert getAlertById(long id) throws ResourceNotFoundException {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 
     public long getNextId() {
         long max_id = 1;
-        for (MoveSensorLog alert : getMoveSensorLogs()) {
+        for (Alert alert : getAlerts()) {
             long id = alert.getId();
             if (id > max_id) {
                 max_id = id;

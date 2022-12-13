@@ -32,6 +32,14 @@ public class MoveSensorService {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 
+    public List<MoveSensor> getMoveSensorsByEntryAreaId(long areaid) {
+        return repository.findByEntryAreaId(areaid);
+    }
+
+    public List<MoveSensor> getMoveSensorsByExitAreaId(long areaid) {
+        return repository.findByExitAreaId(areaid);
+    }
+
     public MoveSensor updatMoveSensor(MoveSensor moveSensor) throws ResourceNotFoundException {
         MoveSensor existingMoveSensor = repository.findById(moveSensor.getId()).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
         

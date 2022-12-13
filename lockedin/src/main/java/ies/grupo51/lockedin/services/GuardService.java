@@ -44,7 +44,9 @@ public class GuardService {
         existingGuard.setName(guard.getName());
         existingGuard.setEmail(guard.getEmail());
         existingGuard.setPhone(guard.getPhone());
+        existingGuard.setAreaId(guard.getAreaId());
         existingGuard.setBirthdate(guard.getBirthdate());
+        existingGuard.setPassword(guard.getPassword());
         
         return repository.save(existingGuard);
     }

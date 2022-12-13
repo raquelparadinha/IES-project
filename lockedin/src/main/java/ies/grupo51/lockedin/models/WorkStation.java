@@ -13,8 +13,7 @@ public class WorkStation {
 
     private String name;
     private String description;
-    private int capacity;
-    private List<Long> currentWorkerIds;
+    private List<Long> workLogIds;
     private int expectedQuota;
 
     private static long counter = 100;
@@ -23,12 +22,11 @@ public class WorkStation {
         this.id = 0;
     }
 
-    public WorkStation(long id, String name, String description, int capacity, List<Long> currentWorkerIds, int expectedQuota) {
+    public WorkStation(long id, String name, String description, List<Long> workLogIds, int expectedQuota) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.capacity = capacity;
-        this.currentWorkerIds = currentWorkerIds;
+        this.workLogIds = workLogIds;
         this.expectedQuota = expectedQuota;
     }
 
@@ -49,11 +47,8 @@ public class WorkStation {
     public void setName(String name) {
         this.name = name;
     }
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-    public void setCurrentWorkerIds(List<Long> currentWorkerIds) {
-        this.currentWorkerIds = currentWorkerIds;
+    public void setWorkLogIds(List<Long> workLogIds) {
+        this.workLogIds = workLogIds;
     }
     
     // GETS
@@ -73,11 +68,14 @@ public class WorkStation {
     public String getName() {
         return name;
     }
-    public int getCapacity() {
-        return capacity;
+    public List<Long> getWorkLogIds() {
+        return workLogIds;
     }
-    public List<Long> getCurrentWorkerIds() {
-        return currentWorkerIds;
+
+    // CUSTOM METHODS
+
+    public void addWorkLogId(Long id) {
+        this.workLogIds.add(id);
     }
 
     @Override

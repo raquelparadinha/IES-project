@@ -1,5 +1,7 @@
 from time import sleep
 
+from threading import Thread
+
 from classes import *
 from comms import *
 
@@ -11,21 +13,28 @@ inmatesfile = 'mongodb/seeddata/inmates.json'
 
 def main():
     sim = Simulator(areasfile, sensorfile, workstationsfile, inmatesfile, healthfile)
+    receiver = Receiver()
     sender = Sender()
-    # receiver = Receiver()
 
-    sender.conninit()
+    consumer_thread = Thread(target=receiver.recv, args=(sim,))
+    consumer_thread.start()
     
-    control = True
-    while(control):
+    control = 0
+    while(control < 10):
         messages = sim.run()
         for m in messages:
-            sender.publish(m)
+            sender.send(m)
 
         sleep(1)
-        control = False
+        control += 1
 
-    sender.connclose()
+    print('1')
+    consumer_thread.join()
+    print('2')
+    receiver.__exit__()
+    print('3')
+    sender.__exit__()
+    print('4')
 
 if __name__ == '__main__':
     main()
