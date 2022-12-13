@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { useParams } from "react-router";
 import TheAvatar from "./Avatar/avatar";
-import prisioner_info from "./prisioner_info/prisioner_info";
+import Prisioner_info from "./prisioner_info/prisioner_info";
 import timeline_prisioner from "./timeline/timeline";
 
 let url_params;
@@ -22,7 +22,7 @@ function Prisioner_Profile() {
   url_params = useParams();
   //console.log(url_params.id);
   const contentList = {
-    prisioner_info: prisioner_info(url_params.id),
+    prisioner_info: Prisioner_info(url_params.id),
     timeline: timeline_prisioner(),
   };
 

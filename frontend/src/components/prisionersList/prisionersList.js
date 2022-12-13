@@ -150,13 +150,20 @@ function PrisionersList() {
     return true;
   }
 
-  const AddPrisioner = (new_prisioner) => {
+  const AddPrisioner = (new_prisioner_info) => {
     // Aqui para fazer os adds de novo prisioneiro, está estatico aqui
+    ResetAdding();
+    console.log(new_prisioner_info);
+    const new_prisioner = {
+      name: new_prisioner_info.name,
+      birthDate: new_prisioner_info.birthdate.format(dateFormat),
+      entryDate: new_prisioner_info.sentence[0].format(dateFormat),
+      sentenceEnd: new_prisioner_info.sentence[1].format(dateFormat),
+      workstationId: new_prisioner_info.workstation,
+    };
+    console.log(new_prisioner);
     try {
-      axios.post(
-        "http://localhost:5001/api/inmate/" + new_prisioner.id,
-        new_prisioner
-      );
+      axios.post("http://localhost:5001/api/inmate", new_prisioner);
     } catch (error) {
       console.log("Deu pylance");
       return false;
@@ -166,6 +173,8 @@ function PrisionersList() {
     });
     return true;
   };
+
+  const [form] = Form.useForm();
 
   return (
     <div>
@@ -277,11 +286,10 @@ function PrisionersList() {
       <Modal
         title="Add Prisioner"
         open={isAdding}
-        okText="Add"
-        okType="primary"
         onCancel={() => ResetAdding()}
+        onOk={form.submit}
       >
-        <Form onOk={AddPrisioner}>
+        <Form form={form} onFinish={AddPrisioner}>
           <Form.Item
             name="name"
             rules={[
@@ -304,24 +312,24 @@ function PrisionersList() {
           >
             <Input addonBefore="Workstation ID" />
           </Form.Item>
-          <Form.Item
-            name="sentence"
-            rules={[
-              {
-                required: true,
-                message: "Please input Sentence Start and End!",
-              },
-            ]}
-          >
-            Sentence:{" "}
+          Birthdate:
+          <Form.Item name="birthdate">
+            <DatePicker
+              format={dateFormat}
+              placeholder={"Birthdate"}
+            ></DatePicker>
+          </Form.Item>
+          Sentence:
+          <Form.Item name="sentence">
             <RangePicker
               showTime
               format={dateFormat}
               placeholder={["Sentence Start", "Sentence End"]}
             />
           </Form.Item>
-          <Form.Item>
-            Solitary: <Checkbox name="Solitary" />
+          Solitary:
+          <Form.Item name="solitary" valuePropName="checked">
+            <Checkbox name="Solitary" />
           </Form.Item>
         </Form>
       </Modal>

@@ -23,22 +23,22 @@ import axios from "axios";
 import Guard_Profile from "./components/Profile/guard_profile";
 
 function App() {
-  const [dataSource, setDataSource] = useState();
-  const fetchData = () => {
-    try {
-      return axios
-        .get("http://localhost:5001/api/area")
-        .then((response) => setDataSource(response.data));
-    } catch {
-      console.log("Deu pylance");
-    }
-  };
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchData();
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+  // const [dataSource, setDataSource] = useState();
+  // const fetchData = () => {
+  //   try {
+  //     return axios
+  //       .get("http://localhost:5001/api/area")
+  //       .then((response) => setDataSource(response.data));
+  //   } catch {
+  //     console.log("Deu pylance");
+  //   }
+  // };
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     fetchData();
+  //   }, 1000);
+  //   return () => clearInterval(interval);
+  // }, []);
   // console.log(dataSource);
   return (
     <div
@@ -110,34 +110,6 @@ export function SideMenu() {
     </div>
   );
 }
-
-// const BreadCrumb = () => {
-//   const breadCrumbView = () => {
-//     const pathname = window.location.pathname;
-//     console.log(pathname)
-//     const pathnames = pathname.split("/").filter((item) => item);
-//     const capatilize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
-//     return (
-//       <div>
-//         <Breadcrumb>
-//           {pathnames.map((name, index) => {
-//             const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
-//             const isLast = index === pathnames.length - 1;
-//             return isLast ? (
-//               <Breadcrumb.Item>{capatilize(name)}</Breadcrumb.Item>
-//             ) : (
-//               <Breadcrumb.Item>
-//                 <Link to={`${routeTo}`}>{capatilize(name)}</Link>
-//               </Breadcrumb.Item>
-//             );
-//           })}
-//         </Breadcrumb>
-//       </div>
-//     );
-//   };
-
-//   return <>{breadCrumbView()}</>;
-// };
 
 function Content() {
   return (
