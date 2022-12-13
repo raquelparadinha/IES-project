@@ -40,6 +40,7 @@ public class AreaService {
         existingArea.setName(area.getName());
         existingArea.setAccess(area.getAccess());
         existingArea.setCapacity(area.getCapacity());
+        existingArea.setCurrentInmateIds(area.getCurrentInmateIds());
 
         return repository.save(existingArea);
     }

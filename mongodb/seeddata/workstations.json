@@ -1,0 +1,7 @@
+[
+  { "_id": 1, "name": "mail_sorting", "description": "mail_sorting", "capacity": 10, "currentWorkerIds": [], "expectedQuota": 16 },
+  { "_id": 2, "name": "carpentry", "description": "carpentry", "capacity": 5, "currentWorkerIds": [], "expectedQuota": 25 },
+  { "_id": 3, "name": "waste_disposal", "description": "waste_disposal", "capacity": 8, "currentWorkerIds": [], "expectedQuota": 25 },
+  { "_id": 4, "name": "janitor", "description": "janitor", "capacity": 10, "currentWorkerIds": [], "expectedQuota": 30 },
+  { "_id": 5, "name": "gardening", "description": "gardening", "capacity": 3, "currentWorkerIds": [], "expectedQuota": 20 }
+]

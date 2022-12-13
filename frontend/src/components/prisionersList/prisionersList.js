@@ -1,6 +1,27 @@
-import { Button, Modal, Table, Input, Space } from "antd";
-import { useState } from "react";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib/icons";
+import {
+  Button,
+  Modal,
+  Table,
+  Input,
+  Space,
+  Checkbox,
+  DatePicker,
+  Form,
+} from "antd";
+import { useState, useEffect } from "react";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+} from "@ant-design/icons/lib/icons";
+import axios from "axios";
+import { useNavigate } from "react-router";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+dayjs.extend(customParseFormat);
+
+const { RangePicker } = DatePicker;
+const dateFormat = "MM/DD/YYYY";
 
 function PrisionersList() {
   const countDown = () => {
@@ -24,63 +45,46 @@ function PrisionersList() {
       modal.destroy();
     }, secondsToGo * 1000);
   };
+
+  const [dataSource, setDataSource] = useState();
+  const fetchData = () => {
+    console.log("dataaa");
+    return axios
+      .get("http://localhost:5001/api/inmate")
+      .then((response) => setDataSource(response.data));
+  };
+
+  useEffect(() => {
+    setInterval(fetchData(), 300000); // The function will be called
+  }, []);
+
+  const navigate = useNavigate();
   const [isEditing, setisEditing] = useState(false);
+  const [isAdding, setisAdding] = useState(false);
   const [editingPrisioner, setEditingPrisioner] = useState(null);
-  const [dataSource, setDataSource] = useState([
-    {
-      id: 1,
-      name: "Pareidreds",
-      birthdate: "10-06-2001",
-      sentence: "21-10-2021",
-      duration: 1000,
-      workstation: "Ser puta",
-      solitary: false.toString(),
-    },
-    {
-      id: 2,
-      name: "Soralexina",
-      birthdate: "10-06-2001",
-      sentence: "21-10-2021",
-      duration: 1000,
-      workstation: "Ser gay",
-      solitary: false.toString(),
-    },
-    {
-      id: 3,
-      name: "MancoGordo",
-      birthdate: "10-06-2001",
-      sentence: "21-10-2021",
-      duration: 1000,
-      workstation: "Ser drogado",
-      solitary: true.toString(),
-    },
-    {
-      id: 4,
-      name: "PP_segundo",
-      birthdate: "10-06-2001",
-      sentence: "21-10-2021",
-      duration: 1000,
-      workstation: "Ser lindo",
-      solitary: false.toString(),
-    },
-  ]);
+  //console.log(dataSource);
   const columns = [
     // prisioner main traits
     { key: 1, title: "ID", dataIndex: "id" },
     { key: 2, title: "Name", dataIndex: "name" },
-    { key: 3, title: "Birthdate", dataIndex: "birthdate" },
-    { key: 4, title: "Sentece Start", dataIndex: "sentence" },
-    { key: 5, title: "Duration (Days?)", dataIndex: "duration" },
-    { key: 6, title: "Workstation", dataIndex: "workstation" },
-    { key: 7, title: "Solitary", dataIndex: "solitary" },
+    { key: 3, title: "Birthdate", dataIndex: "birthDate" },
+    { key: 4, title: "Sentece Start", dataIndex: "entryDate" },
+    { key: 5, title: "Sentence End", dataIndex: "sentenceEnd" },
+    { key: 6, title: "Workstation", dataIndex: "workstationId" },
 
     {
-      key: 8,
+      key: 7,
       title: "Actions",
       render: (record) => {
+        // console.log(record.id)
         return (
           <>
-            {" "}
+            <EyeOutlined
+              onClick={() => {
+                navigate("/prisioners/" + record.id);
+              }}
+              style={{ color: "blue", marginLeft: 12 }}
+            />
             <EditOutlined
               onClick={() => {
                 onEditPrisioner(record);
@@ -98,23 +102,6 @@ function PrisionersList() {
       },
     },
   ];
-
-  const onAddPrisioner = () => {
-    // Aqui para fazer os adds de novo prisioneiro, está estatico aqui
-    const randomNumber = parseInt(Math.random() * 1000);
-    const newPrisioner = {
-      id: randomNumber,
-      name: "Cotovelo da Perna " + randomNumber,
-      birthdate: "10-06-2001",
-      sentence: "21-10-2021",
-      duration: 1000,
-      workstation: "Ser lindo",
-      solitary: false.toString(),
-    };
-    setDataSource((pre) => {
-      return [...pre, newPrisioner];
-    });
-  };
   const onDeletePrisioner = (record) => {
     Modal.confirm({
       title: "You REALLY want to delete this priosioner?",
@@ -128,10 +115,15 @@ function PrisionersList() {
       },
     });
   };
+
   const onEditPrisioner = (record) => {
     setisEditing(true);
     // ... para fazer copia, tendi nada
     setEditingPrisioner({ ...record });
+  };
+
+  const onAddPrisioner = () => {
+    setisAdding(true);
   };
 
   const ResetEditing = () => {
@@ -139,11 +131,60 @@ function PrisionersList() {
     setEditingPrisioner(null);
   };
 
+  const ResetAdding = () => {
+    setisAdding(false);
+  };
+
+  function editPrisioner(Edited_prisioner) {
+    console.log(typeof Edited_prisioner);
+    console.log(Edited_prisioner.id);
+    try {
+      axios.put(
+        "http://localhost:5001/api/inmate/" + Edited_prisioner.id,
+        Edited_prisioner
+      );
+    } catch (error) {
+      console.log("Deu pylance");
+      return false;
+    }
+    return true;
+  }
+
+  const AddPrisioner = (new_prisioner_info) => {
+    // Aqui para fazer os adds de novo prisioneiro, está estatico aqui
+    ResetAdding();
+    console.log(new_prisioner_info);
+    const new_prisioner = {
+      name: new_prisioner_info.name,
+      birthDate: new_prisioner_info.birthdate.format(dateFormat),
+      entryDate: new_prisioner_info.sentence[0].format(dateFormat),
+      sentenceEnd: new_prisioner_info.sentence[1].format(dateFormat),
+      workstationId: new_prisioner_info.workstation,
+    };
+    console.log(new_prisioner);
+    try {
+      axios.post("http://localhost:5001/api/inmate", new_prisioner);
+    } catch (error) {
+      console.log("Deu pylance");
+      return false;
+    }
+    setDataSource((pre) => {
+      return [...pre, new_prisioner];
+    });
+    return true;
+  };
+
+  const [form] = Form.useForm();
+
   return (
     <div>
-      <Table columns={columns} dataSource={dataSource} pagination={{defaultPageSize: 14}}></Table>
+      <Table
+        columns={columns}
+        dataSource={dataSource}
+        pagination={{ defaultPageSize: 14 }}
+      ></Table>
       <Button
-        onClick={onAddPrisioner}
+        onClick={() => onAddPrisioner()}
         shape={"round"}
         style={{ marginLeft: "45%" }}
         type="primary"
@@ -152,7 +193,7 @@ function PrisionersList() {
       </Button>
       <Modal
         title="Edit Prisioner"
-        visible={isEditing}
+        open={isEditing}
         okText="Save"
         okType="primary"
         onCancel={() => {
@@ -160,15 +201,20 @@ function PrisionersList() {
         }}
         onOk={() => {
           setDataSource((pre) => {
-            if (
-              editingPrisioner.solitary === "true" ||
-              editingPrisioner.solitary === "false"
-            ) {
-            //   editingPrisioner.solitary = editingPrisioner.solitary === "true";
-            //   console.log(editingPrisioner.solitary.type())
+            if (true) {
               return pre.map((prisioner) => {
                 if (prisioner.id === editingPrisioner.id) {
-                  return editingPrisioner;
+                  const bool = editPrisioner(editingPrisioner);
+                  if (bool) {
+                    return editingPrisioner;
+                  } else {
+                    Modal.error({
+                      title: "Edit Error",
+                      content: `An error happened while changing the prisioner.`,
+                      okType: "danger",
+                    });
+                    return prisioner;
+                  }
                 } else {
                   return prisioner;
                 }
@@ -181,7 +227,6 @@ function PrisionersList() {
           ResetEditing();
         }}
       >
-        {" "}
         <Space direction="vertical" style={{ width: "100%", height: "100%" }}>
           <Input
             addonBefore="Name"
@@ -192,54 +237,102 @@ function PrisionersList() {
               });
             }}
           />
-          <Input
-            addonBefore="Birthdate"
-            value={editingPrisioner?.birthdate}
+          <RangePicker
+            showTime
+            defaultValue={[
+              dayjs(editingPrisioner?.entryDate, dateFormat),
+              dayjs(editingPrisioner?.sentenceEnd, dateFormat),
+            ]}
+            format={dateFormat}
             onChange={(e) => {
               setEditingPrisioner((pre) => {
-                return { ...pre, birthdate: e.target.value };
+                console.log("E: ", e);
+                if (e === null) {
+                  return { ...pre };
+                } else {
+                  console.log(pre);
+                  console.log(e[0].format(dateFormat));
+                  console.log(e[1].format(dateFormat));
+                  return {
+                    ...pre,
+                    entryDate: e[0].format(dateFormat),
+                    sentenceEnd: e[1].format(dateFormat),
+                  };
+                }
               });
             }}
           />
           <Input
-            addonBefore="Sentence Start"
-            value={editingPrisioner?.sentence}
+            addonBefore="Workstation ID"
+            value={editingPrisioner?.workstationId}
             onChange={(e) => {
               setEditingPrisioner((pre) => {
-                return { ...pre, sentence: e.target.value };
+                return { ...pre, workstationId: e.target.value };
               });
             }}
           />
-          <Input
-            addonBefore="Duration"
-            value={editingPrisioner?.duration}
-            onChange={(e) => {
-              setEditingPrisioner((pre) => {
-                return { ...pre, duration: e.target.value };
-              });
-            }}
-          />
-          <Input
-            addonBefore="Workstation"
-            value={editingPrisioner?.workstation}
-            onChange={(e) => {
-              setEditingPrisioner((pre) => {
-                return { ...pre, workstation: e.target.value };
-              });
-            }}
-          />
-          <Input
+          <Checkbox
+            checked={editingPrisioner?.solitary}
             addonBefore="Solitary"
-            value={editingPrisioner?.solitary}
             onChange={(e) => {
               setEditingPrisioner((pre) => {
-                return { ...pre, solitary: e.target.value.toLowerCase() };
+                return { ...pre, solitary: e.target.checked };
               });
             }}
           />
         </Space>
       </Modal>
       {/* o ? é para dizer que o argumento é opcional */}
+      <Modal
+        title="Add Prisioner"
+        open={isAdding}
+        onCancel={() => ResetAdding()}
+        onOk={form.submit}
+      >
+        <Form form={form} onFinish={AddPrisioner}>
+          <Form.Item
+            name="name"
+            rules={[
+              {
+                required: true,
+                message: "Please input the name!",
+              },
+            ]}
+          >
+            <Input addonBefore="Name" />
+          </Form.Item>
+          <Form.Item
+            name="workstation"
+            rules={[
+              {
+                required: true,
+                message: "Please input Workstation ID!",
+              },
+            ]}
+          >
+            <Input addonBefore="Workstation ID" />
+          </Form.Item>
+          Birthdate:
+          <Form.Item name="birthdate">
+            <DatePicker
+              format={dateFormat}
+              placeholder={"Birthdate"}
+            ></DatePicker>
+          </Form.Item>
+          Sentence:
+          <Form.Item name="sentence">
+            <RangePicker
+              showTime
+              format={dateFormat}
+              placeholder={["Sentence Start", "Sentence End"]}
+            />
+          </Form.Item>
+          Solitary:
+          <Form.Item name="solitary" valuePropName="checked">
+            <Checkbox name="Solitary" />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 }

@@ -7,5 +7,5 @@ import ies.grupo51.lockedin.models.HealthLog;
 
 @Repository
 public interface HealthLogRepository extends MongoRepository <HealthLog, Long> {
-    
+    public <Optional>HealthLog findByInmateId(long inmateId);
 }

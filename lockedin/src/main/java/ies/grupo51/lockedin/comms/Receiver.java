@@ -5,16 +5,17 @@ import org.json.JSONObject;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
 import ies.grupo51.lockedin.models.MoveSensor;
 import ies.grupo51.lockedin.models.MoveSensorLog;
-import ies.grupo51.lockedin.models.WorkStation;
 import ies.grupo51.lockedin.models.Inmate;
 import ies.grupo51.lockedin.services.InmateService;
 import ies.grupo51.lockedin.services.MoveSensorLogService;
 import ies.grupo51.lockedin.services.MoveSensorService;
 
+@Component
 public class Receiver {
 
     @Autowired
@@ -26,7 +27,7 @@ public class Receiver {
     @Autowired
     private InmateService inmateService;
 
-    @RabbitListener(queues = CommsConfig.QUEUE)
+    @RabbitListener(queues = CommsConfig.RECV_QUEUE)
     public void listen(String receivedmsg) throws ResourceNotFoundException {
         System.out.print("Received from datagen: " + receivedmsg);
 

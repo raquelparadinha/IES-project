@@ -28,7 +28,7 @@ const Notifications = () => (
       <Card title="Notifications">
         <Card
           type="inner"
-          title="ESTRINHO"
+          title="ESTRILHO"
           extra={
             <Dropdown
               menu={{
@@ -45,14 +45,14 @@ const Notifications = () => (
             </Dropdown>
           }
         >
-          ESTRINHO MESMO COMPLICADO NA CANTINA
+          ESTRILHO MESMO COMPLICADO NA CANTINA
         </Card>
         <Card
           style={{
             marginTop: 16,
           }}
           type="inner"
-          title="ESTRINHO"
+          title="ESTRILHO"
           extra={
             <Dropdown
               menu={{
@@ -69,14 +69,14 @@ const Notifications = () => (
             </Dropdown>
           }
         >
-          ESTRINHO MESMO COMPLICADO NA CANTINA
+          ESTRILHO MESMO COMPLICADO NA CANTINA
         </Card>
         <Card
           style={{
             marginTop: 16,
           }}
           type="inner"
-          title="ESTRINHO"
+          title="ESTRILHO"
           extra={
             <Dropdown
               menu={{
@@ -93,14 +93,14 @@ const Notifications = () => (
             </Dropdown>
           }
         >
-          ESTRINHO MESMO COMPLICADO NA CANTINA
+          ESTRILHO MESMO COMPLICADO NA CANTINA
         </Card>
         <Card
           style={{
             marginTop: 16,
           }}
           type="inner"
-          title="ESTRINHO"
+          title="ESTRILHO"
           extra={
             <Dropdown
               menu={{
@@ -117,14 +117,14 @@ const Notifications = () => (
             </Dropdown>
           }
         >
-          ESTRINHO MESMO COMPLICADO NA CANTINA
+          ESTRILHO MESMO COMPLICADO NA CANTINA
         </Card>
         <Card
           style={{
             marginTop: 16,
           }}
           type="inner"
-          title="ESTRINHO"
+          title="ESTRILHO"
           extra={
             <Dropdown
               menu={{
@@ -141,14 +141,14 @@ const Notifications = () => (
             </Dropdown>
           }
         >
-          ESTRINHO MESMO COMPLICADO NA CANTINA
+          ESTRILHO MESMO COMPLICADO NA CANTINA
         </Card>
         <Card
           style={{
             marginTop: 16,
           }}
           type="inner"
-          title="ESTRINHO"
+          title="ESTRILHO"
           extra={
             <Dropdown
               menu={{
@@ -165,14 +165,14 @@ const Notifications = () => (
             </Dropdown>
           }
         >
-          ESTRINHO MESMO COMPLICADO NA CANTINA
+          ESTRILHO MESMO COMPLICADO NA CANTINA
         </Card>
         <Card
           style={{
             marginTop: 16,
           }}
           type="inner"
-          title="ESTRINHO"
+          title="ESTRILHO"
           extra={
             <Dropdown
               menu={{
@@ -189,7 +189,7 @@ const Notifications = () => (
             </Dropdown>
           }
         >
-          ESTRINHO MESMO COMPLICADO NA CANTINA
+          ESTRILHO MESMO COMPLICADO NA CANTINA
         </Card>
       </Card>
     </Col>
