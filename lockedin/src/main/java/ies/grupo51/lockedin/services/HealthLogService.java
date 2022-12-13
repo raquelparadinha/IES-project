@@ -36,7 +36,14 @@ public class HealthLogService {
         return repository.findByInmateId(inmateId);
     }
 
-    public long getRepositorySize() {
-        return repository.count();
+    public long getNextId() {
+        long max_id = 1;
+        for (HealthLog alert : getHealthLogs()) {
+            long id = alert.getId();
+            if (id > max_id) {
+                max_id = id;
+            }
+        }
+        return max_id+1;
     }
 }

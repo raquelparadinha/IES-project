@@ -31,8 +31,14 @@ public class MoveSensorLogService {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 
-    public long getRepositorySize() {
-        System.out.println(repository.count());
-        return repository.count();
+    public long getNextId() {
+        long max_id = 1;
+        for (MoveSensorLog alert : getMoveSensorLogs()) {
+            long id = alert.getId();
+            if (id > max_id) {
+                max_id = id;
+            }
+        }
+        return max_id+1;
     }
 }

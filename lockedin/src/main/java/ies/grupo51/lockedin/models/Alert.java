@@ -12,6 +12,7 @@ public abstract class Alert {
     private long id;
 
     private String type;
+    private String information;
     private LocalDate timestamp;
     private Boolean seen;
 
@@ -19,11 +20,16 @@ public abstract class Alert {
 
     public Alert() {
         this.id = 0;
+        this.timestamp = LocalDate.now();
+        this.seen = false;
     }
 
-    public Alert(long id, String type) {
+    public Alert(long id, String type, String information) {
         this.id = id;
         this.type = type;
+        this.information = information;
+        this.timestamp = LocalDate.now();
+        this.seen = false;
     }
 
     // SETS
@@ -43,6 +49,9 @@ public abstract class Alert {
     public void setTimestamp(LocalDate timestamp) {
         this.timestamp = timestamp;
     }
+    public void setInformation(String information) {
+        this.information = information;
+    }
 
     // GETS
 
@@ -60,6 +69,9 @@ public abstract class Alert {
     }
     public LocalDate getTimestamp() {
         return timestamp;
+    }
+    public String getInformation() {
+        return information;
     }
     
     @Override // Will be called as super.toString() and completed with info!

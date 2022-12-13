@@ -39,6 +39,8 @@ public class WorkStationService {
         
         existingWorkStation.setName(workStation.getName());
         existingWorkStation.setDescription(workStation.getDescription());
+        existingWorkStation.setWorkLogIds(workStation.getWorkLogIds());
+        existingWorkStation.setCapacity(workStation.getCapacity());
         existingWorkStation.setExpectedQuota(workStation.getExpectedQuota());
         
         return repository.save(existingWorkStation);

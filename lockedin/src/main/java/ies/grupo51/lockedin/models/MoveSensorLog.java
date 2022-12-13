@@ -15,7 +15,7 @@ public class MoveSensorLog {
     private static long counter = 0;
 
     public MoveSensorLog() {
-
+        this.id = 0;
     }
 
     public MoveSensorLog(long id, long inmateId, long sensorId) {

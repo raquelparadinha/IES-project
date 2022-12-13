@@ -13,8 +13,12 @@ public class EstrilhoAlert extends Alert {
         super();
     }
 
-    public EstrilhoAlert(long id, String type, long areaId) {
-        super(id, type);
+    public EstrilhoAlert(long id, String type, String information) {
+        super(id, type, information);
+    }
+
+    public EstrilhoAlert(long id, String type, String information, long areaId) {
+        super(id, type, information);
         this.areaId = areaId;
     }
 

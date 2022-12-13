@@ -32,7 +32,14 @@ public class WorkLogService {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 
-    public long getRepositorySize() {
-        return repository.count();
+    public long getNextId() {
+        long max_id = 1;
+        for (WorkLog alert : getWorkLogs()) {
+            long id = alert.getId();
+            if (id > max_id) {
+                max_id = id;
+            }
+        }
+        return max_id+1;
     }
 }
