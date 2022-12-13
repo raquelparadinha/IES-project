@@ -27,7 +27,7 @@ const coisas2 = [
   "stress",
   "glicose",
   "uricacid",
-  "Cholesterol",
+  "cholesterol",
   "toxicscreen",
 ];
 const DashboardTabs = () => (
@@ -35,7 +35,6 @@ const DashboardTabs = () => (
     centered
     type="card"
     items={new Array(coisas.length).fill(null).map((_, i) => {
-      console.log(i);
       return {
         label: `${coisas[i]}`,
         key: i,
@@ -46,47 +45,7 @@ const DashboardTabs = () => (
 );
 export default DashboardTabs;
 
-const data = [
-  {
-    number: 60,
-    qty: 10,
-  },
-  {
-    number: 65,
-    qty: 5,
-  },
-  {
-    number: 70,
-    qty: 7,
-  },
-  {
-    number: 75,
-    qty: 3,
-  },
-  {
-    number: 80,
-    qty: 5,
-  },
-  {
-    number: 85,
-    qty: 9,
-  },
-  {
-    number: 85,
-    qty: 2,
-  },
-  {
-    number: 90,
-    qty: 8,
-  },
-  {
-    number: 95,
-    qty: 1,
-  },
-];
-
 const Example = (props) => {
-  console.log(props);
   const [dataSource, setDataSource] = useState();
   const fetchData = () => {
     try {
@@ -99,21 +58,24 @@ const Example = (props) => {
         .then((response) => setDataSource(response.data));
     } catch {
       console.log("Deu pylance");
+      fetchData();
     }
   };
-  console.log(dataSource);
   useEffect(() => {
     const interval = setInterval(() => {
       fetchData();
-    }, 1000);
+    }, 300000);
     return () => clearInterval(interval);
   }, []);
+  if (dataSource === undefined) {
+    fetchData();
+  }
   console.log(dataSource);
   return (
     <BarChart
       width={1200}
       height={500}
-      data={data}
+      data={dataSource}
       margin={{
         top: 5,
         right: 30,
@@ -122,12 +84,12 @@ const Example = (props) => {
       }}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="type" />
+      <XAxis dataKey="value" />
       <YAxis />
       <Tooltip />
       <Legend verticalAlign="top" wrapperStyle={{ lineHeight: "40px" }} />
       <ReferenceLine y={0} stroke="#000" />
-      <Brush dataKey="name" height={30} stroke="#8884d8" />
+      <Brush dataKey="value" height={30} stroke="#8884d8" />
       <Bar dataKey="qty" fill="#82ca9d" />
     </BarChart>
   );

@@ -5,6 +5,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 
 function InmateNumbers() {
   const [dataSource, setDataSource] = useState();
+  const [dataSource2, setDataSource2] = useState();
   const fetchData = () => {
     try {
       return axios
@@ -21,18 +22,47 @@ function InmateNumbers() {
     return () => clearInterval(interval);
   }, []);
 
+  const fetchData2 = () => {
+    try {
+      return axios
+        .get("http://localhost:5001/api/inmate")
+        .then((response) => setDataSource2(response.data));
+    } catch {
+      console.log("Deu pylance");
+    }
+  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData2();
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   function SeeIfUndfined() {
-    console.log(dataSource)
     if (dataSource !== undefined) {
       return dataSource.map((zone) => (
         <>
           <p>
-            {zone.name}: {zone.currentInmateIds} / {zone.capacity} | Acess:{" "}
-            {zone.access.toString()}
+            {zone.name}: {zone.currentInmateIds.length} / {zone.capacity} |
+            Acess: {zone.access.toString()}
           </p>
         </>
       ));
     } else {
+      fetchData();
+      return (
+        <div>
+          <LoadingOutlined />
+        </div>
+      );
+    }
+  }
+
+  function SeeIfUndfined2() {
+    if (dataSource2 !== undefined) {
+      return <p>Total Inmates: {dataSource2.length}</p>;
+    } else {
+      fetchData2();
       return (
         <div>
           <LoadingOutlined />
@@ -45,7 +75,7 @@ function InmateNumbers() {
       <Space>
         <Col>
           <br />
-          <div style={{ textAlign: "center" }}>Inmate Numbers: 10</div>
+          <div style={{ textAlign: "center" }}>{SeeIfUndfined2()}</div>
           <br />
           <Card
             title="Areas"
@@ -56,17 +86,6 @@ function InmateNumbers() {
             }}
           >
             {SeeIfUndfined()}
-            {/* <p>Entrance: 12 / 100</p>
-            <p>Visitors Wing: 12 / 100</p>
-            <p>Staff Wing: 12 / 100</p>
-            <p>Job Wing: 12 / 100</p>
-            <p>Patio: 12 / 100</p>
-            <p>Infirmary: 12 / 100</p>
-            <p>Cell Block 1: 12 / 100</p>
-            <p>Cell Block 2: 12 / 100</p>
-            <p>Showers: 12 / 100</p>
-            <p>Solitary: 12 / 100</p>
-            <p>Canteen: 12 / 100</p> */}
           </Card>
         </Col>
       </Space>
