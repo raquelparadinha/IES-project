@@ -12,6 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,7 @@ import ies.grupo51.lockedin.auth.payload.request.LoginRequest;
 import ies.grupo51.lockedin.auth.payload.response.JwtResponse;
 import ies.grupo51.lockedin.auth.security.jwt.JwtUtils;
 import ies.grupo51.lockedin.auth.security.services.UserDetailsImpl;
+import ies.grupo51.lockedin.auth.security.services.UserDetailsServiceImpl;
 import ies.grupo51.lockedin.models.Guard;
 import ies.grupo51.lockedin.repositories.GuardRepository;
 
@@ -32,18 +34,21 @@ public class AuthController {
 	@Autowired
 	AuthenticationManager authenticationManager;
 
-	@Autowired
-	GuardRepository repository;
+	// @Autowired
+	// GuardRepository repository;
 
 	@Autowired
 	JwtUtils jwtUtils;
 
+	@Autowired
+	UserDetailsServiceImpl userService;
+
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		// try {
-			Guard test = repository.findByEmail(loginRequest.getEmail());
-			System.out.println("\n"+ test.toString()+ "\n");
-			System.out.println("\n"+ loginRequest.getEmail() + "\n" + loginRequest.getPassword());
+		try {
+			// Guard test = repository.findByEmail(loginRequest.getEmail());
+			// System.out.println("\n"+ test.toString()+ "\n");
+			// System.out.println("\n"+ loginRequest.getEmail() + "\n" + loginRequest.getPassword());
 			// authenticationManager.authenticate(
             //         new UsernamePasswordAuthenticationToken( loginRequest.getEmail(), loginRequest.getPassword()));
 					
@@ -55,26 +60,30 @@ public class AuthController {
 			Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 			System.out.println("\nAUTENTICADO\n");
-			
+			System.out.println("\n"+ authentication.getName() + "\n" );
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			String jwt = jwtUtils.generateJwtToken(authentication);
 			
-			System.out.println(jwt);
-			UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
+			// System.out.println(jwt);
+			UserDetailsImpl userDetails = userService.loadUserByUsername(authentication.getName());
+			// UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
 			List<String> roles = userDetails.getAuthorities().stream()
 					.map(item -> item.getAuthority())
 					.collect(Collectors.toList());
+			
+			System.out.println(roles);
 
 			return ResponseEntity.ok(new JwtResponse(jwt, 
 													userDetails.getId(), 
 													userDetails.getEmail(), 
 													roles));
-		// } catch (Exception e) {
-        //     System.out.println(e.getMessage());
-        //     System.out.println(e.getCause());
-        //     System.out.println(e.getLocalizedMessage());
-        //     // throw new BadCredentialsException("Invalid email/password supplied!");
-        // }
+		} catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getCause());
+            System.out.println(e.getLocalizedMessage());
+            // throw new BadCredentialsException("Invalid email/password supplied!");
+        }
+		return null;
 	}
 
 	// @PostMapping("/signup")

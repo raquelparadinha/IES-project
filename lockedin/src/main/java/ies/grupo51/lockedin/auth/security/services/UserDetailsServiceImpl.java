@@ -1,7 +1,7 @@
 package ies.grupo51.lockedin.auth.security.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
+// import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 // import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,18 +23,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	@Transactional
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+	public UserDetailsImpl loadUserByUsername(String email) { //throws UsernameNotFoundException {
 		Guard guard = guardRepository.findByEmail(email);
 		if (guard == null) {
 			Warden warden = wardenRepository.findByEmail(email);
 			if (warden == null) {
-				System.out.println("\n\n PYLANCEEEEEEEEEEE \n\n");
+				// System.out.println("\n\n PYLANCEEEEEEEEEEE \n\n");
 				throw(new UsernameNotFoundException("User Not Found with email: " + email));
 			}
 			return UserDetailsImpl.build(warden);
 		}
+		System.out.println(guard.toString());
 		return UserDetailsImpl.build(guard);
 	}
+	
 }
 
 		// try {

@@ -5,12 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 // import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 // import javax.validation.constraints.Email;
 // import javax.validation.constraints.NotBlank;
 
 import org.springframework.data.annotation.Id;
 // import org.springframework.data.moncgodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import ies.grupo51.lockedin.services.RoleService;
 
 @Document("guard")
 public class Guard {
@@ -32,6 +36,9 @@ public class Guard {
     private List<Role> roles = new ArrayList<>();
 
     private static long counter = 100;
+
+    @Autowired
+    RoleService service; 
     
     public Guard () {
         this.id = 0;
@@ -47,6 +54,8 @@ public class Guard {
         this.birthdate = birthdate;
         this.areaId = areaId;
         this.password = password;
+        Role userRole = service.findRole(ERole.ROLE_USER);
+		this.roles.add(userRole);
     }
 
     // SETS
@@ -112,8 +121,11 @@ public class Guard {
     @Override
     public String toString() {
         String result = String.format(
-            "Guard [ID: %d, Name: %s, Email: %s, Phone: %d, Birth date: %s]", 
+            "Guard [ID: %d, Name: %s, Email: %s, Phone: %d, Birth date: %s, Roles: ", 
             this.id, this.name, this.email, this.phone, this.birthdate.toString());
+        for (Role r : roles) {
+            result += String.format("%s", r.getName());
+        }
         return result;
     }
 }
