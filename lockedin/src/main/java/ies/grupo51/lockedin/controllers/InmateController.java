@@ -152,6 +152,7 @@ public class InmateController {
         List<HealthLog> healthLogs = healthLogService.getHealthLogs();
         for (HealthLog healthLog : healthLogs) {
             Integer integer = healthLog.getUricAcid();
+            valueQuantity.putIfAbsent(integer, 0);
             valueQuantity.put(integer, valueQuantity.get(integer)+1);
         }
         for (Integer key : new TreeSet<>(valueQuantity.keySet())) {
