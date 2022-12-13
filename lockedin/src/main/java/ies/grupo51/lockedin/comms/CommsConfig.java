@@ -22,14 +22,4 @@ public class CommsConfig {
     @Bean Queue send_queue() {
         return new Queue(SEND_QUEUE, false);
     }
-
-    @Bean
-    public Receiver receiver() {
-        return new Receiver();
-    }
-
-    @Bean
-    public Sender sender() {
-        return new Sender();
-    }
 }

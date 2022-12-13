@@ -11,7 +11,7 @@ public class Sender {
     private AmqpTemplate rabbitTemplate;
 
     @Autowired
-    private Queue queue;
+    private Queue send_queue;
 
     public void send() {
         //rabbitTemplate()
