@@ -18,9 +18,9 @@ class Receiver():
     def connclose(self):
         self.connection.close()
 
-    def recv(self):
+    def recv(self, sim):
         def callback(ch, method, properties, body):
-            print('recv {}'.format(body))
+            sim.processmsg(body)
         
         self.channel.basic_consume(queue=self.queue, on_message_callback=callback, auto_ack=True)
 

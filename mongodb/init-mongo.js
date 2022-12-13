@@ -58,7 +58,7 @@ var docs = JSON.parse(data.toString())
 db.inmate.insertMany(docs)
 console.log('\nCHECKPOINT -> inmates done')
 
-db.createCollection('healthLog');
+db.createCollection('healthLog', { capped: true, size: 1000000, max: 5000 });
 var data = fs.readFileSync('./seeddata/healthLogs.json')
 var docs = JSON.parse(data.toString())
 db.healthLog.insertMany(docs)
@@ -66,4 +66,3 @@ console.log('\nCHECKPOINT -> healthLogs done')
 
 db.createCollection('moveSensorLog', { capped: true, size: 2000000, max: 10000 });
 
-db.createCollection('healthLog', { capped: true, size: 1000000, max: 5000 });
