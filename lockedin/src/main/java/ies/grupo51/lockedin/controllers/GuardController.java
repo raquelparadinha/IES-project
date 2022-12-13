@@ -67,6 +67,13 @@ public class GuardController {
 
     @PostMapping("")
     public ResponseEntity<Guard> createGuard(@Valid @RequestBody Guard guard){
+        long max_id = 1;
+        for (Guard guardInDatabase : guardService.getGuards()) {
+            if (guardInDatabase.getId() > max_id) {
+                max_id = guardInDatabase.getId();
+            }
+        }
+        guard.setId(max_id+1);
         return ResponseEntity.ok(guardService.saveGuard(guard));
     }
 }

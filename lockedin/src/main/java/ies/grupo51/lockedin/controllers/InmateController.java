@@ -84,69 +84,114 @@ public class InmateController {
     }
 
     @GetMapping("/health/heartbeat/data")
-    public ResponseEntity<HashMap<Integer, Integer>> getDataHeartBeat() throws ResourceNotFoundException {
-        HashMap<Integer, Integer> data = new HashMap<>();
+    public ResponseEntity<List<HashMap<String, Integer>>> getDataHeartBeat() throws ResourceNotFoundException {
+        List<HashMap<String, Integer>> data = new ArrayList<>();
+        HashMap<Integer, Integer> valueQuantity = new HashMap<>();
         List<HealthLog> healthLogs = healthLogService.getHealthLogs();
         for (HealthLog healthLog : healthLogs) {
             Integer integer = healthLog.getHeartBeat();
-            data.putIfAbsent(integer, 0);
-            data.put(integer, data.get(integer)+1);
+            valueQuantity.putIfAbsent(integer, 0);
+            valueQuantity.put(integer, valueQuantity.get(integer)+1);
+        }
+        for (Integer key : valueQuantity.keySet()) {
+            HashMap<String, Integer> insert = new HashMap<>();
+            insert.put("value", key);
+            insert.put("qty", valueQuantity.get(key));
+            data.add(insert);
         }
         return ResponseEntity.ok().body(data);
     }
 
     @GetMapping("/health/stress/data")
-    public ResponseEntity<HashMap<Integer, Integer>> getDataStress() throws ResourceNotFoundException {
-        HashMap<Integer, Integer> data = new HashMap<>();
+    public ResponseEntity<List<HashMap<String, Integer>>> getDataStress() throws ResourceNotFoundException {
+        List<HashMap<String, Integer>> data = new ArrayList<>();
+        HashMap<Integer, Integer> valueQuantity = new HashMap<>();
         List<HealthLog> healthLogs = healthLogService.getHealthLogs();
         for (HealthLog healthLog : healthLogs) {
             Integer integer = healthLog.getStress();
-            data.putIfAbsent(integer, 0);
-            data.put(integer, data.get(integer)+1);
+            valueQuantity.putIfAbsent(integer, 0);
+            valueQuantity.put(integer, valueQuantity.get(integer)+1);
+        }
+        for (Integer key : valueQuantity.keySet()) {
+            HashMap<String, Integer> insert = new HashMap<>();
+            insert.put("value", key);
+            insert.put("qty", valueQuantity.get(key));
+            data.add(insert);
         }
         return ResponseEntity.ok().body(data);
     }
+
     @GetMapping("/health/glicose/data")
-    public ResponseEntity<HashMap<Integer, Integer>> getDataGlicose() throws ResourceNotFoundException {
-        HashMap<Integer, Integer> data = new HashMap<>();
+    public ResponseEntity<List<HashMap<String, Integer>>> getDataGlicose() throws ResourceNotFoundException {
+        List<HashMap<String, Integer>> data = new ArrayList<>();
+        HashMap<Integer, Integer> valueQuantity = new HashMap<>();
         List<HealthLog> healthLogs = healthLogService.getHealthLogs();
         for (HealthLog healthLog : healthLogs) {
             Integer integer = healthLog.getGlicose();
-            data.putIfAbsent(integer, 0);
-            data.put(integer, data.get(integer)+1);
+            valueQuantity.putIfAbsent(integer, 0);
+            valueQuantity.put(integer, valueQuantity.get(integer)+1);
+        }
+        for (Integer key : valueQuantity.keySet()) {
+            HashMap<String, Integer> insert = new HashMap<>();
+            insert.put("value", key);
+            insert.put("qty", valueQuantity.get(key));
+            data.add(insert);
         }
         return ResponseEntity.ok().body(data);
     }
+
     @GetMapping("/health/uricacid/data")
-    public ResponseEntity<HashMap<Integer, Integer>> getDataUricAcid() throws ResourceNotFoundException {
-        HashMap<Integer, Integer> data = new HashMap<>();
+    public ResponseEntity<List<HashMap<String, Integer>>> getDataUricacid() throws ResourceNotFoundException {
+        List<HashMap<String, Integer>> data = new ArrayList<>();
+        HashMap<Integer, Integer> valueQuantity = new HashMap<>();
         List<HealthLog> healthLogs = healthLogService.getHealthLogs();
         for (HealthLog healthLog : healthLogs) {
             Integer integer = healthLog.getUricAcid();
-            data.putIfAbsent(integer, 0);
-            data.put(integer, data.get(integer)+1);
+            valueQuantity.put(integer, valueQuantity.get(integer)+1);
+        }
+        for (Integer key : valueQuantity.keySet()) {
+            HashMap<String, Integer> insert = new HashMap<>();
+            insert.put("value", key);
+            insert.put("qty", valueQuantity.get(key));
+            data.add(insert);
         }
         return ResponseEntity.ok().body(data);
     }
+
     @GetMapping("/health/cholesterol/data")
-    public ResponseEntity<HashMap<Integer, Integer>> getDataCholesterol() throws ResourceNotFoundException {
-        HashMap<Integer, Integer> data = new HashMap<>();
+    public ResponseEntity<List<HashMap<String, Integer>>> getDataCholesterol() throws ResourceNotFoundException {
+        List<HashMap<String, Integer>> data = new ArrayList<>();
+        HashMap<Integer, Integer> valueQuantity = new HashMap<>();
         List<HealthLog> healthLogs = healthLogService.getHealthLogs();
         for (HealthLog healthLog : healthLogs) {
             Integer integer = healthLog.getCholesterol();
-            data.putIfAbsent(integer, 0);
-            data.put(integer, data.get(integer)+1);
+            valueQuantity.putIfAbsent(integer, 0);
+            valueQuantity.put(integer, valueQuantity.get(integer)+1);
+        }
+        for (Integer key : valueQuantity.keySet()) {
+            HashMap<String, Integer> insert = new HashMap<>();
+            insert.put("value", key);
+            insert.put("qty", valueQuantity.get(key));
+            data.add(insert);
         }
         return ResponseEntity.ok().body(data);
     }
+
     @GetMapping("/health/toxicscreen/data")
-    public ResponseEntity<HashMap<Integer, Integer>> getDataToxicScreen() throws ResourceNotFoundException {
-        HashMap<Integer, Integer> data = new HashMap<>();
+    public ResponseEntity<List<HashMap<String, Integer>>> getDataToxicscreen() throws ResourceNotFoundException {
+        List<HashMap<String, Integer>> data = new ArrayList<>();
+        HashMap<Integer, Integer> valueQuantity = new HashMap<>();
         List<HealthLog> healthLogs = healthLogService.getHealthLogs();
         for (HealthLog healthLog : healthLogs) {
             Integer integer = healthLog.getToxicScreen();
-            data.putIfAbsent(integer, 0);
-            data.put(integer, data.get(integer)+1);
+            valueQuantity.putIfAbsent(integer, 0);
+            valueQuantity.put(integer, valueQuantity.get(integer)+1);
+        }
+        for (Integer key : valueQuantity.keySet()) {
+            HashMap<String, Integer> insert = new HashMap<>();
+            insert.put("value", key);
+            insert.put("qty", valueQuantity.get(key));
+            data.add(insert);
         }
         return ResponseEntity.ok().body(data);
     }
@@ -162,6 +207,13 @@ public class InmateController {
 
     @PostMapping("")
     public ResponseEntity<Inmate> createInmate(@Valid @RequestBody Inmate inmate){
+        long max_id = 1;
+        for (Inmate inmateInDatabase : inmateService.getInmates()) {
+            if (inmateInDatabase.getId() > max_id) {
+                max_id = inmateInDatabase.getId();
+            }
+        }
+        inmate.setId(max_id+1);
         return ResponseEntity.ok(inmateService.saveInmate(inmate));
     }
 }
