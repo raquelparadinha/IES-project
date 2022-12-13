@@ -3,34 +3,34 @@ package ies.grupo51.lockedin.models;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("alert")
-public class EstrilhoAlert extends Alert {
+public class HealthAlert extends Alert {
     
-    private long areaId;
+    private long healthLogId;
 
     private static long counter = 0;
 
-    public EstrilhoAlert() {
+    public HealthAlert() {
         super();
     }
 
-    public EstrilhoAlert(long id, String type, long areaId) {
+    public HealthAlert(long id, String type, long areaId) {
         super(id, type);
-        this.areaId = areaId;
+        this.healthLogId = areaId;
     }
 
     // SETS
 
-    public void setAreaId(long areaId) {
-        this.areaId = areaId;
+    public void setHealthLogId(long healthLogId) {
+        this.healthLogId = healthLogId;
     }
     public static void setCounter(long counter) {
-        EstrilhoAlert.counter = counter;
+        HealthAlert.counter = counter;
     }
 
     // GETS
 
-    public long getAreaId() {
-        return areaId;
+    public long getHealthLogId() {
+        return healthLogId;
     }
     public static long getCounter() {
         return counter;
@@ -39,7 +39,8 @@ public class EstrilhoAlert extends Alert {
     @Override
     public String toString() {
         return super.toString() + String.format(
-            "Area ID: %d]",
-            this.areaId);
+            "HealthLog ID: %d]",
+            this.healthLogId);
     }
 }
+

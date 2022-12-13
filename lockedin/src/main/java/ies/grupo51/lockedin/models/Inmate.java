@@ -16,7 +16,6 @@ public class Inmate {
     private String entryDate;
     private String sentenceEnd;
     private Boolean solitary;
-    private long workstationId;
     private long healthLogId;
     private List<Long> moveLogIds;
     private List<Long> workLogIds;
@@ -27,14 +26,13 @@ public class Inmate {
         this.id = 0;
     }
 
-    public Inmate (long id, String name, String birthDate, String entryDate, String sentenceEnd, Boolean solitary, long workstationId, long healthLogId, List<Long> moveLogIds, List<Long> workLogIds) {
+    public Inmate (long id, String name, String birthDate, String entryDate, String sentenceEnd, Boolean solitary, long healthLogId, List<Long> moveLogIds, List<Long> workLogIds) {
         this.id = id;
         this.name = name;
         this.birthDate = birthDate;
         this.entryDate = entryDate;
         this.sentenceEnd = sentenceEnd;
         this.solitary = solitary;
-        this.workstationId = workstationId;
         this.healthLogId = healthLogId;
         this.moveLogIds = moveLogIds;
         this.workLogIds = workLogIds;
@@ -72,9 +70,6 @@ public class Inmate {
     public void setWorkLogIds(List<Long> workLogIds) {
         this.workLogIds = workLogIds;
     }
-    public void setWorkstationId(long workstationId) {
-        this.workstationId = workstationId;
-    }
 
     // GETS
     
@@ -108,9 +103,6 @@ public class Inmate {
     public List<Long> getWorkLogIds() {
         return workLogIds;
     }
-    public long getWorkstationId() {
-        return workstationId;
-    }
 
     // CUSTOM FUNCTIONS FOR MODEL
 
@@ -124,7 +116,7 @@ public class Inmate {
     @Override
     public String toString() {
         return String.format(
-            "Inmate [ID: %s, Name: %s, Birth Date: %s, Entry Date: %s, Sentence End: %s, Solitary Confinement: %s, Workstation ID: $d]", 
-            this.id, this.name, this.birthDate, this.entryDate, this.sentenceEnd, this.solitary?"YES":"NO", this.workstationId);
+            "Inmate [ID: %s, Name: %s, Birth Date: %s, Entry Date: %s, Sentence End: %s, Solitary Confinement: %s]", 
+            this.id, this.name, this.birthDate, this.entryDate, this.sentenceEnd, this.solitary?"YES":"NO");
     }
 }

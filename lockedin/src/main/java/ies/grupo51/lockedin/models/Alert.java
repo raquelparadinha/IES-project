@@ -1,5 +1,7 @@
 package ies.grupo51.lockedin.models;
 
+import java.time.LocalDate;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,6 +12,8 @@ public abstract class Alert {
     private long id;
 
     private String type;
+    private LocalDate timestamp;
+    private Boolean seen;
 
     private static long counter = 0;
 
@@ -33,6 +37,12 @@ public abstract class Alert {
     public void setType(String type) {
         this.type = type;
     }
+    public void setSeen(Boolean seen) {
+        this.seen = seen;
+    }
+    public void setTimestamp(LocalDate timestamp) {
+        this.timestamp = timestamp;
+    }
 
     // GETS
 
@@ -44,6 +54,12 @@ public abstract class Alert {
     }
     public String getType() {
         return type;
+    }
+    public Boolean getSeen() {
+        return seen;
+    }
+    public LocalDate getTimestamp() {
+        return timestamp;
     }
     
     @Override // Will be called as super.toString() and completed with info!
