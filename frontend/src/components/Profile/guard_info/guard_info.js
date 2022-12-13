@@ -8,6 +8,8 @@ import {
 
 function Guard_info(id) {
   const [dataSource, setDataSource] = useState();
+  const [dataSource2, setDataSource2] = useState();
+
   const fetchData = () => {
     try {
       return axios
@@ -16,6 +18,23 @@ function Guard_info(id) {
     } catch {
       console.log("Deu pylance");
       fetchData();
+    }
+  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData();
+    }, 1000);
+    return () => clearInterval(interval);
+  });
+
+  const fetchData2 = () => {
+    try {
+      return axios
+        .get("http://localhost:5001/api/guard/" + id + "/colleagues")
+        .then((response) => setDataSource2(response.data));
+    } catch {
+      console.log("Deu pylance");
+      fetchData2();
     }
   };
   useEffect(() => {
@@ -47,6 +66,44 @@ function Guard_info(id) {
       );
     }
   }
+  function SeeIfUndfined2() {
+    if (dataSource2 !== undefined) {
+      console.log(dataSource2);
+      // console.log(dataSource.birthdate.split("T")[0])
+      return (
+        <>
+          <p style={{ textAlign: "left" }}>
+            <RightCircleFilled /> Area Guards:
+          </p>
+          {new Array(dataSource2.length).fill(null).map((_, i) => {
+            //  colocar i+1 no lugar do i pois o i = 0 vai ser sobre o estado da area e não é para ser usado aqui 
+            return <p>{dataSource2[i]}</p>;
+          })}
+          <p style={{ textAlign: "left" }}>
+            <RightCircleFilled /> Area Status:
+          </p>
+          {areaStatus(dataSource2[0])}
+        </>
+      );
+    } else {
+      fetchData2();
+      return (
+        <div>
+          <LoadingOutlined />
+        </div>
+      );
+    }
+  }
+
+  function areaStatus(params) {
+    // onde estar true meter dataSource2[0] para ir buscar se a area está open ou closed
+    if (true) {
+        return "Open"
+    } else {
+        return "Closed"
+    }
+  }
+
   let title_;
   if (dataSource !== undefined) {
     title_ = dataSource.name;
@@ -66,7 +123,8 @@ function Guard_info(id) {
             {SeeIfUndfined()}
           </Card>
           <Card title="Area" style={{ width: "250px", height: "300px" }}>
-            <p style={{ textAlign: "left" }}>
+            {SeeIfUndfined2()}
+            {/* <p style={{ textAlign: "left" }}>
               <RightCircleFilled /> Area Guards:
             </p>
             <p>Zé Alberto</p>
@@ -75,7 +133,7 @@ function Guard_info(id) {
             <p style={{ textAlign: "left" }}>
               <RightCircleFilled /> Area Status:
             </p>
-            <p>Open</p>
+            <p>Open</p> */}
           </Card>
         </Space>
       </Col>
