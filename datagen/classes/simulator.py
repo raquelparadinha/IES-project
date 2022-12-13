@@ -55,8 +55,7 @@ class Simulator():
         for i in workstationsf:
             id = i['_id']
             name = i['name']
-            listings = i['capacity']
-            self.workstations.append(Workstation(id, name, listings))
+            self.workstations.append(Workstation(id, name))
 
         # init inamtes
         self.inmates = []
