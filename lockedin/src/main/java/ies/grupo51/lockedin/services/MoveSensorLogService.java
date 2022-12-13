@@ -13,8 +13,7 @@ import ies.grupo51.lockedin.repositories.MoveSensorLogRepository;
 @Service
 public class MoveSensorLogService {
     
-    @Autowired
-    private MoveSensorLogRepository repository;
+    @Autowired private MoveSensorLogRepository repository;
     
     public MoveSensorLog saveMoveSensorLog(MoveSensorLog moveSensorLog){
         return repository.save(moveSensorLog);
@@ -30,5 +29,10 @@ public class MoveSensorLogService {
 
     public MoveSensorLog getMoveSensorLogById(long id) throws ResourceNotFoundException {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
+    }
+
+    public long getRepositorySize() {
+        System.out.println(repository.count());
+        return repository.count();
     }
 }

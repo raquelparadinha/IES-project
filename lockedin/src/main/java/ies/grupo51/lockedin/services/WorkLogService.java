@@ -32,15 +32,7 @@ public class WorkLogService {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 
-    public WorkLog updatWorkLog(WorkLog workLog) throws ResourceNotFoundException {
-        WorkLog existingWorkLog = repository.findById(workLog.getId()).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
-        
-        if (existingWorkLog == null){ return null; }
-        
-        existingWorkLog.setQuota(workLog.getQuota());
-        existingWorkLog.setQuota(workLog.getQuota());
-        existingWorkLog.setWorkStationId(workLog.getWorkStationId());
-        
-        return repository.save(existingWorkLog);
+    public long getRepositorySize() {
+        return repository.count();
     }
 }

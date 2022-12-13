@@ -23,7 +23,7 @@ def main():
             sender.publish(m)
 
         sleep(1)
-        control = False
+        # control = False
 
     sender.connclose()
 

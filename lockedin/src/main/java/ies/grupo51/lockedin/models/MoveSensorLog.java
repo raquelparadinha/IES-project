@@ -18,7 +18,8 @@ public class MoveSensorLog {
 
     }
 
-    public MoveSensorLog(long inmateId, long sensorId) {
+    public MoveSensorLog(long id, long inmateId, long sensorId) {
+        this.id = id;
         this.inmateId = inmateId;
         this.sensorId = sensorId;
     }

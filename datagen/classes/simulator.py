@@ -150,7 +150,7 @@ class Simulator():
             messages.append(msg)
 
         if sensor.exit.name == 'jobwing':
-            ws, wq = self.makeWork(inmate)
+            ws, wq = self.makeWork()
             msg = {'type': 'work'}
             msg['inmateid'] = inmate.id
             msg['workstationid'] = ws.id
@@ -159,7 +159,7 @@ class Simulator():
 
         elif sensor.exit.name == 'infirmary':
             hc = self.makeHealthcheck()
-            msg = {'type': 'sensor'}
+            msg = {'type': 'healthcheck'}
             msg['inmateid'] = inmate.id
             msg['healthcheck'] = hc
             messages.append(msg)

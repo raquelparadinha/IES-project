@@ -1,5 +1,6 @@
 package ies.grupo51.lockedin.models;
 
+import org.json.JSONObject;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,6 +11,7 @@ public class HealthLog {
     private long id;
 
     private long inmateId;
+
     private int heartBeat;
     private int stress;
     private int glicose;
@@ -32,6 +34,17 @@ public class HealthLog {
         this.uricAcid = uricAcid;
         this.cholesterol = cholesterol;
         this.toxicScreen = toxicScreen;
+    }
+
+    public HealthLog(long id, long inmateId, JSONObject hc) {
+        this.id = id;
+        this.inmateId = inmateId;
+        this.heartBeat = hc.getInt("heart_beat");
+        this.stress = hc.getInt("stress_level");
+        this.glicose = hc.getInt("glicose_level");
+        this.uricAcid = hc.getInt("uric_acid");
+        this.cholesterol = hc.getInt("cholesterol");
+        this.toxicScreen = hc.getInt("toxic_screen");
     }
 
     // GETS

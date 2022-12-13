@@ -36,19 +36,7 @@ public class HealthLogService {
         return repository.findByInmateId(inmateId);
     }
 
-    public HealthLog updateHealthLog(HealthLog healthLog) throws ResourceNotFoundException {
-        HealthLog existingHealthLog = repository.findById(healthLog.getId()).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
-        
-        if (existingHealthLog == null){ return null; }
-        
-        existingHealthLog.setCholesterol(healthLog.getCholesterol());
-        existingHealthLog.setGlicose(healthLog.getGlicose());
-        existingHealthLog.setHeartBeat(healthLog.getHeartBeat());
-        existingHealthLog.setInmateId(healthLog.getInmateId());
-        existingHealthLog.setStress(healthLog.getStress());
-        existingHealthLog.setToxicScreen(healthLog.getToxicScreen());
-        existingHealthLog.setUricAcid(healthLog.getUricAcid());
-        
-        return repository.save(existingHealthLog);
+    public long getRepositorySize() {
+        return repository.count();
     }
 }
