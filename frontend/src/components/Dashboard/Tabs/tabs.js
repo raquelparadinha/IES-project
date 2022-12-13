@@ -113,7 +113,7 @@ const Example = (props) => {
     <BarChart
       width={1200}
       height={500}
-      data={dataSource}
+      data={data}
       margin={{
         top: 5,
         right: 30,
