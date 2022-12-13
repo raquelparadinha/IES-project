@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+// import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,14 +24,24 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		try {
-			Guard user = guardRepository.findByEmail(email);
-			return UserDetailsImpl.build(user);
-		} catch (Exception e) {
-			Warden user = wardenRepository.findByEmail(email)
-					.orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + email));;
-			return UserDetailsImpl.build(user);
-		} 
+		Guard guard = guardRepository.findByEmail(email);
+		if (guard == null) {
+			Warden warden = wardenRepository.findByEmail(email);
+			if (warden == null) {
+				System.out.println("\n\n PYLANCEEEEEEEEEEE \n\n");
+				throw(new UsernameNotFoundException("User Not Found with email: " + email));
+			}
+			return UserDetailsImpl.build(warden);
+		}
+		return UserDetailsImpl.build(guard);
 	}
-
 }
+
+		// try {
+		// 	Guard user = guardRepository.findByEmail(email).orElse(null);
+		// 	return UserDetailsImpl.build(user);
+		// } catch (Exception e) {
+		// 	Warden user = wardenRepository.findByEmail(email)
+		// 			.orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + email));;
+		// 	return UserDetailsImpl.build(user);
+		// } 
