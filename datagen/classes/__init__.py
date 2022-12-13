@@ -1,4 +1,4 @@
-from .models import Inmate, Location, Sensor, Workstation
+from .models import Inmate, Area, Sensor, Workstation
 from .simulator import Simulator
 
-__all__ = ['Inmate', 'Location', 'Sensor', 'Workstation', 'Simulator']
+__all__ = ['Inmate', 'Area', 'Sensor', 'Workstation', 'Simulator']
