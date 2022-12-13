@@ -16,7 +16,7 @@ def main():
     receiver = Receiver()
     sender = Sender()
 
-    consumer_thread = Thread(target=receiver.recv)
+    consumer_thread = Thread(target=receiver.recv, args=(sim,))
     consumer_thread.start()
     
     control = 0
@@ -27,10 +27,14 @@ def main():
 
         sleep(1)
         control += 1
-    
+
+    print('1')
     consumer_thread.join()
+    print('2')
     receiver.__exit__()
+    print('3')
     sender.__exit__()
+    print('4')
 
 if __name__ == '__main__':
     main()
