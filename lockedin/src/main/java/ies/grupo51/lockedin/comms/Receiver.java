@@ -18,44 +18,33 @@ import ies.grupo51.lockedin.services.MoveSensorService;
 @Component
 public class Receiver {
 
-    @Autowired
-    private MoveSensorService moveSensorService;
-
-    @Autowired
-    private MoveSensorLogService moveSensorLogService;
-
-    @Autowired
-    private InmateService inmateService;
+    @Autowired private InmateService inmateService;
+    @Autowired private MoveSensorService moveSensorService;
+    @Autowired private MoveSensorLogService moveSensorLogService;
 
     @RabbitListener(queues = CommsConfig.RECV_QUEUE)
     public void listen(String receivedmsg) throws ResourceNotFoundException {
         System.out.print("Received from datagen: " + receivedmsg);
 
-        try {
-            JSONObject jmsg = new JSONObject(receivedmsg);
-            String type = jmsg.getString("type");
-            long inmateid = jmsg.getInt("inmateid");
-            Inmate inmate = inmateService.getInmateById(inmateid);
-            String arg = jmsg.getString("arg");
-            
-            switch(type) {
-                case "sensor":
-                    MoveSensor moveSensor = moveSensorService.getMoveSensorById(Integer.parseInt(arg));
-                    moveSensorLogService.saveMoveSensorLog(new MoveSensorLog(inmateid, moveSensor.getId()));
-                    break;
-                case "apply":
-                    break;
-                case "work":
-                    break;
-                case "healthcheck":
-                    break;
-                default:
-                    System.err.println("Couldn't read message type.");
-                    break;
-            }
-        } catch (JSONException je) {
-            System.err.println("Couldn't decode JSON. Exiting.");
-            System.exit(1);
+        JSONObject jmsg = new JSONObject(receivedmsg);
+        String type = jmsg.getString("type");
+        
+        switch(type) {
+            case "sensor":
+                Inmate inmate = inmateService.getInmateById(jmsg.getInt("inmateid"));
+                MoveSensor moveSensor = moveSensorService.getMoveSensorById(jmsg.getInt("sensorid"));
+                moveSensorLogService.saveMoveSensorLog(new MoveSensorLog(inmate.getId(), moveSensor.getId()));
+                break;
+            case "riot":
+                break;
+            case "work":
+                break;
+            case "healthcheck":
+                break;
+            default:
+                System.err.println("Couldn't read message type.");
+                break;
         }
+
     }
 }

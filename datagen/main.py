@@ -16,12 +16,14 @@ def main():
 
     sender.conninit()
     
-    while(True):
+    control = True
+    while(control):
         messages = sim.run()
         for m in messages:
             sender.publish(m)
 
         sleep(1)
+        control = False
 
     sender.connclose()
 
