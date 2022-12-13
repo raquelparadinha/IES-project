@@ -1,9 +1,13 @@
 package ies.grupo51.lockedin.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("warden")
@@ -21,10 +25,17 @@ public class Warden {
     @NotBlank
     private String password;
 
+    @DBRef
+    private List<Role> roles = new ArrayList<>();
+
     private static long counter = 0;
 
     public Warden() {
         this.id = 0;
+        // Role userRole = service.findRole(ERole.ROLE_USER);
+		// this.roles.add(userRole);
+        // Role adminRole = service.findRole(ERole.ROLE_ADMIN);
+		// this.roles.add(adminRole);
     }
 
     public Warden(long id, String name, String email, long phone, String birthdate, String password) {
@@ -59,6 +70,9 @@ public class Warden {
     public void setPhone(long phone) {
         this.phone = phone;
     }
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
 
     // GETS
 
@@ -82,6 +96,9 @@ public class Warden {
     }
     public long getPhone() {
         return phone;
+    }
+    public List<Role> getRoles() {
+        return roles;
     }
 
     @Override

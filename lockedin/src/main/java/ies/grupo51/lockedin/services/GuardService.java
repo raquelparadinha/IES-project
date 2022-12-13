@@ -31,6 +31,10 @@ public class GuardService {
     public Guard getGuardById(long id) throws ResourceNotFoundException {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
+    
+    public Guard getGuardByEmail(String email) throws ResourceNotFoundException {
+        return repository.findByEmail(email);
+    }
 
     public Guard updateGuard(Guard guard) throws ResourceNotFoundException {
         Guard existingGuard = repository.findById(guard.getId()).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
