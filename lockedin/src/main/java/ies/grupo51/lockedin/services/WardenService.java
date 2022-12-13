@@ -32,6 +32,10 @@ public class WardenService {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 
+    public Warden getWardenByEmail(String email) throws ResourceNotFoundException {
+        return repository.findByEmail(email);
+    }
+
     public Warden updateWarden(Warden warden) throws ResourceNotFoundException {
         Warden existingWarden = repository.findById(warden.getId()).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
         

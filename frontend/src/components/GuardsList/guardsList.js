@@ -1,6 +1,12 @@
 import { Button, Modal, Table, Input, Space } from "antd";
-import { useState } from "react";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons/lib/icons";
+import { useState, useEffect } from "react";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+} from "@ant-design/icons/lib/icons";
+import axios from "axios";
+import { useNavigate } from "react-router";
 
 function GuardsList() {
   const countDown = () => {
@@ -24,50 +30,34 @@ function GuardsList() {
       modal.destroy();
     }, secondsToGo * 1000);
   };
+
+  const [dataSource, setDataSource] = useState();
+  const fetchData = () => {
+    try {
+      return axios
+        .get("http://localhost:5001/api/guard")
+        .then((response) => setDataSource(response.data));
+    } catch (error) {
+      fetchData();
+    }
+  };
+
+  useEffect(() => {
+    setInterval(fetchData(), 300000); // The function will be called
+  }, []);
+
+  const navigate = useNavigate();
   const [isEditing, setisEditing] = useState(false);
-  const [editingPrisioner, setEditingPrisioner] = useState(null);
-  const [dataSource, setDataSource] = useState([
-    {
-      id: 1,
-      name: "Pareidreds",
-      email: "pareidreds@aenossa.com",
-      phone: 919293949,
-      birthdate: "10-06-2001",
-      areas: ["Entrace", "Visitors Wing", "Patio"],
-    },
-    {
-      id: 2,
-      name: "Soralexina",
-      email: "sora@devops.com",
-      phone: 919293949,
-      birthdate: "10-06-2001",
-      areas: ["Entrace", "Visitors Wing", "Patio"],
-    },
-    {
-      id: 3,
-      name: "MancoGordo",
-      email: "mankings@estiado.com",
-      phone: 919293949,
-      birthdate: "10-06-2001",
-      areas: ["Entrace", "Visitors Wing", "Patio"],
-    },
-    {
-      id: 4,
-      name: "PP_segundo",
-      email: "trabalhador@honesto.com",
-      phone: 919293949,
-      birthdate: "10-06-2001",
-      areas: ["Entrace", "Visitors Wing", "Patio"],
-    },
-  ]);
+  const [editingGuard, setEditingGuard] = useState(null);
+
   const columns = [
-    // prisioner main traits
+    // guard main traits
     { key: 1, title: "ID", dataIndex: "id" },
     { key: 2, title: "Name", dataIndex: "name" },
     { key: 3, title: "Email", dataIndex: "email" },
     { key: 4, title: "Phone", dataIndex: "phone" },
     { key: 5, title: "Birthdate", dataIndex: "birthdate" },
-    { key: 6, title: "Areas", dataIndex: "areas" },
+    { key: 6, title: "AreaID", dataIndex: "areaId" },
 
     {
       key: 7,
@@ -75,16 +65,21 @@ function GuardsList() {
       render: (record) => {
         return (
           <>
-            {" "}
+            <EyeOutlined
+              onClick={() => {
+                navigate("/guards/" + record.id);
+              }}
+              style={{ color: "blue", marginLeft: 12 }}
+            />
             <EditOutlined
               onClick={() => {
-                onEditPrisioner(record);
+                onEditGuard(record);
               }}
               style={{ color: "green", marginLeft: 12 }}
             />
             <DeleteOutlined
               onClick={() => {
-                onDeletePrisioner(record);
+                onDeleteGuard(record);
               }}
               style={{ color: "red", marginLeft: 12 }}
             />
@@ -94,10 +89,10 @@ function GuardsList() {
     },
   ];
 
-  const onAddPrisioner = () => {
-    // Aqui para fazer os adds de novo prisioneiro, está estatico aqui
+  const onAddGuard = () => {
+    // Aqui para fazer os adds de novo guarda, está estatico aqui
     const randomNumber = parseInt(Math.random() * 1000);
-    const newPrisioner = {
+    const newGuard = {
       id: randomNumber,
       name: "Cotovelo da Perna " + randomNumber,
       birthdate: "10-06-2001",
@@ -107,32 +102,45 @@ function GuardsList() {
       solitary: false.toString(),
     };
     setDataSource((pre) => {
-      return [...pre, newPrisioner];
+      return [...pre, newGuard];
     });
   };
-  const onDeletePrisioner = (record) => {
+  const onDeleteGuard = (record) => {
     Modal.confirm({
-      title: "You REALLY want to delete this priosioner?",
+      title: "You REALLY want to delete this guard?",
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
       onOk: () => {
         setDataSource((pre) => {
-          return pre.filter((prisioner) => prisioner.id !== record.id);
+          return pre.filter((guard) => guard.id !== record.id);
         });
       },
     });
   };
-  const onEditPrisioner = (record) => {
+  const onEditGuard = (record) => {
     setisEditing(true);
     // ... para fazer copia, tendi nada
-    setEditingPrisioner({ ...record });
+    setEditingGuard({ ...record });
   };
 
   const ResetEditing = () => {
     setisEditing(false);
-    setEditingPrisioner(null);
+    setEditingGuard(null);
   };
+
+  function editGuard(Edited_guard) {
+    try {
+      axios.put(
+        "http://localhost:5001/api/guard/" + Edited_guard.id,
+        Edited_guard
+      );
+    } catch (error) {
+      console.log("Deu pylance");
+      return false;
+    }
+    return true;
+  }
 
   return (
     <div>
@@ -142,34 +150,40 @@ function GuardsList() {
         pagination={{ defaultPageSize: 14 }}
       ></Table>
       <Button
-        onClick={onAddPrisioner}
+        onClick={onAddGuard}
         shape={"round"}
         style={{ marginLeft: "45%" }}
         type="primary"
       >
-        Add new prisioner
+        Add new guard
       </Button>
       <Modal
-        title="Edit Prisioner"
-        visible={isEditing}
+        title="Edit Guard"
+        open={isEditing}
         okText="Save"
         okType="primary"
         onCancel={() => {
           ResetEditing();
         }}
         onOk={() => {
+          // alterar o guarda, estático :)
           setDataSource((pre) => {
-            if (
-              editingPrisioner.solitary === "true" ||
-              editingPrisioner.solitary === "false"
-            ) {
-              //   editingPrisioner.solitary = editingPrisioner.solitary === "true";
-              //   console.log(editingPrisioner.solitary.type())
-              return pre.map((prisioner) => {
-                if (prisioner.id === editingPrisioner.id) {
-                  return editingPrisioner;
+            if (true) {
+              return pre.map((guard) => {
+                if (guard.id === editingGuard.id) {
+                  const bool = editGuard(editingGuard);
+                  if (bool) {
+                    return editingGuard;
+                  } else {
+                    Modal.error({
+                      title: "Edit Error",
+                      content: `An error happened while changing the guard.`,
+                      okType: "danger",
+                    });
+                    return guard;
+                  }
                 } else {
-                  return prisioner;
+                  return guard;
                 }
               });
             } else {
@@ -180,59 +194,40 @@ function GuardsList() {
           ResetEditing();
         }}
       >
-        {" "}
         <Space direction="vertical" style={{ width: "100%", height: "100%" }}>
           <Input
             addonBefore="Name"
-            value={editingPrisioner?.name}
+            value={editingGuard?.name}
             onChange={(e) => {
-              setEditingPrisioner((pre) => {
+              setEditingGuard((pre) => {
                 return { ...pre, name: e.target.value };
               });
             }}
           />
           <Input
-            addonBefore="Birthdate"
-            value={editingPrisioner?.birthdate}
+            addonBefore="Email"
+            value={editingGuard?.email}
             onChange={(e) => {
-              setEditingPrisioner((pre) => {
-                return { ...pre, birthdate: e.target.value };
+              setEditingGuard((pre) => {
+                return { ...pre, email: e.target.value };
               });
             }}
           />
           <Input
-            addonBefore="Sentence Start"
-            value={editingPrisioner?.sentence}
+            addonBefore="Phone"
+            value={editingGuard?.phone}
             onChange={(e) => {
-              setEditingPrisioner((pre) => {
-                return { ...pre, sentence: e.target.value };
+              setEditingGuard((pre) => {
+                return { ...pre, phone: e.target.value };
               });
             }}
           />
           <Input
-            addonBefore="Duration"
-            value={editingPrisioner?.duration}
+            addonBefore="AreadId"
+            value={editingGuard?.areaId}
             onChange={(e) => {
-              setEditingPrisioner((pre) => {
-                return { ...pre, duration: e.target.value };
-              });
-            }}
-          />
-          <Input
-            addonBefore="Workstation"
-            value={editingPrisioner?.workstation}
-            onChange={(e) => {
-              setEditingPrisioner((pre) => {
-                return { ...pre, workstation: e.target.value };
-              });
-            }}
-          />
-          <Input
-            addonBefore="Solitary"
-            value={editingPrisioner?.solitary}
-            onChange={(e) => {
-              setEditingPrisioner((pre) => {
-                return { ...pre, solitary: e.target.value.toLowerCase() };
+              setEditingGuard((pre) => {
+                return { ...pre, areaId: e.target.value };
               });
             }}
           />

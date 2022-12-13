@@ -9,32 +9,17 @@ import org.springframework.amqp.core.Queue;
 
 @Configuration
 public class CommsConfig {
-    public static final String EXCHANGE = "datagen";
-    public static final String QUEUE = "datagen";
+    public static final String RECV_EXCHANGE = "datagen";
+    public static final String RECV_QUEUE = "datagen";
+    public static final String SEND_EXCHANGE = "backend";
+    public static final String SEND_QUEUE = "backend";
     public static final String ROUTING_KEY = "";
 
-    @Bean
-    Queue queue() {
-        return new Queue(QUEUE, false);
+    @Bean Queue recv_queue() {
+        return new Queue(RECV_QUEUE, false);
     }
 
-    @Bean
-    DirectExchange exchange() {
-        return new DirectExchange(EXCHANGE);
-    }
-
-    @Bean
-	Binding binding(Queue queue, DirectExchange exchange) {
-		return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
-	}
-
-    @Bean
-    public Receiver receiver() {
-        return new Receiver();
-    }
-
-    @Bean
-    public Sender sender() {
-        return new Sender();
+    @Bean Queue send_queue() {
+        return new Queue(SEND_QUEUE, false);
     }
 }

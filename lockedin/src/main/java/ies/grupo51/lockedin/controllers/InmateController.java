@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,128 +38,130 @@ public class InmateController {
 
     // GET METHODS
 
-    @GetMapping("/")
-    public ResponseEntity<List<Inmate>> getInmates() {
+    @GetMapping("") // ✓ feito ✓
+    public  ResponseEntity<List<Inmate>> getInmates() {
+
         return ResponseEntity.ok().body(inmateService.getInmates());
     }
+    
+    @GetMapping("/number") // ✓ feito ✓
+    public  ResponseEntity<HashMap<String, Integer>> getInmatesNumber() {
+        HashMap<String, Integer> data = new HashMap<>();
+        data.put("InmatesNumber", inmateService.getInmates().size());
+        return ResponseEntity.ok().body(data);
+    }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // ✓ feito ✓
     public ResponseEntity<Inmate> getInmateById(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
         return ResponseEntity.ok().body(inmateService.getInmateById(id));
     }
 
-    @GetMapping("/leaving")
+    @GetMapping("/leaving") // ✓ feito ✓
     public ResponseEntity<List<Inmate>> getLeavingInmates() {
         List<Inmate> data = inmateService.getInmates();
         data.sort(((inmate1, inmate2) -> inmate1.getSentenceEnd().compareTo(inmate2.getSentenceEnd())));
         return ResponseEntity.ok().body(data);
     }
 
-    @GetMapping("/leaving/{number}")
+    @GetMapping("/leaving/{number}") // ✓ feito ✓
     public ResponseEntity<List<Inmate>> getLeavingInmatesNumber(@PathVariable(value = "number") int number) {
         List<Inmate> inmates = inmateService.getInmates();
         inmates.sort(((inmate1, inmate2) -> inmate1.getSentenceEnd().compareTo(inmate2.getSentenceEnd())));
         List<Inmate> data = new ArrayList<>();
-        for (int i = 0; i < number; i++) {
-            data.add(inmates.get(i));
+        for (Inmate inmate : inmates) {
+            if (number == data.size()) {
+                return ResponseEntity.ok().body(data);
+            }
+            data.add(inmate);
+        }
+        return ResponseEntity.ok().body(data);
+        
+    }
+
+    @GetMapping("/health")
+    public ResponseEntity<List<HealthLog>> getAllHealLogs() {
+        return ResponseEntity.ok().body(healthLogService.getHealthLogs());
+    }
+
+    @GetMapping("/health/heartbeat/data")
+    public ResponseEntity<HashMap<Integer, Integer>> getDataHeartBeat() throws ResourceNotFoundException {
+        HashMap<Integer, Integer> data = new HashMap<>();
+        List<HealthLog> healthLogs = healthLogService.getHealthLogs();
+        for (HealthLog healthLog : healthLogs) {
+            Integer integer = healthLog.getHeartBeat();
+            data.putIfAbsent(integer, 0);
+            data.put(integer, data.get(integer)+1);
         }
         return ResponseEntity.ok().body(data);
     }
 
-    @GetMapping("/health/heartbeat/general")
-    public ResponseEntity<HashMap<Integer, Integer>> getGeneralHeartBeat() throws ResourceNotFoundException {
+    @GetMapping("/health/stress/data")
+    public ResponseEntity<HashMap<Integer, Integer>> getDataStress() throws ResourceNotFoundException {
         HashMap<Integer, Integer> data = new HashMap<>();
-        ArrayList<Integer> heartbeatlist = new ArrayList<>();
-        for (Inmate inmate : inmateService.getInmates()) {
-            HealthLog healthLog = healthLogService.getHealthLogById(inmate.getHealthLogId());
-            if (healthLog != null) {
-                heartbeatlist.add(healthLog.getHeartBeat());
-            }
-        }
-        for (Integer integer : heartbeatlist) {
+        List<HealthLog> healthLogs = healthLogService.getHealthLogs();
+        for (HealthLog healthLog : healthLogs) {
+            Integer integer = healthLog.getStress();
             data.putIfAbsent(integer, 0);
             data.put(integer, data.get(integer)+1);
         }
         return ResponseEntity.ok().body(data);
     }
-    @GetMapping("/health/stress/general")
-    public ResponseEntity<HashMap<Integer, Integer>> getGeneralStress() throws ResourceNotFoundException {
+    @GetMapping("/health/glicose/data")
+    public ResponseEntity<HashMap<Integer, Integer>> getDataGlicose() throws ResourceNotFoundException {
         HashMap<Integer, Integer> data = new HashMap<>();
-        ArrayList<Integer> stressList = new ArrayList<>();
-        for (Inmate inmate : inmateService.getInmates()) {
-            HealthLog healthLog = healthLogService.getHealthLogById(inmate.getHealthLogId());
-            if (healthLog != null) {
-                stressList.add(healthLog.getStress());
-            }
-        }
-        for (Integer integer : stressList) {
+        List<HealthLog> healthLogs = healthLogService.getHealthLogs();
+        for (HealthLog healthLog : healthLogs) {
+            Integer integer = healthLog.getGlicose();
             data.putIfAbsent(integer, 0);
             data.put(integer, data.get(integer)+1);
         }
         return ResponseEntity.ok().body(data);
     }
-    @GetMapping("/health/glicoselevel/general")
-    public ResponseEntity<HashMap<Integer, Integer>> getGeneralGlicoseLevel() throws ResourceNotFoundException {
+    @GetMapping("/health/uricacid/data")
+    public ResponseEntity<HashMap<Integer, Integer>> getDataUricAcid() throws ResourceNotFoundException {
         HashMap<Integer, Integer> data = new HashMap<>();
-        ArrayList<Integer> glicoseList = new ArrayList<>();
-        for (Inmate inmate : inmateService.getInmates()) {
-            HealthLog healthLog = healthLogService.getHealthLogById(inmate.getHealthLogId());
-            if (healthLog != null) {
-                glicoseList.add(healthLog.getGlicose());
-            }
-        }
-        for (Integer integer : glicoseList) {
+        List<HealthLog> healthLogs = healthLogService.getHealthLogs();
+        for (HealthLog healthLog : healthLogs) {
+            Integer integer = healthLog.getUricAcid();
             data.putIfAbsent(integer, 0);
             data.put(integer, data.get(integer)+1);
         }
         return ResponseEntity.ok().body(data);
     }
-    @GetMapping("/health/uricacid/general")
-    public ResponseEntity<HashMap<Integer, Integer>> getGeneralUricAcid() throws ResourceNotFoundException {
+    @GetMapping("/health/cholesterol/data")
+    public ResponseEntity<HashMap<Integer, Integer>> getDataCholesterol() throws ResourceNotFoundException {
         HashMap<Integer, Integer> data = new HashMap<>();
-        ArrayList<Integer> uricacidList = new ArrayList<>();
-        for (Inmate inmate : inmateService.getInmates()) {
-            HealthLog healthLog = healthLogService.getHealthLogById(inmate.getHealthLogId());
-            if (healthLog != null) {
-                uricacidList.add(healthLog.getUricAcid());
-            }
-        }
-        for (Integer integer : uricacidList) {
+        List<HealthLog> healthLogs = healthLogService.getHealthLogs();
+        for (HealthLog healthLog : healthLogs) {
+            Integer integer = healthLog.getCholesterol();
             data.putIfAbsent(integer, 0);
             data.put(integer, data.get(integer)+1);
         }
         return ResponseEntity.ok().body(data);
     }
-    @GetMapping("/health/cholesterol/general")
-    public ResponseEntity<HashMap<Integer, Integer>> getGeneralCholesterol() throws ResourceNotFoundException {
+    @GetMapping("/health/toxicscreen/data")
+    public ResponseEntity<HashMap<Integer, Integer>> getDataToxicScreen() throws ResourceNotFoundException {
         HashMap<Integer, Integer> data = new HashMap<>();
-        ArrayList<Integer> cholesterollist = new ArrayList<>();
-        for (Inmate inmate : inmateService.getInmates()) {
-            HealthLog healthLog = healthLogService.getHealthLogById(inmate.getHealthLogId());
-            if (healthLog != null) {
-                cholesterollist.add(healthLog.getCholesterol());
-            }
-        }
-        for (Integer integer : cholesterollist) {
+        List<HealthLog> healthLogs = healthLogService.getHealthLogs();
+        for (HealthLog healthLog : healthLogs) {
+            Integer integer = healthLog.getToxicScreen();
             data.putIfAbsent(integer, 0);
             data.put(integer, data.get(integer)+1);
         }
         return ResponseEntity.ok().body(data);
     }
-    @GetMapping("/health/toxicscreen/general")
-    public ResponseEntity<HashMap<Integer, Integer>> getGeneralToxicScreen() throws ResourceNotFoundException {
-        HashMap<Integer, Integer> data = new HashMap<>();
-        ArrayList<Integer> toxicscreenlist = new ArrayList<>();
-        for (Inmate inmate : inmateService.getInmates()) {
-            HealthLog healthLog = healthLogService.getHealthLogById(inmate.getHealthLogId());
-            if (healthLog != null) {
-                toxicscreenlist.add(healthLog.getToxicScreen());
-            }
-        }
-        for (Integer integer : toxicscreenlist) {
-            data.putIfAbsent(integer, 0);
-            data.put(integer, data.get(integer)+1);
-        }
-        return ResponseEntity.ok().body(data);
+
+    // PUT METHOD
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Inmate> updateInmate(@PathVariable(value = "id") Long id, @Valid @RequestBody Inmate inmateDetails) throws ResourceNotFoundException {
+        return ResponseEntity.ok(inmateService.updateInmate(inmateDetails));
+    }
+
+    // POST METHOD
+
+    @PostMapping("")
+    public ResponseEntity<Inmate> createInmate(@Valid @RequestBody Inmate inmate){
+        return ResponseEntity.ok(inmateService.saveInmate(inmate));
     }
 }
