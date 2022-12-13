@@ -92,10 +92,11 @@ class Simulator():
         messages = []
 
         inmate, sensor = self.moveInmate()
-        msg = {'type': 'sensor'}
-        msg['inmateid'] = inmate.id
-        msg['sensorid'] = sensor.id
-        messages.append(msg)
+        if inmate != None and sensor != None:
+            msg = {'type': 'sensor'}
+            msg['inmateid'] = inmate.id
+            msg['sensorid'] = sensor.id
+            messages.append(msg)
 
         if self.tryRiot(sensor.exit):
             msg = {'type': 'riot'}
@@ -125,6 +126,9 @@ class Simulator():
         inmate = self.inmates[inmateidx]
 
         possiblesensors = [s for s in self.sensors if s.active and s.entry == inmate.area]
+        if possiblesensors == []:
+            return None, None
+
         sensoridx = randint(1, len(possiblesensors)) - 1
         sensor = possiblesensors[sensoridx]
 
@@ -140,7 +144,7 @@ class Simulator():
 
     def makeHealthcheck(self):
         healthcheck = {key: normal(self.healthvalues[key]['mean'], self.healthvalues[key]['range'], 1)[0] for key in self.healthvalues.keys()}
-        healthcheck = {key: int(healthcheck[key]) if healthcheck[key] > 0 else 0 for key in healthcheck.keys()}
+        healthcheck = {key: int(healthcheck[key]) if healthcheck[key] > 0 else 1 for key in healthcheck.keys()}
 
         return healthcheck
 
