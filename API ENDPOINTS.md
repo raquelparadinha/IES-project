@@ -21,13 +21,13 @@
 
 ## Guard
 
-| Method | Mapping                    | Description                                                  | Return                         |
-| ------ | -------------------------- | ------------------------------------------------------------ | ------------------------------ |
-| GET    | /api/guard                 | Returns all the guards                                       | [{Guard1},{Guard2},...] - list |
-| GET    | /api/guard/{id}            | Returns a specific guard if it exists                        | {Guard} - dict                 |
-| GET    | /api/guard/{id}/colleagues | Returns **the name** of every guard in the same area as this guard | ["Silvia", "Paulo"] - list     |
-| PUT    | /api/guard/{id}            | Update guard                                                 | {Guard} - dict                 |
-| POST   | /api/guard                 | Create guard                                                 | {Guard} - dict                 |
+| Method | Mapping                 | Description                                                  | Return                                          |
+| ------ | ----------------------- | ------------------------------------------------------------ | ----------------------------------------------- |
+| GET    | /api/guard              | Returns all the guards                                       | [{Guard1},{Guard2},...] - list                  |
+| GET    | /api/guard/{id}         | Returns a specific guard if it exists                        | {Guard} - dict                                  |
+| GET    | /api/guard/{id}/sidebar | Returns the access to this guard's area and his collegues at the area | ["open"/"closed", "Silvia", "Paulo",...] - list |
+| PUT    | /api/guard/{id}         | Update guard                                                 | {Guard} - dict                                  |
+| POST   | /api/guard              | Create guard                                                 | {Guard} - dict                                  |
 
 ## Inmate
 

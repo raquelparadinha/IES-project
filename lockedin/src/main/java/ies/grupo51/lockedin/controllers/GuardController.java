@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
 import ies.grupo51.lockedin.models.Guard;
+import ies.grupo51.lockedin.services.AreaService;
 import ies.grupo51.lockedin.services.GuardService;
 
 @CrossOrigin
@@ -29,6 +30,8 @@ public class GuardController {
 
     @Autowired 
     private GuardService guardService;
+    @Autowired 
+    private AreaService areaService;
 
     // GET METHODS
 
@@ -43,11 +46,11 @@ public class GuardController {
         return ResponseEntity.ok().body(data);
     }
 
-    @GetMapping("/{id}/colleagues")
+    @GetMapping("/{id}/sidebar")
     public ResponseEntity<List<String>> getGuardColleagues(@PathVariable(value = "id") long id) throws ResourceNotFoundException {
         Guard guard = guardService.getGuardById(id);
         List<String> data = new ArrayList<>();
-
+        data.add(areaService.getAreaById(guard.getAreaId()).getAccess()?"Open":"Closed");
         for (Guard otherGuard : guardService.getGuards()) {
             if (otherGuard.getId() != id && otherGuard.getAreaId() == guard.getAreaId()) {
                 data.add(otherGuard.getName());
