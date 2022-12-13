@@ -3,6 +3,7 @@ package ies.grupo51.lockedin.controllers;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeSet;
 
 import javax.validation.Valid;
 
@@ -82,6 +83,10 @@ public class InmateController {
     public ResponseEntity<List<HealthLog>> getAllHealLogs() {
         return ResponseEntity.ok().body(healthLogService.getHealthLogs());
     }
+    @GetMapping("/health/{id}")
+    public ResponseEntity<HealthLog> getHealthLogsOfInmate(@PathVariable(value = "id") Long id) {
+        return ResponseEntity.ok().body(healthLogService.getHealthLogByInmateId(id));
+    }
 
     @GetMapping("/health/heartbeat/data")
     public ResponseEntity<List<HashMap<String, Integer>>> getDataHeartBeat() throws ResourceNotFoundException {
@@ -93,7 +98,7 @@ public class InmateController {
             valueQuantity.putIfAbsent(integer, 0);
             valueQuantity.put(integer, valueQuantity.get(integer)+1);
         }
-        for (Integer key : valueQuantity.keySet()) {
+        for (Integer key : new TreeSet<>(valueQuantity.keySet())) {
             HashMap<String, Integer> insert = new HashMap<>();
             insert.put("value", key);
             insert.put("qty", valueQuantity.get(key));
@@ -112,7 +117,7 @@ public class InmateController {
             valueQuantity.putIfAbsent(integer, 0);
             valueQuantity.put(integer, valueQuantity.get(integer)+1);
         }
-        for (Integer key : valueQuantity.keySet()) {
+        for (Integer key : new TreeSet<>(valueQuantity.keySet())) {
             HashMap<String, Integer> insert = new HashMap<>();
             insert.put("value", key);
             insert.put("qty", valueQuantity.get(key));
@@ -131,7 +136,7 @@ public class InmateController {
             valueQuantity.putIfAbsent(integer, 0);
             valueQuantity.put(integer, valueQuantity.get(integer)+1);
         }
-        for (Integer key : valueQuantity.keySet()) {
+        for (Integer key : new TreeSet<>(valueQuantity.keySet())) {
             HashMap<String, Integer> insert = new HashMap<>();
             insert.put("value", key);
             insert.put("qty", valueQuantity.get(key));
@@ -149,7 +154,7 @@ public class InmateController {
             Integer integer = healthLog.getUricAcid();
             valueQuantity.put(integer, valueQuantity.get(integer)+1);
         }
-        for (Integer key : valueQuantity.keySet()) {
+        for (Integer key : new TreeSet<>(valueQuantity.keySet())) {
             HashMap<String, Integer> insert = new HashMap<>();
             insert.put("value", key);
             insert.put("qty", valueQuantity.get(key));
@@ -168,7 +173,7 @@ public class InmateController {
             valueQuantity.putIfAbsent(integer, 0);
             valueQuantity.put(integer, valueQuantity.get(integer)+1);
         }
-        for (Integer key : valueQuantity.keySet()) {
+        for (Integer key : new TreeSet<>(valueQuantity.keySet())) {
             HashMap<String, Integer> insert = new HashMap<>();
             insert.put("value", key);
             insert.put("qty", valueQuantity.get(key));
@@ -187,7 +192,7 @@ public class InmateController {
             valueQuantity.putIfAbsent(integer, 0);
             valueQuantity.put(integer, valueQuantity.get(integer)+1);
         }
-        for (Integer key : valueQuantity.keySet()) {
+        for (Integer key : new TreeSet<>(valueQuantity.keySet())) {
             HashMap<String, Integer> insert = new HashMap<>();
             insert.put("value", key);
             insert.put("qty", valueQuantity.get(key));
