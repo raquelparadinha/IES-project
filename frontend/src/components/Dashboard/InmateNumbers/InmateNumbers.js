@@ -22,11 +22,13 @@ function InmateNumbers() {
   }, []);
 
   function SeeIfUndfined() {
+    console.log(dataSource)
     if (dataSource !== undefined) {
       return dataSource.map((zone) => (
         <>
           <p>
-            {zone.name}: ??? / {zone.capacity} | Acess: {zone.access.toString()}
+            {zone.name}: {zone.currentInmateIds} / {zone.capacity} | Acess:{" "}
+            {zone.access.toString()}
           </p>
         </>
       ));
