@@ -11,6 +11,6 @@ public class RoleService {
     RoleRepository repository;
 
     public Role findRole(ERole roleUser) {
-        return repository.findRole(roleUser);
+        return repository.findByName(roleUser);
     }
 }

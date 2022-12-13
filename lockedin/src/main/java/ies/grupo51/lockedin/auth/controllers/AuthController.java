@@ -46,25 +46,13 @@ public class AuthController {
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		try {
-			// Guard test = repository.findByEmail(loginRequest.getEmail());
-			// System.out.println("\n"+ test.toString()+ "\n");
-			// System.out.println("\n"+ loginRequest.getEmail() + "\n" + loginRequest.getPassword());
-			// authenticationManager.authenticate(
-            //         new UsernamePasswordAuthenticationToken( loginRequest.getEmail(), loginRequest.getPassword()));
-					
-			
-           
-			// UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
-			
-			// System.out.println("\n"+ credentials.getCredentials().toString() + "\n" );
 			Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 			System.out.println("\nAUTENTICADO\n");
-			System.out.println("\n"+ authentication.getName() + "\n" );
+
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			String jwt = jwtUtils.generateJwtToken(authentication);
 			
-			// System.out.println(jwt);
 			UserDetailsImpl userDetails = userService.loadUserByUsername(authentication.getName());
 			// UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
 			List<String> roles = userDetails.getAuthorities().stream()
@@ -81,9 +69,8 @@ public class AuthController {
             System.out.println(e.getMessage());
             System.out.println(e.getCause());
             System.out.println(e.getLocalizedMessage());
-            // throw new BadCredentialsException("Invalid email/password supplied!");
+            throw new BadCredentialsException("Invalid email/password supplied!");
         }
-		return null;
 	}
 
 	// @PostMapping("/signup")

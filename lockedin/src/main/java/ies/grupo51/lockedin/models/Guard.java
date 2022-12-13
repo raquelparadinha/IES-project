@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 // import javax.validation.constraints.NotBlank;
 
 import org.springframework.data.annotation.Id;
-// import org.springframework.data.moncgodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import ies.grupo51.lockedin.services.RoleService;
@@ -32,8 +32,8 @@ public class Guard {
     // @NotBlank
     private String password;
 
-    // @DBRef
-    private List<Role> roles = new ArrayList<>();
+    @DBRef
+    private List<Role> roles;
 
     private static long counter = 100;
 
@@ -42,8 +42,6 @@ public class Guard {
     
     public Guard () {
         this.id = 0;
-        // Role userRole = service.findRole(ERole.ROLE_USER);
-		// this.roles.add(userRole);
     }
 
     public Guard (long id, String name, String email, long phone, String birthdate, long areaId, String password) {
@@ -54,8 +52,10 @@ public class Guard {
         this.birthdate = birthdate;
         this.areaId = areaId;
         this.password = password;
-        Role userRole = service.findRole(ERole.ROLE_USER);
-		this.roles.add(userRole);
+	    this.roles = new ArrayList<>();
+        Role r = service.findRole(ERole.ROLE_USER);
+        System.out.println(r);
+		this.roles.add(r);
     }
 
     // SETS
@@ -121,11 +121,8 @@ public class Guard {
     @Override
     public String toString() {
         String result = String.format(
-            "Guard [ID: %d, Name: %s, Email: %s, Phone: %d, Birth date: %s, Roles: ", 
-            this.id, this.name, this.email, this.phone, this.birthdate.toString());
-        for (Role r : roles) {
-            result += String.format("%s", r.getName());
-        }
+            "Guard [ID: %d, Name: %s, Email: %s, Phone: %d, Birth date: %s, Roles: %s]", 
+            this.id, this.name, this.email, this.phone, this.birthdate.toString(), this.roles.toString());
         return result;
     }
 }
