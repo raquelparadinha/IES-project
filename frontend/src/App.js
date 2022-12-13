@@ -23,23 +23,6 @@ import axios from "axios";
 import Guard_Profile from "./components/Profile/guard_profile";
 
 function App() {
-  // const [dataSource, setDataSource] = useState();
-  // const fetchData = () => {
-  //   try {
-  //     return axios
-  //       .get("http://localhost:5001/api/area")
-  //       .then((response) => setDataSource(response.data));
-  //   } catch {
-  //     console.log("Deu pylance");
-  //   }
-  // };
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     fetchData();
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, []);
-  // console.log(dataSource);
   return (
     <div
       style={{
@@ -93,7 +76,13 @@ function App() {
 export function SideMenu() {
   const navigate = useNavigate();
   return (
-    <div style={{ display: "flex", flexDirection: "row", flex: 1 }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        flex: 1,
+      }}
+    >
       <Menu
         onClick={({ key }) => {
           if (key === "logout") {
@@ -105,6 +94,7 @@ export function SideMenu() {
         }}
         defaultSelectedKeys={[window.location.pathname]}
         items={islogged(Logged)}
+        style={{ backgroundColor: "#FEFCF3" }}
       ></Menu>
       <Content />
     </div>
@@ -113,7 +103,7 @@ export function SideMenu() {
 
 function Content() {
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", backgroundColor: "#F5EBE0" }}>
       {/* <BreadCrumb /> */}
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" />}></Route>

@@ -89,8 +89,8 @@ const Example = (props) => {
       <Tooltip />
       <Legend verticalAlign="top" wrapperStyle={{ lineHeight: "40px" }} />
       <ReferenceLine y={0} stroke="#000" />
-      <Brush dataKey="value" height={30} stroke="#8884d8" />
-      <Bar dataKey="qty" fill="#82ca9d" />
+      <Brush dataKey="value" height={30} stroke="#DBA39A" />
+      <Bar dataKey="qty" fill="#DBA39A" />
     </BarChart>
   );
 };

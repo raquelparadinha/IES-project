@@ -17,7 +17,7 @@ const Login = () => {
   const onFinish = (values) => {
     //console.log("Received values of form: ", values);
     // nesgisse, nãp está como deve porque não está a DB pronta
-    if (values.remember) {
+    if (true) {
       Logged = true;
       navigate("/dashboard");
     } else {

@@ -76,7 +76,7 @@ function Guard_info(id) {
             <RightCircleFilled /> Area Guards:
           </p>
           {new Array(dataSource2.length).fill(null).map((_, i) => {
-            //  colocar i+1 no lugar do i pois o i = 0 vai ser sobre o estado da area e não é para ser usado aqui 
+            //  colocar i+1 no lugar do i pois o i = 0 vai ser sobre o estado da area e não é para ser usado aqui
             return <p>{dataSource2[i]}</p>;
           })}
           <p style={{ textAlign: "left" }}>
@@ -98,9 +98,9 @@ function Guard_info(id) {
   function areaStatus(params) {
     // onde estar true meter dataSource2[0] para ir buscar se a area está open ou closed
     if (true) {
-        return "Open"
+      return "Open";
     } else {
-        return "Closed"
+      return "Closed";
     }
   }
 
@@ -124,16 +124,6 @@ function Guard_info(id) {
           </Card>
           <Card title="Area" style={{ width: "250px", height: "300px" }}>
             {SeeIfUndfined2()}
-            {/* <p style={{ textAlign: "left" }}>
-              <RightCircleFilled /> Area Guards:
-            </p>
-            <p>Zé Alberto</p>
-            <p>Ana Maria</p>
-            <p>Manco das ajudas</p>
-            <p style={{ textAlign: "left" }}>
-              <RightCircleFilled /> Area Status:
-            </p>
-            <p>Open</p> */}
           </Card>
         </Space>
       </Col>
