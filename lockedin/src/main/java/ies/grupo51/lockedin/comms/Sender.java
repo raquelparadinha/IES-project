@@ -1,20 +1,15 @@
 package ies.grupo51.lockedin.comms;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.core.Queue;
+import org.springframework.stereotype.Service;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
-@Component
+@Service
 public class Sender {
     @Autowired
-    private AmqpTemplate rabbitTemplate;
+    private RabbitTemplate rabbitTemplate;
 
-    @Autowired
-    private Queue send_queue;
-
-    public void send() {
-        //rabbitTemplate()
+    public void send(String msg) {
+        rabbitTemplate.convertAndSend(CommsConfig.SEND_EXCHANGE, CommsConfig.SEND_ROUTING_KEY, msg);
     }
-
 }

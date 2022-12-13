@@ -3,7 +3,7 @@ This module generates random data according to the application context, in order
 
 ****
 ## Message Protocol
-All messages are JSON encoded, and sent through a message broker, 
+All messages are JSON encoded, and sent through a message broker implemented using *RabbitMQ*.
 
 ### Messages Sent
 There are 4 types of data being generated, and therefore 4 types of messages being sent to the queue.
@@ -29,6 +29,7 @@ It specifies who worked, where they worked, and their work performance (%).
 Example: `{"type": "work", "inmateid": 1410, "workstationid": 2, "workquota": 67}`
 
 ### Messages Received
+There are 4 types of messages being received. These messages specify how the generated data should be constricted
 
 * **Sensor Management**  
 This type of messages serves to lock and unlock sensors, making it so no inmates can go through them, effectively restricting the data being generated.  
