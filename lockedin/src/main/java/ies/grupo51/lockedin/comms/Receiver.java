@@ -40,8 +40,6 @@ public class Receiver {
     @Autowired private WorkLogService workLogService;
     @Autowired private HealthLogService healthLogService;
 
-    @Autowired private Sender sender;
-
     @RabbitListener(queues = CommsConfig.RECV_QUEUE)
     public void listen(String receivedmsg) throws ResourceNotFoundException {
         System.out.println("Received from datagen: " + receivedmsg);
@@ -105,7 +103,7 @@ public class Receiver {
                 workStation.addWorkLogId(logId);
                 workStationService.updatWorkStation(workStation);
                 // Trigger work alert
-                
+
                 break;
             
             case "healthcheck":

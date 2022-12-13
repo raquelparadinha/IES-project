@@ -13,8 +13,12 @@ public class EstiaAlert extends Alert{
         super();
     }
 
-    public EstiaAlert(long id, String type, long workLogId) {
-        super(id, type);
+    public EstiaAlert(long id, String type, String information) {
+        super(id, type, information);
+    }
+
+    public EstiaAlert(long id, String type, String information, long workLogId) {
+        super(id, type, information);
         this.workLogId = workLogId;
     }
 
