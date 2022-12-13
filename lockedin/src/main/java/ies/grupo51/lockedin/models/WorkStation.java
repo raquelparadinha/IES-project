@@ -13,7 +13,6 @@ public class WorkStation {
 
     private String name;
     private String description;
-    private int capacity;
     private List<Long> workLogIds;
     private int expectedQuota;
 
@@ -23,11 +22,10 @@ public class WorkStation {
         this.id = 0;
     }
 
-    public WorkStation(long id, String name, String description, int capacity, List<Long> workLogIds, int expectedQuota) {
+    public WorkStation(long id, String name, String description, List<Long> workLogIds, int expectedQuota) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.capacity = capacity;
         this.workLogIds = workLogIds;
         this.expectedQuota = expectedQuota;
     }
@@ -49,9 +47,6 @@ public class WorkStation {
     public void setName(String name) {
         this.name = name;
     }
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
     public void setWorkLogIds(List<Long> workLogIds) {
         this.workLogIds = workLogIds;
     }
@@ -72,9 +67,6 @@ public class WorkStation {
     }
     public String getName() {
         return name;
-    }
-    public int getCapacity() {
-        return capacity;
     }
     public List<Long> getWorkLogIds() {
         return workLogIds;

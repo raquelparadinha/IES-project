@@ -15,6 +15,7 @@ import ies.grupo51.lockedin.models.MoveSensorLog;
 import ies.grupo51.lockedin.models.WorkLog;
 import ies.grupo51.lockedin.models.WorkStation;
 import ies.grupo51.lockedin.models.Area;
+import ies.grupo51.lockedin.models.EstrilhoAlert;
 import ies.grupo51.lockedin.models.HealthAlert;
 import ies.grupo51.lockedin.models.HealthLog;
 import ies.grupo51.lockedin.models.Inmate;
@@ -78,6 +79,13 @@ public class Receiver {
 
             case "riot":
                 // Trigger riot alert
+                Area area = areaService.getAreaById(jmsg.getInt("locationid"));
+                EstrilhoAlert estrilhoAlert = new EstrilhoAlert(
+                    alertService.getNextId(),
+                    "riot",
+                    ("There's a riot at "+area.getName()),
+                    area.getId());
+                alertService.saveAlert(estrilhoAlert);
                 break;
 
             case "work":
@@ -95,6 +103,7 @@ public class Receiver {
                 workStation.addWorkLogId(logId);
                 workStationService.updatWorkStation(workStation);
                 // Trigger work alert
+                
                 break;
             
             case "healthcheck":
