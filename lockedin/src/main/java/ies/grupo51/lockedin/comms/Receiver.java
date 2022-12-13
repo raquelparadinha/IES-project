@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
 import ies.grupo51.lockedin.models.MoveSensor;
@@ -18,7 +18,7 @@ import ies.grupo51.lockedin.services.MoveSensorLogService;
 import ies.grupo51.lockedin.services.MoveSensorService;
 import ies.grupo51.lockedin.services.WorkLogService;
 
-@Component
+@Service
 public class Receiver {
 
     @Autowired private InmateService inmateService;
@@ -66,6 +66,7 @@ public class Receiver {
                 healthLogService.saveHealthLog(new HealthLog(id, inmate.getId(), healthcheck));
                 // trigger health alert
                 break;
+                
             default:
                 System.err.println("Couldn't read message type.");
                 break;

@@ -1,11 +1,13 @@
-import json
-
 import pika
-
 
 class Receiver():
     def __init__(self):
-        self.queue = 'datagen'
+        self.queue = 'backend'
+        
+        self.conninit()
+
+    def __exit__(self):
+        self.connclose()
 
     def conninit(self):
         self.connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672))
