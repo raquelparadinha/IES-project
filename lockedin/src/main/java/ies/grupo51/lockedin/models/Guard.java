@@ -1,9 +1,15 @@
 package ies.grupo51.lockedin.models;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+// import java.util.HashSet;
+import java.util.List;
+// import java.util.Set;
+
+// import javax.validation.constraints.Email;
+// import javax.validation.constraints.NotBlank;
 
 import org.springframework.data.annotation.Id;
+// import org.springframework.data.moncgodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("guard")
@@ -13,19 +19,24 @@ public class Guard {
     private long id;
 
     private String name;
-    @NotBlank
-    @Email
+    // @NotBlank
+    // @Email
     private String email;
     private long phone;
     private String birthdate;
     private long areaId;
-    @NotBlank
+    // @NotBlank
     private String password;
+
+    // @DBRef
+    private List<Role> roles = new ArrayList<>();
 
     private static long counter = 100;
     
     public Guard () {
         this.id = 0;
+        // Role userRole = service.findRole(ERole.ROLE_USER);
+		// this.roles.add(userRole);
     }
 
     public Guard (long id, String name, String email, long phone, String birthdate, long areaId, String password) {
@@ -55,6 +66,9 @@ public class Guard {
     public void setBirthdate(String birth_date) {
         this.birthdate = birth_date;
     }
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
     public void setAreaId(long areaId) {
         this.areaId = areaId;
     }
@@ -81,6 +95,9 @@ public class Guard {
     }
     public String getBirthdate() {
         return birthdate;
+    }
+    public List<Role> getRoles() {
+        return roles;
     }
     public String getPassword() {
         return password;
