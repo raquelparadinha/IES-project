@@ -1,14 +1,36 @@
 package ies.grupo51.lockedin.comms;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.List;
+
 import org.json.JSONObject;
+
+import ies.grupo51.lockedin.models.MoveSensor;
+import ies.grupo51.lockedin.services.MoveSensorService;
+import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
+
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 @Service
 public class Sender {
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+    @Autowired private RabbitTemplate rabbitTemplate;
+    
+    @Autowired private MoveSensorService moveSensorService;
+
+    public void lockArea(long areaid) throws ResourceNotFoundException {
+        List<MoveSensor> sensors = moveSensorService.getMoveSensorsByExitAreaId(areaid);
+        for (MoveSensor ms: sensors) {
+            lockSensor(ms.getId());
+        }
+    }
+
+    public void unlockArea(long areaid) throws ResourceNotFoundException {
+        List<MoveSensor> sensors = moveSensorService.getMoveSensorsByExitAreaId(areaid);
+        for (MoveSensor ms: sensors) {
+            unlockSensor(ms.getId());
+        }
+    }
 
     public void lockSensor(long sensorid) {
         JSONObject jmsg = new JSONObject();
