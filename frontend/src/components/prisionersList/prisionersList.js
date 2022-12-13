@@ -24,28 +24,6 @@ const { RangePicker } = DatePicker;
 const dateFormat = "MM/DD/YYYY";
 
 function PrisionersList() {
-  const countDown = () => {
-    let secondsToGo = 5;
-
-    const modal = Modal.error({
-      title: "Solitary state invalid, insert only 'true' or 'false'.",
-      content: `This modal will be destroyed after ${secondsToGo} second.`,
-      okType: "danger",
-    });
-
-    const timer = setInterval(() => {
-      secondsToGo -= 1;
-      modal.update({
-        content: `This modal will be destroyed after ${secondsToGo} second.`,
-      });
-    }, 1000);
-
-    setTimeout(() => {
-      clearInterval(timer);
-      modal.destroy();
-    }, secondsToGo * 1000);
-  };
-
   const [dataSource, setDataSource] = useState();
   const fetchData = () => {
     console.log("dataaa");
@@ -153,13 +131,18 @@ function PrisionersList() {
   const AddPrisioner = (new_prisioner_info) => {
     // Aqui para fazer os adds de novo prisioneiro, está estatico aqui
     ResetAdding();
-    console.log(new_prisioner_info);
+    console.log(new_prisioner_info.solitary);
     const new_prisioner = {
+      id: 0,
       name: new_prisioner_info.name,
       birthDate: new_prisioner_info.birthdate.format(dateFormat),
       entryDate: new_prisioner_info.sentence[0].format(dateFormat),
       sentenceEnd: new_prisioner_info.sentence[1].format(dateFormat),
       workstationId: new_prisioner_info.workstation,
+      solitary: new_prisioner_info.solitary,
+      healthLogId: 0,
+      moveLogIds: [],
+      workLogIds: [],
     };
     console.log(new_prisioner);
     try {
@@ -175,7 +158,7 @@ function PrisionersList() {
   };
 
   const [form] = Form.useForm();
-
+  console.log(dataSource);
   return (
     <div>
       <Table
@@ -201,28 +184,23 @@ function PrisionersList() {
         }}
         onOk={() => {
           setDataSource((pre) => {
-            if (true) {
-              return pre.map((prisioner) => {
-                if (prisioner.id === editingPrisioner.id) {
-                  const bool = editPrisioner(editingPrisioner);
-                  if (bool) {
-                    return editingPrisioner;
-                  } else {
-                    Modal.error({
-                      title: "Edit Error",
-                      content: `An error happened while changing the prisioner.`,
-                      okType: "danger",
-                    });
-                    return prisioner;
-                  }
+            return pre.map((prisioner) => {
+              if (prisioner.id === editingPrisioner.id) {
+                const bool = editPrisioner(editingPrisioner);
+                if (bool) {
+                  return editingPrisioner;
                 } else {
+                  Modal.error({
+                    title: "Edit Error",
+                    content: `An error happened while changing the prisioner.`,
+                    okType: "danger",
+                  });
                   return prisioner;
                 }
-              });
-            } else {
-              countDown();
-              return pre;
-            }
+              } else {
+                return prisioner;
+              }
+            });
           });
           ResetEditing();
         }}
@@ -237,6 +215,16 @@ function PrisionersList() {
               });
             }}
           />
+          <Input
+            addonBefore="Workstation ID"
+            value={editingPrisioner?.workstationId}
+            onChange={(e) => {
+              setEditingPrisioner((pre) => {
+                return { ...pre, workstationId: e.target.value };
+              });
+            }}
+          />
+          Sentece:
           <RangePicker
             showTime
             defaultValue={[
@@ -262,15 +250,7 @@ function PrisionersList() {
               });
             }}
           />
-          <Input
-            addonBefore="Workstation ID"
-            value={editingPrisioner?.workstationId}
-            onChange={(e) => {
-              setEditingPrisioner((pre) => {
-                return { ...pre, workstationId: e.target.value };
-              });
-            }}
-          />
+          Solitary:
           <Checkbox
             checked={editingPrisioner?.solitary}
             addonBefore="Solitary"

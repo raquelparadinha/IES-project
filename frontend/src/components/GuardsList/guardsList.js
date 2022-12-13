@@ -1,4 +1,4 @@
-import { Button, Modal, Table, Input, Space } from "antd";
+import { Button, Modal, Table, Input, Space, DatePicker, Form } from "antd";
 import { useState, useEffect } from "react";
 import {
   DeleteOutlined,
@@ -7,30 +7,13 @@ import {
 } from "@ant-design/icons/lib/icons";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+dayjs.extend(customParseFormat);
+
+const dateFormat = "MM/DD/YYYY";
 
 function GuardsList() {
-  const countDown = () => {
-    let secondsToGo = 5;
-
-    const modal = Modal.error({
-      title: "Solitary state invalid, insert only 'true' or 'false'.",
-      content: `This modal will be destroyed after ${secondsToGo} second.`,
-      okType: "danger",
-    });
-
-    const timer = setInterval(() => {
-      secondsToGo -= 1;
-      modal.update({
-        content: `This modal will be destroyed after ${secondsToGo} second.`,
-      });
-    }, 1000);
-
-    setTimeout(() => {
-      clearInterval(timer);
-      modal.destroy();
-    }, secondsToGo * 1000);
-  };
-
   const [dataSource, setDataSource] = useState();
   const fetchData = () => {
     try {
@@ -48,6 +31,7 @@ function GuardsList() {
 
   const navigate = useNavigate();
   const [isEditing, setisEditing] = useState(false);
+  const [isAdding, setisAdding] = useState(false);
   const [editingGuard, setEditingGuard] = useState(null);
 
   const columns = [
@@ -88,23 +72,6 @@ function GuardsList() {
       },
     },
   ];
-
-  const onAddGuard = () => {
-    // Aqui para fazer os adds de novo guarda, está estatico aqui
-    const randomNumber = parseInt(Math.random() * 1000);
-    const newGuard = {
-      id: randomNumber,
-      name: "Cotovelo da Perna " + randomNumber,
-      birthdate: "10-06-2001",
-      sentence: "21-10-2021",
-      duration: 1000,
-      workstation: "Ser lindo",
-      solitary: false.toString(),
-    };
-    setDataSource((pre) => {
-      return [...pre, newGuard];
-    });
-  };
   const onDeleteGuard = (record) => {
     Modal.confirm({
       title: "You REALLY want to delete this guard?",
@@ -118,15 +85,24 @@ function GuardsList() {
       },
     });
   };
+
   const onEditGuard = (record) => {
     setisEditing(true);
     // ... para fazer copia, tendi nada
     setEditingGuard({ ...record });
   };
 
+  const onAddGuard = () => {
+    setisAdding(true);
+  };
+
   const ResetEditing = () => {
     setisEditing(false);
     setEditingGuard(null);
+  };
+
+  const ResetAdding = () => {
+    setisAdding(false);
   };
 
   function editGuard(Edited_guard) {
@@ -142,6 +118,35 @@ function GuardsList() {
     return true;
   }
 
+  const AddGuard = (new_guard_info) => {
+    // Aqui para fazer os adds de novo guarda, está estatico aqui
+    ResetAdding();
+    console.log(new_guard_info);
+    const new_guard = {
+      id: 0,
+      name: new_guard_info.name,
+      birthdate: new_guard_info.birthdate.format(dateFormat),
+      email: new_guard_info.email,
+      phone: new_guard_info.phone,
+      areaId: new_guard_info.areaId,
+      password: new_guard_info.name + new_guard_info.id,
+      roles: [],
+    };
+    console.log(new_guard);
+    try {
+      axios.post("http://localhost:5001/api/guard", new_guard);
+    } catch (error) {
+      console.log("Deu pylance");
+      return false;
+    }
+    setDataSource((pre) => {
+      return [...pre, new_guard];
+    });
+    return true;
+  };
+
+  const [form] = Form.useForm();
+  console.log(dataSource);
   return (
     <div>
       <Table
@@ -166,30 +171,24 @@ function GuardsList() {
           ResetEditing();
         }}
         onOk={() => {
-          // alterar o guarda, estático :)
           setDataSource((pre) => {
-            if (true) {
-              return pre.map((guard) => {
-                if (guard.id === editingGuard.id) {
-                  const bool = editGuard(editingGuard);
-                  if (bool) {
-                    return editingGuard;
-                  } else {
-                    Modal.error({
-                      title: "Edit Error",
-                      content: `An error happened while changing the guard.`,
-                      okType: "danger",
-                    });
-                    return guard;
-                  }
+            return pre.map((guard) => {
+              if (guard.id === editingGuard.id) {
+                const bool = editGuard(editingGuard);
+                if (bool) {
+                  return editingGuard;
                 } else {
+                  Modal.error({
+                    title: "Edit Error",
+                    content: `An error happened while changing the guard.`,
+                    okType: "danger",
+                  });
                   return guard;
                 }
-              });
-            } else {
-              countDown();
-              return pre;
-            }
+              } else {
+                return guard;
+              }
+            });
           });
           ResetEditing();
         }}
@@ -234,6 +233,66 @@ function GuardsList() {
         </Space>
       </Modal>
       {/* o ? é para dizer que o argumento é opcional */}
+      <Modal
+        title="Add Guard"
+        open={isAdding}
+        onCancel={() => ResetAdding()}
+        onOk={form.submit}
+      >
+        <Form form={form} onFinish={AddGuard}>
+          <Form.Item
+            name="name"
+            rules={[
+              {
+                required: true,
+                message: "Please input the name!",
+              },
+            ]}
+          >
+            <Input addonBefore="Name" />
+          </Form.Item>
+          <Form.Item
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: "Please input Email!",
+              },
+            ]}
+          >
+            <Input addonBefore="Email" />
+          </Form.Item>
+          <Form.Item
+            name="phone"
+            rules={[
+              {
+                required: true,
+                message: "Please input Phone!",
+              },
+            ]}
+          >
+            <Input addonBefore="Phone" />
+          </Form.Item>
+          <Form.Item
+            name="areaId"
+            rules={[
+              {
+                required: true,
+                message: "Please input Area ID!",
+              },
+            ]}
+          >
+            <Input addonBefore="Area ID" />
+          </Form.Item>
+          Birthdate:
+          <Form.Item name="birthdate">
+            <DatePicker
+              format={dateFormat}
+              placeholder={"Birthdate"}
+            ></DatePicker>
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 }

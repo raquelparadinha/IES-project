@@ -63,14 +63,6 @@ function Prisioner_info(id) {
         <Space align="start">
           <Card title={title_} style={{ width: "250px", height: "350px" }}>
             {SeeIfUndfined()}
-            {/* <p>Id: 12</p>
-            <p>Name: Paulo Pinto</p>
-            <p>Birthdate: 12-10-2001</p>
-            <p>Entry Date: 12-10-2021</p>
-            <p>Sentence End: 12-10-2031</p>
-            <p>Solitary: True</p>
-            <p>WorkStationId: 1234567890</p>
-            <p>Health Log Id: 0987654321</p> */}
           </Card>
           <Card
             title="Health status"
