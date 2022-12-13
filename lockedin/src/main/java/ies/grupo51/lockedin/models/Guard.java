@@ -41,8 +41,8 @@ public class Guard {
 
     public Guard () {
         this.id = 0;
-        Role userRole = service.findRole(ERole.ROLE_USER);
-		this.roles.add(userRole);
+        // Role userRole = service.findRole(ERole.ROLE_USER);
+		// this.roles.add(userRole);
     }
 
     public Guard (long id, String name, String email, String phone, String birthdate, long areaId, String password) {

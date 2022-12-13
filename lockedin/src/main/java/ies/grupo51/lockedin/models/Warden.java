@@ -42,10 +42,10 @@ public class Warden {
 
     public Warden() {
         this.id = 0;
-        Role userRole = service.findRole(ERole.ROLE_USER);
-		this.roles.add(userRole);
-        Role adminRole = service.findRole(ERole.ROLE_ADMIN);
-		this.roles.add(adminRole);
+        // Role userRole = service.findRole(ERole.ROLE_USER);
+		// this.roles.add(userRole);
+        // Role adminRole = service.findRole(ERole.ROLE_ADMIN);
+		// this.roles.add(adminRole);
     }
 
     public Warden(long id, String name, String email, String phone, String birthdate, String password) {

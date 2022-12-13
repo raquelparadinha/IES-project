@@ -44,19 +44,22 @@ public class AuthController {
 			Guard test = repository.findByEmail(loginRequest.getEmail());
 			System.out.println("\n"+ test.toString()+ "\n");
 			System.out.println("\n"+ loginRequest.getEmail() + "\n" + loginRequest.getPassword());
-			authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken( loginRequest.getEmail(), loginRequest.getPassword()));
+			// authenticationManager.authenticate(
+            //         new UsernamePasswordAuthenticationToken( loginRequest.getEmail(), loginRequest.getPassword()));
 					
-			System.out.println("\nAUTENTICADO\n");
+			
            
-			UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
-			System.out.println("\n"+ credentials.getCredentials().toString() + "\n" );
+			// UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
+			
+			// System.out.println("\n"+ credentials.getCredentials().toString() + "\n" );
 			Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+			System.out.println("\nAUTENTICADO\n");
 			
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			String jwt = jwtUtils.generateJwtToken(authentication);
 			
+			System.out.println(jwt);
 			UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
 			List<String> roles = userDetails.getAuthorities().stream()
 					.map(item -> item.getAuthority())
