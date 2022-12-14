@@ -65,4 +65,8 @@ db.healthLog.insertMany(docs)
 console.log('\nCHECKPOINT -> healthLogs done')
 
 db.createCollection('moveSensorLog', { capped: true, size: 2000000, max: 10000 });
+var data = fs.readFileSync('./seeddata/moveSensorLogs.json')
+var docs = JSON.parse(data.toString())
+db.moveSensorLog.insertMany(docs)
+console.log('\nCHECKPOINT -> moveSensorLogs done')
 

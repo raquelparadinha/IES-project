@@ -7,12 +7,14 @@ from comms import *
 
 areasfile = 'mongodb/seeddata/areas.json'
 sensorfile = 'mongodb/seeddata/moveSensors.json'
-healthfile = 'datagen/data/health.json'
 workstationsfile = 'mongodb/seeddata/workstations.json'
 inmatesfile = 'mongodb/seeddata/inmates.json'
 
+MONGO_HOST = "172.18.0.1"
+MONGO_PORT = 27017
+
 def main():
-    sim = Simulator(areasfile, sensorfile, workstationsfile, inmatesfile, healthfile)
+    sim = Simulator(MONGO_HOST, MONGO_PORT)
     receiver = Receiver()
     sender = Sender()
 
