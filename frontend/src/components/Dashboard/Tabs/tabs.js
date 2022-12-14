@@ -52,7 +52,7 @@ const Example = (props) => {
     try {
       return axios
         .get(
-          "http://localhost:5001/api/inmate/health/" +
+          "http://localhost:5001/api/inmate/all/health/" +
             coisas2[props.data_] +
             "/data"
         )
@@ -86,7 +86,7 @@ const Example = (props) => {
     >
       <CartesianGrid strokeDasharray="3 3" stroke="#8da6a8" />
       <XAxis dataKey="value" />
-      <YAxis dataKey="qty"/>
+      <YAxis dataKey="qty" />
       <Tooltip />
       <Legend verticalAlign="top" wrapperStyle={{ lineHeight: "40px" }} />
       <ReferenceLine y={0} stroke="#8da6a8" />

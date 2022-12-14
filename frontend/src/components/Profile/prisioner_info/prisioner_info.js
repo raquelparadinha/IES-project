@@ -77,17 +77,29 @@ function Prisioner_info(id) {
 
   function SeeIfUndfined2() {
     if (dataSource2 !== undefined) {
-      console.log(dataSource2);
-      return (
-        <>
-          {/* <p style={{ color: "#12494c" }}>HeartBeat: 70</p>
-          <p style={{ color: "#12494c" }}>Stress Levels: 15%</p>
-          <p style={{ color: "#12494c" }}>Glicose Levels: 33</p>
-          <p style={{ color: "#12494c" }}>Uric Acid: 23</p>
-          <p style={{ color: "#12494c" }}>Cholestrol: 45</p>
-          <p style={{ color: "#12494c" }}>Toxic Screen: 12</p> */}
-        </>
-      );
+      console.log(dataSource2[0]);
+      if (dataSource2.length > 0) {
+        return dataSource2.map((healthLog) => (
+          <>
+            <p style={{ color: "#12494c" }}>HeartBeat: {healthLog.heartBeat}</p>
+            <p style={{ color: "#12494c" }}>
+              Stress Levels: {healthLog.stress}
+            </p>
+            <p style={{ color: "#12494c" }}>
+              Glicose Levels: {healthLog.glicose}
+            </p>
+            <p style={{ color: "#12494c" }}>Uric Acid: {healthLog.uricAcid}</p>
+            <p style={{ color: "#12494c" }}>
+              Cholestrol: {healthLog.cholesterol}
+            </p>
+            <p style={{ color: "#12494c" }}>
+              Toxic Screen: {healthLog.toxicScreen}
+            </p>
+          </>
+        ));
+      } else {
+        return <p>No Data Available</p>;
+      }
     } else {
       fetchData2();
       return (

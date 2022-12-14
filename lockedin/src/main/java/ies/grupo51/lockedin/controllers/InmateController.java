@@ -98,7 +98,7 @@ public class InmateController {
     public ResponseEntity<List<HealthLog>> getAllHealLogs() {
         return ResponseEntity.ok().body(healthLogService.getHealthLogs());
     }
-    @GetMapping("/{id}/health/")
+    @GetMapping("/{id}/health")
     public ResponseEntity<List<HealthLog>> getHealthLogsOfInmate(@PathVariable(value = "id") Long id) {
         return ResponseEntity.ok().body(healthLogService.getHealthLogByInmateId(id));
     }

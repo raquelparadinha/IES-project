@@ -70,21 +70,36 @@ function Guard_info(id) {
     if (dataSource2 !== undefined) {
       console.log(dataSource2);
       // console.log(dataSource.birthdate.split("T")[0])
-      return (
-        <>
-          <p style={{ textAlign: "left", color: "#12494c" }}>
-            <RightCircleFilled /> Area Guards:
-          </p>
-          {new Array(dataSource2.length).fill(null).map((_, i) => {
-            //  colocar i+1 no lugar do i pois o i = 0 vai ser sobre o estado da area e não é para ser usado aqui
-            return <p style={{ color: "#12494c" }}>{dataSource2[i + 1]}</p>;
-          })}
-          <p style={{ textAlign: "left", color: "#12494c" }}>
-            <RightCircleFilled /> Area Status:
-          </p>
-          <div style={{ color: "#12494c" }}>{dataSource2[0]}</div>
-        </>
-      );
+      if (dataSource2.length > 1) {
+        return (
+          <>
+            <p style={{ textAlign: "left", color: "#12494c" }}>
+              <RightCircleFilled /> Area Guards:
+            </p>
+            {new Array(dataSource2.length).fill(null).map((_, i) => {
+              //  colocar i+1 no lugar do i pois o i = 0 vai ser sobre o estado da area e não é para ser usado aqui
+              return <p style={{ color: "#12494c" }}>{dataSource2[i + 1]}</p>;
+            })}
+            <p style={{ textAlign: "left", color: "#12494c" }}>
+              <RightCircleFilled /> Area Status:
+            </p>
+            <div style={{ color: "#12494c" }}>{dataSource2[0]}</div>
+          </>
+        );
+      } else {
+        return (
+          <>
+            <p style={{ textAlign: "left", color: "#12494c" }}>
+              <RightCircleFilled /> Area Guards:
+            </p>
+            <p>No Colleagues</p>
+            <p style={{ textAlign: "left", color: "#12494c" }}>
+              <RightCircleFilled /> Area Status:
+            </p>
+            <div style={{ color: "#12494c" }}>{dataSource2[0]}</div>
+          </>
+        );
+      }
     } else {
       fetchData2();
       return (
@@ -117,7 +132,7 @@ function Guard_info(id) {
             title={title_}
             style={{
               width: "300px",
-              height: "300px",
+              height: "350px",
               backgroundColor: "#EFF5F5",
             }}
           >
@@ -127,7 +142,7 @@ function Guard_info(id) {
             title={<div style={{ color: "#12494c" }}>Area</div>}
             style={{
               width: "250px",
-              height: "300px",
+              height: "350px",
               backgroundColor: "#EFF5F5",
             }}
           >
