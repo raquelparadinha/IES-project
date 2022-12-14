@@ -7,6 +7,7 @@ import {
   Checkbox,
   DatePicker,
   Form,
+  Card,
 } from "antd";
 import { useState, useEffect } from "react";
 import {
@@ -43,15 +44,14 @@ function PrisionersList() {
   //console.log(dataSource);
   const columns = [
     // prisioner main traits
-    { key: 1, title: "ID", dataIndex: "id" },
+    { key: 1, title: "ID", dataIndex: "id", className: "custom-row"},
     { key: 2, title: "Name", dataIndex: "name" },
     { key: 3, title: "Birthdate", dataIndex: "birthDate" },
     { key: 4, title: "Sentece Start", dataIndex: "entryDate" },
     { key: 5, title: "Sentence End", dataIndex: "sentenceEnd" },
-    { key: 6, title: "Workstation", dataIndex: "workstationId" },
 
     {
-      key: 7,
+      key: 6,
       title: "Actions",
       render: (record) => {
         // console.log(record.id)
@@ -138,7 +138,6 @@ function PrisionersList() {
       birthDate: new_prisioner_info.birthdate.format(dateFormat),
       entryDate: new_prisioner_info.sentence[0].format(dateFormat),
       sentenceEnd: new_prisioner_info.sentence[1].format(dateFormat),
-      workstationId: new_prisioner_info.workstation,
       solitary: new_prisioner_info.solitary,
       healthLogId: 0,
       moveLogIds: [],
@@ -160,20 +159,24 @@ function PrisionersList() {
   const [form] = Form.useForm();
   console.log(dataSource);
   return (
-    <div>
-      <Table
-        columns={columns}
-        dataSource={dataSource}
-        pagination={{ defaultPageSize: 14 }}
-      ></Table>
-      <Button
-        onClick={() => onAddPrisioner()}
-        shape={"round"}
-        style={{ marginLeft: "45%" }}
-        type="primary"
-      >
-        Add new prisioner
-      </Button>
+    <div style={{ textAlign: "center" }}>
+      <Card title="Prisioners" style={{ backgroundColor: "#F5EBE0" }}>
+        <Table
+          columns={columns}
+          dataSource={dataSource}
+          pagination={{ defaultPageSize: 13, style:{color: "red"} }}
+          rowClassName={"custom-row"}
+
+        ></Table>
+        <Button
+          onClick={() => onAddPrisioner()}
+          shape={"round"}
+          style={{ marginLeft: "1%" }}
+          type="primary"
+        >
+          Add new prisioner
+        </Button>
+      </Card>
       <Modal
         title="Edit Prisioner"
         open={isEditing}
@@ -212,15 +215,6 @@ function PrisionersList() {
             onChange={(e) => {
               setEditingPrisioner((pre) => {
                 return { ...pre, name: e.target.value };
-              });
-            }}
-          />
-          <Input
-            addonBefore="Workstation ID"
-            value={editingPrisioner?.workstationId}
-            onChange={(e) => {
-              setEditingPrisioner((pre) => {
-                return { ...pre, workstationId: e.target.value };
               });
             }}
           />
@@ -280,17 +274,6 @@ function PrisionersList() {
             ]}
           >
             <Input addonBefore="Name" />
-          </Form.Item>
-          <Form.Item
-            name="workstation"
-            rules={[
-              {
-                required: true,
-                message: "Please input Workstation ID!",
-              },
-            ]}
-          >
-            <Input addonBefore="Workstation ID" />
           </Form.Item>
           Birthdate:
           <Form.Item name="birthdate">

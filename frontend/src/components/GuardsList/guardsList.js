@@ -1,4 +1,13 @@
-import { Button, Modal, Table, Input, Space, DatePicker, Form } from "antd";
+import {
+  Button,
+  Modal,
+  Table,
+  Input,
+  Space,
+  DatePicker,
+  Form,
+  Card,
+} from "antd";
 import { useState, useEffect } from "react";
 import {
   DeleteOutlined,
@@ -148,20 +157,23 @@ function GuardsList() {
   const [form] = Form.useForm();
   console.log(dataSource);
   return (
-    <div>
-      <Table
-        columns={columns}
-        dataSource={dataSource}
-        pagination={{ defaultPageSize: 14 }}
-      ></Table>
-      <Button
-        onClick={onAddGuard}
-        shape={"round"}
-        style={{ marginLeft: "45%" }}
-        type="primary"
-      >
-        Add new guard
-      </Button>
+    <div style={{ textAlign: "center" }}>
+      <Card title="Prisioners" style={{ backgroundColor: "#F5EBE0" }}>
+        <Table
+          columns={columns}
+          dataSource={dataSource}
+          pagination={{ defaultPageSize: 13 }}
+          rowClassName={"custom-row"}
+        ></Table>
+        <Button
+          onClick={onAddGuard}
+          shape={"round"}
+          style={{ marginLeft: "1%" }}
+          type="primary"
+        >
+          Add new guard
+        </Button>
+      </Card>
       <Modal
         title="Edit Guard"
         open={isEditing}

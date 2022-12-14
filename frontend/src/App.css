@@ -37,6 +37,54 @@
   }
 }
 
-.custom-row{
-  background-color:#363636;
+.custom-row {
+  background-color: #fefcf3;
+}
+
+.ant-table
+  .ant-table-container
+  .ant-table-content
+  table
+  thead.ant-table-thead
+  .ant-table-cell {
+  background-color: #f9f4df;
+}
+
+.ant-pagination-item .ant-pagination-item-1 .ant-pagination-item-active {
+  background-color: #282c34;
+}
+.css-dev-only-do-not-override-1s3dcof.ant-pagination
+  .ant-pagination-item-active {
+  font-weight: 600;
+  background-color: #ffffff;
+  border-color: #dba39a;
+}
+
+.css-dev-only-do-not-override-1s3dcof.ant-pagination
+  .ant-pagination-item-active
+  a {
+  color: #dba39a;
+}
+
+.css-dev-only-do-not-override-1s3dcof.ant-tabs-card
+  > .ant-tabs-nav
+  .ant-tabs-tab-active,
+.css-dev-only-do-not-override-1s3dcof.ant-tabs-card
+  > div
+  > .ant-tabs-nav
+  .ant-tabs-tab-active {
+  color: #f9f4df;
+  background: #dba39a;
+}
+
+.css-dev-only-do-not-override-1s3dcof
+  .ant-tabs
+  .ant-tabs-tab.ant-tabs-tab-active
+  .ant-tabs-tab-btn {
+  color: #f9f4df;
+  text-shadow: 0 0 0.25px currentcolor;
+}
+
+:where(.css-dev-only-do-not-override-1s3dcof).ant-menu-light:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: #f9f4df;
 }

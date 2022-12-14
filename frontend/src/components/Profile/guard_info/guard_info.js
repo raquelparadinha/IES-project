@@ -30,7 +30,7 @@ function Guard_info(id) {
   const fetchData2 = () => {
     try {
       return axios
-        .get("http://localhost:5001/api/guard/" + id + "/colleagues")
+        .get("http://localhost:5001/api/guard/" + id + "/sidebar")
         .then((response) => setDataSource2(response.data));
     } catch {
       console.log("Deu pylance");
@@ -77,12 +77,12 @@ function Guard_info(id) {
           </p>
           {new Array(dataSource2.length).fill(null).map((_, i) => {
             //  colocar i+1 no lugar do i pois o i = 0 vai ser sobre o estado da area e não é para ser usado aqui
-            return <p>{dataSource2[i]}</p>;
+            return <p>{dataSource2[i + 1]}</p>;
           })}
           <p style={{ textAlign: "left" }}>
             <RightCircleFilled /> Area Status:
           </p>
-          {areaStatus(dataSource2[0])}
+          {dataSource2[0]}
         </>
       );
     } else {
@@ -92,15 +92,6 @@ function Guard_info(id) {
           <LoadingOutlined />
         </div>
       );
-    }
-  }
-
-  function areaStatus(params) {
-    // onde estar true meter dataSource2[0] para ir buscar se a area está open ou closed
-    if (true) {
-      return "Open";
-    } else {
-      return "Closed";
     }
   }
 
