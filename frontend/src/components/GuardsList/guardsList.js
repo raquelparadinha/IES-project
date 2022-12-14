@@ -8,21 +8,138 @@ import {
   Form,
   Card,
 } from "antd";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   DeleteOutlined,
   EditOutlined,
   EyeOutlined,
+  SearchOutlined,
 } from "@ant-design/icons/lib/icons";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import Highlighter from "react-highlight-words";
 dayjs.extend(customParseFormat);
 
 const dateFormat = "MM/DD/YYYY";
 
 function GuardsList() {
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef(null);
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText("");
+  };
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+      close,
+    }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: "block",
+          }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({
+                closeDropdown: false,
+              });
+              setSearchText(selectedKeys[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            close
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? "#1890ff" : undefined,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: "#ffc069",
+            padding: 0,
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ""}
+        />
+      ) : (
+        text
+      ),
+  });
+
   const [dataSource, setDataSource] = useState();
   const fetchData = () => {
     try {
@@ -45,12 +162,37 @@ function GuardsList() {
 
   const columns = [
     // guard main traits
-    { key: 1, title: "ID", dataIndex: "id" },
-    { key: 2, title: "Name", dataIndex: "name" },
-    { key: 3, title: "Email", dataIndex: "email" },
-    { key: 4, title: "Phone", dataIndex: "phone" },
-    { key: 5, title: "Birthdate", dataIndex: "birthdate" },
-    { key: 6, title: "AreaID", dataIndex: "areaId" },
+    { key: 1, title: "ID", dataIndex: "id", ...getColumnSearchProps("id") },
+    {
+      key: 2,
+      title: "Name",
+      dataIndex: "name",
+      ...getColumnSearchProps("name"),
+    },
+    {
+      key: 3,
+      title: "Email",
+      dataIndex: "email",
+      ...getColumnSearchProps("email"),
+    },
+    {
+      key: 4,
+      title: "Phone",
+      dataIndex: "phone",
+      ...getColumnSearchProps("phone"),
+    },
+    {
+      key: 5,
+      title: "Birthdate",
+      dataIndex: "birthdate",
+      ...getColumnSearchProps("birthdate"),
+    },
+    {
+      key: 6,
+      title: "AreaID",
+      dataIndex: "areaId",
+      ...getColumnSearchProps("areaId"),
+    },
 
     {
       key: 7,
