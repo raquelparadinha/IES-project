@@ -7,7 +7,7 @@ from pymongo import MongoClient
 
 from classes import Inmate, Area, Sensor, Workstation
 
-HEALTHFILE = 'datagen/data/health.json'
+HEALTHFILE = 'data/health.json'
 
 RIOT_CHANCE = 4 # %
 

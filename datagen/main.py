@@ -10,7 +10,7 @@ sensorfile = 'mongodb/seeddata/moveSensors.json'
 workstationsfile = 'mongodb/seeddata/workstations.json'
 inmatesfile = 'mongodb/seeddata/inmates.json'
 
-MONGO_HOST = "172.18.0.1"
+MONGO_HOST = "mongodb"
 MONGO_PORT = 27017
 
 def main():
