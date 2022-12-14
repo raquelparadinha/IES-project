@@ -14,9 +14,6 @@ services:
       - ./mongodb/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
       - ./mongodb/seeddata:/seeddata
       - datafiles:/data/db
-    environment:
-      - MONGO_ROOT_USERNAME=estia
-      - MONGO_ROOT_PASSWORD=maxima
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh | grep 1
       interval: 30s
@@ -78,16 +75,13 @@ services:
       - SPRING_DATA_MONGODB_DATABASE=lockedin
       - SPRING_RABBITMQ_HOST=rabbitmq
   
-  # reactclient:
-  #   build: ./frontend
-  #   container_name: reactclient
-  #   ports:
-  #     - 3001:3000
-  #   stdin_open: true
-  #   depends_on:
-  #     - web
-  #     - mongodb
-  #     - rabbitmq
-  #     - datagen
-  #   restart: unless-stopped
-  #   image: lockedin-frontend
+  reactclient:
+    build: ./frontend
+    container_name: reactclient
+    ports:
+      - 3001:3000
+    stdin_open: true
+    depends_on:
+      - web
+    restart: unless-stopped
+    image: lockedin-frontend
