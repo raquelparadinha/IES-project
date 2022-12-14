@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Col, Space } from "antd";
 import { LoadingOutlined } from "@ant-design/icons/lib/icons";
 import axios from "axios";
+import "../profile.css";
 
 function Prisioner_info(id) {
   const [dataSource, setDataSource] = useState();

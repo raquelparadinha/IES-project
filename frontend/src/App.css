@@ -1,44 +1,5 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .custom-row {
-  background-color: #fefcf3;
+  background-color: #eff5f5;
 }
 
 .ant-table
@@ -47,7 +8,7 @@
   table
   thead.ant-table-thead
   .ant-table-cell {
-  background-color: #f9f4df;
+  background-color: #c2d8d8;
 }
 
 .ant-pagination-item .ant-pagination-item-1 .ant-pagination-item-active {
@@ -57,13 +18,13 @@
   .ant-pagination-item-active {
   font-weight: 600;
   background-color: #ffffff;
-  border-color: #dba39a;
+  border-color: #497174;
 }
 
 .css-dev-only-do-not-override-1s3dcof.ant-pagination
   .ant-pagination-item-active
   a {
-  color: #dba39a;
+  color: #497174;
 }
 
 .css-dev-only-do-not-override-1s3dcof.ant-tabs-card
@@ -73,18 +34,34 @@
   > div
   > .ant-tabs-nav
   .ant-tabs-tab-active {
-  color: #f9f4df;
-  background: #dba39a;
+  color: #497174;
+  background: #8da6a8;
 }
 
 .css-dev-only-do-not-override-1s3dcof
   .ant-tabs
   .ant-tabs-tab.ant-tabs-tab-active
   .ant-tabs-tab-btn {
-  color: #f9f4df;
+  color: #8da6a8;
   text-shadow: 0 0 0.25px currentcolor;
 }
 
-:where(.css-dev-only-do-not-override-1s3dcof).ant-menu-light:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background-color: #f9f4df;
+:where(.css-dev-only-do-not-override-1s3dcof).ant-menu-light:not(
+    .ant-menu-horizontal
+  )
+  .ant-menu-item {
+  color: #12494c;
+}
+
+:where(.css-dev-only-do-not-override-1s3dcof).ant-menu-light {
+  color: #12494c;
+  background: #8da6a8;
+}
+
+:where(.css-dev-only-do-not-override-1s3dcof).ant-menu-light:not(
+    .ant-menu-horizontal
+  )
+  .ant-menu-item-selected {
+  background-color: #8da6a8;
+  color: #12494c;
 }

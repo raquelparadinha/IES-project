@@ -18,8 +18,6 @@ import Dashboard from "./components/Dashboard/dashboard";
 import GuardsList from "./components/GuardsList/guardsList";
 import Notifications from "./components/Notifications/notifications";
 import Prisioner_Profile from "./components/Profile/prisioner_profile";
-import { useState, useEffect } from "react";
-import axios from "axios";
 import Guard_Profile from "./components/Profile/guard_profile";
 
 function App() {
@@ -94,7 +92,7 @@ export function SideMenu() {
         }}
         defaultSelectedKeys={[window.location.pathname]}
         items={islogged(Logged)}
-        style={{ backgroundColor: "#FEFCF3" }}
+        style={{ backgroundColor: "#EFF5F5" }}
       ></Menu>
       <Content />
     </div>
@@ -103,7 +101,7 @@ export function SideMenu() {
 
 function Content() {
   return (
-    <div style={{ width: "100%", backgroundColor: "#F5EBE0" }}>
+    <div style={{ width: "100%", backgroundColor: "#D6E4E5" }}>
       {/* <BreadCrumb /> */}
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" />}></Route>

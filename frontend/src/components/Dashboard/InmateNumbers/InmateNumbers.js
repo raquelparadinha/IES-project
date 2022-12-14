@@ -84,7 +84,7 @@ function InmateNumbers() {
               textAlign: "center",
               alignItems: "center",
               width: "270px",
-              backgroundColor: "#FEFCF3",
+              backgroundColor: "#EFF5F5",
             }}
           >
             {SeeIfUndfined()}

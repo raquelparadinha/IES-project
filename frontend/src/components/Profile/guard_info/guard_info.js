@@ -102,7 +102,10 @@ function Guard_info(id) {
     title_ = <LoadingOutlined />;
   }
   return (
-    <Card title="Guard Personal Information">
+    <Card
+      title="Guard Personal Information"
+      style={{ backgroundColor: "#D6E4E5" }}
+    >
       <Col
         style={{
           justifyContent: "center",
@@ -110,10 +113,24 @@ function Guard_info(id) {
         }}
       >
         <Space align="start">
-          <Card title={title_} style={{ width: "300px", height: "300px" }}>
+          <Card
+            title={title_}
+            style={{
+              width: "300px",
+              height: "300px",
+              backgroundColor: "#EFF5F5",
+            }}
+          >
             {SeeIfUndfined()}
           </Card>
-          <Card title="Area" style={{ width: "250px", height: "300px" }}>
+          <Card
+            title="Area"
+            style={{
+              width: "250px",
+              height: "300px",
+              backgroundColor: "#EFF5F5",
+            }}
+          >
             {SeeIfUndfined2()}
           </Card>
         </Space>

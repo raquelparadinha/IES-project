@@ -158,7 +158,7 @@ function GuardsList() {
   console.log(dataSource);
   return (
     <div style={{ textAlign: "center" }}>
-      <Card title="Prisioners" style={{ backgroundColor: "#F5EBE0" }}>
+      <Card title="Prisioners" style={{ backgroundColor: "#D6E4E5" }}>
         <Table
           columns={columns}
           dataSource={dataSource}
@@ -168,7 +168,7 @@ function GuardsList() {
         <Button
           onClick={onAddGuard}
           shape={"round"}
-          style={{ marginLeft: "1%" }}
+          style={{ marginLeft: "1%", backgroundColor: "#497174" }}
           type="primary"
         >
           Add new guard

@@ -12,6 +12,7 @@ import {
   Legend,
 } from "recharts";
 import axios from "axios";
+import "../../../App.css"
 
 const coisas = [
   "Heart Beat",
@@ -89,8 +90,8 @@ const Example = (props) => {
       <Tooltip />
       <Legend verticalAlign="top" wrapperStyle={{ lineHeight: "40px" }} />
       <ReferenceLine y={0} stroke="#000" />
-      <Brush dataKey="value" height={30} stroke="#DBA39A" />
-      <Bar dataKey="qty" fill="#DBA39A" />
+      <Brush dataKey="value" height={30} stroke="#497174" />
+      <Bar dataKey="qty" fill="#497174" />
     </BarChart>
   );
 };

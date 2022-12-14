@@ -44,7 +44,7 @@ function PrisionersList() {
   //console.log(dataSource);
   const columns = [
     // prisioner main traits
-    { key: 1, title: "ID", dataIndex: "id", className: "custom-row"},
+    { key: 1, title: "ID", dataIndex: "id", className: "custom-row" },
     { key: 2, title: "Name", dataIndex: "name" },
     { key: 3, title: "Birthdate", dataIndex: "birthDate" },
     { key: 4, title: "Sentece Start", dataIndex: "entryDate" },
@@ -160,18 +160,17 @@ function PrisionersList() {
   console.log(dataSource);
   return (
     <div style={{ textAlign: "center" }}>
-      <Card title="Prisioners" style={{ backgroundColor: "#F5EBE0" }}>
+      <Card title="Prisioners" style={{ backgroundColor: "#D6E4E5" }}>
         <Table
           columns={columns}
           dataSource={dataSource}
-          pagination={{ defaultPageSize: 13, style:{color: "red"} }}
+          pagination={{ defaultPageSize: 13 }}
           rowClassName={"custom-row"}
-
         ></Table>
         <Button
           onClick={() => onAddPrisioner()}
           shape={"round"}
-          style={{ marginLeft: "1%" }}
+          style={{ marginLeft: "1%", backgroundColor: "#497174" }}
           type="primary"
         >
           Add new prisioner
