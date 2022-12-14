@@ -1,5 +1,5 @@
 [
-  { "_id": 101, "name": "Paulo Pinto", "email": "ppnaopylance@buzzfeed.com", "phone": 9192345678, "birthdate": "08/06/2002", "areaId": 9, "password": "$2a$10$wtowWw4FXwxi1bzpVXZ6VuBgLriA7SHarnn9cEfUONAxsA71tyC1q" },
+  { "_id": 101, "name": "Paulo Pinto", "email": "ppnaopylance@buzzfeed.com", "phone": 9192345678, "birthdate": "08/06/2002", "areaId": 9, "password": "souinfeliz" },
   { "_id": 102, "name": "Licha Holdworth", "email": "lholdworth1@buzzfeed.com", "phone": 4445307536, "birthdate": "2/13/1971", "areaId": 9, "password": "fnf0vG" },
   { "_id": 103, "name": "Aime Gaudin", "email": "agaudin2@geocities.jp", "phone": 8106854523, "birthdate": "7/4/1989", "areaId": 10, "password": "WU3b3PWEJlH" },
   { "_id": 104, "name": "Julie Narrie", "email": "jnarrie3@globo.com", "phone": 4361360010, "birthdate": "12/19/2021", "areaId": 6, "password": "9KVn231TBj27" },
