@@ -14,12 +14,15 @@ services:
       - ./mongodb/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
       - ./mongodb/seeddata:/seeddata
       - datafiles:/data/db
-    # healthcheck:
-    #   test: echo 'db.runCommand("ping").ok' | mongo mongo:27017 --quiet
-    #   interval: 30s
-    #   timeout: 30s
-    #   retries: 5
-    #   start_period: 15s
+    environment:
+      - MONGO_ROOT_USERNAME=estia
+      - MONGO_ROOT_PASSWORD=maxima
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh | grep 1
+      interval: 30s
+      timeout: 30s
+      retries: 5
+      start_period: 15s
 
     # SO ESTOU A GUARDAR POR GUARDAR QUE ESTA LINHA FEZ ME PERDER A BELEZA
     # command: ["--bind_ip", "localhost"]
@@ -42,8 +45,10 @@ services:
     container_name: datagen
     restart: on-failure
     depends_on:
-      - mongodb
-      - rabbitmq
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     links:
       - mongodb
       - rabbitmq
@@ -54,8 +59,10 @@ services:
     container_name: lockedin
     restart: on-failure
     depends_on:
-      - mongodb
-      - rabbitmq
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     ports:
       - 5001:8080
     environment:
