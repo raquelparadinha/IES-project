@@ -29,10 +29,11 @@ public class AlertController {
     public ResponseEntity<List<Alert>> getAllAlerts(){
         List<Alert> alerts = alertService.getAlerts();
         alerts.sort((alert1, alert2) -> alert1.getTimestamp().compareTo(alert2.getTimestamp()));
-        return ResponseEntity.ok().body(alerts);
+        return ResponseEntity.ok().body(alerts.subList(0, 30));
     }
 
-    public ResponseEntity<List<Alert>> getAllUnseenAlerts() {
+    @GetMapping("/new")
+    public ResponseEntity<List<Alert>> getAllNewAlerts() {
         List<Alert> data = new ArrayList<>();
         for (Alert alert : alertService.getAlerts()) {
             if (alert.getSeen() == false) {
@@ -40,7 +41,7 @@ public class AlertController {
             }
         }
         data.sort((alert1, alert2) -> alert1.getTimestamp().compareTo(alert2.getTimestamp()));
-        return ResponseEntity.ok().body(data);
+        return ResponseEntity.ok().body(data.subList(0, 5));
     }
 
 }
