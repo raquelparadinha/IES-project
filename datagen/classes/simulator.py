@@ -55,6 +55,7 @@ class Simulator():
 
         # init sensors
         self.sensors = []
+        for s in sensordata: print(s)
         for i in sensordata:
             id = i['_id']
             entry = [l for l in self.areas if l.id == i['entryAreaId']][0]

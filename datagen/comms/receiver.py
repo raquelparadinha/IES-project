@@ -24,5 +24,5 @@ class Receiver():
         
         self.channel.basic_consume(queue=self.queue, on_message_callback=callback, auto_ack=True)
 
-        print('waiting for messages...')
+        print('Consumer thread waiting for messages...')
         self.channel.start_consuming()

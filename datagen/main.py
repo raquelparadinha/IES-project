@@ -21,14 +21,12 @@ def main():
     consumer_thread = Thread(target=receiver.recv, args=(sim,))
     consumer_thread.start()
     
-    control = 0
-    while(control < 10):
+    while(True):
         messages = sim.run()
         for m in messages:
             sender.send(m)
 
-        sleep(1)
-        control += 1
+        sleep(0.5)
 
     print('1')
     consumer_thread.join()
