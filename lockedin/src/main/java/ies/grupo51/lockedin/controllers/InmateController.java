@@ -19,10 +19,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
+import ies.grupo51.lockedin.models.Area;
 import ies.grupo51.lockedin.models.HealthLog;
 import ies.grupo51.lockedin.models.Inmate;
+import ies.grupo51.lockedin.models.MoveSensor;
+import ies.grupo51.lockedin.models.MoveSensorLog;
+import ies.grupo51.lockedin.services.AreaService;
 import ies.grupo51.lockedin.services.HealthLogService;
 import ies.grupo51.lockedin.services.InmateService;
+import ies.grupo51.lockedin.services.MoveSensorLogService;
+import ies.grupo51.lockedin.services.MoveSensorService;
 
 @CrossOrigin
 @RestController
@@ -37,6 +43,15 @@ public class InmateController {
     @Autowired
     private HealthLogService healthLogService;
 
+    @Autowired
+    private MoveSensorLogService moveSensorLogService;
+
+    @Autowired
+    private MoveSensorService moveSensorService;
+
+    @Autowired
+    private AreaService areaService;
+
     // GET METHODS
 
     @GetMapping("") // ✓ feito ✓
@@ -46,10 +61,8 @@ public class InmateController {
     }
     
     @GetMapping("/number") // ✓ feito ✓
-    public  ResponseEntity<HashMap<String, Integer>> getInmatesNumber() {
-        HashMap<String, Integer> data = new HashMap<>();
-        data.put("InmatesNumber", inmateService.getInmates().size());
-        return ResponseEntity.ok().body(data);
+    public  ResponseEntity<Integer> getInmatesNumber() {
+        return ResponseEntity.ok().body(inmateService.getInmates().size());
     }
 
     @GetMapping("/{id}") // ✓ feito ✓
@@ -78,17 +91,20 @@ public class InmateController {
         return ResponseEntity.ok().body(data);
         
     }
+    
+    // HEALTH /////////////////////////////////////////////////////////////////////////////////////////////
 
-    @GetMapping("/health")
+    @GetMapping("all/health")
     public ResponseEntity<List<HealthLog>> getAllHealLogs() {
         return ResponseEntity.ok().body(healthLogService.getHealthLogs());
     }
-    @GetMapping("/health/{id}")
-    public ResponseEntity<HealthLog> getHealthLogsOfInmate(@PathVariable(value = "id") Long id) {
+    @GetMapping("{id}/health/")
+    public ResponseEntity<List<HealthLog>> getHealthLogsOfInmate(@PathVariable(value = "id") Long id) {
         return ResponseEntity.ok().body(healthLogService.getHealthLogByInmateId(id));
     }
 
-    @GetMapping("/health/heartbeat/data")
+
+    @GetMapping("all/health/heartbeat/data")
     public ResponseEntity<List<HashMap<String, Integer>>> getDataHeartBeat() throws ResourceNotFoundException {
         List<HashMap<String, Integer>> data = new ArrayList<>();
         HashMap<Integer, Integer> valueQuantity = new HashMap<>();
@@ -107,7 +123,7 @@ public class InmateController {
         return ResponseEntity.ok().body(data);
     }
 
-    @GetMapping("/health/stress/data")
+    @GetMapping("/all/health/stress/data")
     public ResponseEntity<List<HashMap<String, Integer>>> getDataStress() throws ResourceNotFoundException {
         List<HashMap<String, Integer>> data = new ArrayList<>();
         HashMap<Integer, Integer> valueQuantity = new HashMap<>();
@@ -126,7 +142,7 @@ public class InmateController {
         return ResponseEntity.ok().body(data);
     }
 
-    @GetMapping("/health/glicose/data")
+    @GetMapping("/all/health/glicose/data")
     public ResponseEntity<List<HashMap<String, Integer>>> getDataGlicose() throws ResourceNotFoundException {
         List<HashMap<String, Integer>> data = new ArrayList<>();
         HashMap<Integer, Integer> valueQuantity = new HashMap<>();
@@ -145,7 +161,7 @@ public class InmateController {
         return ResponseEntity.ok().body(data);
     }
 
-    @GetMapping("/health/uricacid/data")
+    @GetMapping("/all/health/uricacid/data")
     public ResponseEntity<List<HashMap<String, Integer>>> getDataUricacid() throws ResourceNotFoundException {
         List<HashMap<String, Integer>> data = new ArrayList<>();
         HashMap<Integer, Integer> valueQuantity = new HashMap<>();
@@ -164,7 +180,7 @@ public class InmateController {
         return ResponseEntity.ok().body(data);
     }
 
-    @GetMapping("/health/cholesterol/data")
+    @GetMapping("/all/health/cholesterol/data")
     public ResponseEntity<List<HashMap<String, Integer>>> getDataCholesterol() throws ResourceNotFoundException {
         List<HashMap<String, Integer>> data = new ArrayList<>();
         HashMap<Integer, Integer> valueQuantity = new HashMap<>();
@@ -183,7 +199,7 @@ public class InmateController {
         return ResponseEntity.ok().body(data);
     }
 
-    @GetMapping("/health/toxicscreen/data")
+    @GetMapping("/all/health/toxicscreen/data")
     public ResponseEntity<List<HashMap<String, Integer>>> getDataToxicscreen() throws ResourceNotFoundException {
         List<HashMap<String, Integer>> data = new ArrayList<>();
         HashMap<Integer, Integer> valueQuantity = new HashMap<>();
@@ -198,6 +214,21 @@ public class InmateController {
             insert.put("value", key);
             insert.put("qty", valueQuantity.get(key));
             data.add(insert);
+        }
+        return ResponseEntity.ok().body(data);
+    }
+    
+    // MOVE /////////////////////////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("/{id}/moves")
+    public ResponseEntity<List<String>> getAreasInmateHaveBeenTo(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
+        Inmate inmate = inmateService.getInmateById(id);
+        List<String> data = new ArrayList<>();
+        for (Long moveSensorLogId : inmate.getMoveLogIds()) {
+            MoveSensorLog moveSensorLog = moveSensorLogService.getMoveSensorLogById(moveSensorLogId);
+            MoveSensor moveSensor = moveSensorService.getMoveSensorById(moveSensorLog.getSensorId());
+            Area area = areaService.getAreaById(moveSensor.getEntryAreaId());
+            data.add(area.getName());
         }
         return ResponseEntity.ok().body(data);
     }
