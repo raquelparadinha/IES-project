@@ -26,7 +26,7 @@ public class Warden {
     private String password;
 
     @DBRef
-    private List<Role> roles = new ArrayList<>();
+    private List<String> roles;
 
     private static long counter = 0;
 
@@ -45,6 +45,9 @@ public class Warden {
         this.phone = phone;
         this.birthdate = birthdate;
         this.password = password;
+        this.roles  = new ArrayList<>();
+        this.roles.add("ROLE_USER");
+        this.roles.add("ROLE_ADMIN");
     }
 
     // SETS
@@ -70,7 +73,7 @@ public class Warden {
     public void setPhone(long phone) {
         this.phone = phone;
     }
-    public void setRoles(List<Role> roles) {
+    public void setRoles(List<String> roles) {
         this.roles = roles;
     }
 
@@ -97,7 +100,7 @@ public class Warden {
     public long getPhone() {
         return phone;
     }
-    public List<Role> getRoles() {
+    public List<String> getRoles() {
         return roles;
     }
 

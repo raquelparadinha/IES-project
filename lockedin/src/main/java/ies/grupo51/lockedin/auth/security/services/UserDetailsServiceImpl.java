@@ -16,19 +16,18 @@ import ies.grupo51.lockedin.repositories.WardenRepository;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
-	GuardRepository guardRepository;
+	private GuardRepository guardRepository;
 
 	@Autowired
-	WardenRepository wardenRepository;
+	private WardenRepository wardenRepository;
 
 	@Override
 	@Transactional
-	public UserDetailsImpl loadUserByUsername(String email) { //throws UsernameNotFoundException {
+	public UserDetailsImpl loadUserByUsername(String email) { 
 		Guard guard = guardRepository.findByEmail(email);
 		if (guard == null) {
 			Warden warden = wardenRepository.findByEmail(email);
 			if (warden == null) {
-				// System.out.println("\n\n PYLANCEEEEEEEEEEE \n\n");
 				throw(new UsernameNotFoundException("User Not Found with email: " + email));
 			}
 			return UserDetailsImpl.build(warden);
@@ -38,12 +37,3 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	}
 	
 }
-
-		// try {
-		// 	Guard user = guardRepository.findByEmail(email).orElse(null);
-		// 	return UserDetailsImpl.build(user);
-		// } catch (Exception e) {
-		// 	Warden user = wardenRepository.findByEmail(email)
-		// 			.orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + email));;
-		// 	return UserDetailsImpl.build(user);
-		// } 

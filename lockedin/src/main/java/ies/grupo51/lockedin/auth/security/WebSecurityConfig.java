@@ -9,8 +9,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder.BCryptVersion;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -24,7 +22,7 @@ import ies.grupo51.lockedin.auth.security.services.UserDetailsServiceImpl;
 		prePostEnabled = true)
 public class WebSecurityConfig { 
 	@Autowired
-	UserDetailsServiceImpl userDetailsService;
+	private UserDetailsServiceImpl userDetailsService;
 
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
@@ -49,11 +47,17 @@ public class WebSecurityConfig {
     return authConfig.getAuthenticationManager();
   }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder(BCryptVersion.$2A, 10);
-	}
+	// @Bean
+	// public PasswordEncoder passwordEncoder() {
+	// 	return new BCryptPasswordEncoder(BCryptVersion.$2A, 10);
+	// }
 	
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+      return PlainTextPasswordEncoder.getInstance();
+  }
+
+
 	@Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable()

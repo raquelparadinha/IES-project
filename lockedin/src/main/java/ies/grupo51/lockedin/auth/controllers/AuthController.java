@@ -12,7 +12,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,24 +23,22 @@ import ies.grupo51.lockedin.auth.payload.response.JwtResponse;
 import ies.grupo51.lockedin.auth.security.jwt.JwtUtils;
 import ies.grupo51.lockedin.auth.security.services.UserDetailsImpl;
 import ies.grupo51.lockedin.auth.security.services.UserDetailsServiceImpl;
-import ies.grupo51.lockedin.models.Guard;
-import ies.grupo51.lockedin.repositories.GuardRepository;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 	@Autowired
-	AuthenticationManager authenticationManager;
+	private AuthenticationManager authenticationManager;
 
 	// @Autowired
 	// GuardRepository repository;
 
 	@Autowired
-	JwtUtils jwtUtils;
+	private JwtUtils jwtUtils;
 
 	@Autowired
-	UserDetailsServiceImpl userService;
+	private UserDetailsServiceImpl userService;
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {

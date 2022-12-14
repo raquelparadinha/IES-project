@@ -43,6 +43,7 @@ public class UserDetailsImpl implements UserDetails {
 		this.areaId = areaId;
 		this.password = password;
 		this.authorities = authorities;
+
 	}
 
 	public UserDetailsImpl(long id, String name, String email, long phone, String birthdate, String password,
@@ -58,7 +59,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	public static UserDetailsImpl build(Guard user) {
 		List<GrantedAuthority> authorities = user.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(role.getName()))
+				.map(role -> new SimpleGrantedAuthority(role))
 				.collect(Collectors.toList());
 
 		return new UserDetailsImpl(
@@ -74,7 +75,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	public static UserDetailsImpl build(Warden user) {
 		List<GrantedAuthority> authorities = user.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(role.getName()))
+				.map(role -> new SimpleGrantedAuthority(role))
 				.collect(Collectors.toList());
 
 		return new UserDetailsImpl(

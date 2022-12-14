@@ -8,9 +8,13 @@ import ies.grupo51.lockedin.repositories.RoleRepository;
 
 public class RoleService {
     @Autowired
-    RoleRepository repository;
+    private RoleRepository repository;
 
     public Role findRole(ERole roleUser) {
         return repository.findByName(roleUser);
+    }
+
+    public String findAll() {
+        return repository.findAll().toString();
     }
 }
