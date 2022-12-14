@@ -40,6 +40,7 @@ function Prisioner_Profile() {
       }}
     >
       <Card
+        style={{ backgroundColor: "#EFF5F5" }}
         title={
           <div
             style={{

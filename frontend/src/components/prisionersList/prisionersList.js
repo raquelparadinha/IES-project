@@ -160,24 +160,28 @@ function PrisionersList() {
   console.log(dataSource);
   return (
     <div style={{ textAlign: "center" }}>
-      <Card title="Prisioners" style={{ backgroundColor: "#D6E4E5" }}>
+      <Card
+        title={<div style={{ color: "#12494c" }}>Prisioners</div>}
+        style={{ backgroundColor: "#D6E4E5" }}
+      >
         <Table
           columns={columns}
           dataSource={dataSource}
           pagination={{ defaultPageSize: 13 }}
           rowClassName={"custom-row"}
+          style={{ color: "#8da6a8" }}
         ></Table>
         <Button
           onClick={() => onAddPrisioner()}
           shape={"round"}
-          style={{ marginLeft: "1%", backgroundColor: "#497174" }}
+          style={{ backgroundColor: "#497174" }}
           type="primary"
         >
           Add new prisioner
         </Button>
       </Card>
       <Modal
-        title="Edit Prisioner"
+        title={<div style={{ color: "#12494c" }}>Edit Prisioner</div>}
         open={isEditing}
         okText="Save"
         okType="primary"
@@ -209,7 +213,7 @@ function PrisionersList() {
       >
         <Space direction="vertical" style={{ width: "100%", height: "100%" }}>
           <Input
-            addonBefore="Name"
+            addonBefore={<div style={{ color: "#12494c" }}> Name</div>}
             value={editingPrisioner?.name}
             onChange={(e) => {
               setEditingPrisioner((pre) => {
@@ -217,7 +221,7 @@ function PrisionersList() {
               });
             }}
           />
-          Sentece:
+          {<div style={{ color: "#12494c" }}>Sentece: </div>}
           <RangePicker
             showTime
             defaultValue={[
@@ -243,7 +247,7 @@ function PrisionersList() {
               });
             }}
           />
-          Solitary:
+          {<div style={{ color: "#12494c" }}>Solitary: </div>}
           <Checkbox
             checked={editingPrisioner?.solitary}
             addonBefore="Solitary"

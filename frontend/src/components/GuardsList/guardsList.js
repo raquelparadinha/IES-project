@@ -158,7 +158,10 @@ function GuardsList() {
   console.log(dataSource);
   return (
     <div style={{ textAlign: "center" }}>
-      <Card title="Prisioners" style={{ backgroundColor: "#D6E4E5" }}>
+      <Card
+        title={<div style={{ color: "#12494c" }}>Guards</div>}
+        style={{ backgroundColor: "#D6E4E5" }}
+      >
         <Table
           columns={columns}
           dataSource={dataSource}

@@ -50,11 +50,11 @@ function Guard_info(id) {
       // console.log(dataSource.birthdate.split("T")[0])
       return (
         <>
-          <p>Id: {dataSource.id}</p>
-          <p>AreaID: {dataSource.areaId}</p>
-          <p>Birthdate: {dataSource.birthdate}</p>
-          <p>Phone: {dataSource.phone}</p>
-          <p>Email: {dataSource.email}</p>
+          <p style={{ color: "#12494c" }}>Id: {dataSource.id}</p>
+          <p style={{ color: "#12494c" }}>AreaID: {dataSource.areaId}</p>
+          <p style={{ color: "#12494c" }}>Birthdate: {dataSource.birthdate}</p>
+          <p style={{ color: "#12494c" }}>Phone: {dataSource.phone}</p>
+          <p style={{ color: "#12494c" }}>Email: {dataSource.email}</p>
         </>
       );
     } else {
@@ -72,17 +72,17 @@ function Guard_info(id) {
       // console.log(dataSource.birthdate.split("T")[0])
       return (
         <>
-          <p style={{ textAlign: "left" }}>
+          <p style={{ textAlign: "left", color: "#12494c" }}>
             <RightCircleFilled /> Area Guards:
           </p>
           {new Array(dataSource2.length).fill(null).map((_, i) => {
             //  colocar i+1 no lugar do i pois o i = 0 vai ser sobre o estado da area e não é para ser usado aqui
-            return <p>{dataSource2[i + 1]}</p>;
+            return <p style={{ color: "#12494c" }}>{dataSource2[i + 1]}</p>;
           })}
-          <p style={{ textAlign: "left" }}>
+          <p style={{ textAlign: "left", color: "#12494c" }}>
             <RightCircleFilled /> Area Status:
           </p>
-          {dataSource2[0]}
+          <div style={{ color: "#12494c" }}>{dataSource2[0]}</div>
         </>
       );
     } else {
@@ -97,13 +97,13 @@ function Guard_info(id) {
 
   let title_;
   if (dataSource !== undefined) {
-    title_ = dataSource.name;
+    title_ = <div style={{ color: "#12494c" }}>{dataSource.name}</div>;
   } else {
     title_ = <LoadingOutlined />;
   }
   return (
     <Card
-      title="Guard Personal Information"
+      title={<div style={{ color: "#12494c" }}>Guard Personal Information</div>}
       style={{ backgroundColor: "#D6E4E5" }}
     >
       <Col
@@ -124,7 +124,7 @@ function Guard_info(id) {
             {SeeIfUndfined()}
           </Card>
           <Card
-            title="Area"
+            title={<div style={{ color: "#12494c" }}>Area</div>}
             style={{
               width: "250px",
               height: "300px",

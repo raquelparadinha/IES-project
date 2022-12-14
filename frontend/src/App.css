@@ -1,5 +1,6 @@
 .custom-row {
   background-color: #eff5f5;
+  color: #12494c;
 }
 
 .ant-table
@@ -9,6 +10,7 @@
   thead.ant-table-thead
   .ant-table-cell {
   background-color: #c2d8d8;
+  color: #12494c;
 }
 
 .ant-pagination-item .ant-pagination-item-1 .ant-pagination-item-active {
@@ -64,4 +66,35 @@
   .ant-menu-item-selected {
   background-color: #8da6a8;
   color: #12494c;
+}
+
+:where(.css-dev-only-do-not-override-1s3dcof).ant-modal .ant-modal-content {
+  position: relative;
+  background-color: #eff5f5;
+  background-clip: padding-box;
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px 0 rgb(0 0 0 / 8%), 0 3px 6px -4px rgb(0 0 0 / 12%),
+    0 9px 28px 8px rgb(0 0 0 / 5%);
+  pointer-events: auto;
+  padding: 20px 24px;
+}
+
+:where(.css-dev-only-do-not-override-1s3dcof).ant-input-group
+  > .ant-input:first-child,
+:where(.css-dev-only-do-not-override-1s3dcof).ant-input-group
+  .ant-input-group-addon:first-child {
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+  background-color: #c2d8d8;
+}
+
+:where(.css-dev-only-do-not-override-1s3dcof).ant-modal .ant-modal-title {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.88);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  background-color: #eff5f5;
 }

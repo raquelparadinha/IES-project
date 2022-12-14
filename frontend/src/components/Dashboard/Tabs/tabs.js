@@ -12,7 +12,7 @@ import {
   Legend,
 } from "recharts";
 import axios from "axios";
-import "../../../App.css"
+import "../../../App.css";
 
 const coisas = [
   "Heart Beat",
@@ -84,12 +84,12 @@ const Example = (props) => {
         bottom: 5,
       }}
     >
-      <CartesianGrid strokeDasharray="3 3" />
+      <CartesianGrid strokeDasharray="3 3" stroke="#8da6a8" />
       <XAxis dataKey="value" />
-      <YAxis />
+      <YAxis dataKey="qty"/>
       <Tooltip />
       <Legend verticalAlign="top" wrapperStyle={{ lineHeight: "40px" }} />
-      <ReferenceLine y={0} stroke="#000" />
+      <ReferenceLine y={0} stroke="#8da6a8" />
       <Brush dataKey="value" height={30} stroke="#497174" />
       <Bar dataKey="qty" fill="#497174" />
     </BarChart>

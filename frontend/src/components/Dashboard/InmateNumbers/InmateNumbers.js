@@ -39,11 +39,11 @@ function InmateNumbers() {
   }, []);
 
   function SeeIfUndfined() {
-    console.log(dataSource)
+    console.log(dataSource);
     if (dataSource !== undefined) {
       return dataSource.map((zone) => (
         <>
-          <p>
+          <p style={{ color: "#12494c" }}>
             {zone.name}: {zone.currentInmateIds.length} / {zone.capacity} |
             Acess: {zone.access.toString()}
           </p>
@@ -61,7 +61,9 @@ function InmateNumbers() {
 
   function SeeIfUndfined2() {
     if (dataSource2 !== undefined) {
-      return <p>Total Inmates: {dataSource2.length}</p>;
+      return (
+        <p style={{ color: "#12494c" }}>Total Inmates: {dataSource2.length}</p>
+      );
     } else {
       fetchData2();
       return (
@@ -79,7 +81,7 @@ function InmateNumbers() {
           <div style={{ textAlign: "center" }}>{SeeIfUndfined2()}</div>
           <br />
           <Card
-            title="Areas"
+            title={<p style={{ color: "#12494c" }}>Areas</p>}
             style={{
               textAlign: "center",
               alignItems: "center",
