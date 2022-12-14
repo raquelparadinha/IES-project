@@ -111,6 +111,7 @@ function PrisionersList() {
 
   const ResetAdding = () => {
     setisAdding(false);
+    form.resetFields();
   };
 
   function editPrisioner(Edited_prisioner) {
@@ -131,29 +132,50 @@ function PrisionersList() {
   const AddPrisioner = (new_prisioner_info) => {
     // Aqui para fazer os adds de novo prisioneiro, está estatico aqui
     ResetAdding();
-    console.log(new_prisioner_info.solitary);
-    const new_prisioner = {
-      id: 0,
-      name: new_prisioner_info.name,
-      birthDate: new_prisioner_info.birthdate.format(dateFormat),
-      entryDate: new_prisioner_info.sentence[0].format(dateFormat),
-      sentenceEnd: new_prisioner_info.sentence[1].format(dateFormat),
-      solitary: new_prisioner_info.solitary,
-      healthLogId: 0,
-      moveLogIds: [],
-      workLogIds: [],
-    };
-    console.log(new_prisioner);
+    //console.log(new_prisioner_info.solitary);
+    let new_prisioner;
     try {
-      axios.post("http://localhost:5001/api/inmate", new_prisioner);
+      new_prisioner = {
+        id: 0,
+        name: new_prisioner_info.name,
+        birthDate: new_prisioner_info.birthdate.format(dateFormat),
+        entryDate: new_prisioner_info.sentence[0].format(dateFormat),
+        sentenceEnd: new_prisioner_info.sentence[1].format(dateFormat),
+        solitary: new_prisioner_info.solitary,
+        healthLogId: 0,
+        moveLogIds: [],
+        workLogIds: [],
+      };
+      console.log(new_prisioner);
+      try {
+        axios.post("http://localhost:5001/api/inmate", new_prisioner);
+      } catch (error) {
+        console.log("Deu pylance");
+        Modal.error({
+          title: "Add Error",
+          content: `Prisioner was not added to the database due to and error.`,
+          okType: "danger",
+        });
+        return false;
+      }
+      setDataSource((pre) => {
+        return [...pre, new_prisioner];
+      });
+      fetchData();
+      Modal.success({
+        title: "Add Successful",
+        content: `Prisioner added with success.`,
+        okType: "ghost",
+      });
+      return true;
     } catch (error) {
-      console.log("Deu pylance");
-      return false;
+      console.log(error);
+      Modal.error({
+        title: "Add Error",
+        content: `Prisioner was not added to the database due to and error.`,
+        okType: "danger",
+      });
     }
-    setDataSource((pre) => {
-      return [...pre, new_prisioner];
-    });
-    return true;
   };
 
   const [form] = Form.useForm();
@@ -194,6 +216,11 @@ function PrisionersList() {
               if (prisioner.id === editingPrisioner.id) {
                 const bool = editPrisioner(editingPrisioner);
                 if (bool) {
+                  Modal.success({
+                    title: "Edit Successful",
+                    content: `Prisioner changed with success.`,
+                    okType: "ghost",
+                  });
                   return editingPrisioner;
                 } else {
                   Modal.error({

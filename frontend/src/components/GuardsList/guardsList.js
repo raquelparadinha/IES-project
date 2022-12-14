@@ -131,27 +131,47 @@ function GuardsList() {
     // Aqui para fazer os adds de novo guarda, está estatico aqui
     ResetAdding();
     console.log(new_guard_info);
-    const new_guard = {
-      id: 0,
-      name: new_guard_info.name,
-      birthdate: new_guard_info.birthdate.format(dateFormat),
-      email: new_guard_info.email,
-      phone: new_guard_info.phone,
-      areaId: new_guard_info.areaId,
-      password: new_guard_info.name + new_guard_info.id,
-      roles: [],
-    };
-    console.log(new_guard);
+    let new_guard;
     try {
-      axios.post("http://localhost:5001/api/guard", new_guard);
+      new_guard = {
+        id: 0,
+        name: new_guard_info.name,
+        birthdate: new_guard_info.birthdate.format(dateFormat),
+        email: new_guard_info.email,
+        phone: new_guard_info.phone,
+        areaId: new_guard_info.areaId,
+        password: new_guard_info.name + new_guard_info.id,
+        roles: [],
+      };
+      console.log(new_guard);
+      try {
+        axios.post("http://localhost:5001/api/guard", new_guard);
+      } catch (error) {
+        console.log("Deu pylance");
+        Modal.error({
+          title: "Add Error",
+          content: `Guard was not added to the database due to and error.`,
+          okType: "ghost",
+        });
+        return false;
+      }
+      setDataSource((pre) => {
+        return [...pre, new_guard];
+      });
+      fetchData();
+      Modal.success({
+        title: "Add Successful",
+        content: `Guard added with success.`,
+        okType: "ghost",
+      });
+      return true;
     } catch (error) {
-      console.log("Deu pylance");
-      return false;
+      Modal.error({
+        title: "Add Error",
+        content: `Guard was not added to the database due to and error.`,
+        okType: "ghost",
+      });
     }
-    setDataSource((pre) => {
-      return [...pre, new_guard];
-    });
-    return true;
   };
 
   const [form] = Form.useForm();
@@ -191,6 +211,11 @@ function GuardsList() {
               if (guard.id === editingGuard.id) {
                 const bool = editGuard(editingGuard);
                 if (bool) {
+                  Modal.success({
+                    title: "Edit Successful",
+                    content: `Prisioner changed with success.`,
+                    okType: "ghost",
+                  });
                   return editingGuard;
                 } else {
                   Modal.error({

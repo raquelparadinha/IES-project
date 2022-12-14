@@ -98,3 +98,52 @@
   word-wrap: break-word;
   background-color: #eff5f5;
 }
+:where(.css-dev-only-do-not-override-1s3dcof).ant-pagination
+  .ant-pagination-item
+  a {
+  display: block;
+  padding: 0 6px;
+  color: #12494c;
+  transition: none;
+}
+:where(.css-dev-only-do-not-override-1s3dcof).ant-pagination
+  .ant-pagination-prev
+  button,
+:where(.css-dev-only-do-not-override-1s3dcof).ant-pagination
+  .ant-pagination-next
+  button {
+  color: #12494c;
+  cursor: pointer;
+  user-select: none;
+}
+:where(.css-dev-only-do-not-override-1s3dcof).ant-select:not(
+    :where(.css-dev-only-do-not-override-1s3dcof).ant-select-customize-input
+  )
+  .ant-select-selector {
+  position: relative;
+  color: #ffffff;
+  background-color: #497174;
+  border: 1px solid #d9d9d9;
+  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+:where(.css-dev-only-do-not-override-1s3dcof).ant-select .ant-select-arrow {
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  font-style: normal;
+  line-height: 1;
+  text-align: center;
+  text-transform: none;
+  vertical-align: -0.125em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: absolute;
+  top: 50%;
+  inset-inline-start: auto;
+  inset-inline-end: 11px;
+  height: 12px;
+  margin-top: -6px;
+  font-size: 12px;
+  pointer-events: none;
+}

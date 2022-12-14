@@ -6,6 +6,7 @@ import "../profile.css";
 
 function Prisioner_info(id) {
   const [dataSource, setDataSource] = useState();
+  const [dataSource2, setDataSource2] = useState();
   const fetchData = () => {
     try {
       return axios
@@ -23,10 +24,26 @@ function Prisioner_info(id) {
     return () => clearInterval(interval);
   });
 
+  const fetchData2 = () => {
+    try {
+      return axios
+        .get("http://localhost:5001/api/inmate/" + id + "/health")
+        .then((response) => setDataSource2(response.data));
+    } catch {
+      console.log("Deu pylance");
+      fetchData2();
+    }
+  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData2();
+    }, 1000);
+    return () => clearInterval(interval);
+  });
+
   function SeeIfUndfined() {
     if (dataSource !== undefined) {
       console.log(dataSource);
-      // console.log(dataSource.birthdate.split("T")[0])
       return (
         <>
           <p style={{ color: "#12494c" }}>Id: {dataSource.id}</p>
@@ -57,6 +74,30 @@ function Prisioner_info(id) {
       );
     }
   }
+
+  function SeeIfUndfined2() {
+    if (dataSource2 !== undefined) {
+      console.log(dataSource2);
+      return (
+        <>
+          {/* <p style={{ color: "#12494c" }}>HeartBeat: 70</p>
+          <p style={{ color: "#12494c" }}>Stress Levels: 15%</p>
+          <p style={{ color: "#12494c" }}>Glicose Levels: 33</p>
+          <p style={{ color: "#12494c" }}>Uric Acid: 23</p>
+          <p style={{ color: "#12494c" }}>Cholestrol: 45</p>
+          <p style={{ color: "#12494c" }}>Toxic Screen: 12</p> */}
+        </>
+      );
+    } else {
+      fetchData2();
+      return (
+        <div>
+          <LoadingOutlined />
+        </div>
+      );
+    }
+  }
+
   let title_;
   if (dataSource !== undefined) {
     title_ = <div style={{ color: "#12494c" }}>{dataSource.name}</div>;
@@ -95,12 +136,7 @@ function Prisioner_info(id) {
               backgroundColor: "#EFF5F5",
             }}
           >
-            <p style={{ color: "#12494c" }}>HeartBeat: 70</p>
-            <p style={{ color: "#12494c" }}>Stress Levels: 15%</p>
-            <p style={{ color: "#12494c" }}>Glicose Levels: 33</p>
-            <p style={{ color: "#12494c" }}>Uric Acid: 23</p>
-            <p style={{ color: "#12494c" }}>Cholestrol: 45</p>
-            <p style={{ color: "#12494c" }}>Toxic Screen: 12</p>
+            {SeeIfUndfined2()}
           </Card>
         </Space>
       </Col>

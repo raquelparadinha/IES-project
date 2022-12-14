@@ -25,7 +25,7 @@ const Login = () => {
     }
   };
 
-  // mensagem de erro qunado login invalido
+  // mensagem de erro quando login invalido
   const countDown = () => {
     let secondsToGo = 3;
 
@@ -57,7 +57,16 @@ const Login = () => {
         height: "90%",
       }}
     >
-      <Card bordered cover={<img src="https://www.shutterstock.com/image-vector/minimalist-prison-logo-black-white-600w-1521162209.jpg" height={"300px"}></img>} style={{ width: "33%" }}>
+      <Card
+        bordered
+        cover={
+          <img
+            src="https://www.shutterstock.com/image-vector/minimalist-prison-logo-black-white-600w-1521162209.jpg"
+            height={"300px"}
+          ></img>
+        }
+        style={{ width: "33%" }}
+      >
         <Form
           name="normal_login"
           className="login-form"

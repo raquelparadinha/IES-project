@@ -5,11 +5,7 @@ import { Dropdown, message, Space } from "antd";
 
 const onClick = ({ key }) => {
   //message.info(`Click on item ${key}`);
-  message.info(
-    <button onClick={message.success("Espera pelo próximo espisódio")}>
-      Open
-    </button>
-  );
+  message.info(key);
 };
 const items = [
   {
