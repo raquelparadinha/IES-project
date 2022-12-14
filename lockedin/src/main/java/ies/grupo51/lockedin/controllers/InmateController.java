@@ -94,17 +94,17 @@ public class InmateController {
     
     // HEALTH /////////////////////////////////////////////////////////////////////////////////////////////
 
-    @GetMapping("all/health")
+    @GetMapping("/all/health")
     public ResponseEntity<List<HealthLog>> getAllHealLogs() {
         return ResponseEntity.ok().body(healthLogService.getHealthLogs());
     }
-    @GetMapping("{id}/health/")
+    @GetMapping("/{id}/health/")
     public ResponseEntity<List<HealthLog>> getHealthLogsOfInmate(@PathVariable(value = "id") Long id) {
         return ResponseEntity.ok().body(healthLogService.getHealthLogByInmateId(id));
     }
 
 
-    @GetMapping("all/health/heartbeat/data")
+    @GetMapping("/all/health/heartbeat/data")
     public ResponseEntity<List<HashMap<String, Integer>>> getDataHeartBeat() throws ResourceNotFoundException {
         List<HashMap<String, Integer>> data = new ArrayList<>();
         HashMap<Integer, Integer> valueQuantity = new HashMap<>();
