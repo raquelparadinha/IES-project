@@ -10,24 +10,27 @@
 
 - Inmate Controller
 
-  - Mapping("")
+  - Mapping("/api/inmate")
+- Alert Controller
+  - Mapping("/api/alert")
 
-## Area
 
-| Method | Mapping        | Description                          | Return (example)             | Input |
-| ------ | -------------- | ------------------------------------ | ---------------------------- | ----- |
-| GET    | /api/area      | Returns all the areas                | [{Area1},{Area2},...] - list | None  |
-| GET    | /api/area/{id} | Returns a specific area if it exists | {Area} - dict                | Long  |
+## Area /api/area
 
-## Guard
+| Method | Mapping | Description                          | Return (example - type)      | Input |
+| ------ | ------- | ------------------------------------ | ---------------------------- | ----- |
+| GET    |         | Returns all the areas                | [{Area1},{Area2},...] - list | None  |
+| GET    | /{id}   | Returns a specific area if it exists | {Area} - dict                | Long  |
 
-| Method | Mapping                 | Description                                                  | Return (example)                                | Input       |
-| ------ | ----------------------- | ------------------------------------------------------------ | ----------------------------------------------- | ----------- |
-| GET    | /api/guard              | Returns all the guards                                       | [{Guard1},{Guard2},...] - list                  | None        |
-| GET    | /api/guard/{id}         | Returns a specific guard if it exists                        | {Guard} - dict                                  | Long        |
-| GET    | /api/guard/{id}/sidebar | Returns the access to this guard's area and his collegues at the area | ["Open"/"Closed", "Silvia", "Paulo",...] - list | Long        |
-| PUT    | /api/guard/{id}         | Update guard                                                 | {Guard} - dict                                  | Long, Guard |
-| POST   | /api/guard              | Create guard                                                 | {Guard} - dict                                  | Guard       |
+## Guard /api/guard
+
+| Method | Mapping       | Description                                                  | Return (example - type)                         | Input       |
+| ------ | ------------- | ------------------------------------------------------------ | ----------------------------------------------- | ----------- |
+| GET    |               | Returns all the guards                                       | [{Guard1},{Guard2},...] - list                  | None        |
+| GET    | /{id}         | Returns a specific guard if it exists                        | {Guard} - dict                                  | Long        |
+| GET    | /{id}/sidebar | Returns the access to this guard's area and his collegues at the area | ["Open"/"Closed", "Silvia", "Paulo",...] - list | Long        |
+| PUT    | /{id}         | Update guard                                                 | {Guard} - dict                                  | Long, Guard |
+| POST   |               | Create guard                                                 | {Guard} - dict                                  | Guard       |
 
 ## Inmate /api/inmate
 
@@ -49,4 +52,11 @@
 | GET    | /{id}/moves                  | Returns the areas the inmate has been too                    | [Canteen, Patio,..] - list                         | Long         |
 | PUT    | /{id}                        | Update inmate                                                | {Inmate} - dict                                    | Long, Inmate |
 | POST   |                              | Create inmate                                                | {Inmate} - dict                                    | Inmate       |
+
+## Alert /api/alert
+
+| Method | Mapping | Description                       | Return (example - type)                  | Input |
+| ------ | ------- | --------------------------------- | ---------------------------------------- | ----- |
+| GET    |         | Returns the last 30 alert         | [{Alert1},{Alert2},{Alert300,..}] - list | None  |
+| GET    | /new    | Returns the last 5 the new alerts | [{Alert1},{Alert2}}] - list              | None  |
 
