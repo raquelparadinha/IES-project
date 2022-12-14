@@ -32,7 +32,7 @@ public class HealthLogService {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 
-    public HealthLog getHealthLogByInmateId(long inmateId) {
+    public List<HealthLog> getHealthLogByInmateId(long inmateId) {
         return repository.findByInmateId(inmateId);
     }
 

@@ -9,6 +9,6 @@ import ies.grupo51.lockedin.models.MoveSensor;
 
 @Repository
 public interface MoveSensorRepository extends MongoRepository <MoveSensor, Long> {
-    List<MoveSensor> findByEntryAreaId(long entryAreaId);
-    List<MoveSensor> findByExitAreaId(long exitAreaId);
+    public List<MoveSensor> findByEntryAreaId(long entryAreaId);
+    public List<MoveSensor> findByExitAreaId(long exitAreaId);
 }
