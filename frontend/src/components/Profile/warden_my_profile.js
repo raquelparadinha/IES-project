@@ -3,30 +3,25 @@ import React from "react";
 import { useState } from "react";
 import { useParams } from "react-router";
 import TheAvatar from "./Avatar/avatar";
-import Prisioner_info from "./prisioner_info/prisioner_info";
-import timeline_prisioner from "./timeline/timeline";
+import guard_info from "./guard_info/guard_info";
 
 let url_params;
 const tabList = [
   {
-    key: "prisioner_info",
-    tab: "Prisioner Info",
-  },
-  {
-    key: "timeline",
-    tab: "Timeline",
+    key: "guard_info",
+    tab: "Guard Info",
   },
 ];
 
-function Prisioner_Profile() {
+function Guard_Profile() {
   url_params = useParams();
   //console.log(url_params.id);
   const contentList = {
-    prisioner_info: Prisioner_info(url_params.id),
-    timeline: timeline_prisioner(),
+    guard_info: guard_info(url_params.id),
+    // timeline: timeline_guard(),
   };
 
-  const [activeTabKey1, setActiveTabKey1] = useState("prisioner_info");
+  const [activeTabKey1, setActiveTabKey1] = useState("guard_info");
   const onTab1Change = (key) => {
     setActiveTabKey1(key);
   };
@@ -59,6 +54,7 @@ function Prisioner_Profile() {
       >
         <Row>
           <Col style={{ textAlign: "center" }}>
+            <Row></Row>
             {contentList[activeTabKey1]}
           </Col>
         </Row>
@@ -66,4 +62,4 @@ function Prisioner_Profile() {
     </div>
   );
 }
-export default Prisioner_Profile;
+export default Guard_Profile;
