@@ -189,9 +189,9 @@ function GuardsList() {
     },
     {
       key: 6,
-      title: "AreaID",
-      dataIndex: "areaId",
-      ...getColumnSearchProps("areaId"),
+      title: "AreaName",
+      dataIndex: "areaName",
+      ...getColumnSearchProps("areaName"),
     },
 
     {
