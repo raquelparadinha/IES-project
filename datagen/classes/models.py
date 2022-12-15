@@ -22,11 +22,10 @@ class Sensor():
         return 's[in: {}, out: {}, act: {}]'.format(self.entry.name, self.exit.name, active)
 
 class Workstation():
-    def __init__(self, id: int, name: str, listings: int):
+    def __init__(self, id: int, name: str):
 
         self.id = id
         self.name = name
-        self.listings = listings
 
     def __str__(self):
         return 'ws[name: {}]'.format(self.name)
