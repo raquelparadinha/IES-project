@@ -9,6 +9,7 @@ import {
   LogoutOutlined,
   LoginOutlined,
   NotificationOutlined,
+  ToolOutlined,
 } from "@ant-design/icons/lib/icons";
 //import Logo from "./images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
 import PrisionersList from "./components/prisionersList/prisionersList";
@@ -21,10 +22,12 @@ import Prisioner_Profile from "./components/Profile/prisioner_profile";
 import Guard_Profile from "./components/Profile/guard_profile";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Workstations from "./components/Workstations/workstations";
 
 function App() {
   const [dataSource, setDataSource] = useState();
   const fetchData = () => {
+    console.log(dataSource);
     try {
       return axios
         .get("http://localhost:5001/api/alert")
@@ -37,11 +40,10 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       fetchData();
-    }, 1000);
+    }, 30000);
     return () => clearInterval(interval);
   });
   fetchData();
-  console.log(dataSource);
   return (
     <div
       style={{
@@ -147,6 +149,7 @@ function Content() {
           }
         ></Route>
         <Route path="/notifications" element={<Notifications />}></Route>
+        <Route path="/workstations" element={<Workstations />}></Route>
         <Route path="/profile" element={<Prisioner_Profile />}></Route>
         <Route path="/login" element={<Login />}></Route>
       </Routes>
@@ -180,6 +183,11 @@ function islogged(params) {
         label: "Notifications",
         key: "/notifications",
         icon: <NotificationOutlined />,
+      },
+      {
+        label: "Workstations",
+        key: "/workstations",
+        icon: <ToolOutlined />,
       },
       { label: "Profile", key: "/profile", icon: <UserOutlined /> },
       {
@@ -215,6 +223,11 @@ function islogged(params) {
       label: "Notifications",
       key: "/notifications",
       icon: <NotificationOutlined />,
+    },
+    {
+      label: "Workstations",
+      key: "/workstations",
+      icon: <ToolOutlined />,
     },
     { label: "Profile", key: "/profile", icon: <UserOutlined /> },
     {
