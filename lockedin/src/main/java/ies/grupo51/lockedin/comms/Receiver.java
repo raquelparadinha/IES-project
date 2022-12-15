@@ -89,7 +89,7 @@ public class Receiver {
 
             case "riot":
                 // Trigger riot alert
-                Area area = areaService.getAreaById(jmsg.getInt("locationid"));
+                Area area = areaService.getAreaById(jmsg.getInt("areaid"));
                 EstrilhoAlert estrilhoAlert = new EstrilhoAlert(
                     alertService.getNextId(),
                     "riot",
