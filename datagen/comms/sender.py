@@ -22,5 +22,5 @@ class Sender():
 
     def send(self, msg):
         msg = json.dumps(msg)
+        print('sent {}'.format(msg), flush=True)
         self.channel.basic_publish(exchange='', routing_key=self.queue, body=msg)
-        print('sent {}'.format(msg))

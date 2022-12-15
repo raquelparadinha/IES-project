@@ -8,7 +8,7 @@
   { "_id": 7, "entryAreaId": 3, "exitAreaId": 2, "active": false, "moveLogIds": [] },
   { "_id": 8, "entryAreaId": 3, "exitAreaId": 5, "active": false, "moveLogIds": [] },
   { "_id": 9, "entryAreaId": 3, "exitAreaId": 6, "active": false, "moveLogIds": [] },
-  { "_id": 10, "entryAreaId": 4, "exitAreaId": 5, "active": false, "moveLogIds": [] },
+  { "_id": 10, "entryAreaId": 4, "exitAreaId": 5, "active": true, "moveLogIds": [] },
   { "_id": 11, "entryAreaId": 5, "exitAreaId": 3, "active": false, "moveLogIds": [] },
   { "_id": 12, "entryAreaId": 5, "exitAreaId": 4, "active": true, "moveLogIds": [] },
   { "_id": 13, "entryAreaId": 5, "exitAreaId": 6, "active": true, "moveLogIds": [] },
