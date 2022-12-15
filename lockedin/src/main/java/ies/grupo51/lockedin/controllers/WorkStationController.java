@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
-import ies.grupo51.lockedin.models.WorkLog;
 import ies.grupo51.lockedin.models.WorkStation;
 import ies.grupo51.lockedin.services.WorkLogService;
 import ies.grupo51.lockedin.services.WorkStationService;
