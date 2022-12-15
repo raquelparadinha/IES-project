@@ -100,7 +100,19 @@ public class InmateController {
     }
     @GetMapping("/{id}/health")
     public ResponseEntity<List<HealthLog>> getHealthLogsOfInmate(@PathVariable(value = "id") Long id) {
-        return ResponseEntity.ok().body(healthLogService.getHealthLogByInmateId(id));
+        List<HealthLog> healthLogs =  healthLogService.getHealthLogByInmateId(id);
+        healthLogs.sort((healthLog1,healthLog2) -> healthLog1.getTimestamp().compareTo(healthLog2.getTimestamp()));
+        return ResponseEntity.ok().body(healthLogs);
+    }
+
+    @GetMapping("/{id}/health/last")
+    public ResponseEntity<HealthLog> getLastHealthLogOfInmate(@PathVariable(value = "id") Long id) {
+        List<HealthLog> healthLogs =  healthLogService.getHealthLogByInmateId(id);
+        healthLogs.sort((healthLog1,healthLog2) -> healthLog1.getTimestamp().compareTo(healthLog2.getTimestamp()));
+        if (healthLogs.size() > 0){
+            return ResponseEntity.ok().body(healthLogs.get(0));
+        }
+        return ResponseEntity.ok().body(null);
     }
 
 
