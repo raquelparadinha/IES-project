@@ -99,7 +99,7 @@ public class InmateController {
         return ResponseEntity.ok().body(healthLogService.getHealthLogs());
     }
 
-    @GetMapping("/{id}/health/")
+    @GetMapping("/{id}/health")
     public ResponseEntity<List<HealthLog>> getHealthLogsOfInmate(@PathVariable(value = "id") Long id) {
         List<HealthLog> healthLogs =  healthLogService.getHealthLogByInmateId(id);
         healthLogs.sort((healthLog1,healthLog2) -> healthLog1.getTimestamp().compareTo(healthLog2.getTimestamp()));
@@ -257,13 +257,7 @@ public class InmateController {
 
     @PostMapping("")
     public ResponseEntity<Inmate> createInmate(@Valid @RequestBody Inmate inmate){
-        long max_id = 1;
-        for (Inmate inmateInDatabase : inmateService.getInmates()) {
-            if (inmateInDatabase.getId() > max_id) {
-                max_id = inmateInDatabase.getId();
-            }
-        }
-        inmate.setId(max_id+1);
+        inmate.setId(inmateService.getNextId());
         return ResponseEntity.ok(inmateService.saveInmate(inmate));
     }
 }
