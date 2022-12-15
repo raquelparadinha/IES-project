@@ -27,7 +27,7 @@ function Prisioner_info(id) {
   const fetchData2 = () => {
     try {
       return axios
-        .get("http://localhost:5001/api/inmate/" + id + "/health")
+        .get("http://localhost:5001/api/inmate/" + id + "/health/last")
         .then((response) => setDataSource2(response.data));
     } catch {
       console.log("Deu pylance");
@@ -77,7 +77,7 @@ function Prisioner_info(id) {
 
   function SeeIfUndfined2() {
     if (dataSource2 !== undefined) {
-      console.log(dataSource2[0]);
+      console.log(dataSource2);
       if (dataSource2.length > 0) {
         return dataSource2.map((healthLog) => (
           <>
