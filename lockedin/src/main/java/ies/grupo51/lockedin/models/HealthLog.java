@@ -42,6 +42,7 @@ public class HealthLog {
 
     public HealthLog(long id, long inmateId, JSONObject hc) {
         this.id = id;
+        this.timestamp = LocalDate.now();
         this.inmateId = inmateId;
         this.heartBeat = hc.getInt("heart_beat");
         this.stress = hc.getInt("stress_level");

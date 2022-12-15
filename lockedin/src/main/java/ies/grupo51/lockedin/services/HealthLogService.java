@@ -37,7 +37,7 @@ public class HealthLogService {
     }
 
     public long getNextId() {
-        long max_id = 1;
+        long max_id = 0;
         for (HealthLog alert : getHealthLogs()) {
             long id = alert.getId();
             if (id > max_id) {

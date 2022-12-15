@@ -1,5 +1,7 @@
 package ies.grupo51.lockedin.models;
 
+import java.time.LocalDate;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,6 +11,7 @@ public class MoveSensorLog {
     @Id
     private long id;
 
+    private LocalDate timestamp;
     private long inmateId;
     private long sensorId;
 
@@ -20,6 +23,7 @@ public class MoveSensorLog {
 
     public MoveSensorLog(long id, long inmateId, long sensorId) {
         this.id = id;
+        this.timestamp = LocalDate.now();
         this.inmateId = inmateId;
         this.sensorId = sensorId;
     }
@@ -31,6 +35,9 @@ public class MoveSensorLog {
     }
     public void setId(long id) {
         this.id = id;
+    }
+    public void setTimestamp(LocalDate timestamp) {
+        this.timestamp = timestamp;
     }
     public void setInmateId(long inmateId) {
         this.inmateId = inmateId;
@@ -46,6 +53,9 @@ public class MoveSensorLog {
     }
     public long getId() {
         return id;
+    }
+    public LocalDate getTimestamp() {
+        return timestamp;
     }
     public long getInmateId() {
         return inmateId;
