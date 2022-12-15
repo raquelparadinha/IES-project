@@ -19,8 +19,29 @@ import GuardsList from "./components/GuardsList/guardsList";
 import Notifications from "./components/Notifications/notifications";
 import Prisioner_Profile from "./components/Profile/prisioner_profile";
 import Guard_Profile from "./components/Profile/guard_profile";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [dataSource, setDataSource] = useState();
+  const fetchData = () => {
+    try {
+      return axios
+        .get("http://localhost:5001/api/alert")
+        .then((response) => setDataSource(response.data));
+    } catch {
+      console.log("Deu pylance");
+      fetchData();
+    }
+  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData();
+    }, 1000);
+    return () => clearInterval(interval);
+  });
+  fetchData();
+  console.log(dataSource);
   return (
     <div
       style={{
