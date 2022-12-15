@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
+import ies.grupo51.lockedin.models.Area;
 import ies.grupo51.lockedin.models.Inmate;
 import ies.grupo51.lockedin.repositories.InmateRepository;
 
@@ -32,6 +33,10 @@ public class InmateService {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 
+    public List<Inmate> getInmatesByAreaId(Area area) throws ResourceNotFoundException {
+        return repository.findByAreaId(area.getId());
+    }
+
     public Inmate updateInmate(Inmate inmate) throws ResourceNotFoundException {
         Inmate existingInmate = repository.findById(inmate.getId()).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
         
@@ -41,6 +46,7 @@ public class InmateService {
         existingInmate.setBirthDate(inmate.getBirthDate());
         existingInmate.setSolitary(inmate.getSolitary());
         existingInmate.setEntryDate(inmate.getEntryDate());
+        existingInmate.setAreaId(inmate.getAreaId());
         existingInmate.setWorkLogIds(inmate.getWorkLogIds());
         existingInmate.setMoveLogIds(inmate.getMoveLogIds());
         existingInmate.setHealthLogId(inmate.getHealthLogId());

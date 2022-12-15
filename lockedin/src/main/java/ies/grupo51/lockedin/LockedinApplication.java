@@ -11,5 +11,4 @@ public class LockedinApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LockedinApplication.class, args);
 	}
-
 }
