@@ -5,8 +5,8 @@
   { "_id": 4, "name": "jobwing", "capacity": 30, "access": true, "currentInmateIds": [] },
   { "_id": 5, "name": "patio", "capacity": 300, "access": true, "currentInmateIds": [] },
   { "_id": 6, "name": "infirmary", "capacity": 15, "access": true, "currentInmateIds": [] },
-  { "_id": 7, "name": "cellblock1", "capacity": 200, "access": true, "currentInmateIds": [] },
-  { "_id": 8, "name": "cellblock2", "capacity": 150, "access": true, "currentInmateIds": [] },
+  { "_id": 7, "name": "cellblock1", "capacity": 250, "access": true, "currentInmateIds": [] },
+  { "_id": 8, "name": "cellblock2", "capacity": 200, "access": true, "currentInmateIds": [] },
   { "_id": 9, "name": "showers", "capacity": 100, "access": true, "currentInmateIds": [] },
   { "_id": 10, "name": "solitary", "capacity": 30, "access": false, "currentInmateIds": [] },
   { "_id": 11, "name": "canteen", "capacity": 270, "access": true, "currentInmateIds": [] }

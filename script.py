@@ -8,6 +8,6 @@ with open('mongodb/seeddata/inmates.json', 'r') as f:
 
 with open('innmates.json', 'w') as f:
     for i in data:
-        i['location'] = randint(6, 7)
+        i.pop('location')
         f.write(json.dumps(i))
         f.write(',\n')

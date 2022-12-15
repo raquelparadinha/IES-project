@@ -1,5 +1,4 @@
-[
-{"_id": 1001, "name": "Miguel Manco", "birthDate": "03/19/2002", "entryDate": "03/20/2002", "sentenceEnd": "03/20/2040", "solitary": false, "healthLogId": 0, "moveLogIds": [], "workLogIds": [], "areaId": 6},
+[{"_id": 1001, "name": "Miguel Manco", "birthDate": "03/19/2002", "entryDate": "03/20/2002", "sentenceEnd": "03/20/2040", "solitary": false, "healthLogId": 0, "moveLogIds": [], "workLogIds": [], "areaId": 6},
 {"_id": 1002, "name": "Daffy Ryman", "birthDate": "08/25/1992", "entryDate": "12/03/2013", "sentenceEnd": "02/20/2026", "solitary": false, "healthLogId": 0, "moveLogIds": [], "workLogIds": [], "areaId": 7},
 {"_id": 1003, "name": "Saudra Souness", "birthDate": "04/25/1979", "entryDate": "01/22/2022", "sentenceEnd": "06/18/2023", "solitary": false, "healthLogId": 0, "moveLogIds": [], "workLogIds": [], "areaId": 7},
 {"_id": 1004, "name": "Lani Enrique", "birthDate": "05/10/1996", "entryDate": "11/28/2018", "sentenceEnd": "09/12/2028", "solitary": false, "healthLogId": 0, "moveLogIds": [], "workLogIds": [], "areaId": 6},
