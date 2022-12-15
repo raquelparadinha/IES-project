@@ -39,6 +39,7 @@ public class MoveSensorLogService {
                 max_id = id;
             }
         }
+        
         return max_id+1;
     }
 }

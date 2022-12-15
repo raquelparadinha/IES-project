@@ -1,14 +1,18 @@
 import json
 from random import randint
 from time import sleep
+from numpy.random import normal
+
+from pymongo import MongoClient
 
 from classes import Inmate, Area, Sensor, Workstation
-from numpy.random import normal
+
+HEALTHFILE = 'data/health.json'
 
 RIOT_CHANCE = 4 # %
 
 class Simulator():
-    def __init__(self, areasfile, sensorfile, workstationsfile, inmatesfile, healthfile):
+    def __init__(self, host, port, username='user1', password='user1'):
         def loadfile(filename):
             try:
                 with open(filename, 'r') as f:
@@ -18,16 +22,31 @@ class Simulator():
                 exit(1)
             
             return data
+
+        self.host = host
+        self.port = port
+        self.username = username
+        self.password = password
+
+        try:
+            connstr = 'mongodb://' + self.host + ':' + str(self.port) + '/'
+            self.client = MongoClient(connstr)
+        except:
+            print('Connection to mongo container failed. Exiting.')
+            exit(1)
+
+        self.db = self.client['lockedin']
         
-        areasf = loadfile(areasfile)
-        sensorf = loadfile(sensorfile)
-        healthf = loadfile(healthfile)
-        workstationsf = loadfile(workstationsfile)
-        inmatesf = loadfile(inmatesfile)
+        areadata = [a for a in self.db['area'].find()]
+        sensordata = [s for s in self.db['moveSensor'].find()]
+        workstationdata = [w for w in self.db['workStation'].find()]
+        inmatedata = [i for i in self.db['inmate'].find()]
+
+        healthdata = loadfile(HEALTHFILE)
 
         # init areas
         self.areas = []
-        for i in areasf:
+        for i in areadata:
             id = i['_id']
             name = i['name']
             capacity = i['capacity']
@@ -36,7 +55,7 @@ class Simulator():
 
         # init sensors
         self.sensors = []
-        for i in sensorf:
+        for i in sensordata:
             id = i['_id']
             entry = [l for l in self.areas if l.id == i['entryAreaId']][0]
             out = [l for l in self.areas if l.id == i['exitAreaId']][0]
@@ -45,23 +64,22 @@ class Simulator():
 
         # init health values
         self.healthvalues = {}
-        for i in healthf:
+        for i in healthdata:
             name = i['name']
             genvals = i['genvals']
             self.healthvalues[name] = genvals
 
         # init workstations
         self.workstations = []
-        for i in workstationsf:
+        for i in workstationdata:
             id = i['_id']
             name = i['name']
-            listings = i['capacity']
-            self.workstations.append(Workstation(id, name, listings))
+            self.workstations.append(Workstation(id, name))
 
         # init inamtes
         self.inmates = []
         possibleblocks = [l for l in self.areas if l.id in [7, 8]]
-        for i in inmatesf:
+        for i in inmatedata:
             id = i['_id']
             startarea = possibleblocks[randint(1, len(possibleblocks)) - 1]
             self.inmates.append(Inmate(id, startarea))
