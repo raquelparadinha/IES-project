@@ -78,33 +78,29 @@ function Prisioner_info(id) {
   function SeeIfUndfined2() {
     if (dataSource2 !== undefined) {
       console.log(dataSource2);
-      if (dataSource2.length > 0) {
-        return dataSource2.map((healthLog) => (
-          <>
-            <p style={{ color: "#12494c" }}>HeartBeat: {healthLog.heartBeat}</p>
-            <p style={{ color: "#12494c" }}>
-              Stress Levels: {healthLog.stress}
-            </p>
-            <p style={{ color: "#12494c" }}>
-              Glicose Levels: {healthLog.glicose}
-            </p>
-            <p style={{ color: "#12494c" }}>Uric Acid: {healthLog.uricAcid}</p>
-            <p style={{ color: "#12494c" }}>
-              Cholestrol: {healthLog.cholesterol}
-            </p>
-            <p style={{ color: "#12494c" }}>
-              Toxic Screen: {healthLog.toxicScreen}
-            </p>
-          </>
-        ));
-      } else {
-        return <p>No Data Available</p>;
-      }
+      return (
+        <>
+          <p style={{ color: "#12494c" }}>HeartBeat: {dataSource2.heartBeat}</p>
+          <p style={{ color: "#12494c" }}>
+            Stress Levels: {dataSource2.stress}
+          </p>
+          <p style={{ color: "#12494c" }}>
+            Glicose Levels: {dataSource2.glicose}
+          </p>
+          <p style={{ color: "#12494c" }}>Uric Acid: {dataSource2.uricAcid}</p>
+          <p style={{ color: "#12494c" }}>
+            Cholestrol: {dataSource2.cholesterol}
+          </p>
+          <p style={{ color: "#12494c" }}>
+            Toxic Screen: {dataSource2.toxicScreen}
+          </p>
+        </>
+      );
     } else {
       fetchData2();
       return (
         <div>
-          <LoadingOutlined />
+          <p>No Data Available</p>;
         </div>
       );
     }
