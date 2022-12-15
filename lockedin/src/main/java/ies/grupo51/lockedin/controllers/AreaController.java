@@ -37,4 +37,10 @@ public class AreaController {
         return ResponseEntity.ok().body(areaService.getAreaById(id));
     }
 
+    @GetMapping("/{id}/access")
+    public ResponseEntity<Area> changeAreaAcess(@PathVariable(value = "id") long id) throws ResourceNotFoundException {
+        Area area = areaService.getAreaById(id);
+        area.setAccess(!area.getAccess());
+        return ResponseEntity.ok(areaService.updateArea(area));
+    }
 }
