@@ -54,30 +54,30 @@ public class InmateController {
 
     // GET METHODS
 
-    @GetMapping("") // ✓ feito ✓
+    @GetMapping("") 
     public  ResponseEntity<List<Inmate>> getInmates() {
 
         return ResponseEntity.ok().body(inmateService.getInmates());
     }
     
-    @GetMapping("/number") // ✓ feito ✓
+    @GetMapping("/number") 
     public  ResponseEntity<Integer> getInmatesNumber() {
         return ResponseEntity.ok().body(inmateService.getInmates().size());
     }
 
-    @GetMapping("/{id}") // ✓ feito ✓
+    @GetMapping("/{id}") 
     public ResponseEntity<Inmate> getInmateById(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
         return ResponseEntity.ok().body(inmateService.getInmateById(id));
     }
 
-    @GetMapping("/leaving") // ✓ feito ✓
+    @GetMapping("/leaving") 
     public ResponseEntity<List<Inmate>> getLeavingInmates() {
         List<Inmate> data = inmateService.getInmates();
         data.sort(((inmate1, inmate2) -> inmate1.getSentenceEnd().compareTo(inmate2.getSentenceEnd())));
         return ResponseEntity.ok().body(data);
     }
 
-    @GetMapping("/leaving/{number}") // ✓ feito ✓
+    @GetMapping("/leaving/{number}")
     public ResponseEntity<List<Inmate>> getLeavingInmatesNumber(@PathVariable(value = "number") int number) {
         List<Inmate> inmates = inmateService.getInmates();
         inmates.sort(((inmate1, inmate2) -> inmate1.getSentenceEnd().compareTo(inmate2.getSentenceEnd())));

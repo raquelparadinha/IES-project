@@ -74,7 +74,7 @@ services:
       - SPRING_DATA_MONGODB_PASSWORD=user1
       - SPRING_DATA_MONGODB_DATABASE=lockedin
       - SPRING_RABBITMQ_HOST=rabbitmq
-  
+
   reactclient:
     build: ./frontend
     container_name: reactclient

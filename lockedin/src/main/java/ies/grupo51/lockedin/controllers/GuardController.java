@@ -38,7 +38,7 @@ public class GuardController {
     // GET METHODS
 
     @GetMapping("")
-    public ResponseEntity<List<HashMap<String, Object>>> getGuards() {
+    public ResponseEntity<List<HashMap<String, Object>>> getGuards() throws ResourceNotFoundException {
         List<HashMap<String, Object>> data = new ArrayList<>();
         List<Area> areas = areaService.getAreas();
         for (Guard guard : guardService.getGuards()) {
