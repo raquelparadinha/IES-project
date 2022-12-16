@@ -50,4 +50,15 @@ public class GuardService {
         
         return repository.save(existingGuard);
     }
+
+    public long getNextId() {
+        long max_id = 0;
+        for (Guard guard : getGuards()) {
+            long id = guard.getId();
+            if (id > max_id) {
+                max_id = id;
+            }
+        }
+        return max_id+1;
+    }
 }

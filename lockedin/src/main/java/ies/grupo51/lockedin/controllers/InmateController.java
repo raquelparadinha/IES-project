@@ -54,30 +54,30 @@ public class InmateController {
 
     // GET METHODS
 
-    @GetMapping("") // ✓ feito ✓
+    @GetMapping("") 
     public  ResponseEntity<List<Inmate>> getInmates() {
 
         return ResponseEntity.ok().body(inmateService.getInmates());
     }
     
-    @GetMapping("/number") // ✓ feito ✓
+    @GetMapping("/number") 
     public  ResponseEntity<Integer> getInmatesNumber() {
         return ResponseEntity.ok().body(inmateService.getInmates().size());
     }
 
-    @GetMapping("/{id}") // ✓ feito ✓
+    @GetMapping("/{id}") 
     public ResponseEntity<Inmate> getInmateById(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
         return ResponseEntity.ok().body(inmateService.getInmateById(id));
     }
 
-    @GetMapping("/leaving") // ✓ feito ✓
+    @GetMapping("/leaving") 
     public ResponseEntity<List<Inmate>> getLeavingInmates() {
         List<Inmate> data = inmateService.getInmates();
         data.sort(((inmate1, inmate2) -> inmate1.getSentenceEnd().compareTo(inmate2.getSentenceEnd())));
         return ResponseEntity.ok().body(data);
     }
 
-    @GetMapping("/leaving/{number}") // ✓ feito ✓
+    @GetMapping("/leaving/{number}")
     public ResponseEntity<List<Inmate>> getLeavingInmatesNumber(@PathVariable(value = "number") int number) {
         List<Inmate> inmates = inmateService.getInmates();
         inmates.sort(((inmate1, inmate2) -> inmate1.getSentenceEnd().compareTo(inmate2.getSentenceEnd())));
@@ -100,7 +100,19 @@ public class InmateController {
     }
     @GetMapping("/{id}/health")
     public ResponseEntity<List<HealthLog>> getHealthLogsOfInmate(@PathVariable(value = "id") Long id) {
-        return ResponseEntity.ok().body(healthLogService.getHealthLogByInmateId(id));
+        List<HealthLog> healthLogs =  healthLogService.getHealthLogByInmateId(id);
+        healthLogs.sort((healthLog1,healthLog2) -> healthLog1.getTimestamp().compareTo(healthLog2.getTimestamp()));
+        return ResponseEntity.ok().body(healthLogs);
+    }
+
+    @GetMapping("/{id}/health/last")
+    public ResponseEntity<HealthLog> getLastHealthLogOfInmate(@PathVariable(value = "id") Long id) {
+        List<HealthLog> healthLogs =  healthLogService.getHealthLogByInmateId(id);
+        healthLogs.sort((healthLog1,healthLog2) -> healthLog1.getTimestamp().compareTo(healthLog2.getTimestamp()));
+        if (healthLogs.size() > 0){
+            return ResponseEntity.ok().body(healthLogs.get(0));
+        }
+        return ResponseEntity.ok().body(null);
     }
 
 
@@ -244,13 +256,7 @@ public class InmateController {
 
     @PostMapping("")
     public ResponseEntity<Inmate> createInmate(@Valid @RequestBody Inmate inmate){
-        long max_id = 1;
-        for (Inmate inmateInDatabase : inmateService.getInmates()) {
-            if (inmateInDatabase.getId() > max_id) {
-                max_id = inmateInDatabase.getId();
-            }
-        }
-        inmate.setId(max_id+1);
+        inmate.setId(inmateService.getNextId());
         return ResponseEntity.ok(inmateService.saveInmate(inmate));
     }
 }

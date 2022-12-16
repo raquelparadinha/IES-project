@@ -54,4 +54,15 @@ public class InmateService {
         
         return repository.save(existingInmate);
     }
+
+    public long getNextId() {
+        long max_id = 0;
+        for (Inmate inmate : getInmates()) {
+            long id = inmate.getId();
+            if (id > max_id) {
+                max_id = id;
+            }
+        }
+        return max_id+1;
+    }
 }

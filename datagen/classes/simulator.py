@@ -9,7 +9,7 @@ from classes import Inmate, Area, Sensor, Workstation
 
 HEALTHFILE = 'data/health.json'
 
-RIOT_CHANCE = 4 # %
+RIOT_CHANCE = 100 # %
 
 class Simulator():
     def __init__(self, host, port, username='user1', password='user1'):

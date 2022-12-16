@@ -1,5 +1,7 @@
 package ies.grupo51.lockedin.models;
 
+import java.time.LocalDate;
+
 import org.json.JSONObject;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,6 +14,7 @@ public class HealthLog {
 
     private long inmateId;
 
+    private LocalDate timestamp;
     private int heartBeat;
     private int stress;
     private int glicose;
@@ -27,6 +30,7 @@ public class HealthLog {
 
     public HealthLog(long id, long inmateId, int heartBeat, int stress, int glicose, int uricAcid, int cholesterol, int toxicScreen) {
         this.id = id;
+        this.timestamp = LocalDate.now();
         this.inmateId = inmateId;
         this.heartBeat = heartBeat;
         this.stress = stress;
@@ -38,6 +42,7 @@ public class HealthLog {
 
     public HealthLog(long id, long inmateId, JSONObject hc) {
         this.id = id;
+        this.timestamp = LocalDate.now();
         this.inmateId = inmateId;
         this.heartBeat = hc.getInt("heart_beat");
         this.stress = hc.getInt("stress_level");
@@ -51,6 +56,9 @@ public class HealthLog {
 
     public long getId() {
         return id;
+    }
+    public LocalDate getTimestamp() {
+        return timestamp;
     }
     public int getCholesterol() {
         return cholesterol;
@@ -81,6 +89,9 @@ public class HealthLog {
 
     public void setId(long id) {
         this.id = id;
+    }
+    public void setTimestamp(LocalDate timestamp) {
+        this.timestamp = timestamp;
     }
     public void setCholesterol(int cholesterol) {
         this.cholesterol = cholesterol;
