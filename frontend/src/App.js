@@ -27,7 +27,7 @@ import Workstations from "./components/Workstations/workstations";
 function App() {
   const [dataSource, setDataSource] = useState();
   const fetchData = () => {
-    console.log(dataSource);
+    //console.log(dataSource);
     try {
       return axios
         .get("http://localhost:5001/api/alert")

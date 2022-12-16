@@ -54,6 +54,7 @@ const styles = {
 
 const Workstations = () => {
   const [dataSource, setDataSource] = useState();
+  const [dataSource2, setDataSource2] = useState();
   const fetchData = () => {
     try {
       return axios
@@ -65,11 +66,24 @@ const Workstations = () => {
     }
   };
 
+  const fetchData2 = (id) => {
+    try {
+      return axios
+        .get("http://localhost:5001/api/workstation/" + id + "/worklogs")
+        .then((response) => setDataSource2(response.data));
+    } catch {
+      console.log("Deu pylance");
+      fetchData2();
+    }
+  };
+
   function SeeIfUndfined() {
     if (dataSource !== undefined) {
-      console.log(dataSource);
+      //console.log(dataSource);
       return new Array(dataSource.length).fill(null).map((_, i) => {
+        fetchData2(dataSource[i].id);
         console.log(dataSource[i]);
+        console.log(dataSource2);
         return (
           <Card
             type="inner"
@@ -100,7 +114,7 @@ const Workstations = () => {
                   margin={{ top: 20, right: 20, bottom: 10, left: 10 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="x" name="TimeStamp" />
+                  <XAxis dataKey="x" name="WorkLog" />
                   <YAxis dataKey="y" name="Quota" />
                   <Tooltip cursor={{ strokeDasharray: "3 3" }} />
                   <ReferenceLine
@@ -114,7 +128,7 @@ const Workstations = () => {
                   <Legend />
                   <Scatter
                     name="Worker Quota per day"
-                    data={data01}
+                    data={dataSource2}
                     fill="#497174"
                   />
                 </ScatterChart>
@@ -145,121 +159,7 @@ const Workstations = () => {
           }
         >
           <Space align="center" direction="vertical" style={{ width: "100%" }}>
-            <Collapse accordion>
-              {SeeIfUndfined()}
-              {/* <Card
-                type="inner"
-                headStyle={{ backgroundColor: "#c2d8d8" }}
-                bodyStyle={{ backgroundColor: "#eff5f5" }}
-                title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-              >
-                <Row>
-                  <Col>Velhice</Col>
-                  <Col style={{ alignItems: "end" }}>
-                    <ScatterChart
-                      width={700}
-                      height={250}
-                      margin={{ top: 20, right: 20, bottom: 10, left: 10 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="x" name="TimeStamp" />
-                      <YAxis dataKey="y" name="Quota" unit="kg" />
-                      <Tooltip cursor={{ strokeDasharray: "3 3" }} />
-                      <Legend />
-                      <Scatter
-                        name="Worker Quota per day"
-                        data={data01}
-                        fill="#497174"
-                      />
-                    </ScatterChart>
-                  </Col>
-                </Row>
-              </Card>
-              <Card
-                type="inner"
-                headStyle={{ backgroundColor: "#c2d8d8" }}
-                bodyStyle={{ backgroundColor: "#eff5f5" }}
-                title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-              >
-                <Row>
-                  <Col>Velhice</Col>
-                  <Col style={{ alignItems: "end" }}>
-                    <ScatterChart
-                      width={700}
-                      height={250}
-                      margin={{ top: 20, right: 20, bottom: 10, left: 10 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="x" name="TimeStamp" />
-                      <YAxis dataKey="y" name="Quota" unit="kg" />
-                      <Tooltip cursor={{ strokeDasharray: "3 3" }} />
-                      <Legend />
-                      <Scatter
-                        name="Worker Quota per day"
-                        data={data01}
-                        fill="#497174"
-                      />
-                    </ScatterChart>
-                  </Col>
-                </Row>
-              </Card>
-              <Card
-                type="inner"
-                headStyle={{ backgroundColor: "#c2d8d8" }}
-                bodyStyle={{ backgroundColor: "#eff5f5" }}
-                title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-              >
-                <Row>
-                  <Col>Velhice</Col>
-                  <Col style={{ alignItems: "end" }}>
-                    <ScatterChart
-                      width={700}
-                      height={250}
-                      margin={{ top: 20, right: 20, bottom: 10, left: 10 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="x" name="TimeStamp" />
-                      <YAxis dataKey="y" name="Quota" unit="kg" />
-                      <Tooltip cursor={{ strokeDasharray: "3 3" }} />
-                      <Legend />
-                      <Scatter
-                        name="Worker Quota per day"
-                        data={data01}
-                        fill="#497174"
-                      />
-                    </ScatterChart>
-                  </Col>
-                </Row>
-              </Card>
-              <Card
-                type="inner"
-                headStyle={{ backgroundColor: "#c2d8d8" }}
-                bodyStyle={{ backgroundColor: "#eff5f5" }}
-                title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-              >
-                <Row>
-                  <Col>Velhice</Col>
-                  <Col style={{ alignItems: "end" }}>
-                    <ScatterChart
-                      width={700}
-                      height={250}
-                      margin={{ top: 20, right: 20, bottom: 10, left: 10 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="x" name="TimeStamp" />
-                      <YAxis dataKey="y" name="Quota" unit="kg" />
-                      <Tooltip cursor={{ strokeDasharray: "3 3" }} />
-                      <Legend />
-                      <Scatter
-                        name="Worker Quota per day"
-                        data={data01}
-                        fill="#497174"
-                      />
-                    </ScatterChart>
-                  </Col>
-                </Row>
-              </Card> */}
-            </Collapse>
+            <Collapse accordion>{SeeIfUndfined()}</Collapse>
           </Space>
         </Card>
       </Col>

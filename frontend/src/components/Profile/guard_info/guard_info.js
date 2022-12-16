@@ -68,7 +68,7 @@ function Guard_info(id) {
   }
   function SeeIfUndfined2() {
     if (dataSource2 !== undefined) {
-      console.log(dataSource2);
+      //console.log(dataSource2);
       // console.log(dataSource.birthdate.split("T")[0])
       if (dataSource2.length > 1) {
         return (

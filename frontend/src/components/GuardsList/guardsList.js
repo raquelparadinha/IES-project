@@ -272,7 +272,7 @@ function GuardsList() {
   const AddGuard = (new_guard_info) => {
     // Aqui para fazer os adds de novo guarda, está estatico aqui
     ResetAdding();
-    console.log(new_guard_info);
+    //console.log(new_guard_info);
     let new_guard;
     try {
       new_guard = {
@@ -285,7 +285,7 @@ function GuardsList() {
         password: new_guard_info.name + new_guard_info.id,
         roles: [],
       };
-      console.log(new_guard);
+      //console.log(new_guard);
       try {
         axios.post("http://localhost:5001/api/guard", new_guard);
       } catch (error) {
@@ -317,7 +317,7 @@ function GuardsList() {
   };
 
   const [form] = Form.useForm();
-  console.log(dataSource);
+  //console.log(dataSource);
   return (
     <div style={{ textAlign: "center" }}>
       <Card

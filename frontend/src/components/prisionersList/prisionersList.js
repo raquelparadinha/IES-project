@@ -27,7 +27,7 @@ const dateFormat = "MM/DD/YYYY";
 function PrisionersList() {
   const [dataSource, setDataSource] = useState();
   const fetchData = () => {
-    console.log("dataaa");
+    //console.log("dataaa");
     return axios
       .get("http://localhost:5001/api/inmate")
       .then((response) => setDataSource(response.data));
@@ -115,8 +115,8 @@ function PrisionersList() {
   };
 
   function editPrisioner(Edited_prisioner) {
-    console.log(typeof Edited_prisioner);
-    console.log(Edited_prisioner.id);
+    //console.log(typeof Edited_prisioner);
+    //console.log(Edited_prisioner.id);
     try {
       axios.put(
         "http://localhost:5001/api/inmate/" + Edited_prisioner.id,
@@ -146,7 +146,7 @@ function PrisionersList() {
         moveLogIds: [],
         workLogIds: [],
       };
-      console.log(new_prisioner);
+      //console.log(new_prisioner);
       try {
         axios.post("http://localhost:5001/api/inmate", new_prisioner);
       } catch (error) {
@@ -169,7 +169,7 @@ function PrisionersList() {
       });
       return true;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       Modal.error({
         title: "Add Error",
         content: `Prisioner was not added to the database due to and error.`,
@@ -179,7 +179,7 @@ function PrisionersList() {
   };
 
   const [form] = Form.useForm();
-  console.log(dataSource);
+  //console.log(dataSource);
   return (
     <div style={{ textAlign: "center" }}>
       <Card
@@ -262,9 +262,9 @@ function PrisionersList() {
                 if (e === null) {
                   return { ...pre };
                 } else {
-                  console.log(pre);
-                  console.log(e[0].format(dateFormat));
-                  console.log(e[1].format(dateFormat));
+                  //console.log(pre);
+                  //console.log(e[0].format(dateFormat));
+                  //console.log(e[1].format(dateFormat));
                   return {
                     ...pre,
                     entryDate: e[0].format(dateFormat),

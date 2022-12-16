@@ -71,7 +71,7 @@ const Example = (props) => {
   if (dataSource === undefined) {
     fetchData();
   }
-  console.log(dataSource);
+  //console.log(dataSource);
   return (
     <BarChart
       width={1200}
