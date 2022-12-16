@@ -16,7 +16,7 @@ Example: `{"type": "sensor", "inmateid": 1348, sensorid: 24}`
 * **Riot Message**  
 This messages simulates a prison riot.  
 It specifies in which location is a riot happening.  
-Example: `{"type": "riot", "locationid": 6}`
+Example: `{"type": "riot", "areaid": 6}`
 
 * **Healthcheck Message**  
 This message simulates a prison healthcheck.  

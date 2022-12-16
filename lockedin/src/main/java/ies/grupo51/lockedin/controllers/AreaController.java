@@ -27,7 +27,7 @@ public class AreaController {
     // GET METHODS
 
     @GetMapping("")
-    public ResponseEntity<List<Area>> getAreas() {
+    public ResponseEntity<List<Area>> getAreas() throws ResourceNotFoundException {
         
         return ResponseEntity.ok().body(areaService.getAreas());
     }
