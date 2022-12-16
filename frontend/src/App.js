@@ -9,6 +9,7 @@ import {
   LogoutOutlined,
   LoginOutlined,
   NotificationOutlined,
+  ToolOutlined,
 } from "@ant-design/icons/lib/icons";
 //import Logo from "./images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
 import PrisionersList from "./components/prisionersList/prisionersList";
@@ -18,28 +19,31 @@ import Dashboard from "./components/Dashboard/dashboard";
 import GuardsList from "./components/GuardsList/guardsList";
 import Notifications from "./components/Notifications/notifications";
 import Prisioner_Profile from "./components/Profile/prisioner_profile";
-import { useState, useEffect } from "react";
-import axios from "axios";
 import Guard_Profile from "./components/Profile/guard_profile";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Workstations from "./components/Workstations/workstations";
 
 function App() {
-  // const [dataSource, setDataSource] = useState();
-  // const fetchData = () => {
-  //   try {
-  //     return axios
-  //       .get("http://localhost:5001/api/area")
-  //       .then((response) => setDataSource(response.data));
-  //   } catch {
-  //     console.log("Deu pylance");
-  //   }
-  // };
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     fetchData();
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, []);
-  // console.log(dataSource);
+  const [dataSource, setDataSource] = useState();
+  const fetchData = () => {
+    console.log(dataSource);
+    try {
+      return axios
+        .get("http://localhost:5001/api/alert")
+        .then((response) => setDataSource(response.data));
+    } catch {
+      console.log("Deu pylance");
+      fetchData();
+    }
+  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData();
+    }, 30000);
+    return () => clearInterval(interval);
+  });
+  fetchData();
   return (
     <div
       style={{
@@ -93,7 +97,13 @@ function App() {
 export function SideMenu() {
   const navigate = useNavigate();
   return (
-    <div style={{ display: "flex", flexDirection: "row", flex: 1 }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        flex: 1,
+      }}
+    >
       <Menu
         onClick={({ key }) => {
           if (key === "logout") {
@@ -105,6 +115,7 @@ export function SideMenu() {
         }}
         defaultSelectedKeys={[window.location.pathname]}
         items={islogged(Logged)}
+        style={{ backgroundColor: "#EFF5F5" }}
       ></Menu>
       <Content />
     </div>
@@ -113,7 +124,7 @@ export function SideMenu() {
 
 function Content() {
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", backgroundColor: "#D6E4E5" }}>
       {/* <BreadCrumb /> */}
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" />}></Route>
@@ -138,6 +149,7 @@ function Content() {
           }
         ></Route>
         <Route path="/notifications" element={<Notifications />}></Route>
+        <Route path="/workstations" element={<Workstations />}></Route>
         <Route path="/profile" element={<Prisioner_Profile />}></Route>
         <Route path="/login" element={<Login />}></Route>
       </Routes>
@@ -171,6 +183,11 @@ function islogged(params) {
         label: "Notifications",
         key: "/notifications",
         icon: <NotificationOutlined />,
+      },
+      {
+        label: "Workstations",
+        key: "/workstations",
+        icon: <ToolOutlined />,
       },
       { label: "Profile", key: "/profile", icon: <UserOutlined /> },
       {
@@ -206,6 +223,11 @@ function islogged(params) {
       label: "Notifications",
       key: "/notifications",
       icon: <NotificationOutlined />,
+    },
+    {
+      label: "Workstations",
+      key: "/workstations",
+      icon: <ToolOutlined />,
     },
     { label: "Profile", key: "/profile", icon: <UserOutlined /> },
     {

@@ -7,7 +7,7 @@ from pymongo import MongoClient
 
 from classes import Inmate, Area, Sensor, Workstation
 
-HEALTHFILE = 'datagen/data/health.json'
+HEALTHFILE = 'data/health.json'
 
 RIOT_CHANCE = 4 # %
 
@@ -116,25 +116,25 @@ class Simulator():
             msg['sensorid'] = sensor.id
             messages.append(msg)
 
-        if self.tryRiot(sensor.exit):
-            msg = {'type': 'riot'}
-            msg['areaid'] = sensor.exit.id
-            messages.append(msg)
+            if self.tryRiot(sensor.exit):
+                msg = {'type': 'riot'}
+                msg['areaid'] = sensor.exit.id
+                messages.append(msg)
 
-        if sensor.exit.name == 'jobwing':
-            ws, wq = self.makeWork()
-            msg = {'type': 'work'}
-            msg['inmateid'] = inmate.id
-            msg['workstationid'] = ws.id
-            msg['workquota'] = wq
-            messages.append(msg)
+            if sensor.entry.name == 'jobwing':
+                ws, wq = self.makeWork()
+                msg = {'type': 'work'}
+                msg['inmateid'] = inmate.id
+                msg['workstationid'] = ws.id
+                msg['workquota'] = wq
+                messages.append(msg)
 
-        elif sensor.exit.name == 'infirmary':
-            hc = self.makeHealthcheck()
-            msg = {'type': 'healthcheck'}
-            msg['inmateid'] = inmate.id
-            msg['healthcheck'] = hc
-            messages.append(msg)
+            elif sensor.exit.name == 'infirmary':
+                hc = self.makeHealthcheck()
+                msg = {'type': 'healthcheck'}
+                msg['inmateid'] = inmate.id
+                msg['healthcheck'] = hc
+                messages.append(msg)
 
         return messages
 
@@ -145,6 +145,7 @@ class Simulator():
 
         possiblesensors = [s for s in self.sensors if s.active and s.entry == inmate.area]
         if possiblesensors == []:
+            print(inmate.area)
             return None, None
 
         sensoridx = randint(1, len(possiblesensors)) - 1

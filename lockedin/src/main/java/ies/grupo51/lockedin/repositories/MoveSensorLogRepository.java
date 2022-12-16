@@ -9,5 +9,5 @@ import ies.grupo51.lockedin.models.MoveSensorLog;
 
 @Repository
 public interface MoveSensorLogRepository extends MongoRepository <MoveSensorLog, Long> {
-    List<MoveSensorLog> findByInmateId(long inmateId);
+    public List<MoveSensorLog> findByInmateId(long inmateId);
 }

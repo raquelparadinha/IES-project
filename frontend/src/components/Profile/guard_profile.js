@@ -11,10 +11,10 @@ const tabList = [
     key: "guard_info",
     tab: "Guard Info",
   },
-//   {
-//     key: "timeline",
-//     tab: "Timeline",
-//   },
+  //   {
+  //     key: "timeline",
+  //     tab: "Timeline",
+  //   },
 ];
 
 function Guard_Profile() {
@@ -39,6 +39,7 @@ function Guard_Profile() {
       }}
     >
       <Card
+        style={{ backgroundColor: "#EFF5F5" }}
         title={
           <div
             style={{

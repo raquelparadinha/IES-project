@@ -7,6 +7,7 @@ import {
   Checkbox,
   DatePicker,
   Form,
+  Card,
 } from "antd";
 import { useState, useEffect } from "react";
 import {
@@ -24,28 +25,6 @@ const { RangePicker } = DatePicker;
 const dateFormat = "MM/DD/YYYY";
 
 function PrisionersList() {
-  const countDown = () => {
-    let secondsToGo = 5;
-
-    const modal = Modal.error({
-      title: "Solitary state invalid, insert only 'true' or 'false'.",
-      content: `This modal will be destroyed after ${secondsToGo} second.`,
-      okType: "danger",
-    });
-
-    const timer = setInterval(() => {
-      secondsToGo -= 1;
-      modal.update({
-        content: `This modal will be destroyed after ${secondsToGo} second.`,
-      });
-    }, 1000);
-
-    setTimeout(() => {
-      clearInterval(timer);
-      modal.destroy();
-    }, secondsToGo * 1000);
-  };
-
   const [dataSource, setDataSource] = useState();
   const fetchData = () => {
     console.log("dataaa");
@@ -65,15 +44,14 @@ function PrisionersList() {
   //console.log(dataSource);
   const columns = [
     // prisioner main traits
-    { key: 1, title: "ID", dataIndex: "id" },
+    { key: 1, title: "ID", dataIndex: "id", className: "custom-row" },
     { key: 2, title: "Name", dataIndex: "name" },
     { key: 3, title: "Birthdate", dataIndex: "birthDate" },
     { key: 4, title: "Sentece Start", dataIndex: "entryDate" },
     { key: 5, title: "Sentence End", dataIndex: "sentenceEnd" },
-    { key: 6, title: "Workstation", dataIndex: "workstationId" },
 
     {
-      key: 7,
+      key: 6,
       title: "Actions",
       render: (record) => {
         // console.log(record.id)
@@ -133,6 +111,7 @@ function PrisionersList() {
 
   const ResetAdding = () => {
     setisAdding(false);
+    form.resetFields();
   };
 
   function editPrisioner(Edited_prisioner) {
@@ -153,46 +132,78 @@ function PrisionersList() {
   const AddPrisioner = (new_prisioner_info) => {
     // Aqui para fazer os adds de novo prisioneiro, está estatico aqui
     ResetAdding();
-    console.log(new_prisioner_info);
-    const new_prisioner = {
-      name: new_prisioner_info.name,
-      birthDate: new_prisioner_info.birthdate.format(dateFormat),
-      entryDate: new_prisioner_info.sentence[0].format(dateFormat),
-      sentenceEnd: new_prisioner_info.sentence[1].format(dateFormat),
-      workstationId: new_prisioner_info.workstation,
-    };
-    console.log(new_prisioner);
+    //console.log(new_prisioner_info.solitary);
+    let new_prisioner;
     try {
-      axios.post("http://localhost:5001/api/inmate", new_prisioner);
+      new_prisioner = {
+        id: 0,
+        name: new_prisioner_info.name,
+        birthDate: new_prisioner_info.birthdate.format(dateFormat),
+        entryDate: new_prisioner_info.sentence[0].format(dateFormat),
+        sentenceEnd: new_prisioner_info.sentence[1].format(dateFormat),
+        solitary: new_prisioner_info.solitary,
+        healthLogId: 0,
+        moveLogIds: [],
+        workLogIds: [],
+      };
+      console.log(new_prisioner);
+      try {
+        axios.post("http://localhost:5001/api/inmate", new_prisioner);
+      } catch (error) {
+        console.log("Deu pylance");
+        Modal.error({
+          title: "Add Error",
+          content: `Prisioner was not added to the database due to and error.`,
+          okType: "danger",
+        });
+        return false;
+      }
+      setDataSource((pre) => {
+        return [...pre, new_prisioner];
+      });
+      fetchData();
+      Modal.success({
+        title: "Add Successful",
+        content: `Prisioner added with success.`,
+        okType: "ghost",
+      });
+      return true;
     } catch (error) {
-      console.log("Deu pylance");
-      return false;
+      console.log(error);
+      Modal.error({
+        title: "Add Error",
+        content: `Prisioner was not added to the database due to and error.`,
+        okType: "danger",
+      });
     }
-    setDataSource((pre) => {
-      return [...pre, new_prisioner];
-    });
-    return true;
   };
 
   const [form] = Form.useForm();
-
+  console.log(dataSource);
   return (
-    <div>
-      <Table
-        columns={columns}
-        dataSource={dataSource}
-        pagination={{ defaultPageSize: 14 }}
-      ></Table>
-      <Button
-        onClick={() => onAddPrisioner()}
-        shape={"round"}
-        style={{ marginLeft: "45%" }}
-        type="primary"
+    <div style={{ textAlign: "center" }}>
+      <Card
+        title={<div style={{ color: "#12494c" }}>Prisioners</div>}
+        style={{ backgroundColor: "#D6E4E5" }}
       >
-        Add new prisioner
-      </Button>
+        <Table
+          columns={columns}
+          dataSource={dataSource}
+          pagination={{ defaultPageSize: 13 }}
+          rowClassName={"custom-row"}
+          style={{ color: "#8da6a8" }}
+        ></Table>
+        <Button
+          onClick={() => onAddPrisioner()}
+          shape={"round"}
+          style={{ backgroundColor: "#497174" }}
+          type="primary"
+        >
+          Add new prisioner
+        </Button>
+      </Card>
       <Modal
-        title="Edit Prisioner"
+        title={<div style={{ color: "#12494c" }}>Edit Prisioner</div>}
         open={isEditing}
         okText="Save"
         okType="primary"
@@ -201,35 +212,35 @@ function PrisionersList() {
         }}
         onOk={() => {
           setDataSource((pre) => {
-            if (true) {
-              return pre.map((prisioner) => {
-                if (prisioner.id === editingPrisioner.id) {
-                  const bool = editPrisioner(editingPrisioner);
-                  if (bool) {
-                    return editingPrisioner;
-                  } else {
-                    Modal.error({
-                      title: "Edit Error",
-                      content: `An error happened while changing the prisioner.`,
-                      okType: "danger",
-                    });
-                    return prisioner;
-                  }
+            return pre.map((prisioner) => {
+              if (prisioner.id === editingPrisioner.id) {
+                const bool = editPrisioner(editingPrisioner);
+                if (bool) {
+                  Modal.success({
+                    title: "Edit Successful",
+                    content: `Prisioner changed with success.`,
+                    okType: "ghost",
+                  });
+                  return editingPrisioner;
                 } else {
+                  Modal.error({
+                    title: "Edit Error",
+                    content: `An error happened while changing the prisioner.`,
+                    okType: "danger",
+                  });
                   return prisioner;
                 }
-              });
-            } else {
-              countDown();
-              return pre;
-            }
+              } else {
+                return prisioner;
+              }
+            });
           });
           ResetEditing();
         }}
       >
         <Space direction="vertical" style={{ width: "100%", height: "100%" }}>
           <Input
-            addonBefore="Name"
+            addonBefore={<div style={{ color: "#12494c" }}> Name</div>}
             value={editingPrisioner?.name}
             onChange={(e) => {
               setEditingPrisioner((pre) => {
@@ -237,6 +248,7 @@ function PrisionersList() {
               });
             }}
           />
+          {<div style={{ color: "#12494c" }}>Sentece: </div>}
           <RangePicker
             showTime
             defaultValue={[
@@ -262,15 +274,7 @@ function PrisionersList() {
               });
             }}
           />
-          <Input
-            addonBefore="Workstation ID"
-            value={editingPrisioner?.workstationId}
-            onChange={(e) => {
-              setEditingPrisioner((pre) => {
-                return { ...pre, workstationId: e.target.value };
-              });
-            }}
-          />
+          {<div style={{ color: "#12494c" }}>Solitary: </div>}
           <Checkbox
             checked={editingPrisioner?.solitary}
             addonBefore="Solitary"
@@ -300,17 +304,6 @@ function PrisionersList() {
             ]}
           >
             <Input addonBefore="Name" />
-          </Form.Item>
-          <Form.Item
-            name="workstation"
-            rules={[
-              {
-                required: true,
-                message: "Please input Workstation ID!",
-              },
-            ]}
-          >
-            <Input addonBefore="Workstation ID" />
           </Form.Item>
           Birthdate:
           <Form.Item name="birthdate">

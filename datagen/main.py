@@ -10,7 +10,7 @@ sensorfile = 'mongodb/seeddata/moveSensors.json'
 workstationsfile = 'mongodb/seeddata/workstations.json'
 inmatesfile = 'mongodb/seeddata/inmates.json'
 
-MONGO_HOST = "172.18.0.1"
+MONGO_HOST = "mongodb"
 MONGO_PORT = 27017
 
 def main():
@@ -21,14 +21,12 @@ def main():
     consumer_thread = Thread(target=receiver.recv, args=(sim,))
     consumer_thread.start()
     
-    control = 0
-    while(control < 10):
+    while(True):
         messages = sim.run()
         for m in messages:
             sender.send(m)
 
-        sleep(1)
-        control += 1
+        sleep(0.5)
 
     print('1')
     consumer_thread.join()

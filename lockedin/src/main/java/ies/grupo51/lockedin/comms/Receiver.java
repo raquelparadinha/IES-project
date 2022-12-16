@@ -52,6 +52,7 @@ public class Receiver {
         System.out.println("Received from datagen: " + receivedmsg);
 
         JSONObject jmsg = new JSONObject(receivedmsg);
+
         String type = jmsg.getString("type");
 
         Inmate inmate;
@@ -63,19 +64,22 @@ public class Receiver {
                 inmate = inmateService.getInmateById(jmsg.getInt("inmateid"));
                 logId = moveSensorLogService.getNextId();
                 // MoveSensorLogs
+
                 MoveSensor moveSensor = moveSensorService.getMoveSensorById(jmsg.getInt("sensorid"));
                 MoveSensorLog moveSensorLog = new MoveSensorLog(logId, inmate.getId(), moveSensor.getId());
+
                 moveSensorLogService.saveMoveSensorLog(moveSensorLog);
                 // MoveSensor
                 moveSensor.addMoveLogIds(logId);
                 moveSensorService.updatMoveSensor(moveSensor);
-                // Inmate
-                inmate.addMoveLogId(logId);
-                inmateService.updateInmate(inmate);
                 // Exit Area
                 Area exitArea = areaService.getAreaById(moveSensor.getExitAreaId());
                 exitArea.getCurrentInmateIds().remove(inmate.getId());
                 areaService.updateArea(exitArea);
+                // Inmate
+                inmate.addMoveLogId(logId);
+                inmate.setAreaId(moveSensor.getExitAreaId());
+                inmateService.updateInmate(inmate);
                 // Entry Area
                 Area entryArea = areaService.getAreaById(moveSensor.getExitAreaId());
                 if (!(entryArea.getCurrentInmateIds().contains(inmate.getId()))) {
@@ -86,7 +90,7 @@ public class Receiver {
 
             case "riot":
                 // Trigger riot alert
-                Area area = areaService.getAreaById(jmsg.getInt("locationid"));
+                Area area = areaService.getAreaById(jmsg.getInt("areaid"));
                 EstrilhoAlert estrilhoAlert = new EstrilhoAlert(
                     alertService.getNextId(),
                     "riot",
@@ -178,5 +182,6 @@ public class Receiver {
                 System.err.println("Couldn't read message type.");
                 break;
         }
+        System.out.println("Succesfully handled message.");
     }
 }

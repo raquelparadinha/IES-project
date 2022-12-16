@@ -1,38 +1,149 @@
-.App {
-  text-align: center;
+.custom-row {
+  background-color: #eff5f5;
+  color: #12494c;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.ant-table
+  .ant-table-container
+  .ant-table-content
+  table
+  thead.ant-table-thead
+  .ant-table-cell {
+  background-color: #c2d8d8;
+  color: #12494c;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
+.ant-pagination-item .ant-pagination-item-1 .ant-pagination-item-active {
   background-color: #282c34;
-  min-height: 100vh;
+}
+.css-dev-only-do-not-override-1s3dcof.ant-pagination
+  .ant-pagination-item-active {
+  font-weight: 600;
+  background-color: #ffffff;
+  border-color: #497174;
+}
+
+.css-dev-only-do-not-override-1s3dcof.ant-pagination
+  .ant-pagination-item-active
+  a {
+  color: #497174;
+}
+
+.css-dev-only-do-not-override-1s3dcof.ant-tabs-card
+  > .ant-tabs-nav
+  .ant-tabs-tab-active,
+.css-dev-only-do-not-override-1s3dcof.ant-tabs-card
+  > div
+  > .ant-tabs-nav
+  .ant-tabs-tab-active {
+  color: #497174;
+  background: #8da6a8;
+}
+
+.css-dev-only-do-not-override-1s3dcof
+  .ant-tabs
+  .ant-tabs-tab.ant-tabs-tab-active
+  .ant-tabs-tab-btn {
+  color: #8da6a8;
+  text-shadow: 0 0 0.25px currentcolor;
+}
+
+:where(.css-dev-only-do-not-override-1s3dcof).ant-menu-light:not(
+    .ant-menu-horizontal
+  )
+  .ant-menu-item {
+  color: #12494c;
+}
+
+:where(.css-dev-only-do-not-override-1s3dcof).ant-menu-light {
+  color: #12494c;
+  background: #8da6a8;
+}
+
+:where(.css-dev-only-do-not-override-1s3dcof).ant-menu-light:not(
+    .ant-menu-horizontal
+  )
+  .ant-menu-item-selected {
+  background-color: #8da6a8;
+  color: #12494c;
+}
+
+:where(.css-dev-only-do-not-override-1s3dcof).ant-modal .ant-modal-content {
+  position: relative;
+  background-color: #eff5f5;
+  background-clip: padding-box;
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px 0 rgb(0 0 0 / 8%), 0 3px 6px -4px rgb(0 0 0 / 12%),
+    0 9px 28px 8px rgb(0 0 0 / 5%);
+  pointer-events: auto;
+  padding: 20px 24px;
+}
+
+:where(.css-dev-only-do-not-override-1s3dcof).ant-input-group
+  > .ant-input:first-child,
+:where(.css-dev-only-do-not-override-1s3dcof).ant-input-group
+  .ant-input-group-addon:first-child {
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+  background-color: #c2d8d8;
+}
+
+:where(.css-dev-only-do-not-override-1s3dcof).ant-modal .ant-modal-title {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.88);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  background-color: #eff5f5;
+}
+:where(.css-dev-only-do-not-override-1s3dcof).ant-pagination
+  .ant-pagination-item
+  a {
+  display: block;
+  padding: 0 6px;
+  color: #12494c;
+  transition: none;
+}
+:where(.css-dev-only-do-not-override-1s3dcof).ant-pagination
+  .ant-pagination-prev
+  button,
+:where(.css-dev-only-do-not-override-1s3dcof).ant-pagination
+  .ant-pagination-next
+  button {
+  color: #12494c;
+  cursor: pointer;
+  user-select: none;
+}
+:where(.css-dev-only-do-not-override-1s3dcof).ant-select:not(
+    :where(.css-dev-only-do-not-override-1s3dcof).ant-select-customize-input
+  )
+  .ant-select-selector {
+  position: relative;
+  color: #ffffff;
+  background-color: #497174;
+  border: 1px solid #d9d9d9;
+  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+:where(.css-dev-only-do-not-override-1s3dcof).ant-select .ant-select-arrow {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  color: #ffffff;
+  font-style: normal;
+  line-height: 1;
+  text-align: center;
+  text-transform: none;
+  vertical-align: -0.125em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: absolute;
+  top: 50%;
+  inset-inline-start: auto;
+  inset-inline-end: 11px;
+  height: 12px;
+  margin-top: -6px;
+  font-size: 12px;
+  pointer-events: none;
 }
