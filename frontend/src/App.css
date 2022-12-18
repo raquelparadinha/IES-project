@@ -147,3 +147,8 @@
   font-size: 12px;
   pointer-events: none;
 }
+
+:where(.css-dev-only-do-not-override-1s3dcof)[class^="ant-collapse"] [class^="ant-collapse"], :where(.css-dev-only-do-not-override-1s3dcof)[class*=" ant-collapse"] [class^="ant-collapse"], :where(.css-dev-only-do-not-override-1s3dcof)[class^="ant-collapse"] [class*=" ant-collapse"], :where(.css-dev-only-do-not-override-1s3dcof)[class*=" ant-collapse"] [class*=" ant-collapse"] {
+  box-sizing: border-box;
+  background-color: #D6E4E5;
+}

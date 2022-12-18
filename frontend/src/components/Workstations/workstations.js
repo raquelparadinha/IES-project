@@ -129,7 +129,8 @@ const Workstations = () => {
                 </p>
                 <p style={{ marginTop: "40px" }}>Average Quota : {average}</p>
                 <p style={{ marginTop: "40px" }}>
-                  Diference : {(average - dataSource[i].expectedQuota).toFixed(2)}
+                  Diference :{" "}
+                  {(average - dataSource[i].expectedQuota).toFixed(2)}
                 </p>
               </Col>
               <Col style={{ alignItems: "end" }}>
@@ -184,7 +185,11 @@ const Workstations = () => {
           }
         >
           <Space align="center" direction="vertical" style={{ width: "100%" }}>
-            <Collapse accordion>{SeeIfUndfined()}</Collapse>
+            <Collapse bordered={false}>
+              <Space direction="vertical" size={50}>
+                {SeeIfUndfined()}
+              </Space>
+            </Collapse>
           </Space>
         </Card>
       </Col>

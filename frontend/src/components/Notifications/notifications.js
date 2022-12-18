@@ -27,9 +27,10 @@ function Notifications() {
   const [dataSource, setDataSource] = useState();
   const fetchData = () => {
     //console.log("dataaa");
-    return axios
-      .get("http://localhost:5001/api/alert")
-      .then((response) => setDataSource(response.data));
+    return axios.get("http://localhost:5001/api/alert").then((response) => {
+      setDataSource(response.data);
+      console.log(dataSource)
+    });
   };
 
   useEffect(() => {
@@ -37,7 +38,7 @@ function Notifications() {
   }, []);
 
   // while (dataSource === undefined) {
-  //   console.log("pylance")
+  //   console.log("pylance");
   //   fetchData();
   // }
   console.log(dataSource);
