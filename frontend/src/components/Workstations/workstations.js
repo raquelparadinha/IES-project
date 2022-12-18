@@ -54,7 +54,25 @@ const styles = {
 
 const Workstations = () => {
   const [dataSource, setDataSource] = useState();
-  const [dataSource2, setDataSource2] = useState();
+  const [dataSource2, setDataSource2] = useState([]);
+  const [dataSource3, setDataSource3] = useState([]);
+  const [dataSource4, setDataSource4] = useState([]);
+  const [dataSource5, setDataSource5] = useState([]);
+  const [dataSource6, setDataSource6] = useState([]);
+  const myDataSources = [
+    dataSource2,
+    dataSource3,
+    dataSource4,
+    dataSource5,
+    dataSource6,
+  ];
+  const setMyDataSources = [
+    setDataSource2,
+    setDataSource3,
+    setDataSource4,
+    setDataSource5,
+    setDataSource6,
+  ];
   const fetchData = () => {
     try {
       return axios
@@ -67,23 +85,32 @@ const Workstations = () => {
   };
 
   const fetchData2 = (id) => {
+    console.log(id);
     try {
       return axios
         .get("http://localhost:5001/api/workstation/" + id + "/worklogs")
-        .then((response) => setDataSource2(response.data));
+        .then((response) => {
+          setMyDataSources[id - 1](response.data);
+        });
     } catch {
       console.log("Deu pylance");
       fetchData2();
     }
   };
+  function AverageQuota(data) {
+    const sum = data.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.y,
+      0
+    );
+    const average = sum / data.length;
+    return average.toFixed(2);
+  }
 
   function SeeIfUndfined() {
     if (dataSource !== undefined) {
-      //console.log(dataSource);
       return new Array(dataSource.length).fill(null).map((_, i) => {
         fetchData2(dataSource[i].id);
-        console.log(dataSource[i]);
-        console.log(dataSource2);
+        const average = AverageQuota(myDataSources[i]);
         return (
           <Card
             type="inner"
@@ -100,11 +127,9 @@ const Workstations = () => {
                 <p style={{ marginTop: "10px" }}>
                   Expected Quota : {dataSource[i].expectedQuota}
                 </p>
+                <p style={{ marginTop: "40px" }}>Average Quota : {average}</p>
                 <p style={{ marginTop: "40px" }}>
-                  Expected Quota : {dataSource[i].expectedQuota}
-                </p>
-                <p style={{ marginTop: "40px" }}>
-                  Expected Quota : {dataSource[i].expectedQuota}
+                  Diference : {(average - dataSource[i].expectedQuota).toFixed(2)}
                 </p>
               </Col>
               <Col style={{ alignItems: "end" }}>
@@ -128,7 +153,7 @@ const Workstations = () => {
                   <Legend />
                   <Scatter
                     name="Worker Quota per day"
-                    data={dataSource2}
+                    data={myDataSources[i]}
                     fill="#497174"
                   />
                 </ScatterChart>

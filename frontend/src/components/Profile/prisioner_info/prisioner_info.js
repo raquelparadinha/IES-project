@@ -48,13 +48,10 @@ function Prisioner_info(id) {
         <>
           <p style={{ color: "#12494c" }}>Id: {dataSource.id}</p>
           <p style={{ color: "#12494c" }}>
-            WorkStationID: {dataSource.workstationId}
+            Solitary: {dataSource.solitary.toString()}
           </p>
           <p style={{ color: "#12494c" }}>
             HealthLogID: {dataSource.healthLogId}
-          </p>
-          <p style={{ color: "#12494c" }}>
-            Solitary: {dataSource.solitary.toString()}
           </p>
           <p style={{ color: "#12494c" }}>Birthdate: {dataSource.birthDate}</p>
           <p style={{ color: "#12494c" }}>
@@ -97,7 +94,7 @@ function Prisioner_info(id) {
               Cholestrol: {dataSource2.cholesterol}
             </p>
             <p style={{ color: "#12494c" }}>
-              Toxic Screen:  {dataSource2.toxicScreen}
+              Toxic Screen: {dataSource2.toxicScreen}
             </p>
           </>
         );

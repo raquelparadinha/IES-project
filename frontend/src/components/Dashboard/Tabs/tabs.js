@@ -65,7 +65,7 @@ const Example = (props) => {
   useEffect(() => {
     const interval = setInterval(() => {
       fetchData();
-    }, 10000);
+    }, 100000);
     return () => clearInterval(interval);
   }, []);
   if (dataSource === undefined) {
