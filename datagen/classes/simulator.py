@@ -142,8 +142,11 @@ class Simulator():
     def moveInmate(self):
         inmateidx = randint(1, len(self.inmates)) - 1
         inmate = self.inmates[inmateidx]
-
+        
         possiblesensors = [s for s in self.sensors if s.active and s.entry == inmate.area]
+        if inmate.motivate():
+            possiblesensors = [s for s in possiblesensors if s.active and s.exit.name in ['infirmary', 'jobwing']]
+
         if possiblesensors == []:
             print(inmate.area)
             return None, None
