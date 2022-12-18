@@ -9,7 +9,7 @@ from classes import Inmate, Area, Sensor, Workstation
 
 HEALTHFILE = 'data/health.json'
 
-RIOT_CHANCE = 100 # %
+RIOT_CHANCE = 4 # %
 
 class Simulator():
     def __init__(self, host, port, username='user1', password='user1'):
@@ -167,10 +167,14 @@ class Simulator():
         sensor = possiblesensors[sensoridx]
 
         if len([i for i in self.inmates if i.area == sensor.exit]) < sensor.exit.capacity:
-            pass
-            # TODO if full remove nigga
-
-        inmate.area = sensor.exit
+            inmate.area = sensor.exit
+            return inmate, sensor
+            
+        area = sensor.exit
+        areainmates = [i for i in self.inmates if i.area == area]
+        inmate = areainmates[randint(1, len(areainmates)) - 1]
+        possiblesensors = [s for s in self.sensors if s.active and s.entry == area]
+        sensor = possiblesensors[randint(1, len(possiblesensors)) - 1]
         return inmate, sensor
 
     def tryRiot(self, area):
@@ -198,9 +202,8 @@ class Simulator():
                 val = normal(self.healthvalues[key]['mean'], self.healthvalues[key]['range'], 1)[0]
             return val
 
-
-        healthcheck = {key: int(genValue(key))  for key in self.healthvalues.keys()}
-        healthcheck = {key: healthcheck[key] if healthcheck[key] > 0 else 0 for key in healthcheck.keys()}
+        healthcheck = {key: int(genValue(key)) for key in self.healthvalues.keys()}
+        healthcheck['toxic_screen'] = 0 if healthcheck['toxic_screen'] < 70 else 1 if healthcheck['toxic_screen'] < 90 else 2
         return healthcheck
 
     def makeWork(self):
