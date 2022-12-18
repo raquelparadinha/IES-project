@@ -26,7 +26,7 @@ def main():
         for m in messages:
             sender.send(m)
 
-        sleep(0.5)
+        sleep(0.005)
 
     print('1')
     consumer_thread.join()

@@ -85,7 +85,8 @@ class Simulator():
         for i in inmatedata:
             id = i['_id']
             startarea = possibleblocks[randint(1, len(possibleblocks)) - 1]
-            self.inmates.append(Inmate(id, startarea))
+            solitary = i['solitary']
+            self.inmates.append(Inmate(id, startarea, solitary))
 
     # constric/expand generated data according to msg received
     def processmsg(self, msg):
@@ -107,6 +108,13 @@ class Simulator():
             elif msgtype == 'delinmate':
                 inmate = [i for i in self.inmates if i.id == inmateid][0]
                 self.inmates.remove(inmate)
+
+        elif msgtype in ['solitary']:
+            inmateid = jmsg['inmateid']
+            inmate = [i for i in self.inmates if i.id == inmateid][0]
+
+            inmate.solitary = False if inmate.solitary else True
+            # TODO location too
 
     # main loop method
     def run(self):
@@ -145,10 +153,11 @@ class Simulator():
     def moveInmate(self):
         inmateidx = randint(1, len(self.inmates)) - 1
         inmate = self.inmates[inmateidx]
-        
+
         possiblesensors = [s for s in self.sensors if s.active and s.entry == inmate.area]
         if inmate.motivate():
-            possiblesensors = [s for s in possiblesensors if s.active and s.exit.name in ['infirmary', 'jobwing']]
+            logareas = ['infirmary', 'jobwing']
+            possiblesensors = [s for s in possiblesensors if s.active and s.exit.name in logareas]
 
         if possiblesensors == []:
             print(inmate.area)
@@ -156,6 +165,10 @@ class Simulator():
 
         sensoridx = randint(1, len(possiblesensors)) - 1
         sensor = possiblesensors[sensoridx]
+
+        if len([i for i in self.inmates if i.area == sensor.exit]) < sensor.exit.capacity:
+            pass
+            # TODO if full remove nigga
 
         inmate.area = sensor.exit
         return inmate, sensor
