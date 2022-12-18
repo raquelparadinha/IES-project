@@ -23,6 +23,7 @@ import Guard_Profile from "./components/Profile/guard_profile";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Workstations from "./components/Workstations/workstations";
+import MapaEstricado from "./components/MapaEstricado/MapaEstricado";
 
 function App() {
   const [dataSource, setDataSource] = useState();
@@ -150,7 +151,7 @@ function Content() {
         ></Route>
         <Route path="/notifications" element={<Notifications />}></Route>
         <Route path="/workstations" element={<Workstations />}></Route>
-        <Route path="/profile" element={<Prisioner_Profile />}></Route>
+        <Route path="/profile" element={<MapaEstricado />}></Route>
         <Route path="/login" element={<Login />}></Route>
       </Routes>
     </div>
