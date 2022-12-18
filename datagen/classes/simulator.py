@@ -28,6 +28,9 @@ class Simulator():
         self.username = username
         self.password = password
 
+        self.riotcounter = 0
+        self.lastriot = None
+
         try:
             connstr = 'mongodb://' + self.host + ':' + str(self.port) + '/'
             self.client = MongoClient(connstr)
@@ -158,10 +161,18 @@ class Simulator():
         return inmate, sensor
 
     def tryRiot(self, area):
+        if self.lastriot == area:
+            self.riotcounter += 1
+            if self.riotcounter <= 50:
+                return False
+
         count = len([inmate for inmate in self.inmates if inmate.area == area])
         if count > area.capacity:
             if randint(0, 100) >= RIOT_CHANCE:
                 return False
+            
+            self.riotcounter = 0
+            self.lastriot = area
             return True
 
     def makeHealthcheck(self):
