@@ -162,9 +162,18 @@ class Simulator():
             return True
 
     def makeHealthcheck(self):
-        healthcheck = {key: normal(self.healthvalues[key]['mean'], self.healthvalues[key]['range'], 1)[0] for key in self.healthvalues.keys()}
-        healthcheck = {key: int(healthcheck[key]) if healthcheck[key] > 0 else 1 for key in healthcheck.keys()}
+        def genValue(key):
+            val = 0
+            minimum = self.healthvalues[key]['mean'] - self.healthvalues[key]['range']
+            maximum = self.healthvalues[key]['mean'] + self.healthvalues[key]['range']
 
+            while not minimum < val < maximum:
+                val = normal(self.healthvalues[key]['mean'], self.healthvalues[key]['range'], 1)[0]
+            return val
+
+
+        healthcheck = {key: int(genValue(key))  for key in self.healthvalues.keys()}
+        healthcheck = {key: healthcheck[key] if healthcheck[key] > 0 else 0 for key in healthcheck.keys()}
         return healthcheck
 
     def makeWork(self):
