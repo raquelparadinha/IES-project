@@ -1,7 +1,7 @@
 [
-  { "_id": 1, "name": "mail_sorting", "description": "mail_sorting", "workLogIds": [], "expectedQuota": 16 },
-  { "_id": 2, "name": "carpentry", "description": "carpentry", "workLogIds": [], "expectedQuota": 25 },
-  { "_id": 3, "name": "waste_disposal", "description": "waste_disposal", "workLogIds": [], "expectedQuota": 25 },
-  { "_id": 4, "name": "janitor", "description": "janitor", "workLogIds": [], "expectedQuota": 30 },
-  { "_id": 5, "name": "gardening", "description": "gardening", "workLogIds": [], "expectedQuota": 20 }
+  { "_id": 1, "name": "mail_sorting", "description": "Mail Sorting", "workLogIds": [], "expectedQuota": 16 },
+  { "_id": 2, "name": "carpentry", "description": "Carpentry", "workLogIds": [], "expectedQuota": 25 },
+  { "_id": 3, "name": "waste_disposal", "description": "Waste Disposal", "workLogIds": [], "expectedQuota": 25 },
+  { "_id": 4, "name": "janitor", "description": "Janitor", "workLogIds": [], "expectedQuota": 30 },
+  { "_id": 5, "name": "gardening", "description": "Gardening", "workLogIds": [], "expectedQuota": 20 }
 ]

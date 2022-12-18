@@ -13,6 +13,7 @@ public class MoveSensor {
 
     private long entryAreaId;
     private long exitAreaId;
+    private boolean active;
     private List<Long> moveLogIds;
 
     private static long counter = 0;
@@ -21,10 +22,11 @@ public class MoveSensor {
         this.id = 0;
     }
     
-    public MoveSensor(long id, long entryAreaId, long exitAreaId, List<Long> moveLogIds) {
+    public MoveSensor(long id, long entryAreaId, long exitAreaId, boolean active, List<Long> moveLogIds) {
         this.id = id;
         this.entryAreaId = entryAreaId;
         this.exitAreaId = exitAreaId;
+        this.active = active;
         this.moveLogIds = moveLogIds;
     }
 
@@ -38,6 +40,9 @@ public class MoveSensor {
     }
     public long getExitAreaId() {
         return exitAreaId;
+    }
+    public boolean isActive() {
+        return active;
     }
     public long getId() {
         return id;
@@ -59,6 +64,9 @@ public class MoveSensor {
     }
     public void setId(long id) {
         this.id = id;
+    }
+    public void setActive(boolean active) {
+        this.active = active;
     }
     public void setMoveLogIds(List<Long> moveLogIds) {
         this.moveLogIds = moveLogIds;

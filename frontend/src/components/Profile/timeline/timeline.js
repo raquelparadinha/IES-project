@@ -2,7 +2,10 @@ import React from "react";
 import { Card, Col, Space, Timeline } from "antd";
 const timeline_prisioner = () => {
   return (
-    <Card title="Movements Timeline">
+    <Card
+      title={<div style={{ color: "#12494c" }}>Movements Timeline</div>}
+      style={{ backgroundColor: "#D6E4E5" }}
+    >
       <Space>
         <Col
           style={{
@@ -10,7 +13,10 @@ const timeline_prisioner = () => {
             alignItems: "center",
           }}
         >
-          <Card title="1-4">
+          <Card
+            title={<div style={{ color: "#12494c" }}>1-4</div>}
+            style={{ backgroundColor: "#EFF5F5" }}
+          >
             <Timeline mode="left" pending="Next Move" reverse={true}>
               <Timeline.Item label="4">
                 Solve initial network problems
@@ -31,7 +37,10 @@ const timeline_prisioner = () => {
             alignItems: "center",
           }}
         >
-          <Card title="5-9">
+          <Card
+            title={<div style={{ color: "#12494c" }}>5-9</div>}
+            style={{ backgroundColor: "#EFF5F5" }}
+          >
             <Timeline mode="left">
               <Timeline.Item label="5">Create a services</Timeline.Item>
               <Timeline.Item label="6">
@@ -53,7 +62,10 @@ const timeline_prisioner = () => {
             alignItems: "center",
           }}
         >
-          <Card title="10-14">
+          <Card
+            title={<div style={{ color: "#12494c" }}>10-14</div>}
+            style={{ backgroundColor: "#EFF5F5" }}
+          >
             <Timeline mode="left">
               <Timeline.Item label="10">Create a services</Timeline.Item>
               <Timeline.Item label="11">

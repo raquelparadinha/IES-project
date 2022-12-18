@@ -33,7 +33,7 @@ public class WorkLogService {
     }
 
     public long getNextId() {
-        long max_id = 1;
+        long max_id = 0;
         for (WorkLog alert : getWorkLogs()) {
             long id = alert.getId();
             if (id > max_id) {

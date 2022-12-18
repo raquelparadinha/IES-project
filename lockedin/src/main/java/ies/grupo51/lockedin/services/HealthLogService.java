@@ -32,12 +32,12 @@ public class HealthLogService {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 
-    public HealthLog getHealthLogByInmateId(long inmateId) {
+    public List<HealthLog> getHealthLogByInmateId(long inmateId) {
         return repository.findByInmateId(inmateId);
     }
 
     public long getNextId() {
-        long max_id = 1;
+        long max_id = 0;
         for (HealthLog alert : getHealthLogs()) {
             long id = alert.getId();
             if (id > max_id) {
