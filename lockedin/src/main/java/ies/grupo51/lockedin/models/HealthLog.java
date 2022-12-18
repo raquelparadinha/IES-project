@@ -1,6 +1,7 @@
 package ies.grupo51.lockedin.models;
 
-import java.time.LocalDate;
+import java.time.Instant;
+import java.util.Date;
 
 import org.json.JSONObject;
 import org.springframework.data.annotation.Id;
@@ -14,7 +15,7 @@ public class HealthLog {
 
     private long inmateId;
 
-    private LocalDate timestamp;
+    private Date timestamp;
     private int heartBeat;
     private int stress;
     private int glicose;
@@ -30,7 +31,7 @@ public class HealthLog {
 
     public HealthLog(long id, long inmateId, int heartBeat, int stress, int glicose, int uricAcid, int cholesterol, int toxicScreen) {
         this.id = id;
-        this.timestamp = LocalDate.now();
+        this.timestamp = Date.from(Instant.now());
         this.inmateId = inmateId;
         this.heartBeat = heartBeat;
         this.stress = stress;
@@ -42,7 +43,7 @@ public class HealthLog {
 
     public HealthLog(long id, long inmateId, JSONObject hc) {
         this.id = id;
-        this.timestamp = LocalDate.now();
+        this.timestamp = Date.from(Instant.now());
         this.inmateId = inmateId;
         this.heartBeat = hc.getInt("heart_beat");
         this.stress = hc.getInt("stress_level");
@@ -57,7 +58,7 @@ public class HealthLog {
     public long getId() {
         return id;
     }
-    public LocalDate getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
     public int getCholesterol() {
@@ -90,7 +91,7 @@ public class HealthLog {
     public void setId(long id) {
         this.id = id;
     }
-    public void setTimestamp(LocalDate timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
     public void setCholesterol(int cholesterol) {
@@ -121,7 +122,7 @@ public class HealthLog {
     @Override
     public String toString() {
         return String.format(
-            "HealthLog [ID %d, Inmate ID: %d, Heart Beat: %d, Strees: %d, Glicose: %d, Uric Acid: %d, Cholesterol: %d, Toxic Screen: %d]", 
-            this.id, this.inmateId, this.heartBeat, this.stress, this.glicose, this.uricAcid, this.cholesterol, this.toxicScreen);
+            "HealthLog [ID %d, Inmate ID: %d, Heart Beat: %d, Strees: %d, Glicose: %d, Uric Acid: %d, Cholesterol: %d, Toxic Screen: %d, Timestamp: $s]", 
+            this.id, this.inmateId, this.heartBeat, this.stress, this.glicose, this.uricAcid, this.cholesterol, this.toxicScreen, this.timestamp.toString());
     }
 }

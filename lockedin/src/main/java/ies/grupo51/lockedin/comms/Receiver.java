@@ -141,7 +141,7 @@ public class Receiver {
                 inmate.setHealthLogId(logId); // adicionar um move aos move logs
                 inmateService.updateInmate(inmate); // guardar na base de dados
                 // Trigger health alert
-                HealthAlert healthAlert = new HealthAlert(alertService.getNextId(), "health", "Inmmate "+inmate.getName()+" is not feeling well");
+                HealthAlert healthAlert = new HealthAlert(alertService.getNextId(), "health", "Inmate "+inmate.getName()+" is not feeling well");
                 List<String> symptoms = new ArrayList<>();
                 // HEART BEAT
                 if (healthLog.getHeartBeat() > 130) {
