@@ -1,5 +1,8 @@
 package ies.grupo51.lockedin.models;
 
+import java.time.Instant;
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,6 +14,7 @@ public class WorkLog {
 
     private long inmateId;
     private long workStationId;
+    private Date timestamp;
     private int quota;
 
     private static long counter = 0;
@@ -23,6 +27,7 @@ public class WorkLog {
         this.id = id;
         this.inmateId = inmateId;
         this.workStationId = workStationId;
+        this.timestamp = Date.from(Instant.now());
         this.quota = quota;
     }
 
@@ -43,6 +48,9 @@ public class WorkLog {
     public void setWorkStationId(long workStationId) {
         this.workStationId = workStationId;
     }
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
 
     // GETS
 
@@ -61,11 +69,14 @@ public class WorkLog {
     public long getWorkStationId() {
         return workStationId;
     }
+    public Date getTimestamp() {
+        return timestamp;
+    }
 
     @Override
     public String toString() {
         return String.format(
-            "WorkLog [ID: %d, Inmate Id: %d, WorkStation Id: %d, Quota: %d]", 
-            this.id, this.inmateId, this.workStationId, this.quota);
+            "WorkLog [ID: %d, Inmate Id: %d, WorkStation Id: %d, Timestamp: $s, Quota: %d]", 
+            this.id, this.inmateId, this.workStationId, this.timestamp.toString(), this.quota);
     }
 }

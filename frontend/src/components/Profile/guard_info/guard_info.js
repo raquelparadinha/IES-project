@@ -30,7 +30,7 @@ function Guard_info(id) {
   const fetchData2 = () => {
     try {
       return axios
-        .get("http://localhost:5001/api/guard/" + id + "/sidebar")
+        .get("http://localhost:5001/api/guard/" + id + "/details")
         .then((response) => setDataSource2(response.data));
     } catch {
       console.log("Deu pylance");
