@@ -32,6 +32,10 @@ public class AlertService {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }
 
+    public List<Alert> getAlertByType(String type) {
+        return repository.findByType(type);
+    }
+
     public long getNextId() {
         long max_id = 0;
         for (Alert alert : getAlerts()) {

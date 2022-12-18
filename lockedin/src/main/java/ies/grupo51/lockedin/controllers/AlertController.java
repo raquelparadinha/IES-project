@@ -28,7 +28,7 @@ public class AlertController {
     @GetMapping("")
     public ResponseEntity<List<Alert>> getAllAlerts(){
         List<Alert> alerts = alertService.getAlerts();
-        alerts.sort((alert1, alert2) -> alert1.getTimestamp().compareTo(alert2.getTimestamp()));
+        alerts.sort((alert1, alert2) -> -alert1.getTimestamp().compareTo(alert2.getTimestamp()));
         if (alerts.size() > 30) {
             alerts = alerts.subList(0, 30);
         }
@@ -43,11 +43,43 @@ public class AlertController {
                 data.add(alert);
             }
         }
-        data.sort((alert1, alert2) -> alert1.getTimestamp().compareTo(alert2.getTimestamp()));
+        data.sort((alert1, alert2) -> -alert1.getTimestamp().compareTo(alert2.getTimestamp()));
         if (data.size() > 5) {
             data = data.subList(0, 5);
         }
         return ResponseEntity.ok().body(data);
+    }
+
+    @GetMapping("/riot")
+    public ResponseEntity<List<Alert>> getRiotAlerts(){
+        List<Alert> alerts = alertService.getAlertByType("riot");
+        alerts.sort((alert1, alert2) -> -alert1.getTimestamp().compareTo(alert2.getTimestamp()));
+        
+        if (alerts.size() > 30) {
+            alerts = alerts.subList(0, 30);
+        }
+        return ResponseEntity.ok().body(alerts);
+    }
+
+    @GetMapping("/work")
+    public ResponseEntity<List<Alert>> getWorkAlerts(){
+        List<Alert> alerts = alertService.getAlertByType("work");
+        alerts.sort((alert1, alert2) -> -alert1.getTimestamp().compareTo(alert2.getTimestamp()));
+        if (alerts.size() > 30) {
+            alerts = alerts.subList(0, 30);
+        }
+        return ResponseEntity.ok().body(alerts);
+    }
+
+    @GetMapping("/health")
+    public ResponseEntity<List<Alert>> getHealthAlerts(){
+        List<Alert> alerts = alertService.getAlertByType("health");
+        alerts.sort((alert1, alert2) -> -alert1.getTimestamp().compareTo(alert2.getTimestamp()));
+        
+        if (alerts.size() > 30) {
+            alerts = alerts.subList(0, 30);
+        }
+        return ResponseEntity.ok().body(alerts);
     }
 
 }

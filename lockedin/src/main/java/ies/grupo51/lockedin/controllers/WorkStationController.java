@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
+import ies.grupo51.lockedin.models.Inmate;
+import ies.grupo51.lockedin.models.WorkLog;
 import ies.grupo51.lockedin.models.WorkStation;
+import ies.grupo51.lockedin.services.InmateService;
 import ies.grupo51.lockedin.services.WorkLogService;
 import ies.grupo51.lockedin.services.WorkStationService;
 
@@ -29,6 +32,9 @@ public class WorkStationController {
 
     @Autowired
     public WorkLogService workLogService;
+
+    @Autowired
+    public InmateService inmateService;
 
     // GET METHODS
 
@@ -52,6 +58,16 @@ public class WorkStationController {
             insert.put("y", workLogService.getWorkLogById(workLogIds.get(i)).getQuota());
             data.add(insert);
         }
+        return ResponseEntity.ok().body(data);
+    }
+
+    @GetMapping("worklog/{id}/inmate")
+    public ResponseEntity<HashMap<String, Object>> getWorkLogInmateInfo(@PathVariable(value = "id") long id ) throws ResourceNotFoundException{
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("workLogId", id);
+        WorkLog workLog = workLogService.getWorkLogById(id);
+        Inmate inmate = inmateService.getInmateById(workLog.getInmateId());
+        data.put("inmateName", inmate.getName());
         return ResponseEntity.ok().body(data);
     }
 }
