@@ -22,7 +22,7 @@
   { "_id": 21, "entryAreaId": 5, "exitAreaId": 10, "active": false, "moveLogIds": [] },
   { "_id": 22, "entryAreaId": 10, "exitAreaId": 5, "active": false, "moveLogIds": [] },
   { "_id": 23, "entryAreaId": 7, "exitAreaId": 9, "active": true, "moveLogIds": [] },
-  { "_id": 24, "entyAreaId": 9, "exitAreaId": 7, "active": true, "moveLogIds": [] },
+  { "_id": 24, "entryAreaId": 9, "exitAreaId": 7, "active": true, "moveLogIds": [] },
   { "_id": 25, "entryAreaId": 8, "exitAreaId": 11, "active": true, "moveLogIds": [] },
   { "_id": 26, "entryAreaId": 11, "exitAreaId": 8, "active": true, "moveLogIds": [] },
   { "_id": 27, "entryAreaId": 9, "exitAreaId": 10, "active": false, "moveLogIds": [] },
