@@ -37,10 +37,7 @@ function Notifications() {
     setInterval(fetchData(), 10000); // The function will be called
   }, []);
 
-  // while (dataSource === undefined) {
-  //   console.log("pylance");
-  //   fetchData();
-  // }
+  fetchData();
   console.log(dataSource);
   return (
     <>

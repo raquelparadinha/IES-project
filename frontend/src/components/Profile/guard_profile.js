@@ -10,11 +10,7 @@ const tabList = [
   {
     key: "guard_info",
     tab: "Guard Info",
-  },
-  //   {
-  //     key: "timeline",
-  //     tab: "Timeline",
-  //   },
+  }
 ];
 
 function Guard_Profile() {
