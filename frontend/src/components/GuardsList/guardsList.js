@@ -152,7 +152,7 @@ function GuardsList() {
   };
 
   useEffect(() => {
-    setInterval(fetchData(), 300000); // The function will be called
+    setInterval(fetchData(), 10000); // The function will be called
   }, []);
 
   const navigate = useNavigate();

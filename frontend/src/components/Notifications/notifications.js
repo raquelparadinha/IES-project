@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, message, Space } from "antd";
+import axios from "axios";
 
 const onClick = ({ key }) => {
   //message.info(`Click on item ${key}`);
@@ -22,219 +23,238 @@ const items = [
   },
 ];
 
-const Notifications = () => (
-  <>
-    <Col>
-      <Card
-        title={
-          <div style={{ textAlign: "center", color: "#12494c" }}>
-            Notifications
-          </div>
-        }
-        style={{ backgroundColor: "#D6E4E5" }}
-      >
+function Notifications() {
+  const [dataSource, setDataSource] = useState();
+  const fetchData = () => {
+    //console.log("dataaa");
+    return axios
+      .get("http://localhost:5001/api/alert")
+      .then((response) => setDataSource(response.data));
+  };
+
+  useEffect(() => {
+    setInterval(fetchData(), 10000); // The function will be called
+  }, []);
+
+  // while (dataSource === undefined) {
+  //   console.log("pylance")
+  //   fetchData();
+  // }
+  console.log(dataSource);
+  return (
+    <>
+      <Col>
         <Card
-          type="inner"
-          headStyle={{ backgroundColor: "#c2d8d8" }}
-          bodyStyle={{ backgroundColor: "#eff5f5" }}
-          title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-          extra={
-            <Dropdown
-              menu={{
-                items,
-                onClick,
-              }}
-            >
-              <a
-                onClick={(e) => e.preventDefault()}
-                style={{ color: "#169197" }}
-              >
-                <Space>
-                  More
-                  <DownOutlined />
-                </Space>
-              </a>
-            </Dropdown>
+          title={
+            <div style={{ textAlign: "center", color: "#12494c" }}>
+              Notifications
+            </div>
           }
+          style={{ backgroundColor: "#D6E4E5" }}
         >
-          ESTRILHO MESMO COMPLICADO NA CANTINA
-        </Card>
-        <Card
-          style={{
-            marginTop: 16,
-          }}
-          headStyle={{ backgroundColor: "#c2d8d8" }}
-          bodyStyle={{ backgroundColor: "#eff5f5" }}
-          type="inner"
-          title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-          extra={
-            <Dropdown
-              menu={{
-                items,
-                onClick,
-              }}
-            >
-              <a
-                onClick={(e) => e.preventDefault()}
-                style={{ color: "#169197" }}
+          <Card
+            type="inner"
+            headStyle={{ backgroundColor: "#c2d8d8" }}
+            bodyStyle={{ backgroundColor: "#eff5f5" }}
+            title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
+            extra={
+              <Dropdown
+                menu={{
+                  items,
+                  onClick,
+                }}
               >
-                <Space>
-                  More
-                  <DownOutlined />
-                </Space>
-              </a>
-            </Dropdown>
-          }
-        >
-          ESTRILHO MESMO COMPLICADO NA CANTINA
-        </Card>
-        <Card
-          headStyle={{ backgroundColor: "#c2d8d8" }}
-          bodyStyle={{ backgroundColor: "#eff5f5" }}
-          style={{
-            marginTop: 16,
-          }}
-          type="inner"
-          title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-          extra={
-            <Dropdown
-              menu={{
-                items,
-                onClick,
-              }}
-            >
-              <a
-                onClick={(e) => e.preventDefault()}
-                style={{ color: "#169197" }}
+                <a
+                  onClick={(e) => e.preventDefault()}
+                  style={{ color: "#169197" }}
+                >
+                  <Space>
+                    More
+                    <DownOutlined />
+                  </Space>
+                </a>
+              </Dropdown>
+            }
+          >
+            ESTRILHO MESMO COMPLICADO NA CANTINA
+          </Card>
+          <Card
+            style={{
+              marginTop: 16,
+            }}
+            headStyle={{ backgroundColor: "#c2d8d8" }}
+            bodyStyle={{ backgroundColor: "#eff5f5" }}
+            type="inner"
+            title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
+            extra={
+              <Dropdown
+                menu={{
+                  items,
+                  onClick,
+                }}
               >
-                <Space>
-                  More
-                  <DownOutlined />
-                </Space>
-              </a>
-            </Dropdown>
-          }
-        >
-          ESTRILHO MESMO COMPLICADO NA CANTINA
-        </Card>
-        <Card
-          headStyle={{ backgroundColor: "#c2d8d8" }}
-          bodyStyle={{ backgroundColor: "#eff5f5" }}
-          style={{
-            marginTop: 16,
-          }}
-          type="inner"
-          title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-          extra={
-            <Dropdown
-              menu={{
-                items,
-                onClick,
-              }}
-            >
-              <a
-                onClick={(e) => e.preventDefault()}
-                style={{ color: "#169197" }}
+                <a
+                  onClick={(e) => e.preventDefault()}
+                  style={{ color: "#169197" }}
+                >
+                  <Space>
+                    More
+                    <DownOutlined />
+                  </Space>
+                </a>
+              </Dropdown>
+            }
+          >
+            ESTRILHO MESMO COMPLICADO NA CANTINA
+          </Card>
+          <Card
+            headStyle={{ backgroundColor: "#c2d8d8" }}
+            bodyStyle={{ backgroundColor: "#eff5f5" }}
+            style={{
+              marginTop: 16,
+            }}
+            type="inner"
+            title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
+            extra={
+              <Dropdown
+                menu={{
+                  items,
+                  onClick,
+                }}
               >
-                <Space>
-                  More
-                  <DownOutlined />
-                </Space>
-              </a>
-            </Dropdown>
-          }
-        >
-          ESTRILHO MESMO COMPLICADO NA CANTINA
-        </Card>
-        <Card
-          headStyle={{ backgroundColor: "#c2d8d8" }}
-          bodyStyle={{ backgroundColor: "#eff5f5" }}
-          style={{
-            marginTop: 16,
-          }}
-          type="inner"
-          title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-          extra={
-            <Dropdown
-              menu={{
-                items,
-                onClick,
-              }}
-            >
-              <a
-                onClick={(e) => e.preventDefault()}
-                style={{ color: "#169197" }}
+                <a
+                  onClick={(e) => e.preventDefault()}
+                  style={{ color: "#169197" }}
+                >
+                  <Space>
+                    More
+                    <DownOutlined />
+                  </Space>
+                </a>
+              </Dropdown>
+            }
+          >
+            ESTRILHO MESMO COMPLICADO NA CANTINA
+          </Card>
+          <Card
+            headStyle={{ backgroundColor: "#c2d8d8" }}
+            bodyStyle={{ backgroundColor: "#eff5f5" }}
+            style={{
+              marginTop: 16,
+            }}
+            type="inner"
+            title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
+            extra={
+              <Dropdown
+                menu={{
+                  items,
+                  onClick,
+                }}
               >
-                <Space>
-                  More
-                  <DownOutlined />
-                </Space>
-              </a>
-            </Dropdown>
-          }
-        >
-          ESTRILHO MESMO COMPLICADO NA CANTINA
-        </Card>
-        <Card
-          headStyle={{ backgroundColor: "#c2d8d8" }}
-          bodyStyle={{ backgroundColor: "#eff5f5" }}
-          style={{
-            marginTop: 16,
-          }}
-          type="inner"
-          title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-          extra={
-            <Dropdown
-              menu={{
-                items,
-                onClick,
-              }}
-            >
-              <a
-                onClick={(e) => e.preventDefault()}
-                style={{ color: "#169197" }}
+                <a
+                  onClick={(e) => e.preventDefault()}
+                  style={{ color: "#169197" }}
+                >
+                  <Space>
+                    More
+                    <DownOutlined />
+                  </Space>
+                </a>
+              </Dropdown>
+            }
+          >
+            ESTRILHO MESMO COMPLICADO NA CANTINA
+          </Card>
+          <Card
+            headStyle={{ backgroundColor: "#c2d8d8" }}
+            bodyStyle={{ backgroundColor: "#eff5f5" }}
+            style={{
+              marginTop: 16,
+            }}
+            type="inner"
+            title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
+            extra={
+              <Dropdown
+                menu={{
+                  items,
+                  onClick,
+                }}
               >
-                <Space>
-                  More
-                  <DownOutlined />
-                </Space>
-              </a>
-            </Dropdown>
-          }
-        >
-          ESTRILHO MESMO COMPLICADO NA CANTINA
-        </Card>
-        <Card
-          headStyle={{ backgroundColor: "#c2d8d8" }}
-          bodyStyle={{ backgroundColor: "#eff5f5" }}
-          style={{
-            marginTop: 16,
-          }}
-          type="inner"
-          title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-          extra={
-            <Dropdown
-              menu={{
-                items,
-                onClick,
-              }}
-            >
-              <a
-                onClick={(e) => e.preventDefault()}
-                style={{ color: "#169197" }}
+                <a
+                  onClick={(e) => e.preventDefault()}
+                  style={{ color: "#169197" }}
+                >
+                  <Space>
+                    More
+                    <DownOutlined />
+                  </Space>
+                </a>
+              </Dropdown>
+            }
+          >
+            ESTRILHO MESMO COMPLICADO NA CANTINA
+          </Card>
+          <Card
+            headStyle={{ backgroundColor: "#c2d8d8" }}
+            bodyStyle={{ backgroundColor: "#eff5f5" }}
+            style={{
+              marginTop: 16,
+            }}
+            type="inner"
+            title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
+            extra={
+              <Dropdown
+                menu={{
+                  items,
+                  onClick,
+                }}
               >
-                <Space>
-                  More
-                  <DownOutlined />
-                </Space>
-              </a>
-            </Dropdown>
-          }
-        >
-          ESTRILHO MESMO COMPLICADO NA CANTINA
+                <a
+                  onClick={(e) => e.preventDefault()}
+                  style={{ color: "#169197" }}
+                >
+                  <Space>
+                    More
+                    <DownOutlined />
+                  </Space>
+                </a>
+              </Dropdown>
+            }
+          >
+            ESTRILHO MESMO COMPLICADO NA CANTINA
+          </Card>
+          <Card
+            headStyle={{ backgroundColor: "#c2d8d8" }}
+            bodyStyle={{ backgroundColor: "#eff5f5" }}
+            style={{
+              marginTop: 16,
+            }}
+            type="inner"
+            title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
+            extra={
+              <Dropdown
+                menu={{
+                  items,
+                  onClick,
+                }}
+              >
+                <a
+                  onClick={(e) => e.preventDefault()}
+                  style={{ color: "#169197" }}
+                >
+                  <Space>
+                    More
+                    <DownOutlined />
+                  </Space>
+                </a>
+              </Dropdown>
+            }
+          >
+            ESTRILHO MESMO COMPLICADO NA CANTINA
+          </Card>
         </Card>
-      </Card>
-    </Col>
-  </>
-);
+      </Col>
+    </>
+  );
+}
 export default Notifications;
