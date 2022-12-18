@@ -15,15 +15,15 @@ import ies.grupo51.lockedin.models.MoveSensorLog;
 import ies.grupo51.lockedin.models.WorkLog;
 import ies.grupo51.lockedin.models.WorkStation;
 import ies.grupo51.lockedin.models.Area;
-import ies.grupo51.lockedin.models.EstiaAlert;
-import ies.grupo51.lockedin.models.EstrilhoAlert;
+import ies.grupo51.lockedin.models.WorkAlert;
+import ies.grupo51.lockedin.models.RiotAlert;
 import ies.grupo51.lockedin.models.HealthAlert;
 import ies.grupo51.lockedin.models.HealthLog;
 import ies.grupo51.lockedin.models.Inmate;
 import ies.grupo51.lockedin.services.AlertService;
 import ies.grupo51.lockedin.services.AreaService;
-import ies.grupo51.lockedin.services.EstiaAlertService;
-import ies.grupo51.lockedin.services.EstrilhoAlertService;
+import ies.grupo51.lockedin.services.WorkAlertService;
+import ies.grupo51.lockedin.services.RiotAlertService;
 import ies.grupo51.lockedin.services.HealthAlertService;
 import ies.grupo51.lockedin.services.HealthLogService;
 import ies.grupo51.lockedin.services.InmateService;
@@ -36,8 +36,8 @@ import ies.grupo51.lockedin.services.WorkStationService;
 public class Receiver {
 
     @Autowired private AlertService alertService;
-    @Autowired private EstiaAlertService estiaAlertService;
-    @Autowired private EstrilhoAlertService estrilhoAlertService;
+    @Autowired private WorkAlertService workAlertService;
+    @Autowired private RiotAlertService riotAlertService;
     @Autowired private HealthAlertService healthAlertService;
     @Autowired private AreaService areaService;
     @Autowired private InmateService inmateService;
@@ -91,12 +91,18 @@ public class Receiver {
             case "riot":
                 // Trigger riot alert
                 Area area = areaService.getAreaById(jmsg.getInt("areaid"));
-                EstrilhoAlert estrilhoAlert = new EstrilhoAlert(
+                for (long inmateId : area.getCurrentInmateIds()) {
+                    Inmate inmateInRiot = inmateService.getInmateById(inmateId);
+                    inmateInRiot.setDanger(inmateInRiot.getDanger()+1);
+                    inmateService.updateInmate(inmateInRiot);
+                }
+                RiotAlert riotAlert = new RiotAlert(
                     alertService.getNextId(),
                     "riot",
                     ("There's a riot at "+area.getName()),
-                    area.getId());
-                estrilhoAlertService.saveAlert(estrilhoAlert);
+                    area.getId(),
+                    area.getCurrentInmateIds());
+                    riotAlertService.saveRiotAlert(riotAlert);
                 break;
 
             case "work":
@@ -115,11 +121,11 @@ public class Receiver {
                 workStationService.updatWorkStation(workStation);
                 // Trigger work alert
                 if (workStation.getExpectedQuota() > workLog.getQuota()) {
-                    EstiaAlert estiaAlert = new EstiaAlert(alertService.getNextId(), 
-                    "estia", 
+                    WorkAlert workAlert = new WorkAlert(alertService.getNextId(), 
+                    "work", 
                     "Inmate "+inmate.getName()+" is not doing an expected job",
                     logId);
-                    estiaAlertService.saveAlert(estiaAlert);
+                    workAlertService.saveWorkAlert(workAlert);
                 }
                 break;
             

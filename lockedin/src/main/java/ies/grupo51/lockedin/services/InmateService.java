@@ -47,6 +47,11 @@ public class InmateService {
         existingInmate.setSolitary(inmate.getSolitary());
         existingInmate.setEntryDate(inmate.getEntryDate());
         existingInmate.setAreaId(inmate.getAreaId());
+        if (existingInmate.getSolitary() == true) {
+            existingInmate.setAreaId(10); // Send to Solitary
+        }
+        // Must contact datagen
+        existingInmate.setDanger(inmate.getDanger());
         existingInmate.setWorkLogIds(inmate.getWorkLogIds());
         existingInmate.setMoveLogIds(inmate.getMoveLogIds());
         existingInmate.setHealthLogId(inmate.getHealthLogId());
