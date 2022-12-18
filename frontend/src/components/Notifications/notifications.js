@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Card, Col } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import {
+  DownOutlined,
+  LoadingOutlined,
+  ToolFilled,
+  HeartFilled,
+  AlertFilled,
+} from "@ant-design/icons";
 import { Dropdown, message, Space } from "antd";
 import axios from "axios";
 
@@ -8,7 +14,7 @@ const onClick = ({ key }) => {
   //message.info(`Click on item ${key}`);
   message.info(key);
 };
-const items = [
+let items = [
   {
     label: "Mark as viewed",
     key: "1",
@@ -23,236 +29,128 @@ const items = [
   },
 ];
 
+const icons = {
+  health: <HeartFilled />,
+  work: <ToolFilled />,
+  riot: <AlertFilled />,
+};
+
+const back_colors = {
+  health: "#C3D8C2",
+  work: "#DBDB9E",
+  riot: "#D8C3C2",
+};
+
+const colors = {
+  health: "#134C12",
+  work: "#757717",
+  riot: "#771B17",
+};
+
 function Notifications() {
   const [dataSource, setDataSource] = useState();
-  const fetchData = () => {
-    //console.log("dataaa");
-    return axios.get("http://localhost:5001/api/alert").then((response) => {
-      setDataSource(response.data);
-      console.log(dataSource)
-    });
-  };
+  const [currentPage, setCurrentPage] = useState(1);
+  const [cardsPerPage] = useState(6);
 
+  const fetchData = () => {
+    console.log(dataSource);
+    try {
+      return axios
+        .get("http://localhost:5001/api/alert")
+        .then((response) => setDataSource(response.data));
+    } catch {
+      console.log("Deu pylance");
+      fetchData();
+    }
+  };
   useEffect(() => {
-    setInterval(fetchData(), 10000); // The function will be called
-  }, []);
+    const interval = setInterval(() => {
+      fetchData();
+    }, 30000);
+    return () => clearInterval(interval);
+  });
 
   fetchData();
   console.log(dataSource);
-  return (
-    <>
-      <Col>
-        <Card
-          title={
-            <div style={{ textAlign: "center", color: "#12494c" }}>
-              Notifications
-            </div>
-          }
-          style={{ backgroundColor: "#D6E4E5" }}
-        >
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  let currentCards;
+
+  if (dataSource !== undefined) {
+    currentCards = dataSource.slice(indexOfFirstCard, indexOfLastCard);
+
+    return (
+      <>
+        <Col>
           <Card
-            type="inner"
-            headStyle={{ backgroundColor: "#c2d8d8" }}
-            bodyStyle={{ backgroundColor: "#eff5f5" }}
-            title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-            extra={
-              <Dropdown
-                menu={{
-                  items,
-                  onClick,
-                }}
-              >
-                <a
-                  onClick={(e) => e.preventDefault()}
-                  style={{ color: "#169197" }}
-                >
-                  <Space>
-                    More
-                    <DownOutlined />
-                  </Space>
-                </a>
-              </Dropdown>
+            title={
+              <div style={{ textAlign: "center", color: "#12494c" }}>
+                Notifications
+              </div>
             }
-          >
-            ESTRILHO MESMO COMPLICADO NA CANTINA
-          </Card>
-          <Card
-            style={{
-              marginTop: 16,
+            bodyStyle={{
+              display: "flex",
+              justifyContent: "center",
             }}
-            headStyle={{ backgroundColor: "#c2d8d8" }}
-            bodyStyle={{ backgroundColor: "#eff5f5" }}
-            type="inner"
-            title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-            extra={
-              <Dropdown
-                menu={{
-                  items,
-                  onClick,
-                }}
-              >
-                <a
-                  onClick={(e) => e.preventDefault()}
-                  style={{ color: "#169197" }}
-                >
-                  <Space>
-                    More
-                    <DownOutlined />
-                  </Space>
-                </a>
-              </Dropdown>
-            }
+            style={{ backgroundColor: "#D6E4E5" }}
           >
-            ESTRILHO MESMO COMPLICADO NA CANTINA
+            <Space direction="vertical">
+              {currentCards.map((card) => {
+                items = [
+                  {
+                    label: "Health Log ID: " + card.healthLogId,
+                    key: "1",
+                  },
+                  {
+                    label: "Time Stamp: " + card.timestamp,
+                    key: "2",
+                  },
+                ];
+                return (
+                  <Card
+                    //
+                    headStyle={{ backgroundColor: back_colors[`${card.type}`] }}
+                    bodyStyle={{ backgroundColor: "#eff5f5" }}
+                    style={{
+                      marginTop: 16,
+                      width: "1000px",
+                    }}
+                    type="inner"
+                    title={
+                      <div style={{ color: colors[`${card.type}`] }}>
+                        {icons[`${card.type}`]}{" "}
+                        {card.type.charAt(0).toUpperCase() + card.type.slice(1)}
+                      </div>
+                    }
+                    extra={
+                      <Dropdown menu={{ items }}>
+                        <a
+                          onClick={(e) => e.preventDefault()}
+                          style={{ color: colors[`${card.type}`] }}
+                        >
+                          <Space>
+                            More
+                            <DownOutlined />
+                          </Space>
+                        </a>
+                      </Dropdown>
+                    }
+                  >
+                    {card.information}
+                  </Card>
+                );
+              })}
+            </Space>
           </Card>
-          <Card
-            headStyle={{ backgroundColor: "#c2d8d8" }}
-            bodyStyle={{ backgroundColor: "#eff5f5" }}
-            style={{
-              marginTop: 16,
-            }}
-            type="inner"
-            title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-            extra={
-              <Dropdown
-                menu={{
-                  items,
-                  onClick,
-                }}
-              >
-                <a
-                  onClick={(e) => e.preventDefault()}
-                  style={{ color: "#169197" }}
-                >
-                  <Space>
-                    More
-                    <DownOutlined />
-                  </Space>
-                </a>
-              </Dropdown>
-            }
-          >
-            ESTRILHO MESMO COMPLICADO NA CANTINA
-          </Card>
-          <Card
-            headStyle={{ backgroundColor: "#c2d8d8" }}
-            bodyStyle={{ backgroundColor: "#eff5f5" }}
-            style={{
-              marginTop: 16,
-            }}
-            type="inner"
-            title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-            extra={
-              <Dropdown
-                menu={{
-                  items,
-                  onClick,
-                }}
-              >
-                <a
-                  onClick={(e) => e.preventDefault()}
-                  style={{ color: "#169197" }}
-                >
-                  <Space>
-                    More
-                    <DownOutlined />
-                  </Space>
-                </a>
-              </Dropdown>
-            }
-          >
-            ESTRILHO MESMO COMPLICADO NA CANTINA
-          </Card>
-          <Card
-            headStyle={{ backgroundColor: "#c2d8d8" }}
-            bodyStyle={{ backgroundColor: "#eff5f5" }}
-            style={{
-              marginTop: 16,
-            }}
-            type="inner"
-            title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-            extra={
-              <Dropdown
-                menu={{
-                  items,
-                  onClick,
-                }}
-              >
-                <a
-                  onClick={(e) => e.preventDefault()}
-                  style={{ color: "#169197" }}
-                >
-                  <Space>
-                    More
-                    <DownOutlined />
-                  </Space>
-                </a>
-              </Dropdown>
-            }
-          >
-            ESTRILHO MESMO COMPLICADO NA CANTINA
-          </Card>
-          <Card
-            headStyle={{ backgroundColor: "#c2d8d8" }}
-            bodyStyle={{ backgroundColor: "#eff5f5" }}
-            style={{
-              marginTop: 16,
-            }}
-            type="inner"
-            title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-            extra={
-              <Dropdown
-                menu={{
-                  items,
-                  onClick,
-                }}
-              >
-                <a
-                  onClick={(e) => e.preventDefault()}
-                  style={{ color: "#169197" }}
-                >
-                  <Space>
-                    More
-                    <DownOutlined />
-                  </Space>
-                </a>
-              </Dropdown>
-            }
-          >
-            ESTRILHO MESMO COMPLICADO NA CANTINA
-          </Card>
-          <Card
-            headStyle={{ backgroundColor: "#c2d8d8" }}
-            bodyStyle={{ backgroundColor: "#eff5f5" }}
-            style={{
-              marginTop: 16,
-            }}
-            type="inner"
-            title={<div style={{ color: "#12494c" }}>ESTRILHO</div>}
-            extra={
-              <Dropdown
-                menu={{
-                  items,
-                  onClick,
-                }}
-              >
-                <a
-                  onClick={(e) => e.preventDefault()}
-                  style={{ color: "#169197" }}
-                >
-                  <Space>
-                    More
-                    <DownOutlined />
-                  </Space>
-                </a>
-              </Dropdown>
-            }
-          >
-            ESTRILHO MESMO COMPLICADO NA CANTINA
-          </Card>
-        </Card>
-      </Col>
-    </>
-  );
+        </Col>
+      </>
+    );
+  } else {
+    return (
+      <div>
+        <LoadingOutlined />
+      </div>
+    );
+  }
 }
 export default Notifications;

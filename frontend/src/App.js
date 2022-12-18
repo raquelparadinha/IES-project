@@ -25,25 +25,6 @@ import { useEffect, useState } from "react";
 import Workstations from "./components/Workstations/workstations";
 
 function App() {
-  const [dataSource, setDataSource] = useState();
-  const fetchData = () => {
-    //console.log(dataSource);
-    try {
-      return axios
-        .get("http://localhost:5001/api/alert")
-        .then((response) => setDataSource(response.data));
-    } catch {
-      console.log("Deu pylance");
-      fetchData();
-    }
-  };
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchData();
-    }, 30000);
-    return () => clearInterval(interval);
-  });
-  fetchData();
   return (
     <div
       style={{
