@@ -1,11 +1,10 @@
 import json
 from random import randint
 from time import sleep
+
+from classes import Area, Inmate, Sensor, Workstation
 from numpy.random import normal
-
 from pymongo import MongoClient
-
-from classes import Inmate, Area, Sensor, Workstation
 
 HEALTHFILE = 'data/health.json'
 

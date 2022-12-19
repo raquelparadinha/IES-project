@@ -1,6 +1,5 @@
-from time import sleep
-
 from threading import Thread
+from time import sleep
 
 from classes import *
 from comms import *
