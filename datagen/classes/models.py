@@ -34,11 +34,12 @@ class Workstation():
 
 class Inmate():
     maxmotiv = 3
-    def __init__(self, id: int, startarea: Area):
+    def __init__(self, id: int, startarea: Area, solitary: bool):
         
         self.id = id
         self.motivation = randint(0, Inmate.maxmotiv - 1)
         self.area = startarea
+        self.solitary = solitary
 
     def motivate(self):
         self.motivation += 1
