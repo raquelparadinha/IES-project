@@ -10,8 +10,6 @@ import {
 import { Dropdown, message, Space, Pagination } from "antd";
 import axios from "axios";
 
-let items = [];
-
 const icons = {
   health: <HeartFilled />,
   work: <ToolFilled />,
@@ -63,6 +61,44 @@ function Notifications() {
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   let currentCards;
 
+  function Pagination_on() {
+    if (dataSource.length > 0) {
+      return (
+        <Pagination
+          current={currentPage}
+          onChange={handlePageChange}
+          total={dataSource.length}
+          pageSize={cardsPerPage}
+        />
+      );
+    } else {
+      return "No Data Available";
+    }
+  }
+
+  function Alert_type(card) {
+    if (card.type === "health") {
+      const items = card.symptoms.map((symptom) => ({
+        key: symptom,
+        label: symptom,
+      }));
+
+      return (
+        <Dropdown menu={{ items }}>
+          <a
+            onClick={(e) => e.preventDefault()}
+            style={{ color: colors[`${card.type}`] }}
+          >
+            <Space>
+              Symptoms
+              <DownOutlined />
+            </Space>
+          </a>
+        </Dropdown>
+      );
+    }
+  }
+
   if (dataSource !== undefined) {
     currentCards = dataSource.slice(indexOfFirstCard, indexOfLastCard);
 
@@ -83,16 +119,6 @@ function Notifications() {
           >
             <Space direction="vertical">
               {currentCards.map((card) => {
-                items = [
-                  {
-                    label: "Health Log ID: " + card.healthLogId,
-                    key: "1",
-                  },
-                  {
-                    label: "Time Stamp: " + card.timestamp,
-                    key: "2",
-                  },
-                ];
                 return (
                   <Card
                     //
@@ -109,30 +135,13 @@ function Notifications() {
                         {card.type.charAt(0).toUpperCase() + card.type.slice(1)}
                       </div>
                     }
-                    extra={
-                      <Dropdown menu={{ items }}>
-                        <a
-                          onClick={(e) => e.preventDefault()}
-                          style={{ color: colors[`${card.type}`] }}
-                        >
-                          <Space>
-                            More
-                            <DownOutlined />
-                          </Space>
-                        </a>
-                      </Dropdown>
-                    }
+                    extra={Alert_type(card)}
                   >
                     {card.information}
                   </Card>
                 );
               })}
-              <Pagination
-                current={currentPage}
-                onChange={handlePageChange}
-                total={dataSource.length}
-                pageSize={cardsPerPage}
-              />
+              {Pagination_on()}
             </Space>
           </Card>
         </Col>
