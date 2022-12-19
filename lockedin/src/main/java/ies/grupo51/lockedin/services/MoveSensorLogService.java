@@ -32,13 +32,14 @@ public class MoveSensorLogService {
     }
 
     public long getNextId() {
-        long max_id = 1;
+        long max_id = 0;
         for (MoveSensorLog alert : getMoveSensorLogs()) {
             long id = alert.getId();
             if (id > max_id) {
                 max_id = id;
             }
         }
+        
         return max_id+1;
     }
 }

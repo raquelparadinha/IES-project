@@ -9,32 +9,151 @@ import {
   Form,
   Card,
 } from "antd";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   DeleteOutlined,
   EditOutlined,
   EyeOutlined,
+  SearchOutlined,
 } from "@ant-design/icons/lib/icons";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import Highlighter from "react-highlight-words";
+import moment from "moment";
+
 dayjs.extend(customParseFormat);
 
 const { RangePicker } = DatePicker;
 const dateFormat = "MM/DD/YYYY";
 
 function PrisionersList() {
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef(null);
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText("");
+  };
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+      close,
+    }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: "block",
+          }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({
+                closeDropdown: false,
+              });
+              setSearchText(selectedKeys[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            close
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? "#1890ff" : undefined,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: "#ffc069",
+            padding: 0,
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ""}
+        />
+      ) : (
+        text
+      ),
+  });
+
   const [dataSource, setDataSource] = useState();
   const fetchData = () => {
-    console.log("dataaa");
+    //console.log("dataaa");
     return axios
       .get("http://localhost:5001/api/inmate")
       .then((response) => setDataSource(response.data));
   };
 
   useEffect(() => {
-    setInterval(fetchData(), 300000); // The function will be called
+    setInterval(fetchData(), 10000); // The function will be called
   }, []);
 
   const navigate = useNavigate();
@@ -44,11 +163,40 @@ function PrisionersList() {
   //console.log(dataSource);
   const columns = [
     // prisioner main traits
-    { key: 1, title: "ID", dataIndex: "id", className: "custom-row" },
-    { key: 2, title: "Name", dataIndex: "name" },
-    { key: 3, title: "Birthdate", dataIndex: "birthDate" },
-    { key: 4, title: "Sentece Start", dataIndex: "entryDate" },
-    { key: 5, title: "Sentence End", dataIndex: "sentenceEnd" },
+    {
+      key: 1,
+      title: "ID",
+      dataIndex: "id",
+      className: "custom-row",
+      ...getColumnSearchProps("id"),
+    },
+    {
+      key: 2,
+      title: "Name",
+      dataIndex: "name",
+      ...getColumnSearchProps("name"),
+    },
+    {
+      key: 3,
+      title: "Birthdate",
+      dataIndex: "birthDate",
+      ...getColumnSearchProps("birthDate"),
+    },
+    {
+      key: 4,
+      title: "Sentece Start",
+      dataIndex: "entryDate",
+      ...getColumnSearchProps("entryDate"),
+    },
+    {
+      key: 5,
+      title: "Sentence End",
+      dataIndex: "sentenceEnd",
+      ...getColumnSearchProps("sentenceEnd"),
+      sorter: (a, b) =>
+        new Date(moment(a.sentenceEnd, "MM/DD/YYYY")) -
+        new Date(moment(b.sentenceEnd, "MM/DD/YYYY ")),
+    },
 
     {
       key: 6,
@@ -115,8 +263,8 @@ function PrisionersList() {
   };
 
   function editPrisioner(Edited_prisioner) {
-    console.log(typeof Edited_prisioner);
-    console.log(Edited_prisioner.id);
+    //console.log(typeof Edited_prisioner);
+    //console.log(Edited_prisioner.id);
     try {
       axios.put(
         "http://localhost:5001/api/inmate/" + Edited_prisioner.id,
@@ -146,7 +294,7 @@ function PrisionersList() {
         moveLogIds: [],
         workLogIds: [],
       };
-      console.log(new_prisioner);
+      //console.log(new_prisioner);
       try {
         axios.post("http://localhost:5001/api/inmate", new_prisioner);
       } catch (error) {
@@ -169,7 +317,7 @@ function PrisionersList() {
       });
       return true;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       Modal.error({
         title: "Add Error",
         content: `Prisioner was not added to the database due to and error.`,
@@ -179,7 +327,7 @@ function PrisionersList() {
   };
 
   const [form] = Form.useForm();
-  console.log(dataSource);
+  //console.log(dataSource);
   return (
     <div style={{ textAlign: "center" }}>
       <Card
@@ -262,9 +410,9 @@ function PrisionersList() {
                 if (e === null) {
                   return { ...pre };
                 } else {
-                  console.log(pre);
-                  console.log(e[0].format(dateFormat));
-                  console.log(e[1].format(dateFormat));
+                  //console.log(pre);
+                  //console.log(e[0].format(dateFormat));
+                  //console.log(e[1].format(dateFormat));
                   return {
                     ...pre,
                     entryDate: e[0].format(dateFormat),

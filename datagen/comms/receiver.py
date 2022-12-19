@@ -10,7 +10,7 @@ class Receiver():
         self.connclose()
 
     def conninit(self):
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672))
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq', 5672))
         self.channel = self.connection.channel()
 
         self.channel.queue_declare(queue=self.queue)
@@ -24,5 +24,5 @@ class Receiver():
         
         self.channel.basic_consume(queue=self.queue, on_message_callback=callback, auto_ack=True)
 
-        print('waiting for messages...')
+        print('Consumer thread waiting for messages...')
         self.channel.start_consuming()

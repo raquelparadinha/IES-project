@@ -7,26 +7,26 @@ from comms import *
 
 areasfile = 'mongodb/seeddata/areas.json'
 sensorfile = 'mongodb/seeddata/moveSensors.json'
-healthfile = 'datagen/data/health.json'
 workstationsfile = 'mongodb/seeddata/workstations.json'
 inmatesfile = 'mongodb/seeddata/inmates.json'
 
+MONGO_HOST = "mongodb"
+MONGO_PORT = 27017
+
 def main():
-    sim = Simulator(areasfile, sensorfile, workstationsfile, inmatesfile, healthfile)
+    sim = Simulator(MONGO_HOST, MONGO_PORT)
     receiver = Receiver()
     sender = Sender()
 
     consumer_thread = Thread(target=receiver.recv, args=(sim,))
     consumer_thread.start()
     
-    control = 0
-    while(control < 10):
+    while(True):
         messages = sim.run()
         for m in messages:
             sender.send(m)
 
-        sleep(1)
-        control += 1
+        sleep(0.3)
 
     print('1')
     consumer_thread.join()

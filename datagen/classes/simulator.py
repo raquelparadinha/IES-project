@@ -1,14 +1,18 @@
 import json
 from random import randint
 from time import sleep
+from numpy.random import normal
+
+from pymongo import MongoClient
 
 from classes import Inmate, Area, Sensor, Workstation
-from numpy.random import normal
+
+HEALTHFILE = 'data/health.json'
 
 RIOT_CHANCE = 4 # %
 
 class Simulator():
-    def __init__(self, areasfile, sensorfile, workstationsfile, inmatesfile, healthfile):
+    def __init__(self, host, port, username='user1', password='user1'):
         def loadfile(filename):
             try:
                 with open(filename, 'r') as f:
@@ -18,16 +22,34 @@ class Simulator():
                 exit(1)
             
             return data
+
+        self.host = host
+        self.port = port
+        self.username = username
+        self.password = password
+
+        self.riotcounter = 0
+        self.lastriot = None
+
+        try:
+            connstr = 'mongodb://' + self.host + ':' + str(self.port) + '/'
+            self.client = MongoClient(connstr)
+        except:
+            print('Connection to mongo container failed. Exiting.')
+            exit(1)
+
+        self.db = self.client['lockedin']
         
-        areasf = loadfile(areasfile)
-        sensorf = loadfile(sensorfile)
-        healthf = loadfile(healthfile)
-        workstationsf = loadfile(workstationsfile)
-        inmatesf = loadfile(inmatesfile)
+        areadata = [a for a in self.db['area'].find()]
+        sensordata = [s for s in self.db['moveSensor'].find()]
+        workstationdata = [w for w in self.db['workStation'].find()]
+        inmatedata = [i for i in self.db['inmate'].find()]
+
+        healthdata = loadfile(HEALTHFILE)
 
         # init areas
         self.areas = []
-        for i in areasf:
+        for i in areadata:
             id = i['_id']
             name = i['name']
             capacity = i['capacity']
@@ -36,7 +58,7 @@ class Simulator():
 
         # init sensors
         self.sensors = []
-        for i in sensorf:
+        for i in sensordata:
             id = i['_id']
             entry = [l for l in self.areas if l.id == i['entryAreaId']][0]
             out = [l for l in self.areas if l.id == i['exitAreaId']][0]
@@ -45,26 +67,26 @@ class Simulator():
 
         # init health values
         self.healthvalues = {}
-        for i in healthf:
+        for i in healthdata:
             name = i['name']
             genvals = i['genvals']
             self.healthvalues[name] = genvals
 
         # init workstations
         self.workstations = []
-        for i in workstationsf:
+        for i in workstationdata:
             id = i['_id']
             name = i['name']
-            listings = i['capacity']
-            self.workstations.append(Workstation(id, name, listings))
+            self.workstations.append(Workstation(id, name))
 
         # init inamtes
         self.inmates = []
         possibleblocks = [l for l in self.areas if l.id in [7, 8]]
-        for i in inmatesf:
+        for i in inmatedata:
             id = i['_id']
-            startarea = possibleblocks[randint(1, len(possibleblocks)) - 1]
-            self.inmates.append(Inmate(id, startarea))
+            startarea = [a for a in self.areas if i['areaId'] == a.id][0]
+            solitary = i['solitary']
+            self.inmates.append(Inmate(id, startarea, solitary))
 
     # constric/expand generated data according to msg received
     def processmsg(self, msg):
@@ -87,6 +109,13 @@ class Simulator():
                 inmate = [i for i in self.inmates if i.id == inmateid][0]
                 self.inmates.remove(inmate)
 
+        elif msgtype in ['solitary']:
+            inmateid = jmsg['inmateid']
+            inmate = [i for i in self.inmates if i.id == inmateid][0]
+
+            inmate.solitary = False if inmate.solitary else True
+            # TODO location too
+
     # main loop method
     def run(self):
         messages = []
@@ -98,25 +127,25 @@ class Simulator():
             msg['sensorid'] = sensor.id
             messages.append(msg)
 
-        if self.tryRiot(sensor.exit):
-            msg = {'type': 'riot'}
-            msg['areaid'] = sensor.exit.id
-            messages.append(msg)
+            if self.tryRiot(sensor.exit):
+                msg = {'type': 'riot'}
+                msg['areaid'] = sensor.exit.id
+                messages.append(msg)
 
-        if sensor.exit.name == 'jobwing':
-            ws, wq = self.makeWork()
-            msg = {'type': 'work'}
-            msg['inmateid'] = inmate.id
-            msg['workstationid'] = ws.id
-            msg['workquota'] = wq
-            messages.append(msg)
+            if sensor.entry.name == 'jobwing':
+                ws, wq = self.makeWork()
+                msg = {'type': 'work'}
+                msg['inmateid'] = inmate.id
+                msg['workstationid'] = ws.id
+                msg['workquota'] = wq
+                messages.append(msg)
 
-        elif sensor.exit.name == 'infirmary':
-            hc = self.makeHealthcheck()
-            msg = {'type': 'healthcheck'}
-            msg['inmateid'] = inmate.id
-            msg['healthcheck'] = hc
-            messages.append(msg)
+            elif sensor.exit.name == 'infirmary':
+                hc = self.makeHealthcheck()
+                msg = {'type': 'healthcheck'}
+                msg['inmateid'] = inmate.id
+                msg['healthcheck'] = hc
+                messages.append(msg)
 
         return messages
 
@@ -126,26 +155,55 @@ class Simulator():
         inmate = self.inmates[inmateidx]
 
         possiblesensors = [s for s in self.sensors if s.active and s.entry == inmate.area]
+        if inmate.motivate():
+            logareas = ['infirmary', 'jobwing']
+            possiblesensors = [s for s in possiblesensors if s.active and s.exit.name in logareas]
+
         if possiblesensors == []:
+            print(inmate.area)
             return None, None
 
         sensoridx = randint(1, len(possiblesensors)) - 1
         sensor = possiblesensors[sensoridx]
 
-        inmate.area = sensor.exit
+        if len([i for i in self.inmates if i.area == sensor.exit]) < sensor.exit.capacity:
+            inmate.area = sensor.exit
+            return inmate, sensor
+            
+        area = sensor.exit
+        areainmates = [i for i in self.inmates if i.area == area]
+        inmate = areainmates[randint(1, len(areainmates)) - 1]
+        possiblesensors = [s for s in self.sensors if s.active and s.entry == area]
+        sensor = possiblesensors[randint(1, len(possiblesensors)) - 1]
         return inmate, sensor
 
     def tryRiot(self, area):
+        if self.lastriot == area:
+            self.riotcounter += 1
+            if self.riotcounter <= 50:
+                return False
+
         count = len([inmate for inmate in self.inmates if inmate.area == area])
         if count > area.capacity:
             if randint(0, 100) >= RIOT_CHANCE:
                 return False
+            
+            self.riotcounter = 0
+            self.lastriot = area
             return True
 
     def makeHealthcheck(self):
-        healthcheck = {key: normal(self.healthvalues[key]['mean'], self.healthvalues[key]['range'], 1)[0] for key in self.healthvalues.keys()}
-        healthcheck = {key: int(healthcheck[key]) if healthcheck[key] > 0 else 1 for key in healthcheck.keys()}
+        def genValue(key):
+            val = 0
+            minimum = self.healthvalues[key]['mean'] - self.healthvalues[key]['range']
+            maximum = self.healthvalues[key]['mean'] + self.healthvalues[key]['range']
 
+            while not minimum < val < maximum:
+                val = normal(self.healthvalues[key]['mean'], self.healthvalues[key]['range'], 1)[0]
+            return val
+
+        healthcheck = {key: int(genValue(key)) for key in self.healthvalues.keys()}
+        healthcheck['toxic_screen'] = 0 if healthcheck['toxic_screen'] < 70 else 1 if healthcheck['toxic_screen'] < 90 else 2
         return healthcheck
 
     def makeWork(self):

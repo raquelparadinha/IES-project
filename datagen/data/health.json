@@ -37,8 +37,8 @@
   {
     "name": "toxic_screen",
     "genvals": {
-      "mean": -2,
-      "range": 5
+      "mean": 50,
+      "range": 50
     }
   }
 ]

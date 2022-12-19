@@ -27,7 +27,7 @@ function Prisioner_info(id) {
   const fetchData2 = () => {
     try {
       return axios
-        .get("http://localhost:5001/api/inmate/" + id + "/health")
+        .get("http://localhost:5001/api/inmate/" + id + "/health/last")
         .then((response) => setDataSource2(response.data));
     } catch {
       console.log("Deu pylance");
@@ -43,18 +43,15 @@ function Prisioner_info(id) {
 
   function SeeIfUndfined() {
     if (dataSource !== undefined) {
-      console.log(dataSource);
+      //console.log(dataSource);
       return (
         <>
           <p style={{ color: "#12494c" }}>Id: {dataSource.id}</p>
           <p style={{ color: "#12494c" }}>
-            WorkStationID: {dataSource.workstationId}
+            Solitary: {dataSource.solitary.toString()}
           </p>
           <p style={{ color: "#12494c" }}>
             HealthLogID: {dataSource.healthLogId}
-          </p>
-          <p style={{ color: "#12494c" }}>
-            Solitary: {dataSource.solitary.toString()}
           </p>
           <p style={{ color: "#12494c" }}>Birthdate: {dataSource.birthDate}</p>
           <p style={{ color: "#12494c" }}>
@@ -77,28 +74,32 @@ function Prisioner_info(id) {
 
   function SeeIfUndfined2() {
     if (dataSource2 !== undefined) {
-      console.log(dataSource2[0]);
-      if (dataSource2.length > 0) {
-        return dataSource2.map((healthLog) => (
+      //console.log(dataSource2 == []);
+      if (dataSource2 != []) {
+        return (
           <>
-            <p style={{ color: "#12494c" }}>HeartBeat: {healthLog.heartBeat}</p>
             <p style={{ color: "#12494c" }}>
-              Stress Levels: {healthLog.stress}
+              HeartBeat: {dataSource2.heartBeat}
             </p>
             <p style={{ color: "#12494c" }}>
-              Glicose Levels: {healthLog.glicose}
-            </p>
-            <p style={{ color: "#12494c" }}>Uric Acid: {healthLog.uricAcid}</p>
-            <p style={{ color: "#12494c" }}>
-              Cholestrol: {healthLog.cholesterol}
+              Stress Levels: {dataSource2.stress}
             </p>
             <p style={{ color: "#12494c" }}>
-              Toxic Screen: {healthLog.toxicScreen}
+              Glicose Levels: {dataSource2.glicose}
+            </p>
+            <p style={{ color: "#12494c" }}>
+              Uric Acid: {dataSource2.uricAcid}
+            </p>
+            <p style={{ color: "#12494c" }}>
+              Cholestrol: {dataSource2.cholesterol}
+            </p>
+            <p style={{ color: "#12494c" }}>
+              Toxic Screen: {dataSource2.toxicScreen}
             </p>
           </>
-        ));
+        );
       } else {
-        return <p>No Data Available</p>;
+        return <p>No data available</p>;
       }
     } else {
       fetchData2();

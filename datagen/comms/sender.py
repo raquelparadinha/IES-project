@@ -12,7 +12,7 @@ class Sender():
         self.connclose()
 
     def conninit(self):
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672))
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq', 5672))
         self.channel = self.connection.channel()
 
         self.channel.queue_declare(queue=self.queue)
@@ -22,5 +22,5 @@ class Sender():
 
     def send(self, msg):
         msg = json.dumps(msg)
+        print('sent {}'.format(msg), flush=True)
         self.channel.basic_publish(exchange='', routing_key=self.queue, body=msg)
-        print('sent {}'.format(msg))

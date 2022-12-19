@@ -39,7 +39,7 @@ function InmateNumbers() {
   }, []);
 
   function SeeIfUndfined() {
-    console.log(dataSource);
+    //console.log(dataSource);
     if (dataSource !== undefined) {
       return dataSource.map((zone) => (
         <>

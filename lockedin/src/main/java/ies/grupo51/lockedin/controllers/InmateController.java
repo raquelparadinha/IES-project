@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
-import ies.grupo51.lockedin.models.Area;
 import ies.grupo51.lockedin.models.HealthLog;
 import ies.grupo51.lockedin.models.Inmate;
 import ies.grupo51.lockedin.models.MoveSensor;
@@ -54,43 +53,43 @@ public class InmateController {
 
     // GET METHODS
 
-    @GetMapping("") // ✓ feito ✓
+    @GetMapping("") 
     public  ResponseEntity<List<Inmate>> getInmates() {
 
         return ResponseEntity.ok().body(inmateService.getInmates());
     }
     
-    @GetMapping("/number") // ✓ feito ✓
+    @GetMapping("/number") 
     public  ResponseEntity<Integer> getInmatesNumber() {
         return ResponseEntity.ok().body(inmateService.getInmates().size());
     }
 
-    @GetMapping("/{id}") // ✓ feito ✓
+    @GetMapping("/{id}") 
     public ResponseEntity<Inmate> getInmateById(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
         return ResponseEntity.ok().body(inmateService.getInmateById(id));
     }
 
-    @GetMapping("/leaving") // ✓ feito ✓
-    public ResponseEntity<List<Inmate>> getLeavingInmates() {
-        List<Inmate> data = inmateService.getInmates();
-        data.sort(((inmate1, inmate2) -> inmate1.getSentenceEnd().compareTo(inmate2.getSentenceEnd())));
-        return ResponseEntity.ok().body(data);
-    }
+    // @GetMapping("/leaving") 
+    // public ResponseEntity<List<Inmate>> getLeavingInmates() {
+    //     List<Inmate> data = inmateService.getInmates();
+    //     data.sort(((inmate1, inmate2) -> inmate1.getSentenceEnd().compareTo(inmate2.getSentenceEnd())));
+    //     return ResponseEntity.ok().body(data);
+    // }
 
-    @GetMapping("/leaving/{number}") // ✓ feito ✓
-    public ResponseEntity<List<Inmate>> getLeavingInmatesNumber(@PathVariable(value = "number") int number) {
-        List<Inmate> inmates = inmateService.getInmates();
-        inmates.sort(((inmate1, inmate2) -> inmate1.getSentenceEnd().compareTo(inmate2.getSentenceEnd())));
-        List<Inmate> data = new ArrayList<>();
-        for (Inmate inmate : inmates) {
-            if (number == data.size()) {
-                return ResponseEntity.ok().body(data);
-            }
-            data.add(inmate);
-        }
-        return ResponseEntity.ok().body(data);
+    // @GetMapping("/leaving/{number}")
+    // public ResponseEntity<List<Inmate>> getLeavingInmatesNumber(@PathVariable(value = "number") int number) {
+    //     List<Inmate> inmates = inmateService.getInmates();
+    //     inmates.sort(((inmate1, inmate2) -> inmate1.getSentenceEnd().compareTo(inmate2.getSentenceEnd())));
+    //     List<Inmate> data = new ArrayList<>();
+    //     for (Inmate inmate : inmates) {
+    //         if (number == data.size()) {
+    //             return ResponseEntity.ok().body(data);
+    //         }
+    //         data.add(inmate);
+    //     }
+    //     return ResponseEntity.ok().body(data);
         
-    }
+    // }
     
     // HEALTH /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -98,11 +97,22 @@ public class InmateController {
     public ResponseEntity<List<HealthLog>> getAllHealLogs() {
         return ResponseEntity.ok().body(healthLogService.getHealthLogs());
     }
+
     @GetMapping("/{id}/health")
     public ResponseEntity<List<HealthLog>> getHealthLogsOfInmate(@PathVariable(value = "id") Long id) {
-        return ResponseEntity.ok().body(healthLogService.getHealthLogByInmateId(id));
+        List<HealthLog> healthLogs =  healthLogService.getHealthLogByInmateId(id);
+        healthLogs.sort((healthLog1,healthLog2) -> healthLog1.getTimestamp().compareTo(healthLog2.getTimestamp()));
+        return ResponseEntity.ok().body(healthLogs);
     }
 
+    @GetMapping("/{id}/health/last")
+    public ResponseEntity<HealthLog> getLastHealthLogOfInmate(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
+        Inmate inmate = inmateService.getInmateById(id);
+        if (inmate.getHealthLogId() == 0){
+            return ResponseEntity.ok().body(null);
+        }
+        return ResponseEntity.ok().body(healthLogService.getHealthLogById(inmate.getHealthLogId()));
+    }
 
     @GetMapping("/all/health/heartbeat/data")
     public ResponseEntity<List<HashMap<String, Integer>>> getDataHeartBeat() throws ResourceNotFoundException {
@@ -222,13 +232,29 @@ public class InmateController {
 
     @GetMapping("/{id}/moves")
     public ResponseEntity<List<String>> getAreasInmateHaveBeenTo(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
-        Inmate inmate = inmateService.getInmateById(id);
         List<String> data = new ArrayList<>();
+        List<MoveSensorLog> moveSensorLogs = new ArrayList<>();
+        Inmate inmate = inmateService.getInmateById(id);
         for (Long moveSensorLogId : inmate.getMoveLogIds()) {
-            MoveSensorLog moveSensorLog = moveSensorLogService.getMoveSensorLogById(moveSensorLogId);
+            moveSensorLogs.add(moveSensorLogService.getMoveSensorLogById(moveSensorLogId));
+        }
+        moveSensorLogs.sort((moveSensorLog1, moveSensorLog2) -> -moveSensorLog1.getTimestamp().compareTo(moveSensorLog2.getTimestamp()));
+        for (MoveSensorLog moveSensorLog : moveSensorLogs) {
             MoveSensor moveSensor = moveSensorService.getMoveSensorById(moveSensorLog.getSensorId());
-            Area area = areaService.getAreaById(moveSensor.getEntryAreaId());
-            data.add(area.getName());
+            data.add(areaService.getAreaById(moveSensor.getEntryAreaId()).getName());
+        }
+        if (data.size() == 0 ) { // || data.get(0) != areaService.getAreaById(inmate.getAreaId()).getName()
+            data.add(0,areaService.getAreaById(inmate.getAreaId()).getName());
+        }
+        return ResponseEntity.ok().body(data);
+    }
+
+    @GetMapping("/{id}/moves/details")
+    public ResponseEntity<List<MoveSensor>> getAreasInmateHaveBeenToDetails(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
+        List<MoveSensor> data = new ArrayList<>();
+        for (long moveLogId : inmateService.getInmateById(id).getMoveLogIds()) {
+            MoveSensorLog moveSensorLog = moveSensorLogService.getMoveSensorLogById(moveLogId);
+            data.add(moveSensorService.getMoveSensorById(moveSensorLog.getSensorId()));
         }
         return ResponseEntity.ok().body(data);
     }
@@ -244,13 +270,7 @@ public class InmateController {
 
     @PostMapping("")
     public ResponseEntity<Inmate> createInmate(@Valid @RequestBody Inmate inmate){
-        long max_id = 1;
-        for (Inmate inmateInDatabase : inmateService.getInmates()) {
-            if (inmateInDatabase.getId() > max_id) {
-                max_id = inmateInDatabase.getId();
-            }
-        }
-        inmate.setId(max_id+1);
+        inmate.setId(inmateService.getNextId());
         return ResponseEntity.ok(inmateService.saveInmate(inmate));
     }
 }

@@ -1,6 +1,7 @@
 package ies.grupo51.lockedin.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
+import ies.grupo51.lockedin.models.Area;
 import ies.grupo51.lockedin.models.Guard;
 import ies.grupo51.lockedin.services.AreaService;
 import ies.grupo51.lockedin.services.GuardService;
@@ -36,8 +38,27 @@ public class GuardController {
     // GET METHODS
 
     @GetMapping("")
-    public ResponseEntity<List<Guard>> getGuards() {
-        return ResponseEntity.ok().body(guardService.getGuards());
+    public ResponseEntity<List<HashMap<String, Object>>> getGuards() throws ResourceNotFoundException {
+        List<HashMap<String, Object>> data = new ArrayList<>();
+        List<Area> areas = areaService.getAreas();
+        for (Guard guard : guardService.getGuards()) {
+            HashMap<String, Object> insert = new HashMap<>();
+            insert.put("id", guard.getId());
+            insert.put("name", guard.getName());
+            insert.put("email", guard.getEmail());
+            insert.put("phone", guard.getPhone());
+            insert.put("birthdate", guard.getBirthdate());
+            insert.put("areaName", "TBD");
+            for (Area area : areas) {
+                if (area.getId() == guard.getAreaId()) {
+                    insert.put("areaName", area.getName());
+                }
+            }
+            insert.put("password", guard.getPassword());
+            insert.put("roles", guard.getRoles());
+            data.add(insert);
+        }
+        return ResponseEntity.ok().body(data);
     }
 
     @GetMapping("/{id}")
@@ -46,7 +67,7 @@ public class GuardController {
         return ResponseEntity.ok().body(data);
     }
 
-    @GetMapping("/{id}/sidebar")
+    @GetMapping("/{id}/details")
     public ResponseEntity<List<String>> getGuardColleagues(@PathVariable(value = "id") long id) throws ResourceNotFoundException {
         Guard guard = guardService.getGuardById(id);
         List<String> data = new ArrayList<>();
@@ -70,13 +91,7 @@ public class GuardController {
 
     @PostMapping("")
     public ResponseEntity<Guard> createGuard(@Valid @RequestBody Guard guard){
-        long max_id = 1;
-        for (Guard guardInDatabase : guardService.getGuards()) {
-            if (guardInDatabase.getId() > max_id) {
-                max_id = guardInDatabase.getId();
-            }
-        }
-        guard.setId(max_id+1);
+        guard.setAreaId(guardService.getNextId());
         return ResponseEntity.ok(guardService.saveGuard(guard));
     }
 }
