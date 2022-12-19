@@ -14,7 +14,7 @@ import {
 //import Logo from "./images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
 import PrisionersList from "./components/prisionersList/prisionersList";
 import Login from "./components/Login/Login";
-import { Logged, SetLogged } from "./components/Login/Login";
+// import { Logged, SetLogged } from "./components/Login/Login";
 import Dashboard from "./components/Dashboard/dashboard";
 import GuardsList from "./components/GuardsList/guardsList";
 import Notifications from "./components/Notifications/notifications";
@@ -24,26 +24,73 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Workstations from "./components/Workstations/workstations";
 
+const dashboardData = [
+  {
+    label: "Dashboard",
+    key: "/dashboard",
+    icon: <DashboardOutlined />,
+  },
+  {
+    label: "Users List",
+    key: "/UserList",
+    icon: <UnorderedListOutlined />,
+    children: [
+      {
+        label: "Prisioners",
+        key: "/prisioners",
+      },
+      {
+        label: "Guards",
+        key: "/guards",
+      },
+    ],
+  },
+  {
+    label: "Notifications",
+    key: "/notifications",
+    icon: <NotificationOutlined />,
+  },
+  {
+    label: "Workstations",
+    key: "/workstations",
+    icon: <ToolOutlined />,
+  },
+  { label: "Profile", key: "/profile", icon: <UserOutlined /> },
+  {
+    label: "Login",
+    key: "/login",
+    icon: <LoginOutlined />,
+    style: { color: "red" },
+  },
+] 
+
 function App() {
-  const [dataSource, setDataSource] = useState();
-  const fetchData = () => {
-    //console.log(dataSource);
-    try {
-      return axios
-        .get("http://localhost:5001/api/alert")
-        .then((response) => setDataSource(response.data));
-    } catch {
-      console.log("Deu pylance");
-      fetchData();
-    }
-  };
+  const [showAdminBoard, setShowAdminBoard] = useState(false);
+  const [currentUser, setCurrentUser] = useState(undefined);
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      fetchData();
-    }, 30000);
-    return () => clearInterval(interval);
-  });
-  fetchData();
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+      setCurrentUser(user);
+      setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+    }
+
+    EventBus.on("logout", () => {
+      logOut();
+    });
+
+    return () => {
+      EventBus.remove("logout");
+    };
+  }, []);
+
+  const logOut = () => {
+    AuthService.logout();
+    setShowAdminBoard(false);
+    setCurrentUser(undefined);
+  };
+
   return (
     <div
       style={{
@@ -107,14 +154,14 @@ export function SideMenu() {
       <Menu
         onClick={({ key }) => {
           if (key === "logout") {
-            SetLogged(false);
+            // SetLogged(false);
             navigate("/dashboard");
           } else {
             navigate(key);
           }
         }}
         defaultSelectedKeys={[window.location.pathname]}
-        items={islogged(Logged)}
+        items={dashboardData}
         style={{ backgroundColor: "#EFF5F5" }}
       ></Menu>
       <Content />
@@ -156,87 +203,6 @@ function Content() {
     </div>
   );
 }
-function islogged(params) {
-  if (params) {
-    return [
-      {
-        label: "Dashboard",
-        key: "/dashboard",
-        icon: <DashboardOutlined />,
-      },
-      {
-        label: "Users List",
-        key: "/UserList",
-        icon: <UnorderedListOutlined />,
-        children: [
-          {
-            label: "Prisioners",
-            key: "/prisioners",
-          },
-          {
-            label: "Guards",
-            key: "/guards",
-          },
-        ],
-      },
-      {
-        label: "Notifications",
-        key: "/notifications",
-        icon: <NotificationOutlined />,
-      },
-      {
-        label: "Workstations",
-        key: "/workstations",
-        icon: <ToolOutlined />,
-      },
-      { label: "Profile", key: "/profile", icon: <UserOutlined /> },
-      {
-        label: "LogOut",
-        key: "logout",
-        icon: <LogoutOutlined />,
-        danger: true,
-      },
-    ];
-  }
-  return [
-    {
-      label: "Dashboard",
-      key: "/dashboard",
-      icon: <DashboardOutlined />,
-    },
-    {
-      label: "Users List",
-      key: "/UserList",
-      icon: <UnorderedListOutlined />,
-      children: [
-        {
-          label: "Prisioners",
-          key: "/prisioners",
-        },
-        {
-          label: "Guards",
-          key: "/guards",
-        },
-      ],
-    },
-    {
-      label: "Notifications",
-      key: "/notifications",
-      icon: <NotificationOutlined />,
-    },
-    {
-      label: "Workstations",
-      key: "/workstations",
-      icon: <ToolOutlined />,
-    },
-    { label: "Profile", key: "/profile", icon: <UserOutlined /> },
-    {
-      label: "Login",
-      key: "/login",
-      icon: <LoginOutlined />,
-      style: { color: "red" },
-    },
-  ];
-}
+
 
 export default App;
