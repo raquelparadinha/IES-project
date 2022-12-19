@@ -198,7 +198,6 @@ export const roomsData = {
       properties: {
         name: 'Patio',
         id: 5,
-        inmates: 10,
       },
       geometry: {
         type: 'Polygon',
@@ -215,7 +214,6 @@ export const roomsData = {
       properties: {
         name: 'Visitor Wing',
         id: 2,
-        inmates: 10,
       },
       geometry: {
         type: 'Polygon',
@@ -232,7 +230,6 @@ export const roomsData = {
       properties: {
         name: 'Staff Wing',
         id: 3,
-        inmates: 10,
       },
       geometry: {
         type: 'Polygon',
@@ -249,7 +246,6 @@ export const roomsData = {
       properties: {
         name: 'Entrance',
         id: 1,
-        inmates: 10,
       },
       geometry: {
         type: 'Polygon',
@@ -266,7 +262,6 @@ export const roomsData = {
       properties: {
         name: 'Infirmary',
         id: 6,
-        inmates: 10,
       },
       geometry: {
         type: 'Polygon',
@@ -283,7 +278,6 @@ export const roomsData = {
       properties: {
         name: 'Job Wing',
         id: 4,
-        inmates: 10,
       },
       geometry: {
         type: 'Polygon',
@@ -300,7 +294,6 @@ export const roomsData = {
       properties: {
         name: 'Cell Block 2',
         id: 8,
-        inmates: 10,
       },
       geometry: {
         type: 'Polygon',
@@ -317,7 +310,6 @@ export const roomsData = {
       properties: {
         name: 'Cell Block 1',
         id: 7,
-        inmates: 10,
       },
       geometry: {
         type: 'Polygon',
@@ -334,7 +326,6 @@ export const roomsData = {
       properties: {
         name: 'Showers',
         id: 9,
-        inmates: 10,
       },
       geometry: {
         type: 'Polygon',
@@ -351,7 +342,6 @@ export const roomsData = {
       properties: {
         name: 'Canteen',
         id: 11,
-        inmates: 10,
       },
       geometry: {
         type: 'Polygon',
@@ -368,7 +358,6 @@ export const roomsData = {
       properties: {
         name: 'Solitary',
         id: 10,
-        inmates: 10,
       },
       geometry: {
         type: 'Polygon',
