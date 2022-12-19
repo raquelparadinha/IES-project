@@ -7,27 +7,10 @@ import {
   HeartFilled,
   AlertFilled,
 } from "@ant-design/icons";
-import { Dropdown, message, Space } from "antd";
+import { Dropdown, message, Space, Pagination } from "antd";
 import axios from "axios";
 
-const onClick = ({ key }) => {
-  //message.info(`Click on item ${key}`);
-  message.info(key);
-};
-let items = [
-  {
-    label: "Mark as viewed",
-    key: "1",
-  },
-  {
-    label: "Favorite",
-    key: "2",
-  },
-  {
-    label: "Delete",
-    key: "3",
-  },
-];
+let items = [];
 
 const icons = {
   health: <HeartFilled />,
@@ -52,6 +35,10 @@ function Notifications() {
   const [currentPage, setCurrentPage] = useState(1);
   const [cardsPerPage] = useState(6);
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   const fetchData = () => {
     console.log(dataSource);
     try {
@@ -66,7 +53,7 @@ function Notifications() {
   useEffect(() => {
     const interval = setInterval(() => {
       fetchData();
-    }, 30000);
+    }, 1000);
     return () => clearInterval(interval);
   });
 
@@ -140,6 +127,12 @@ function Notifications() {
                   </Card>
                 );
               })}
+              <Pagination
+                current={currentPage}
+                onChange={handlePageChange}
+                total={dataSource.length}
+                pageSize={cardsPerPage}
+              />
             </Space>
           </Card>
         </Col>
