@@ -39,42 +39,6 @@ function App() {
   );
 }
 
-// export function Header() {
-//   return (
-//     <div
-//       style={{
-//         height: 60,
-//         backgroundColor: "orange",
-//         color: "black",
-//         display: "flex",
-//         justifyContent: "center",
-//         alignItems: "center",
-//         fontWeight: "bold",
-//       }}
-//     >
-//       <img src={Logo} alt="logo" style={{ height: "100%" }} />
-//     </div>
-//   );
-// }
-
-// export function Footer() {
-//   return (
-//     <div
-//       style={{
-//         height: 60,
-//         backgroundColor: "orange",
-//         color: "black",
-//         display: "flex",
-//         justifyContent: "center",
-//         alignItems: "center",
-//         fontWeight: "bold",
-//       }}
-//     >
-//       Footer
-//     </div>
-//   );
-// }
-
 export function SideMenu() {
   const navigate = useNavigate();
   return (
