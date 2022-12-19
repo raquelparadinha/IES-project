@@ -84,7 +84,7 @@ class Simulator():
         possibleblocks = [l for l in self.areas if l.id in [7, 8]]
         for i in inmatedata:
             id = i['_id']
-            startarea = i['areaId']
+            startarea = [a for a in self.areas if i['areaId'] == a.id][0]
             solitary = i['solitary']
             self.inmates.append(Inmate(id, startarea, solitary))
 
