@@ -1,3 +1,5 @@
+from random import randint
+
 class Area():
     def __init__(self, id: int, name: str, access: bool, capacity: int):
 
@@ -31,13 +33,20 @@ class Workstation():
         return 'ws[name: {}]'.format(self.name)
 
 class Inmate():
-    cntr = 0
-    def __init__(self, id: int, startarea: Area):
+    maxmotiv = 3
+    def __init__(self, id: int, startarea: Area, solitary: bool):
         
         self.id = id
-        
+        self.motivation = randint(0, Inmate.maxmotiv - 1)
         self.area = startarea
+        self.solitary = solitary
 
+    def motivate(self):
+        self.motivation += 1
+        if self.motivation > Inmate.maxmotiv and self.area.name == 'patio':
+            self.motivation = 0
+            return True
+        return False
 
     def __str__(self):
         return 'inm[id: {}, area: {}]'.format(self.id, self.area)
