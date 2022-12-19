@@ -234,13 +234,27 @@ public class InmateController {
     public ResponseEntity<List<String>> getAreasInmateHaveBeenTo(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
         List<String> data = new ArrayList<>();
         List<MoveSensorLog> moveSensorLogs = new ArrayList<>();
-        for (Long moveSensorLogId : inmateService.getInmateById(id).getMoveLogIds()) {
+        Inmate inmate = inmateService.getInmateById(id);
+        for (Long moveSensorLogId : inmate.getMoveLogIds()) {
             moveSensorLogs.add(moveSensorLogService.getMoveSensorLogById(moveSensorLogId));
         }
         moveSensorLogs.sort((moveSensorLog1, moveSensorLog2) -> -moveSensorLog1.getTimestamp().compareTo(moveSensorLog2.getTimestamp()));
         for (MoveSensorLog moveSensorLog : moveSensorLogs) {
             MoveSensor moveSensor = moveSensorService.getMoveSensorById(moveSensorLog.getSensorId());
-            data.add(areaService.getAreaById(moveSensor.getEntryAreaId()).getName());
+            data.add(areaService.getAreaById(moveSensor.getExitAreaId()).getName());
+        }
+        if (data.size() == 0 || data.get(0) != areaService.getAreaById(inmate.getAreaId()).getName()) {
+            data.add(0,areaService.getAreaById(inmate.getAreaId()).getName());
+        }
+        return ResponseEntity.ok().body(data);
+    }
+
+    @GetMapping("/{id}/moves/details")
+    public ResponseEntity<List<MoveSensor>> getAreasInmateHaveBeenToDetails(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
+        List<MoveSensor> data = new ArrayList<>();
+        for (long moveLogId : inmateService.getInmateById(id).getMoveLogIds()) {
+            MoveSensorLog moveSensorLog = moveSensorLogService.getMoveSensorLogById(moveLogId);
+            data.add(moveSensorService.getMoveSensorById(moveSensorLog.getSensorId()));
         }
         return ResponseEntity.ok().body(data);
     }
