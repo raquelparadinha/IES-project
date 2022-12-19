@@ -1,5 +1,6 @@
 import pika
 
+
 class Receiver():
     def __init__(self):
         self.queue = 'backend'

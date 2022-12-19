@@ -1,5 +1,6 @@
 from random import randint
 
+
 class Area():
     def __init__(self, id: int, name: str, access: bool, capacity: int):
 

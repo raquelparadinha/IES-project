@@ -1,5 +1,4 @@
 import json
-
 from random import randint
 
 with open('mongodb/seeddata/inmates.json', 'r') as f:
