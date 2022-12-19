@@ -241,9 +241,9 @@ public class InmateController {
         moveSensorLogs.sort((moveSensorLog1, moveSensorLog2) -> -moveSensorLog1.getTimestamp().compareTo(moveSensorLog2.getTimestamp()));
         for (MoveSensorLog moveSensorLog : moveSensorLogs) {
             MoveSensor moveSensor = moveSensorService.getMoveSensorById(moveSensorLog.getSensorId());
-            data.add(areaService.getAreaById(moveSensor.getExitAreaId()).getName());
+            data.add(areaService.getAreaById(moveSensor.getEntryAreaId()).getName());
         }
-        if (data.size() == 0 || data.get(0) != areaService.getAreaById(inmate.getAreaId()).getName()) {
+        if (data.size() == 0 ) { // || data.get(0) != areaService.getAreaById(inmate.getAreaId()).getName()
             data.add(0,areaService.getAreaById(inmate.getAreaId()).getName());
         }
         return ResponseEntity.ok().body(data);
