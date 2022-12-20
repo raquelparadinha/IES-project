@@ -23,46 +23,48 @@ import Guard_Profile from "./components/Profile/guard_profile";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Workstations from "./components/Workstations/workstations";
+import EventBus from "./common/EventBus";
+import AuthService from "./services/auth.service";
 
-const dashboardData = [
-  {
-    label: "Dashboard",
-    key: "/dashboard",
-    icon: <DashboardOutlined />,
-  },
-  {
-    label: "Users List",
-    key: "/UserList",
-    icon: <UnorderedListOutlined />,
-    children: [
-      {
-        label: "Prisioners",
-        key: "/prisioners",
-      },
-      {
-        label: "Guards",
-        key: "/guards",
-      },
-    ],
-  },
-  {
-    label: "Notifications",
-    key: "/notifications",
-    icon: <NotificationOutlined />,
-  },
-  {
-    label: "Workstations",
-    key: "/workstations",
-    icon: <ToolOutlined />,
-  },
-  { label: "Profile", key: "/profile", icon: <UserOutlined /> },
-  {
-    label: "Login",
-    key: "/login",
-    icon: <LoginOutlined />,
-    style: { color: "red" },
-  },
-] 
+// const dashboardData = [
+//   {
+//     label: "Dashboard",
+//     key: "/dashboard",
+//     icon: <DashboardOutlined />,
+//   },
+//   {
+//     label: "Users List",
+//     key: "/UserList",
+//     icon: <UnorderedListOutlined />,
+//     children: [
+//       {
+//         label: "Prisioners",
+//         key: "/prisioners",
+//       },
+//       {
+//         label: "Guards",
+//         key: "/guards",
+//       },
+//     ],
+//   },
+//   {
+//     label: "Notifications",
+//     key: "/notifications",
+//     icon: <NotificationOutlined />,
+//   },
+//   {
+//     label: "Workstations",
+//     key: "/workstations",
+//     icon: <ToolOutlined />,
+//   },
+//   { label: "Profile", key: "/profile", icon: <UserOutlined /> },
+//   {
+//     label: "Login",
+//     key: "/login",
+//     icon: <LoginOutlined />,
+//     style: { color: "red" },
+//   },
+// ] 
 
 function App() {
   const [showAdminBoard, setShowAdminBoard] = useState(false);
@@ -155,13 +157,14 @@ export function SideMenu() {
         onClick={({ key }) => {
           if (key === "logout") {
             // SetLogged(false);
+            App.logOut();
             navigate("/dashboard");
           } else {
             navigate(key);
           }
         }}
         defaultSelectedKeys={[window.location.pathname]}
-        items={dashboardData}
+        items={islogged(App.showAdminBoard)}
         style={{ backgroundColor: "#EFF5F5" }}
       ></Menu>
       <Content />
@@ -199,10 +202,94 @@ function Content() {
         <Route path="/workstations" element={<Workstations />}></Route>
         <Route path="/profile" element={<Prisioner_Profile />}></Route>
         <Route path="/login" element={<Login />}></Route>
-      </Routes>
+      </Routes>  
     </div>
   );
 }
+
+function islogged(params) {
+  if (params) {
+    return [
+      {
+        label: "Dashboard",
+        key: "/dashboard",
+        icon: <DashboardOutlined />,
+      },
+      {
+        label: "Users List",
+        key: "/UserList",
+        icon: <UnorderedListOutlined />,
+        children: [
+          {
+            label: "Prisioners",
+            key: "/prisioners",
+          },
+          {
+            label: "Guards",
+            key: "/guards",
+          },
+        ],
+      },
+      {
+        label: "Notifications",
+        key: "/notifications",
+        icon: <NotificationOutlined />,
+      },
+      {
+        label: "Workstations",
+        key: "/workstations",
+        icon: <ToolOutlined />,
+      },
+      { label: "Profile", key: "/profile", icon: <UserOutlined /> },
+      {
+        label: "LogOut",
+        key: "logout",
+        icon: <LogoutOutlined />,
+        danger: true,
+      },
+    ];
+  }
+  return [
+    {
+      label: "Dashboard",
+      key: "/dashboard",
+      icon: <DashboardOutlined />,
+    },
+    {
+      label: "Users List",
+      key: "/UserList",
+      icon: <UnorderedListOutlined />,
+      children: [
+        {
+          label: "Prisioners",
+          key: "/prisioners",
+        },
+        {
+          label: "Guards",
+          key: "/guards",
+        },
+      ],
+    },
+    {
+      label: "Notifications",
+      key: "/notifications",
+      icon: <NotificationOutlined />,
+    },
+    {
+      label: "Workstations",
+      key: "/workstations",
+      icon: <ToolOutlined />,
+    },
+    { label: "Profile", key: "/profile", icon: <UserOutlined /> },
+    {
+      label: "Login",
+      key: "/login",
+      icon: <LoginOutlined />,
+      style: { color: "red" },
+    },
+  ];
+}
+
 
 
 export default App;

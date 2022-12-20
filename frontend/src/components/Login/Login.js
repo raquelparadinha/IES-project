@@ -7,11 +7,11 @@ import CheckButton from "react-validation/build/button";
 import AuthService from "../../services/auth.service";
 const { Meta } = Card;
 
-export let Logged = false;
+// export let Logged = false;
 
-export function SetLogged(params) {
-  Logged = params;
-}
+// export function SetLogged(params) {
+//   Logged = params;
+// }
 
 const required = (value) => {
   if (!value) {
@@ -24,7 +24,7 @@ const required = (value) => {
 };
 
 const Login = () => {
-  const navigate = useNavigate();
+  let navigate = useNavigate(); 
 
   const form = useRef();
   const checkBtn = useRef();
@@ -88,105 +88,71 @@ const Login = () => {
   // };
 
   // mensagem de erro quando login invalido
-  const countDown = () => {
-    let secondsToGo = 3;
+  // const countDown = () => {
+  //   let secondsToGo = 3;
 
-    const modal = Modal.error({
-      title: "Login Invalid",
-      content: `This modal will be destroyed after ${secondsToGo} second.`,
-      okType: "danger",
-    });
+  //   const modal = Modal.error({
+  //     title: "Login Invalid",
+  //     content: `This modal will be destroyed after ${secondsToGo} second.`,
+  //     okType: "danger",
+  //   });
 
-    const timer = setInterval(() => {
-      secondsToGo -= 1;
-      modal.update({
-        content: `This modal will be destroyed after ${secondsToGo} second.`,
-      });
-    }, 1000);
+  //   const timer = setInterval(() => {
+  //     secondsToGo -= 1;
+  //     modal.update({
+  //       content: `This modal will be destroyed after ${secondsToGo} second.`,
+  //     });
+  //   }, 1000);
 
-    setTimeout(() => {
-      clearInterval(timer);
-      modal.destroy();
-    }, secondsToGo * 1000);
-  };
+  //   setTimeout(() => {
+  //     clearInterval(timer);
+  //     modal.destroy();
+  //   }, secondsToGo * 1000);
+  // };
   // form
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "90%",
-      }}
-    >
-      <Card
-        bordered
-        cover={
-          <img
-            src="https://www.shutterstock.com/image-vector/minimalist-prison-logo-black-white-600w-1521162209.jpg"
-            height={"300px"}
-          ></img>
-        }
-        style={{ width: "33%" }}
-      >
-        <Form
-          name="normal_login"
-          className="login-form"
-          // initialValues={{
-          //   remember: true,
-          // }}
-          // onFinish={onFinish}
-          onSubmit={handleLogin} ref={form}
-        >
-          <Form.Item
-            name="username"
-            // rules={[
-            //   {
-            //     required: true,
-            //     message: "Please input your Username!",
-            //   },
-            // ]}
-          >
+    <div className="col-md-12">
+      <div className="card card-container">
+        <img
+          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+          alt="profile-img"
+          className="profile-img-card"
+        />
+
+        <Form onSubmit={handleLogin} ref={form}>
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
             <Input
-              prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Username"
+              type="text"
+              className="form-control"
+              name="username"
               value={username}
               onChange={onChangeUsername}
               validations={[required]}
             />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            // rules={[
-            //   {
-            //     required: true,
-            //     message: "Please input your Password!",
-            //   },
-            // ]}
-          >
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
             <Input
-              prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
-              placeholder="Password"
+              className="form-control"
+              name="password"
               value={password}
               onChange={onChangePassword}
               validations={[required]}
             />
-          </Form.Item>
-          <Form.Item>
-            <Button 
-              disabled={loading}
-              type="primary"
-              htmlType="submit"
-              className="login-form-button"
-              block
-            >
+          </div>
+
+          <div className="form-group">
+            <button className="btn btn-primary btn-block" disabled={loading}>
               {loading && (
                 <span className="spinner-border spinner-border-sm"></span>
               )}
               <span>Login</span>
-            </Button>
-          </Form.Item>
+            </button>
+          </div>
+
           {message && (
             <div className="form-group">
               <div className="alert alert-danger" role="alert">
@@ -196,8 +162,95 @@ const Login = () => {
           )}
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
-      </Card>
+      </div>
     </div>
+    // <div
+    //   style={{
+    //     display: "flex",
+    //     justifyContent: "center",
+    //     alignItems: "center",
+    //     height: "90%",
+    //   }}
+    // >
+    //   <Card
+    //     bordered
+    //     cover={
+    //       <img
+    //         src="https://www.shutterstock.com/image-vector/minimalist-prison-logo-black-white-600w-1521162209.jpg"
+    //         height={"300px"}
+    //       ></img>
+    //     }
+    //     style={{ width: "33%" }}
+    //   >
+    //     <Form
+    //       name="normal_login"
+    //       className="login-form"
+    //       // initialValues={{
+    //       //   remember: true,
+    //       // }}
+    //       // onFinish={onFinish}
+    //       onSubmit={handleLogin} ref={form}
+    //     >
+    //       <Form.Item
+    //         name="username"
+    //         // rules={[
+    //         //   {
+    //         //     required: true,
+    //         //     message: "Please input your Username!",
+    //         //   },
+    //         // ]}
+    //       >
+    //         <Input
+    //           prefix={<UserOutlined className="site-form-item-icon" />}
+    //           placeholder="Username"
+    //           value={username}
+    //           onChange={onChangeUsername}
+    //           validations={[required]}
+    //         />
+    //       </Form.Item>
+    //       <Form.Item
+    //         name="password"
+    //         // rules={[
+    //         //   {
+    //         //     required: true,
+    //         //     message: "Please input your Password!",
+    //         //   },
+    //         // ]}
+    //       >
+    //         <Input
+    //           prefix={<LockOutlined className="site-form-item-icon" />}
+    //           type="password"
+    //           placeholder="Password"
+    //           value={password}
+    //           onChange={onChangePassword}
+    //           validations={[required]}
+    //         />
+    //       </Form.Item>
+    //       <Form.Item>
+    //         <Button 
+    //           disabled={loading}
+    //           type="primary"
+    //           htmlType="submit"
+    //           className="login-form-button"
+    //           block
+    //         >
+    //           {loading && (
+    //             <span className="spinner-border spinner-border-sm"></span>
+    //           )}
+    //           <span>Login</span>
+    //         </Button>
+    //       </Form.Item>
+    //       {message && (
+    //         <div className="form-group">
+    //           <div className="alert alert-danger" role="alert">
+    //             {message}
+    //           </div>
+    //         </div>
+    //       )}
+    //       <CheckButton style={{ display: "none" }} ref={checkBtn} />
+    //     </Form>
+    //   </Card>
+    // </div>
   );
 };
 export default Login;
