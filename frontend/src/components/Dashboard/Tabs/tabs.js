@@ -85,13 +85,13 @@ const Example = (props) => {
       }}
     >
       <CartesianGrid strokeDasharray="3 3" stroke="#8da6a8" />
-      <XAxis dataKey="value" />
+      <XAxis dataKey="value" name="value" />
       <YAxis dataKey="qty" />
       <Tooltip />
-      <Legend verticalAlign="top" wrapperStyle={{ lineHeight: "40px" }}   />
+      <Legend verticalAlign="top" wrapperStyle={{ lineHeight: "40px" }} />
       <ReferenceLine y={0} stroke="#8da6a8" />
       <Brush dataKey="value" height={30} stroke="#497174" />
-      <Bar dataKey="qty" fill="#497174" />
+      <Bar name="Inmates" dataKey="qty" fill="#497174" />
     </BarChart>
   );
 };
