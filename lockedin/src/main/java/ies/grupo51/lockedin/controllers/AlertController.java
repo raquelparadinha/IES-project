@@ -28,13 +28,17 @@ public class AlertController {
     // GET METHODS
 
     @GetMapping("")
-    public ResponseEntity<List<Alert>> getAllAlerts(){
-        List<Alert> alerts = alertService.getAlerts();
-        alerts.sort((alert1, alert2) -> -alert1.getTimestamp().compareTo(alert2.getTimestamp()));
-        if (alerts.size() > 30) {
-            alerts = alerts.subList(0, 30);
+    public ResponseEntity<List<Alert>> getAllAlerts() throws ResourceNotFoundException{
+        List<Alert> data = alertService.getAlerts();
+        for (Alert alert : data) {
+            alert.setSeen(true);
+            alertService.updateAlert(alert);
         }
-        return ResponseEntity.ok().body(alerts);
+        data.sort((alert1, alert2) -> -alert1.getTimestamp().compareTo(alert2.getTimestamp()));
+        if (data.size() > 30) {
+            data = data.subList(0, 30);
+        }
+        return ResponseEntity.ok().body(data);
     }
 
     @GetMapping("/{id}")
@@ -43,7 +47,7 @@ public class AlertController {
     }
 
     @GetMapping("/new")
-    public ResponseEntity<List<Alert>> getAllNewAlerts() {
+    public ResponseEntity<List<Alert>> getAllNewAlerts() throws ResourceNotFoundException {
         List<Alert> data = new ArrayList<>();
         for (Alert alert : alertService.getAlerts()) {
             if (alert.getSeen() == false) {
@@ -53,6 +57,10 @@ public class AlertController {
         data.sort((alert1, alert2) -> -alert1.getTimestamp().compareTo(alert2.getTimestamp()));
         if (data.size() > 5) {
             data = data.subList(0, 5);
+        }
+        for (Alert alert : data) {
+            alert.setSeen(true);
+            alertService.updateAlert(alert);
         }
         return ResponseEntity.ok().body(data);
     }
