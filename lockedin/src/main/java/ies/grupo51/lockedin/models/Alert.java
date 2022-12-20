@@ -78,7 +78,7 @@ public abstract class Alert {
     @Override // Will be called as super.toString() and completed with info!
     public String toString() {
         return String.format(
-            "Alert [ID: %d, Type: %s, Timestamp: %s, ",
-            this.id, this.type, this.timestamp.toString());
+            "Alert [ID: %d, Type: %s, Seen: %s, Timestamp: %s, ",
+            this.id, this.type, this.seen, this.timestamp.toString());
     }
 }

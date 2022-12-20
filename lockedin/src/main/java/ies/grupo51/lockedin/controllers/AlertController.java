@@ -48,19 +48,18 @@ public class AlertController {
 
     @GetMapping("/new")
     public ResponseEntity<List<Alert>> getAllNewAlerts() throws ResourceNotFoundException {
-        List<Alert> data = alertService.getAlerts();
-        if (data.size() > 5) {
-            data = data.subList(0, 5);
+        List<Alert> alerts = alertService.getAlerts();
+        alerts.sort((alert1, alert2) -> -alert1.getTimestamp().compareTo(alert2.getTimestamp()));
+        if (alerts.size() > 5) {
+            alerts = alerts.subList(0, 5);
         }
-        for (Alert alert : data) {
-            if (alert.getSeen() != false) {
-                data.remove(alert);
+        List<Alert> data = new ArrayList<>();
+        for (Alert alert : alerts) {
+            if (alert.getSeen() == false) {
+                data.add(alert);
+                alert.setSeen(true);
+                alertService.updateAlert(alert);
             }
-        }
-        data.sort((alert1, alert2) -> -alert1.getTimestamp().compareTo(alert2.getTimestamp()));
-        for (Alert alert : alertService.getAlerts()) {
-            alert.setSeen(true);
-            alertService.updateAlert(alert);
         }
         return ResponseEntity.ok().body(data);
     }
