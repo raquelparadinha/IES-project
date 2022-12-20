@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
 import ies.grupo51.lockedin.models.Alert;
 import ies.grupo51.lockedin.services.AlertService;
 
@@ -33,6 +35,11 @@ public class AlertController {
             alerts = alerts.subList(0, 30);
         }
         return ResponseEntity.ok().body(alerts);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Alert> getAllAlerts(@PathVariable(value = "id") long id) throws ResourceNotFoundException{
+        return ResponseEntity.ok().body(alertService.getAlertById(id));
     }
 
     @GetMapping("/new")

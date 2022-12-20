@@ -73,19 +73,19 @@ public class Receiver {
                 moveSensor.addMoveLogIds(logId);
                 moveSensorService.updatMoveSensor(moveSensor);
                 // Exit Area
-                Area exitArea = areaService.getAreaById(moveSensor.getExitAreaId());
-                exitArea.getCurrentInmateIds().remove(inmate.getId());
-                areaService.updateArea(exitArea);
+                Area entryArea = areaService.getAreaById(moveSensor.getEntryAreaId());
+                entryArea.getCurrentInmateIds().remove(inmate.getId());
+                areaService.updateArea(entryArea);
                 // Inmate
                 inmate.addMoveLogId(logId);
                 inmate.setAreaId(moveSensor.getExitAreaId());
                 inmateService.updateInmate(inmate);
                 // Entry Area
-                Area entryArea = areaService.getAreaById(moveSensor.getExitAreaId());
-                if (!(entryArea.getCurrentInmateIds().contains(inmate.getId()))) {
-                    entryArea.getCurrentInmateIds().add(inmate.getId());
+                Area exitArea = areaService.getAreaById(moveSensor.getExitAreaId());
+                if (!(exitArea.getCurrentInmateIds().contains(inmate.getId()))) {
+                    exitArea.getCurrentInmateIds().add(inmate.getId());
                 }
-                areaService.updateArea(entryArea);
+                areaService.updateArea(exitArea);
                 break;
 
             case "riot":
@@ -141,7 +141,7 @@ public class Receiver {
                 inmate.setHealthLogId(logId); // adicionar um move aos move logs
                 inmateService.updateInmate(inmate); // guardar na base de dados
                 // Trigger health alert
-                HealthAlert healthAlert = new HealthAlert(alertService.getNextId(), "health", "Inmmate "+inmate.getName()+" is not feeling well");
+                HealthAlert healthAlert = new HealthAlert(alertService.getNextId(), "health", "Inmate "+inmate.getName()+" is not feeling well");
                 List<String> symptoms = new ArrayList<>();
                 // HEART BEAT
                 if (healthLog.getHeartBeat() > 130) {

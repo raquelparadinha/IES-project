@@ -67,7 +67,7 @@ public class GuardController {
         return ResponseEntity.ok().body(data);
     }
 
-    @GetMapping("/{id}/sidebar")
+    @GetMapping("/{id}/details")
     public ResponseEntity<List<String>> getGuardColleagues(@PathVariable(value = "id") long id) throws ResourceNotFoundException {
         Guard guard = guardService.getGuardById(id);
         List<String> data = new ArrayList<>();

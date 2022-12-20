@@ -65,6 +65,14 @@ public class Sender {
         send(jmsg);
     }
 
+    public void solitaryToggle(long inmateid) {
+        JSONObject jmsg = new JSONObject();
+        jmsg.put("type", "solitary");
+        jmsg.put("inmateid", inmateid);
+
+        send(jmsg);
+    }
+
     private void send(JSONObject jmsg) {
         String msg = jmsg.toString();
         rabbitTemplate.convertAndSend(CommsConfig.SEND_EXCHANGE, CommsConfig.SEND_ROUTING_KEY, msg);

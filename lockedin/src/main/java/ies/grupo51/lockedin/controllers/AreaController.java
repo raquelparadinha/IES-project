@@ -1,5 +1,7 @@
 package ies.grupo51.lockedin.controllers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
 import ies.grupo51.lockedin.models.Area;
+import ies.grupo51.lockedin.models.Guard;
+import ies.grupo51.lockedin.models.Inmate;
+import ies.grupo51.lockedin.models.MoveSensor;
 import ies.grupo51.lockedin.services.AreaService;
+import ies.grupo51.lockedin.services.GuardService;
+import ies.grupo51.lockedin.services.InmateService;
+import ies.grupo51.lockedin.services.MoveSensorService;
 
 @CrossOrigin
 @RestController
@@ -23,6 +31,15 @@ public class AreaController {
 
     @Autowired
     private AreaService areaService;
+
+    @Autowired
+    private InmateService inmateService;
+
+    @Autowired
+    private MoveSensorService moveSensorService;
+
+    @Autowired
+    private GuardService guardService;
 
     // GET METHODS
 
@@ -42,5 +59,52 @@ public class AreaController {
         Area area = areaService.getAreaById(id);
         area.setAccess(!area.getAccess());
         return ResponseEntity.ok(areaService.updateArea(area));
+    }
+
+    @GetMapping("/{id}/inmates")
+    public ResponseEntity<List<Inmate>> getInmatesOfAnArea(@PathVariable(value = "id") long id) throws ResourceNotFoundException {
+        List<Inmate> inmates = new ArrayList<>();
+        for (long inmateid : areaService.getAreaById(id).getCurrentInmateIds()) {
+            inmates.add(inmateService.getInmateById(inmateid));
+        }
+        inmates.sort((inmate1, inmate2) -> -Integer.compare(inmate1.getDanger(),inmate2.getDanger()) );
+        return ResponseEntity.ok().body(inmates);
+    }
+
+    @GetMapping("/{id}/details")
+    public ResponseEntity<HashMap<String, Object>> getAreaDetails(@PathVariable(value = "id") long id) throws ResourceNotFoundException {
+        HashMap<String, Object> data = new HashMap<>();
+        Area area = areaService.getAreaById(id);
+        data.put("id", area.getId());
+        data.put("name", area.getName());
+        data.put("capacity", area.getCapacity());
+        data.put("access", area.getAccess());
+        List<String> connections = new ArrayList<>();
+        for (MoveSensor moveSensor : moveSensorService.getMoveSensors()) {
+            if (moveSensor.getEntryAreaId() == area.getId()) {
+                Area connectingArea = areaService.getAreaById(moveSensor.getExitAreaId());
+                connections.add(connectingArea.getName());
+            }
+        }
+        data.put("connections", connections);
+
+        float currentAverageDanger = 0;
+        for (long inmateId : area.getCurrentInmateIds()) {
+            currentAverageDanger += inmateService.getInmateById(inmateId).getDanger();
+        }
+        if (area.getCurrentInmateIds().size() != 0) {
+            data.put("currentDangerLevel", currentAverageDanger/area.getCurrentInmateIds().size());
+        } else {
+            data.put("currentDangerLevel", 0);
+        }
+
+        List<String> guards = new ArrayList<>();
+        for (Guard guard : guardService.getGuards()) {
+            if (guard.getAreaId() == area.getId()) {
+                guards.add(guard.getName());
+            }
+        }
+        data.put("guards", guards);
+        return ResponseEntity.ok().body(data);
     }
 }

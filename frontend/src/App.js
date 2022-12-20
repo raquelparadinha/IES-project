@@ -66,33 +66,36 @@ import AuthService from "./services/auth.service";
 //   },
 // ] 
 
+// function App() {
+//   const [showAdminBoard, setShowAdminBoard] = useState(false);
+//   const [currentUser, setCurrentUser] = useState(undefined);
+
+//   useEffect(() => {
+//     const user = AuthService.getCurrentUser();
+
+//     if (user) {
+//       setCurrentUser(user);
+//       setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+//     }
+
+//     EventBus.on("logout", () => {
+//       logOut();
+//     });
+
+//     return () => {
+//       EventBus.remove("logout");
+//     };
+//   }, []);
+
+//   const logOut = () => {
+//     AuthService.logout();
+//     setShowAdminBoard(false);
+//     setCurrentUser(undefined);
+//   };
+
+import MapaEstricado from "./components/MapaEstricado/MapaEstricado";
+
 function App() {
-  const [showAdminBoard, setShowAdminBoard] = useState(false);
-  const [currentUser, setCurrentUser] = useState(undefined);
-
-  useEffect(() => {
-    const user = AuthService.getCurrentUser();
-
-    if (user) {
-      setCurrentUser(user);
-      setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
-    }
-
-    EventBus.on("logout", () => {
-      logOut();
-    });
-
-    return () => {
-      EventBus.remove("logout");
-    };
-  }, []);
-
-  const logOut = () => {
-    AuthService.logout();
-    setShowAdminBoard(false);
-    setCurrentUser(undefined);
-  };
-
   return (
     <div
       style={{
@@ -106,42 +109,6 @@ function App() {
     </div>
   );
 }
-
-// export function Header() {
-//   return (
-//     <div
-//       style={{
-//         height: 60,
-//         backgroundColor: "orange",
-//         color: "black",
-//         display: "flex",
-//         justifyContent: "center",
-//         alignItems: "center",
-//         fontWeight: "bold",
-//       }}
-//     >
-//       <img src={Logo} alt="logo" style={{ height: "100%" }} />
-//     </div>
-//   );
-// }
-
-// export function Footer() {
-//   return (
-//     <div
-//       style={{
-//         height: 60,
-//         backgroundColor: "orange",
-//         color: "black",
-//         display: "flex",
-//         justifyContent: "center",
-//         alignItems: "center",
-//         fontWeight: "bold",
-//       }}
-//     >
-//       Footer
-//     </div>
-//   );
-// }
 
 export function SideMenu() {
   const navigate = useNavigate();
@@ -200,7 +167,7 @@ function Content() {
         ></Route>
         <Route path="/notifications" element={<Notifications />}></Route>
         <Route path="/workstations" element={<Workstations />}></Route>
-        <Route path="/profile" element={<Prisioner_Profile />}></Route>
+        <Route path="/profile" element={<MapaEstricado />}></Route>
         <Route path="/login" element={<Login />}></Route>
       </Routes>  
     </div>
