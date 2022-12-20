@@ -164,9 +164,9 @@ public class Receiver {
                     symptoms.add("Low Uric Acid");
                 }
                 // CHOLESTEROL
-                if (healthLog.getCholesterol() > 200) {
+                if (healthLog.getCholesterol() > 215) {
                     symptoms.add("Elevated Cholesterol");
-                } else if (healthLog.getCholesterol() < 100) {
+                } else if (healthLog.getCholesterol() < 85) {
                     symptoms.add("Low Cholesterol");
                 }
                 // TOXIC SCREEN
