@@ -51,7 +51,7 @@ function Notifications() {
   useEffect(() => {
     const interval = setInterval(() => {
       fetchData();
-    }, 1000);
+    }, 100);
     return () => clearInterval(interval);
   });
 
