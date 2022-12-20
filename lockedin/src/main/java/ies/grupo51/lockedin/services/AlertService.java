@@ -46,4 +46,17 @@ public class AlertService {
         }
         return max_id+1;
     }
+
+    public Alert updateAlert(Alert alert) throws ResourceNotFoundException {
+        Alert existingAlert = repository.findById(alert.getId()).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
+        
+        if (existingAlert == null){ return null; }
+
+        existingAlert.setType(alert.getType());
+        existingAlert.setInformation(alert.getInformation());
+        existingAlert.setTimestamp(alert.getTimestamp());
+        existingAlert.setSeen(alert.getSeen());
+
+        return repository.save(existingAlert);
+    }
 }
