@@ -38,33 +38,23 @@ function App() {
       return axios
         .get("http://localhost:5001/api/alert/new")
         .then((response) => {
+          console.log(response.data)
           response.data.forEach((message_) => {
-            console.log(max_id)
-            console.log(response.data)
-            //console.log(max_id + " " + message_.id);
-            //console.log(max_id >= message_.id);
-            if (max_id >= message_.id) {
-              console.log("Não notificarei este pylance" + message_.id);
-            } else {
-              setMaxId(message_.id);
-              //console.log(message_);
-              api.open({
-                duration: 2,
-                message:
-                  message_.type.charAt(0).toUpperCase() +
-                  message_.type.slice(1),
-                description: message_.information,
-                icon: (
-                  <div
-                    style={{
-                      color: colors[`${message_.type}`],
-                    }}
-                  >
-                    {icons[`${message_.type}`]}
-                  </div>
-                ),
-              });
-            }
+            api.open({
+              duration: 2,
+              message:
+                message_.type.charAt(0).toUpperCase() + message_.type.slice(1),
+              description: message_.information,
+              icon: (
+                <div
+                  style={{
+                    color: colors[`${message_.type}`],
+                  }}
+                >
+                  {icons[`${message_.type}`]}
+                </div>
+              ),
+            });
           });
         });
     } catch {
@@ -75,7 +65,7 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       fetchData();
-    }, 10000);
+    }, 1000);
     return () => clearInterval(interval);
   });
 
