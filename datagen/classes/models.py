@@ -33,7 +33,7 @@ class Workstation():
         return 'ws[name: {}]'.format(self.name)
 
 class Inmate():
-    maxmotiv = 3
+    maxmotiv = 10
     def __init__(self, id: int, startarea: Area, solitary: bool):
         
         self.id = id

@@ -28,7 +28,6 @@ import MapaEstricado from "./components/MapaEstricado/MapaEstricado";
 function App() {
   const [dataSource, setDataSource] = useState();
   const fetchData = () => {
-    console.log(dataSource);
     try {
       return axios
         .get("http://localhost:5001/api/alert")

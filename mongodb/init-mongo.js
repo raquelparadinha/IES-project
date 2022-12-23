@@ -53,7 +53,7 @@ db.workStation.insertMany(docs)
 console.log('\nCHECKPOINT -> workstations done')
 
 db.createCollection('inmate');
-var data = fs.readFileSync('./seeddata/inmates_single.json')
+var data = fs.readFileSync('./seeddata/inmates.json')
 var docs = JSON.parse(data.toString())
 db.inmate.insertMany(docs)
 console.log('\nCHECKPOINT -> inmates done')

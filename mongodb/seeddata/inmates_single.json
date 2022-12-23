@@ -1,1 +1,1 @@
-[{ "_id": 1001, "name": "Miguel Manco", "birthDate": "03/19/2002", "entryDate": "03/20/2002", "sentenceEnd": "03/20/2040", "solitary": false, "healthLogId": 0, "moveLogIds": [], "workLogIds": [] }]
+[{ "_id": 1001, "name": "Miguel Manco", "birthDate": "03/19/2002", "entryDate": "03/20/2002", "sentenceEnd": "03/20/2040", "solitary": false, "healthLogId": 0, "moveLogIds": [], "workLogIds": [], "areaId": 7 }]
