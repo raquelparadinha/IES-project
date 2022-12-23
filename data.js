@@ -381,7 +381,8 @@ export const roomsData = {
         type: 'Polygon',
         coordinates: [[
           [-15, -90],
-          [-35, -95],
+          [-25, -90],
+          [-25, -95],
           [-15, -95],
         ]]
       }
@@ -395,9 +396,10 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
-          [-15, -90],
+          [-25, -90],
           [-35, -90],
           [-35, -95],
+          [-25, -95],
         ]]
       }
     },
@@ -410,9 +412,10 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
+          [25, -90],
           [35, -90],
           [35, -95],
-          [15, -95],
+          [25, -95],
         ]]
       }
     },
@@ -426,7 +429,8 @@ export const roomsData = {
         type: 'Polygon',
         coordinates: [[
           [15, -90],
-          [35, -90],
+          [25, -90],
+          [25, -95],
           [15, -95],
         ]]
       }
@@ -440,7 +444,8 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
-          [3, -60],
+          [-3, -70],
+          [3, -70],
           [3, -80],
           [-3, -80],
         ]]
@@ -455,7 +460,8 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
-          [-3, -80],
+          [-3, -70],
+          [3, -70],
           [3, -60],
           [-3, -60],
         ]]
@@ -465,13 +471,14 @@ export const roomsData = {
       type: 'Feature',
       properties: {
         name: 'Sensor7',
-        id: 7,
+        id: 5,
       },
       geometry: {
         type: 'Polygon',
         coordinates: [[
           [-15, -45],
-          [-35, -50],
+          [-25, -45],
+          [-25, -50],
           [-15, -50],
         ]]
       }
@@ -486,7 +493,8 @@ export const roomsData = {
         type: 'Polygon',
         coordinates: [[
           [-35, -45],
-          [-15, -45],
+          [-25, -45],
+          [-25, -50],
           [-35, -50],
         ]]
       }
@@ -501,7 +509,8 @@ export const roomsData = {
         type: 'Polygon',
         coordinates: [[
           [35, -45],
-          [15, -50],
+          [25, -45],
+          [25, -50],
           [35, -50],
         ]]
       }
@@ -516,7 +525,8 @@ export const roomsData = {
         type: 'Polygon',
         coordinates: [[
           [15, -45],
-          [35, -45],
+          [25, -45],
+          [25, -50],
           [15, -50],
         ]]
       }
@@ -530,9 +540,10 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
+          [70, -45],
           [80, -45],
           [80, -50],
-          [60, -50],
+          [70, -50],
         ]]
       }
     },
@@ -545,9 +556,10 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
-          [80, -45],
+          [70, -45],
           [60, -45],
           [60, -50],
+          [70, -50],
         ]]
       }
     },
@@ -560,7 +572,8 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
-          [-50, -15],
+          [-45, -25],
+          [-50, -25],
           [-50, -35],
           [-45, -35], 
         ]]
@@ -575,7 +588,8 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
-          [-45, -35],
+          [-45, -25],
+          [-50, -25],
           [-50, -15],
           [-45, -15], 
         ]]
@@ -590,7 +604,8 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
-          [50, -15],
+          [45, -25],
+          [50, -25],
           [50, -35],
           [45, -35], 
         ]]
@@ -605,7 +620,8 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
-          [45, -35],
+          [45, -25],
+          [50, -25],
           [50, -15],
           [45, -15], 
         ]]
@@ -620,7 +636,8 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
-          [-45, 15],
+          [-45, 25],
+          [-50, 25],
           [-50, 35],
           [-45, 35], 
         ]]
@@ -635,7 +652,8 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
-          [-50, 35],
+          [-45, 25],
+          [-50, 25],
           [-50, 15],
           [-45, 15], 
         ]]
@@ -650,7 +668,8 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
-          [45, 35],
+          [45, 25],
+          [50, 25],
           [50, 15],
           [45, 15], 
         ]]
@@ -665,7 +684,8 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
-          [50, 15],
+          [45, 25],
+          [50, 25],
           [50, 35],
           [45, 35], 
         ]]
@@ -682,7 +702,8 @@ export const roomsData = {
         coordinates: [[
           [10, 45],
           [10, 50],
-          [-10, 45],
+          [0, 50],
+          [0, 45],
         ]]
       }
     },
@@ -697,7 +718,8 @@ export const roomsData = {
         coordinates: [[
           [-10, 45],
           [-10, 50],
-          [10, 50],
+          [0, 50],
+          [0, 45],
         ]]
       }
     },
@@ -710,9 +732,10 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
-          [-85, 45],
+          [-75, 45],
           [-65, 45],
           [-65, 50],
+          [-75, 50], 
         ]]
       }
     },
@@ -725,9 +748,10 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
+          [-75, 45],
           [-85, 45],
           [-85, 50],
-          [-65, 50], 
+          [-75, 50], 
         ]]
       }
     },
@@ -740,9 +764,10 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
-          [65, 45],
+          [75, 45],
           [85, 45],
           [85, 50],
+          [75, 50], 
         ]]
       }
     },
@@ -755,9 +780,10 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
+          [75, 45],
           [65, 45],
           [65, 50],
-          [85, 50], 
+          [75, 50], 
         ]]
       }
     },
@@ -770,9 +796,10 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
-          [-40, 80],
+          [-40, 70],
           [-40, 60],
           [-35, 60],
+          [-35, 70], 
         ]]
       }
     },
@@ -785,9 +812,10 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
+          [-40, 70],
           [-40, 80],
           [-35, 80],
-          [-35, 60], 
+          [-35, 70], 
         ]]
       }
     },
@@ -800,9 +828,10 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
+          [40, 70],
           [40, 60],
           [35, 60],
-          [35, 80], 
+          [35, 70], 
         ]]
       }
     },
@@ -815,12 +844,12 @@ export const roomsData = {
       geometry: {
         type: 'Polygon',
         coordinates: [[
-          [40, 60],
+          [40, 70],
           [40, 80],
           [35, 80],
+          [35, 70], 
         ]]
       }
     },
-
   ],
 };
