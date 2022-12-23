@@ -21,6 +21,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import Highlighter from "react-highlight-words";
 
+
 dayjs.extend(customParseFormat);
 
 const dateFormat = "MM/DD/YYYY";

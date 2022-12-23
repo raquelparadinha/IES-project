@@ -75,11 +75,3 @@
 | GET    | /{workstation_id}/worklogs   | Returns the quotas of the works at this workstation | [{x,y},{x,y},{x,y}] - list               | Long  |
 | GET    | /worklog/{worklog_id}/inmate | Return the general info of an worker                | {workLogId,inmateName} - dict            | Long  |
 
-## Work Station /api/workstation
-
-| Method | Mapping        | Description                                         | Return (example - type)                   | Input |
-| ------ | -------------- | --------------------------------------------------- | ----------------------------------------- | ----- |
-| GET    |                | Returns all workstations                            | [{WS1},{WS2},{WS3,..}] - list             | None  |
-| GET    | /{id}          | Returns a workstation                               | {WS1} - dict                              | Long  |
-| GET    | /{id}/worklogs | Returns the quotas of the works at this workstation | [{x:1,y:56},{x:2,y:67},{x:3,y:78}] - list | Long  |
-

@@ -1,6 +1,6 @@
 import "antd/dist/reset.css";
 import "./App.css";
-import { Menu } from "antd";
+import { Menu, notification } from "antd";
 import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import {
   DashboardOutlined,
@@ -24,8 +24,51 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Workstations from "./components/Workstations/workstations";
 import MapaEstricado from "./components/MapaEstricado/MapaEstricado";
+import {
+  icons,
+  back_colors,
+  colors,
+} from "./components/Notifications/notifications";
 
 function App() {
+  const [api, contextHolder] = notification.useNotification();
+  const [max_id, setMaxId] = useState(0);
+  const fetchData = () => {
+    try {
+      return axios
+        .get("http://localhost:5001/api/alert/new")
+        .then((response) => {
+          console.log(response.data)
+          response.data.forEach((message_) => {
+            api.open({
+              duration: 2,
+              message:
+                message_.type.charAt(0).toUpperCase() + message_.type.slice(1),
+              description: message_.information,
+              icon: (
+                <div
+                  style={{
+                    color: colors[`${message_.type}`],
+                  }}
+                >
+                  {icons[`${message_.type}`]}
+                </div>
+              ),
+            });
+          });
+        });
+    } catch {
+      console.log("Deu pylance");
+      fetchData();
+    }
+  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData();
+    }, 1000);
+    return () => clearInterval(interval);
+  });
+
   return (
     <div
       style={{
@@ -35,6 +78,7 @@ function App() {
         height: "100vh",
       }}
     >
+      {contextHolder}
       <SideMenu />
     </div>
   );

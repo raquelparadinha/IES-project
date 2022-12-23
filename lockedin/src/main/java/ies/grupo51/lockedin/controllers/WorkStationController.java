@@ -137,6 +137,7 @@ public class WorkStationController {
         if (workLogs.size() > 50) {
             workLogs = workLogs.subList(0, 50);
         }
+        workLogs.sort((workLog1, workLog2) -> workLog1.getTimestamp().compareTo(workLog2.getTimestamp()));
         for (int i = 0; i < workLogs.size(); i++) {
             HashMap<String,Integer> insert = new HashMap<>();
             insert.put("x", i);

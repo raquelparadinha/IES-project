@@ -10,19 +10,19 @@ import {
 import { Dropdown, message, Space, Pagination } from "antd";
 import axios from "axios";
 
-const icons = {
+export const icons = {
   health: <HeartFilled />,
   work: <ToolFilled />,
   riot: <AlertFilled />,
 };
 
-const back_colors = {
+export const back_colors = {
   health: "#C3D8C2",
   work: "#DBDB9E",
   riot: "#D8C3C2",
 };
 
-const colors = {
+export const colors = {
   health: "#134C12",
   work: "#757717",
   riot: "#771B17",
@@ -51,7 +51,7 @@ function Notifications() {
   useEffect(() => {
     const interval = setInterval(() => {
       fetchData();
-    }, 1000);
+    }, 100);
     return () => clearInterval(interval);
   });
 

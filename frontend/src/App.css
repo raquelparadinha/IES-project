@@ -16,31 +16,45 @@
 .ant-pagination-item .ant-pagination-item-1 .ant-pagination-item-active {
   background-color: #282c34;
 }
-.css-dev-only-do-not-override-1s3dcof.ant-pagination
+.css-dev-only-do-not-override-26rdvq.ant-pagination
   .ant-pagination-item-active {
   font-weight: 600;
   background-color: #ffffff;
   border-color: #497174;
 }
 
-.css-dev-only-do-not-override-1s3dcof.ant-pagination
-  .ant-pagination-item-active
-  a {
+.ant-pagination .ant-pagination-item-active a {
   color: #497174;
 }
 
-.css-dev-only-do-not-override-1s3dcof.ant-tabs-card
-  > .ant-tabs-nav
-  .ant-tabs-tab-active,
-.css-dev-only-do-not-override-1s3dcof.ant-tabs-card
+.ant-pagination .ant-pagination-item-active a {
+  color: #497174;
+}
+
+.ant-pagination .ant-pagination-item-active a {
+  color: #497174;
+  border: #497174;
+}
+
+.ant-pagination .ant-pagination-item-active {
+  font-weight: 600;
+  background-color: #ffffff;
+  border-color: #497174;
+}
+
+.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab-active,
+.css-dev-only-do-not-override-26rdvq.ant-tabs-card
   > div
   > .ant-tabs-nav
   .ant-tabs-tab-active {
   color: #497174;
   background: #8da6a8;
 }
+.ant-pagination .ant-pagination-item-active a {
+  color: #497174;
+}
 
-.css-dev-only-do-not-override-1s3dcof
+.css-dev-only-do-not-override-26rdvq
   .ant-tabs
   .ant-tabs-tab.ant-tabs-tab-active
   .ant-tabs-tab-btn {
@@ -48,27 +62,21 @@
   text-shadow: 0 0 0.25px currentcolor;
 }
 
-:where(.css-dev-only-do-not-override-1s3dcof).ant-menu-light:not(
-    .ant-menu-horizontal
-  )
-  .ant-menu-item {
+.ant-menu-light:not(.ant-menu-horizontal) .ant-menu-item {
   color: #12494c;
 }
 
-:where(.css-dev-only-do-not-override-1s3dcof).ant-menu-light {
+.ant-menu-light {
   color: #12494c;
   background: #8da6a8;
 }
 
-:where(.css-dev-only-do-not-override-1s3dcof).ant-menu-light:not(
-    .ant-menu-horizontal
-  )
-  .ant-menu-item-selected {
+.ant-menu-light:not(.ant-menu-horizontal) .ant-menu-item-selected {
   background-color: #8da6a8;
   color: #12494c;
 }
 
-:where(.css-dev-only-do-not-override-1s3dcof).ant-modal .ant-modal-content {
+.ant-modal .ant-modal-content {
   position: relative;
   background-color: #eff5f5;
   background-clip: padding-box;
@@ -80,16 +88,14 @@
   padding: 20px 24px;
 }
 
-:where(.css-dev-only-do-not-override-1s3dcof).ant-input-group
-  > .ant-input:first-child,
-:where(.css-dev-only-do-not-override-1s3dcof).ant-input-group
-  .ant-input-group-addon:first-child {
+.ant-input-group > .ant-input:first-child,
+.ant-input-group .ant-input-group-addon:first-child {
   border-start-end-radius: 0;
   border-end-end-radius: 0;
   background-color: #c2d8d8;
 }
 
-:where(.css-dev-only-do-not-override-1s3dcof).ant-modal .ant-modal-title {
+.ant-modal .ant-modal-title {
   margin: 0;
   color: rgba(0, 0, 0, 0.88);
   font-weight: 600;
@@ -98,35 +104,26 @@
   word-wrap: break-word;
   background-color: #eff5f5;
 }
-:where(.css-dev-only-do-not-override-1s3dcof).ant-pagination
-  .ant-pagination-item
-  a {
+.ant-pagination .ant-pagination-item a {
   display: block;
   padding: 0 6px;
   color: #12494c;
   transition: none;
 }
-:where(.css-dev-only-do-not-override-1s3dcof).ant-pagination
-  .ant-pagination-prev
-  button,
-:where(.css-dev-only-do-not-override-1s3dcof).ant-pagination
-  .ant-pagination-next
-  button {
+.ant-pagination .ant-pagination-prev button,
+.ant-pagination .ant-pagination-next button {
   color: #12494c;
   cursor: pointer;
   user-select: none;
 }
-:where(.css-dev-only-do-not-override-1s3dcof).ant-select:not(
-    :where(.css-dev-only-do-not-override-1s3dcof).ant-select-customize-input
-  )
-  .ant-select-selector {
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
   position: relative;
   color: #ffffff;
   background-color: #497174;
   border: 1px solid #d9d9d9;
   transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
-:where(.css-dev-only-do-not-override-1s3dcof).ant-select .ant-select-arrow {
+.ant-select .ant-select-arrow {
   display: flex;
   align-items: center;
   color: #ffffff;
