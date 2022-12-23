@@ -14,14 +14,12 @@ This file contains detailed documentation on the API developed to supply the sys
 http://localhost:5001/api/area/{area_id}
 ```
 
-### **Description**
-Returns a specific area if it exists
-
+### **Description** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Returns a specific area if it exists
 ### **Authorization** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bearer Token
 
 ### **Params**
 
-|             |                |                   |
+| **Required** |||
 | ----------- | -------------- | ----------------: |
 | **area_id** | integer / long | Area's Identifier |
 
@@ -36,7 +34,7 @@ Returns a specific area if it exists
         "access": false,
         "currentInmateIds": []
     }, 
-    ...
+    //...
 ]
 ```
 
