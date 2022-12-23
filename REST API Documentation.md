@@ -1,6 +1,57 @@
 # **REST API Documentation**
 
-This file contains detailed documentation on the API developed to supply the system's request/response mapping.
+This file contains a detailed documentation of the API developed to supply the system's request/response mapping. For a simpler version check out API ENDPOINTS file. The API access is restricted by authentication / authorization and the user must be authenticated to make use of the most endpoints created. 
+
+In order to better specify this API, the endpoints were divided into six controllers based on their parameters and responses. 
+
+- AuthController (Authentication)
+- AreaController (Areas)
+- GuardController (Guards)
+- InmateController (Inmates)
+- AlertController (Alerts)
+- WorkstationController (Work Stations).
+
+<br/>
+
+## **AuthController : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; api/auth**
+
+<br/>
+
+## **POST** &nbsp; api/auth/signin
+
+```
+http://localhost:5001/api/auth/signin
+```
+
+### **Description**
+
+Unique way to get authentication on the system. Submitting a email and password that matches on user in the system (guard/warden) the user can obtain access to the API endpoints. Returns the Bearer token necessary in authentication, among with user's roles/premissions.
+
+### **Request Body**
+
+```json
+{
+    "email": "pareidreds@aettua.pt",
+    "password": "soulinda"
+}
+```
+
+### **Response Body**
+
+```json
+{
+    "id": 1,
+    "email": "pareidreds@aettua.pt",
+    "roles": [
+        "ROLE_USER",
+        "ROLE_ADMIN"
+    ],
+    "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwYXJlaWRyZWRzQGFldHR1YS5wdCIsImlhdCI6MTY3MTc2MzM5NSwiZXhwIjoxNjcxODQ5Nzk1fQ.NG4PPt96qcDtPWMYOaQub7Lovaj0vN9LbU2rkOAmo_Lg58PFdGYUi15X7bIK-Xcq1TlsVgKS1T2Oq_kW-E3HGQ",
+    "tokenType": "Bearer"
+}
+```
+
+<br/>
 
 <br/>
 
@@ -1288,7 +1339,3 @@ Bearer Token obtained after authentication
 ```
 
 "quota" represents the quantity produced by the inmate during that work.
-
-<br/><br/>
-
-## **AreaController : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; api/area**
