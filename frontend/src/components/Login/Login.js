@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState, useRef } from "react";
+
 import { LockOutlined, UserOutlined, IdcardOutlined } from "@ant-design/icons";
 import Logo from "../../images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
 import { Button, Card, Form, Input, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
-const { Meta } = Card;
+
+// import Form from "react-validation/build/form";
+// import Input from "react-validation/build/input";
+// import CheckButton from "react-validation/build/button";
+import AuthService from "../../services/auth.service";
+
+
+
 
 export let Logged = false;
 
@@ -12,9 +20,13 @@ export function SetLogged(params) {
 }
 
 const Login = () => {
+  console.log("Olá");
   const navigate = useNavigate();
+  const form = useRef(null);
+  const checkBtn = useRef();
   // o que fazer quando carregamos no login
   const onFinish = (values) => {
+    console.log("finish");
     //console.log("Received values of form: ", values);
     // nesgisse, nãp está como deve porque não está a DB pronta
     if (true) {
@@ -22,6 +34,45 @@ const Login = () => {
       navigate("/dashboard");
     } else {
       countDown();
+    }
+  };
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleLogin = (e) => {
+    console.log("Adeus");
+    console.log(username, password);
+    // e.preventDefault();
+
+    setMessage("");
+    setLoading(true);
+
+    form.current.validateAll();
+
+    if (checkBtn.current.context._errors.length === 0) {
+      
+      AuthService.login(username, password).then(
+        () => {
+          navigate("/profile");
+          window.location.reload();
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+
+          setLoading(false);
+          setMessage(resMessage);
+        }
+      );
+    } else {
+      setLoading(false);
     }
   };
 
@@ -73,7 +124,10 @@ const Login = () => {
           initialValues={{
             remember: true,
           }}
-          onFinish={onFinish}
+          
+          onFinish={handleLogin} 
+          // onFinish={onFinish}
+          ref={form}
         >
           <Form.Item
             name="username"
@@ -87,6 +141,7 @@ const Login = () => {
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
               placeholder="Username"
+              value={username}
             />
           </Form.Item>
           <Form.Item
@@ -102,6 +157,7 @@ const Login = () => {
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
               placeholder="Password"
+              value={password}
             />
           </Form.Item>
           <Form.Item>
@@ -109,6 +165,7 @@ const Login = () => {
               type="primary"
               htmlType="submit"
               className="login-form-button"
+              ref={checkBtn}
               block
             >
               Log in
