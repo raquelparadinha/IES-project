@@ -1,64 +1,33 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import axios from "axios";
+//eslint-disable-next-line
+import { useEffect, useRef, useState } from "react";
+import { areaData, buildingData, sensorData } from "./mapdata";
 
-import VectorMap, { Layer, Tooltip, Label } from "devextreme-react/vector-map";
-import { roomsData, buildingData } from "./data.js";
+import "./mapstyle.css";
 
-const projection = {
-  to: ([l, lt]) => [l / 100, lt / 100],
-  from: ([x, y]) => [x * 100, y * 100],
-};
-
-const controlBar = {
-  enabled: false,
-};
-
-const size = {
-  height: "1000",
-  width: "2000",
-};
-
-export default function MapaEstricado() {
-  const [totalinmates, setTotalInmates] = useState(0); // totalinmates: int
-  const [areaData, setAreaData] = useState({}); // areasData: [areaname]: color
-
-  const fetchAreaData = () => {
-    axios.get("http://localhost:5001/api/map")
-    .then(response => {
-      console.log(response);
-    }).catch(error => {
-      console.log("couldn't fetch area data");
-      console.log(error);
-    })
-  }
-
-  useEffect(() => {
-    fetchAreaData();
-  }, []);
+const MapaEstricado = () => {
+  const mapRef = useRef(null);
+  const width = (mapRef.current ? mapRef.current.clientWidth : 0) / 2;
+  const height = (mapRef.current ? mapRef.current.clientHeight : 0) / 2;
+  const scale = 3;
 
   return (
-    <VectorMap id="vector-map" maxZoomFactor={4} size={size} projection={projection} controlBar={controlBar}>
-      <Layer dataSource={buildingData} hoverEnabled={false} name="building"></Layer>
-
-      <Layer
-        dataSource={roomsData}
-        name="rooms"
-        borderWidth={1}
-        color="transparent">
-        <Label enabled={true} dataField="name"></Label>
-      </Layer>
-
-      <Tooltip enabled={true} customizeTooltip={customizeTooltip}></Tooltip>
-    </VectorMap>
+    <svg ref={mapRef} className="map-container" preserveAspectRatio="xMidYMid meet">
+      <g transform={`translate(${width}, ${height - 50}) scale(${scale}) rotate(180)`}>
+        {buildingData.map((wall, i) => (
+          <polygon key={i} points={wall[i].points} stroke="black" strokeWidth={0.1} />
+        ))}
+        {areaData.map((area, i) => (
+          <g>
+            <polygon className="area" key={i} points={area[i].points} />
+            <text></text>
+          </g>
+        ))}
+        {sensorData.map((sensor, i) => (
+          <polygon className="sensor" key={i} points={sensor[i].points} />
+        ))}
+      </g>
+    </svg>
   );
-}
+};
 
-function customizeTooltip(arg) {
-  if (arg.layer.name === "rooms") {
-    if (arg.attribute("name").startsWith("Sensor")) {
-      return { text: `Sensor ${arg.attribute("id")}` };
-    }
-  }
-  return null;
-}
+export default MapaEstricado;

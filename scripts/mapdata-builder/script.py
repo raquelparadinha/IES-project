@@ -1,23 +1,23 @@
 def main():
     lines = []
-    with open('data.js', 'r') as f:
+    with open('olddata.js', 'r') as f:
         lines = f.readlines()
 
     index = -1
     lock = False
 
     name = 0
-    nameincr = 0
+    n = 0
     coords = ""
     
     data = {0: {}, 1: {}, 2: {}}
     
     for l in lines:
         l = l.strip()
-        print(lock, l)
 
         if l.startswith('export const'):
             index += 1
+            n = 0
 
         elif l.startswith('name'):
             name = l.replace('name: "', '').replace('"', '').replace(',', '').replace(' ', '').lower()
@@ -29,29 +29,35 @@ def main():
             aux = l.replace(',', ' ').replace('[', '').replace(']', '').replace('  ', ' ')
             coords += aux
         elif lock and not l.startswith('//'):
-            print(name, coords)
-            data[index][name] = coords.strip()
+            if type(name) == int:
+                data[index][name] = {"points": coords.strip()}
+            else:
+                data[index][n] = {"name": name, "points": coords.strip()}
             coords = ""
             
-            nameincr += 1
-            name = nameincr
+            n += 1
+            name = n
             lock = False
 
+    # for i in data:
+    #     print(i)
+    #     for j in data[i]:
+    #         print("   ", data[i][j])
 
     with open('mapdata.js', 'w') as f:
         f.write("export const buildingData = [")
         for i in data[0]:
-            f.write("{" + "{}: \"{}\"".format(i, data[0][i]) + "},\n")
+            f.write("{" + "{}: {{points: \"{}\"}}".format(i, data[0][i]['points']) + "},\n")
         f.write("];")
 
         f.write("export const areaData = [")
         for i in data[1]:
-            f.write("{" + "{}: \"{}\"".format(i, data[1][i]) + "},\n")
+            f.write("{" + "{}: {{name: \"{}\", points:\"{}\"}}".format(i, data[1][i]['name'], data[1][i]['points']) + "},\n")
         f.write("];")
 
         f.write("export const sensorData = [")
         for i in data[2]:
-            f.write("{" + "{}: \"{}\"".format(i, data[2][i]) + "},\n")
+            f.write("{" + "{}: {{name: \"{}\", points:\"{}\"}}".format(i, data[2][i]['name'], data[2][i]['points']) + "},\n")
         f.write("];")
 
 

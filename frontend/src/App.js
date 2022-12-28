@@ -1,37 +1,26 @@
-import "antd/dist/reset.css";
-import "./App.css";
+import { DashboardOutlined, LoginOutlined, LogoutOutlined, NotificationOutlined, ToolOutlined, UnorderedListOutlined, UserOutlined } from "@ant-design/icons/lib/icons";
 import { Menu } from "antd";
-import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
-import {
-  DashboardOutlined,
-  UnorderedListOutlined,
-  UserOutlined,
-  LogoutOutlined,
-  LoginOutlined,
-  NotificationOutlined,
-  ToolOutlined,
-} from "@ant-design/icons/lib/icons";
+import "antd/dist/reset.css";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import "./App.css";
 //import Logo from "./images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
-import PrisionersList from "./components/prisionersList/prisionersList";
-import Login from "./components/Login/Login";
-import { Logged, SetLogged } from "./components/Login/Login";
-import Dashboard from "./components/Dashboard/dashboard";
-import GuardsList from "./components/GuardsList/guardsList";
-import Notifications from "./components/Notifications/notifications";
-import Prisioner_Profile from "./components/Profile/prisioner_profile";
-import Guard_Profile from "./components/Profile/guard_profile";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Workstations from "./components/Workstations/workstations";
+import Dashboard from "./components/Dashboard/dashboard";
+import GuardsList from "./components/GuardsList/guardsList";
+import Login, { Logged, SetLogged } from "./components/Login/Login";
 import MapaEstricado from "./components/MapaEstricado/MapaEstricado";
+import Notifications from "./components/Notifications/notifications";
+import PrisionersList from "./components/prisionersList/prisionersList";
+import Guard_Profile from "./components/Profile/guard_profile";
+import Prisioner_Profile from "./components/Profile/prisioner_profile";
+import Workstations from "./components/Workstations/workstations";
 
 function App() {
   const [dataSource, setDataSource] = useState();
   const fetchData = () => {
     try {
-      return axios
-        .get("http://localhost:5001/api/alert")
-        .then((response) => setDataSource(response.data));
+      return axios.get("http://localhost:5001/api/alert").then((response) => setDataSource(response.data));
     } catch {
       console.log("Deu pylance");
       fetchData();
@@ -51,8 +40,7 @@ function App() {
         flexDirection: "column",
         flex: 1,
         height: "100vh",
-      }}
-    >
+      }}>
       <SideMenu />
     </div>
   );
@@ -102,8 +90,7 @@ export function SideMenu() {
         display: "flex",
         flexDirection: "row",
         flex: 1,
-      }}
-    >
+      }}>
       <Menu
         onClick={({ key }) => {
           if (key === "logout") {
@@ -115,8 +102,7 @@ export function SideMenu() {
         }}
         defaultSelectedKeys={[window.location.pathname]}
         items={islogged(Logged)}
-        style={{ backgroundColor: "#EFF5F5" }}
-      ></Menu>
+        style={{ backgroundColor: "#EFF5F5" }}></Menu>
       <Content />
     </div>
   );
@@ -134,8 +120,7 @@ function Content() {
             <div>
               <Dashboard />
             </div>
-          }
-        ></Route>
+          }></Route>
         <Route path="/userlist" element={<div>User List</div>}></Route>
         <Route path="/prisioners" element={<PrisionersList />}></Route>
         <Route path="/prisioners/:id" element={<Prisioner_Profile />}></Route>
@@ -146,11 +131,10 @@ function Content() {
             <div>
               <GuardsList />
             </div>
-          }
-        ></Route>
+          }></Route>
         <Route path="/notifications" element={<Notifications />}></Route>
         <Route path="/workstations" element={<Workstations />}></Route>
-        <Route path="/profile" element={<MapaEstricado />}></Route>
+        <Route path="/map" element={<MapaEstricado />}></Route>
         <Route path="/login" element={<Login />}></Route>
       </Routes>
     </div>
@@ -189,7 +173,7 @@ function islogged(params) {
         key: "/workstations",
         icon: <ToolOutlined />,
       },
-      { label: "Profile", key: "/profile", icon: <UserOutlined /> },
+      { label: "Map", key: "/map", icon: <UserOutlined /> },
       {
         label: "LogOut",
         key: "logout",
@@ -229,7 +213,7 @@ function islogged(params) {
       key: "/workstations",
       icon: <ToolOutlined />,
     },
-    { label: "Profile", key: "/profile", icon: <UserOutlined /> },
+    { label: "Map", key: "/map", icon: <UserOutlined /> },
     {
       label: "Login",
       key: "/login",

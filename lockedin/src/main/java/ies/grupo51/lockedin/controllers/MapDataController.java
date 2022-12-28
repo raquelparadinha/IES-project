@@ -1,9 +1,11 @@
 package ies.grupo51.lockedin.controllers;
 
-import org.json.JSONObject;
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,15 +15,16 @@ import ies.grupo51.lockedin.models.Area;
 import ies.grupo51.lockedin.services.AreaService;
 import ies.grupo51.lockedin.services.InmateService;
 
+import java.awt.Color;
+
 @Controller
+@CrossOrigin
 @RestController
 @RequestMapping("/api/map")
 public class MapDataController {
     
     // Static variables
 
-    private static final String color1 = "00FFFF";
-    private static final String color2 = "0000FF";
 
     // Services
 
@@ -30,27 +33,27 @@ public class MapDataController {
 
     // Mappings
     @GetMapping("")
-    public ResponseEntity<JSONObject> getMapData() throws ResourceNotFoundException {
-        JSONObject data = new JSONObject();
+    public ResponseEntity<HashMap<String, Object>> getMapData() throws ResourceNotFoundException {
+        HashMap<String, Object> data = new HashMap<>();
         int totalinmates = (int) inmateService.getInmateCount();
         data.put("totalinmates", totalinmates);
 
-        JSONObject areas = new JSONObject();
+
+        HashMap<String, Object> areas = new HashMap<>();
         for (Area a : areaService.getAreas()) {
+            HashMap<String, Object> areaData = new HashMap<>();
+            
             int countInmates = a.getCurrentInmateIds().size();
-            float percent = countInmates / totalinmates;
-
-            String red = Integer.toHexString(0);
-            String green = Integer.toHexString((int) (255.0 * percent));
-            String blue = Integer.toHexString(255);
-            if (red.length() == 1) red = "0" + red;
-            if (green.length() == 1) green = "0" + green;
-            if (blue.length() == 1) blue = "0" + blue;
-            String hex = "#" + red + green + blue;
-
-            JSONObject areaData = new JSONObject();
+            float f = 255 * (countInmates / (float) totalinmates);
+            int g = (int) f;
+            
+            Color color = new Color(0, g, 255);
+            String hex = "#"+Integer.toHexString(color.getRGB()).substring(2).toUpperCase();
             areaData.put("color", hex);
+            
             areaData.put("hoverColor", "");
+            
+            data.put("a", hex);
             areas.put(a.getName(), areaData);
         }
         data.put("areas", areas);

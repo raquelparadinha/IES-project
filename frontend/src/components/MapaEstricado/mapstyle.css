@@ -1,0 +1,17 @@
+.map-container {
+  height: 100%;
+  width: 70%;
+  overflow: hidden;
+}
+
+.area {
+  fill: none;
+  stroke: black;
+  stroke-width: 0.3;
+}
+
+.sensor {
+  fill: none;
+  stroke: black;
+  stroke-width: 0.2;
+}
