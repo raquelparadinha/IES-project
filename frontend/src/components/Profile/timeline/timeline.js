@@ -12,6 +12,9 @@ function Timeline_prisioner(id) {
     try {
       return axios
         .get("http://localhost:5001/api/inmate/" + id + "/moves")
+        .then((res) => {
+          return res;
+        })
         .then((response) => setDataSource(response.data));
     } catch {
       console.log("Deu pylance");

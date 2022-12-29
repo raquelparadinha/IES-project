@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col } from "antd";
+import { useNavigate } from "react-router-dom";
+import { Button, Card, Col } from "antd";
 import {
   DownOutlined,
   LoadingOutlined,
@@ -7,7 +8,7 @@ import {
   HeartFilled,
   AlertFilled,
 } from "@ant-design/icons";
-import { Dropdown, message, Space, Pagination } from "antd";
+import { Dropdown, Space, Pagination } from "antd";
 import axios from "axios";
 
 export const icons = {
@@ -29,6 +30,7 @@ export const colors = {
 };
 
 function Notifications() {
+  const navigate = useNavigate();
   const [dataSource, setDataSource] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [cardsPerPage] = useState(6);
@@ -38,10 +40,16 @@ function Notifications() {
   };
 
   const fetchData = () => {
-    console.log(dataSource);
+    //console.log(dataSource);
     try {
       return axios
         .get("http://localhost:5001/api/alert")
+        .then((res) => {
+          return res;
+        })
+        .then((res) => {
+          return res;
+        })
         .then((response) => setDataSource(response.data));
     } catch {
       console.log("Deu pylance");
@@ -56,7 +64,7 @@ function Notifications() {
   });
 
   fetchData();
-  console.log(dataSource);
+  //console.log(dataSource);
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   let currentCards;
@@ -76,7 +84,15 @@ function Notifications() {
     }
   }
 
-  function Alert_type(card) {
+  function Go_to_Profile(id) {
+    console.log(id);
+    if (id !== undefined) {
+      navigate("/prisioners/" + id);
+    }
+  }
+
+  function Alert_type(card, id) {
+    console.log(id);
     if (card.type === "health") {
       const items = card.symptoms.map((symptom) => ({
         key: symptom,
@@ -84,22 +100,39 @@ function Notifications() {
       }));
 
       return (
-        <Dropdown menu={{ items }}>
-          <a
-            onClick={(e) => e.preventDefault()}
+        <Space>
+          <Button
+            onClick={() => Go_to_Profile(id)}
+            type="text"
             style={{ color: colors[`${card.type}`] }}
           >
-            <Space>
-              Symptoms
-              <DownOutlined />
-            </Space>
-          </a>
-        </Dropdown>
+            Profile
+          </Button>
+          <Dropdown menu={{ items }}>
+            <a style={{ color: colors[`${card.type}`] }}>
+              <Space>
+                Symptoms
+                <DownOutlined />
+              </Space>
+            </a>
+          </Dropdown>
+        </Space>
+      );
+    } else if (card.type === "work") {
+      return (
+        <Button
+          onClick={() => Go_to_Profile(id)}
+          type="text"
+          style={{ color: colors[`${card.type}`] }}
+        >
+          Profile
+        </Button>
       );
     }
   }
 
   if (dataSource !== undefined) {
+    //console.log(dataSource);
     currentCards = dataSource.slice(indexOfFirstCard, indexOfLastCard);
 
     return (
@@ -119,10 +152,13 @@ function Notifications() {
           >
             <Space direction="vertical">
               {currentCards.map((card) => {
+                //console.log(card["InmateID"]);
                 return (
                   <Card
                     //
-                    headStyle={{ backgroundColor: back_colors[`${card.type}`] }}
+                    headStyle={{
+                      backgroundColor: back_colors[`${card["Alert"].type}`],
+                    }}
                     bodyStyle={{ backgroundColor: "#eff5f5" }}
                     style={{
                       marginTop: 16,
@@ -130,14 +166,15 @@ function Notifications() {
                     }}
                     type="inner"
                     title={
-                      <div style={{ color: colors[`${card.type}`] }}>
-                        {icons[`${card.type}`]}{" "}
-                        {card.type.charAt(0).toUpperCase() + card.type.slice(1)}
+                      <div style={{ color: colors[`${card["Alert"].type}`] }}>
+                        {icons[`${card["Alert"].type}`]}{" "}
+                        {card["Alert"].type.charAt(0).toUpperCase() +
+                          card["Alert"].type.slice(1)}
                       </div>
                     }
-                    extra={Alert_type(card)}
+                    extra={Alert_type(card["Alert"], card["InmateID"])}
                   >
-                    {card.information}
+                    {card["Alert"].information}
                   </Card>
                 );
               })}
@@ -148,6 +185,7 @@ function Notifications() {
       </>
     );
   } else {
+    fetchData();
     return (
       <div>
         <LoadingOutlined />

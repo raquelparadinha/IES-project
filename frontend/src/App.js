@@ -37,8 +37,11 @@ function App() {
     try {
       return axios
         .get("http://localhost:5001/api/alert/new")
+        .then((res) => {
+          return res;
+        })
         .then((response) => {
-          console.log(response.data)
+          console.log(response.data);
           response.data.forEach((message_) => {
             api.open({
               duration: 2,

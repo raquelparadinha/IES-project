@@ -93,6 +93,9 @@ const Workstations = () => {
     try {
       return axios
         .get("http://localhost:5001/api/workstation")
+        .then((res) => {
+          return res;
+        })
         .then((response) => setDataSource(response.data));
     } catch {
       console.log("Deu pylance");
@@ -105,6 +108,9 @@ const Workstations = () => {
     try {
       return axios
         .get("http://localhost:5001/api/workstation/" + id + "/worklogs")
+        .then((res) => {
+          return res;
+        })
         .then((response) => {
           setMyDataSources[id - 1](response.data);
           console.log(myDataSources);
@@ -119,6 +125,9 @@ const Workstations = () => {
     try {
       return axios
         .get("http://localhost:5001/api/workstation/" + id + "/details")
+        .then((res) => {
+          return res;
+        })
         .then((response) => {
           console.log(id);
           setMyDetails[id - 1](response.data);
@@ -146,7 +155,7 @@ const Workstations = () => {
               </div>
             }
           >
-            <Row >
+            <Row>
               <Col style={{ width: "20%" }}>
                 {console.log(myDetails[i])}
                 <p style={{ marginTop: "10px" }}>

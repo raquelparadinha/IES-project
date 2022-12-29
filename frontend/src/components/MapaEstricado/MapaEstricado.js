@@ -24,7 +24,12 @@ export default function MapaEstricado() {
   const [dataSource, setDataSource] = useState();
   const fetchData = () => {
     try {
-      return axios.get("http://localhost:5001/api/area").then((response) => setDataSource(response.data));
+      return axios
+        .get("http://localhost:5001/api/area")
+        .then((res) => {
+          return res;
+        })
+        .then((response) => setDataSource(response.data));
     } catch {
       console.log("Deu pylance");
     }
@@ -42,7 +47,8 @@ export default function MapaEstricado() {
       return dataSource.map((zone) => (
         <>
           <p style={{ color: "#12494c" }}>
-            {zone.name}: {zone.currentInmateIds.length} / {zone.capacity} | Acess: {zone.access.toString()}
+            {zone.name}: {zone.currentInmateIds.length} / {zone.capacity} |
+            Acess: {zone.access.toString()}
           </p>
         </>
       ));
@@ -57,10 +63,25 @@ export default function MapaEstricado() {
   }
 
   return (
-    <VectorMap id="vector-map" maxZoomFactor={4} size={size} projection={projection} controlBar={controlBar}>
-      <Layer dataSource={buildingData} hoverEnabled={false} name="building"></Layer>
+    <VectorMap
+      id="vector-map"
+      maxZoomFactor={4}
+      size={size}
+      projection={projection}
+      controlBar={controlBar}
+    >
+      <Layer
+        dataSource={buildingData}
+        hoverEnabled={false}
+        name="building"
+      ></Layer>
 
-      <Layer dataSource={roomsData} name="rooms" borderWidth={1} color="transparent">
+      <Layer
+        dataSource={roomsData}
+        name="rooms"
+        borderWidth={1}
+        color="transparent"
+      >
         <Label enabled={true} dataField="name"></Label>
       </Layer>
 

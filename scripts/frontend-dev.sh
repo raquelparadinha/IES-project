@@ -8,7 +8,7 @@ echo "--=[ Packaging ]=--"
 cd ..
 
 echo "--=[ Starting Containers ]=--"
-docker-compose up -d --build mongodb rabbitmq web datagen
+docker-compose up -d --build
 
 echo "--=[ Starting Frontend Development Environment ]=--" 
 cd ./frontend

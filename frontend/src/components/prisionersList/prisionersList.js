@@ -149,6 +149,9 @@ function PrisionersList() {
     //console.log("dataaa");
     return axios
       .get("http://localhost:5001/api/inmate")
+      .then((res) => {
+        return res;
+      })
       .then((response) => setDataSource(response.data));
   };
 

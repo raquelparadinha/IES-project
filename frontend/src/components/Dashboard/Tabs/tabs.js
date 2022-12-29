@@ -56,6 +56,9 @@ const Example = (props) => {
             coisas2[props.data_] +
             "/data"
         )
+        .then((res) => {
+          return res;
+        })
         .then((response) => setDataSource(response.data));
     } catch {
       console.log("Deu pylance");
