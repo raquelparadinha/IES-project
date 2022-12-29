@@ -36,10 +36,10 @@ function Timeline_prisioner(id) {
     if (dataSource.length > 8) {
       data3 = dataSource.slice(9, 14);
     }
-    console.log("data1:" + data1);
+    console.log("data1:" + data1.length);
     console.log("data2:" + data2);
     console.log("data3:" + data3);
-    let val = 5;
+    let val = data1.length + 1;
     let val2 = 4;
     return (
       <Card
