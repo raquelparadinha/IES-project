@@ -1,6 +1,7 @@
 package ies.grupo51.lockedin.models;
 
-import java.time.LocalDate;
+import java.time.Instant;
+import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,14 +14,14 @@ public abstract class Alert {
 
     private String type;
     private String information;
-    private LocalDate timestamp;
+    private Date timestamp;
     private Boolean seen;
 
     private static long counter = 0;
 
     public Alert() {
         this.id = 0;
-        this.timestamp = LocalDate.now();
+        this.timestamp = Date.from(Instant.now());
         this.seen = false;
     }
 
@@ -28,7 +29,7 @@ public abstract class Alert {
         this.id = id;
         this.type = type;
         this.information = information;
-        this.timestamp = LocalDate.now();
+        this.timestamp = Date.from(Instant.now());
         this.seen = false;
     }
 
@@ -46,7 +47,7 @@ public abstract class Alert {
     public void setSeen(Boolean seen) {
         this.seen = seen;
     }
-    public void setTimestamp(LocalDate timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
     public void setInformation(String information) {
@@ -67,7 +68,7 @@ public abstract class Alert {
     public Boolean getSeen() {
         return seen;
     }
-    public LocalDate getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
     public String getInformation() {
@@ -77,7 +78,7 @@ public abstract class Alert {
     @Override // Will be called as super.toString() and completed with info!
     public String toString() {
         return String.format(
-            "Alert [ID: %d, Type: %s, ",
-            this.id, this.type);
+            "Alert [ID: %d, Type: %s, Seen: %s, Timestamp: %s, ",
+            this.id, this.type, this.seen, this.timestamp.toString());
     }
 }

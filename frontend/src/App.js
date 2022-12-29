@@ -3,6 +3,17 @@ import { Menu } from "antd";
 import "antd/dist/reset.css";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
+import { Menu } from "antd";
+import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
+import {
+  DashboardOutlined,
+  UnorderedListOutlined,
+  UserOutlined,
+  LogoutOutlined,
+  LoginOutlined,
+  NotificationOutlined,
+  ToolOutlined,
+} from "@ant-design/icons/lib/icons";
 //import Logo from "./images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -15,12 +26,16 @@ import PrisionersList from "./components/prisionersList/prisionersList";
 import Guard_Profile from "./components/Profile/guard_profile";
 import Prisioner_Profile from "./components/Profile/prisioner_profile";
 import Workstations from "./components/Workstations/workstations";
+import MapaEstricado from "./components/MapaEstricado/MapaEstricado";
 
 function App() {
-  const [dataSource, setDataSource] = useState();
+  const [api, contextHolder] = notification.useNotification();
+  const [max_id, setMaxId] = useState(0);
   const fetchData = () => {
     try {
-      return axios.get("http://localhost:5001/api/alert").then((response) => setDataSource(response.data));
+      return axios
+        .get("http://localhost:5001/api/alert")
+        .then((response) => setDataSource(response.data));
     } catch {
       console.log("Deu pylance");
       fetchData();
@@ -29,10 +44,10 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       fetchData();
-    }, 30000);
+    }, 1000);
     return () => clearInterval(interval);
   });
-  fetchData();
+
   return (
     <div
       style={{
@@ -40,47 +55,12 @@ function App() {
         flexDirection: "column",
         flex: 1,
         height: "100vh",
-      }}>
+      }}
+    >
       <SideMenu />
     </div>
   );
 }
-
-// export function Header() {
-//   return (
-//     <div
-//       style={{
-//         height: 60,
-//         backgroundColor: "orange",
-//         color: "black",
-//         display: "flex",
-//         justifyContent: "center",
-//         alignItems: "center",
-//         fontWeight: "bold",
-//       }}
-//     >
-//       <img src={Logo} alt="logo" style={{ height: "100%" }} />
-//     </div>
-//   );
-// }
-
-// export function Footer() {
-//   return (
-//     <div
-//       style={{
-//         height: 60,
-//         backgroundColor: "orange",
-//         color: "black",
-//         display: "flex",
-//         justifyContent: "center",
-//         alignItems: "center",
-//         fontWeight: "bold",
-//       }}
-//     >
-//       Footer
-//     </div>
-//   );
-// }
 
 export function SideMenu() {
   const navigate = useNavigate();

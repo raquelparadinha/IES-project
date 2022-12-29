@@ -3,47 +3,47 @@ package ies.grupo51.lockedin.models;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("alert")
-public class EstrilhoAlert extends Alert {
+public class WorkAlert extends Alert{
     
-    private long areaId;
+    private long workLogId;
 
     private static long counter = 0;
 
-    public EstrilhoAlert() {
+    public WorkAlert() {
         super();
     }
 
-    public EstrilhoAlert(long id, String type, String information) {
+    public WorkAlert(long id, String type, String information) {
         super(id, type, information);
     }
 
-    public EstrilhoAlert(long id, String type, String information, long areaId) {
+    public WorkAlert(long id, String type, String information, long workLogId) {
         super(id, type, information);
-        this.areaId = areaId;
+        this.workLogId = workLogId;
     }
 
     // SETS
 
-    public void setAreaId(long areaId) {
-        this.areaId = areaId;
+    public void setWorkLogId(long workLogId) {
+        this.workLogId = workLogId;
     }
     public static void setCounter(long counter) {
-        EstrilhoAlert.counter = counter;
+        WorkAlert.counter = counter;
     }
 
     // GETS
 
-    public long getAreaId() {
-        return areaId;
-    }
     public static long getCounter() {
         return counter;
+    }
+    public long getWorkLogId() {
+        return workLogId;
     }
 
     @Override
     public String toString() {
         return super.toString() + String.format(
-            "Area ID: %d]",
-            this.areaId);
+            "WorkLog ID: %d]",
+            this.workLogId);
     }
 }

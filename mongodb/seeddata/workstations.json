@@ -1,5 +1,5 @@
 [
-  { "_id": 1, "name": "mail_sorting", "description": "Mail Sorting", "workLogIds": [], "expectedQuota": 16 },
+  { "_id": 1, "name": "mail_sorting", "description": "Mail Sorting", "workLogIds": [], "expectedQuota": 22 },
   { "_id": 2, "name": "carpentry", "description": "Carpentry", "workLogIds": [], "expectedQuota": 25 },
   { "_id": 3, "name": "waste_disposal", "description": "Waste Disposal", "workLogIds": [], "expectedQuota": 25 },
   { "_id": 4, "name": "janitor", "description": "Janitor", "workLogIds": [], "expectedQuota": 30 },
