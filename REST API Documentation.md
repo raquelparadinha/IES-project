@@ -695,6 +695,46 @@ Bearer Token obtained after authentication
 
 <br/>
 
+## **GET** &nbsp;&nbsp; api/inmate/{inmate_id}/health/last
+
+```
+http://localhost:5001/api/inmate/{inmate_id}/health/last
+```
+
+### **Description**
+
+Returns the last health log of an inmate.
+
+### **Authorization**
+
+Bearer Token obtained after authentication
+
+### **Params**
+
+| URL           |   Input Type   |         Description |
+| :------------ | :------------: | ------------------: |
+| **inmate_id** | integer / long | Inmate's Identifier |
+
+### **Response Body**
+
+```json
+[
+    {
+        "id": 1,
+        "inmateId": 1099,
+        "timestamp": "2022-12-22T22:36:06.903+00:00",
+        "heartBeat": 115,
+        "stress": 72,
+        "glicose": 8,
+        "uricAcid": 7,
+        "cholesterol": 189,
+        "toxicScreen": 0
+    }
+]
+```
+
+<br/>
+
 ## **GET** &nbsp;&nbsp; api/inmate/all/health/heartbeat/data
 
 ```
@@ -1052,7 +1092,7 @@ http://localhost:5001/api/alert
 
 ### **Description**
 
-Returns the 30 most recent alerts stored in the system. After returning the alerts, every alert will be updated, changing  "seen" to true. Mostly for presentation purposes.
+Returns the 30 most recent alerts stored in the system. After returning the alerts, every alert will be updated, changing "seen" to true. Mostly for presentation purposes.
 
 ### **Authorization**
 
@@ -1063,25 +1103,31 @@ Bearer Token obtained after authentication.
 ```json
 [
     {
-        "id": 44,
-        "type": "health",
-        "information": "Inmate Phil Bengle is not feeling well",
-        "timestamp": "2022-12-23T01:50:48.640+00:00",
-        "seen": false,
-        "symptoms": [
-            "Low Uric Acid"
-        ],
-        "healthLogId": 29
+        "InmateID": 1065,
+        "Alert": {
+            "id": 159,
+            "type": "work",
+            "information": "Inmate Olvan Peinton is not doing an expected job",
+            "timestamp": "2022-12-29T18:18:18.402+00:00",
+            "seen": true,
+            "workLogId": 539
+        }
     },
 
     {
-        "id": 15,
-        "type": "work",
-        "information": "Inmate Orv Burchett is not doing an expected job",
-        "timestamp": "2022-12-23T01:50:32.089+00:00",
-        "seen": false,
-        "workLogId": 9
-    },
+        "InmateID": 1123,
+        "Alert": {
+            "id": 130,
+            "type": "health",
+            "information": "Inmate Laurie Crosland is not feeling well",
+            "timestamp": "2022-12-29T18:14:04.668+00:00",
+            "seen": true,
+            "symptoms": [
+                "Low Heart Beat"
+            ],
+            "healthLogId": 142
+        }
+    }
 ]
 ```
 
