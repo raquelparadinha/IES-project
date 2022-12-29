@@ -1,11 +1,14 @@
 .map-container {
   height: 100%;
   width: 70%;
+  background-color: rgb(214, 228, 229);
 }
 
 .wall {
   fill: black;
   stroke: black;
+  stroke-width: 1.8;
+  stroke-opacity: 1;
 }
 
 .area {
@@ -13,8 +16,11 @@
   fill-opacity: 0.6;
 }
 
+.area-title {
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 0.5em;
+}
 .sensor {
-  fill: none;
   stroke: black;
-  stroke-width: 0.2;
+  stroke-width: 0.7;
 }

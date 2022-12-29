@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
 import ies.grupo51.lockedin.models.Area;
+import ies.grupo51.lockedin.models.MoveSensor;
 import ies.grupo51.lockedin.services.AreaService;
 import ies.grupo51.lockedin.services.InmateService;
+import ies.grupo51.lockedin.services.MoveSensorService;
 
 import java.awt.Color;
 
@@ -30,34 +32,63 @@ public class MapDataController {
 
     @Autowired private AreaService areaService;
     @Autowired private InmateService inmateService;
+    @Autowired private MoveSensorService moveSensorService;
 
     // Mappings
     @GetMapping("")
     public ResponseEntity<HashMap<String, Object>> getMapData() throws ResourceNotFoundException {
         HashMap<String, Object> data = new HashMap<>();
+
+        // total inmates
         int totalinmates = (int) inmateService.getInmateCount();
         data.put("totalinmates", totalinmates);
 
 
+        // logic for area occupation colors
+        // using HSB color format instead of RGB to create a range from green - yellow - red
+        float angleFrom = 0, angleTo = 120; // 0 - red, 120 - green, passes through 60 - yellow
+        int size = 60; // create 60 colors
+        float angleRange = angleTo - angleFrom;
+        float stepAngle = angleRange / size;
+
+        Color[] colors = new Color[size]; // create array of colors
+        for (int i = 0; i < size; i++) {
+            float angle = angleFrom + (i * stepAngle);
+            colors[i] = Color.getHSBColor(angle / 360, 1.0f, 1.0f);
+        }
+
+        // areas
         HashMap<String, Object> areas = new HashMap<>();
         for (Area a : areaService.getAreas()) {
             HashMap<String, Object> areaData = new HashMap<>();
             
+            // area color
             int countInmates = a.getCurrentInmateIds().size();
-            float f = 255 * (countInmates / (float) totalinmates);
-            int r = (int) f;
             
-            Color color = new Color(r, 255-r, 0);
-            String hex = "#"+Integer.toHexString(color.getRGB()).substring(2).toUpperCase();
+            String hex = "none";
+            if (countInmates != 0) {
+                float f = countInmates / (float) a.getCapacity();
+                int coloridx = size - (int) Math.ceil(f * size) - 1;
+
+                Color color = colors[coloridx];
+                hex = "#"+Integer.toHexString(color.getRGB()).substring(2).toUpperCase();
+            }
+            
             areaData.put("color", hex);
             
-            areaData.put("hoverColor", "");
-            
-            data.put("a", hex);
             areas.put(a.getName(), areaData);
         }
         data.put("areas", areas);
         System.out.println(data.toString());
+
+        // sensors
+        HashMap<String, Object> sensors = new HashMap<>();
+        // color for lock or not
+        for (MoveSensor s : moveSensorService.getMoveSensors()) {
+            String hex = (s.isActive()) ? "#2DC937" :"#CC3232";
+            sensors.put(String.valueOf(s.getId() - 1), hex);
+        }
+        data.put("sensors", sensors);
 
         return ResponseEntity.ok().body(data);
     }
