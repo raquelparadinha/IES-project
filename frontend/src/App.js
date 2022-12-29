@@ -1,19 +1,8 @@
 import { DashboardOutlined, LoginOutlined, LogoutOutlined, NotificationOutlined, ToolOutlined, UnorderedListOutlined, UserOutlined } from "@ant-design/icons/lib/icons";
-import { Menu } from "antd";
+import { Menu, notification } from "antd";
 import "antd/dist/reset.css";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
-import { Menu } from "antd";
-import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
-import {
-  DashboardOutlined,
-  UnorderedListOutlined,
-  UserOutlined,
-  LogoutOutlined,
-  LoginOutlined,
-  NotificationOutlined,
-  ToolOutlined,
-} from "@ant-design/icons/lib/icons";
 //import Logo from "./images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -21,21 +10,35 @@ import Dashboard from "./components/Dashboard/dashboard";
 import GuardsList from "./components/GuardsList/guardsList";
 import Login, { Logged, SetLogged } from "./components/Login/Login";
 import MapaEstricado from "./components/MapaEstricado/MapaEstricado";
-import Notifications from "./components/Notifications/notifications";
+import Notifications, { back_colors, colors, icons } from "./components/Notifications/notifications";
 import PrisionersList from "./components/prisionersList/prisionersList";
 import Guard_Profile from "./components/Profile/guard_profile";
 import Prisioner_Profile from "./components/Profile/prisioner_profile";
 import Workstations from "./components/Workstations/workstations";
-import MapaEstricado from "./components/MapaEstricado/MapaEstricado";
 
 function App() {
   const [api, contextHolder] = notification.useNotification();
   const [max_id, setMaxId] = useState(0);
   const fetchData = () => {
     try {
-      return axios
-        .get("http://localhost:5001/api/alert")
-        .then((response) => setDataSource(response.data));
+      return axios.get("http://localhost:5001/api/alert/new").then((response) => {
+        console.log(response.data);
+        response.data.forEach((message_) => {
+          api.open({
+            duration: 2,
+            message: message_.type.charAt(0).toUpperCase() + message_.type.slice(1),
+            description: message_.information,
+            icon: (
+              <div
+                style={{
+                  color: colors[`${message_.type}`],
+                }}>
+                {icons[`${message_.type}`]}
+              </div>
+            ),
+          });
+        });
+      });
     } catch {
       console.log("Deu pylance");
       fetchData();
@@ -55,8 +58,8 @@ function App() {
         flexDirection: "column",
         flex: 1,
         height: "100vh",
-      }}
-    >
+      }}>
+      {contextHolder}
       <SideMenu />
     </div>
   );
@@ -153,7 +156,7 @@ function islogged(params) {
         key: "/workstations",
         icon: <ToolOutlined />,
       },
-      { label: "Map", key: "/map", icon: <UserOutlined /> },
+      { label: "Profile", key: "/profile", icon: <UserOutlined /> },
       {
         label: "LogOut",
         key: "logout",
