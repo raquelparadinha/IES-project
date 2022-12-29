@@ -45,9 +45,9 @@ public class MapDataController {
             
             int countInmates = a.getCurrentInmateIds().size();
             float f = 255 * (countInmates / (float) totalinmates);
-            int g = (int) f;
+            int r = (int) f;
             
-            Color color = new Color(0, g, 255);
+            Color color = new Color(r, 255-r, 0);
             String hex = "#"+Integer.toHexString(color.getRGB()).substring(2).toUpperCase();
             areaData.put("color", hex);
             

@@ -1,4 +1,4 @@
-export const buildingData = [
+export const buildingCoords = [
   { 0: { points: "50 50 40 50 40 60 35 60 35 50 10 50 10 45 45 45 45 35 50 35 50 45 65 45 65 50" } },
   { 1: { points: "-50 50 -40 50 -40 60 -35 60 -35 50 -10 50 -10 45 -45 45 -45 35 -50 35 -50 45 -65 45 -65 50" } },
   { 2: { points: "60 -50 60 -45 50 -45 50 -35 45 -35 45 -45 35 -45 35 -50" } },
@@ -11,7 +11,7 @@ export const buildingData = [
     },
   },
 ];
-export const areaData = [
+export const areaCoords = [
   { 0: { name: "patio", points: "-45 -45 45 -45 45 45 -45 45" } },
   { 1: { name: "visitorwing", points: "-3 -50 -3 -90 -90 -90 -90 -50" } },
   { 2: { name: "staffwing", points: "3 -50 3 -90 90 -90 90 -50" } },
@@ -24,7 +24,7 @@ export const areaData = [
   { 9: { name: "canteen", points: "40 90 40 50 130 50 130 90" } },
   { 10: { name: "solitary", points: "-35 100 -35 50 35 50 35 100" } },
 ];
-export const sensorData = [
+export const sensorCoords = [
   { 0: { name: "sensor1", points: "-15 -90 -35 -95 -15 -95" } },
   { 1: { name: "sensor2", points: "-15 -90 -35 -90 -35 -95" } },
   { 2: { name: "sensor3", points: "35 -90 35 -95 15 -95" } },
