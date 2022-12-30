@@ -8,20 +8,31 @@
 .wall {
   fill: black;
   stroke: black;
-  stroke-width: 1.2;
+  stroke-width: 1;
 }
 
 .area {
   fill-opacity: 0.6;
 }
 
+.area-selected {
+  stroke: white;
+  stroke-width: 2;
+}
+
 .area-title {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 0.3em;
 }
+
 .sensor {
   stroke: black;
   stroke-width: 0.7;
+}
+
+.sensor-selected {
+  stroke: white;
+  stroke-width: 1;
 }
 
 .cards {

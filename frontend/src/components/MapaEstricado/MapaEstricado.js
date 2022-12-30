@@ -86,19 +86,19 @@ function MapaEstricado() {
         <g transform={`translate(${width}, ${height}) scale(${scale})`}>
           {areaCoords.map((_, i) => (
             <g>
-              <polygon key={i} className="area" points={areaColors[i].points} onClick={() => selectArea(i)} fill={areaColors[i]["color"]} />
+              <polygon key={i} className={selectedArea === i ? "area-selected" : "area"} points={areaColors[i].points} onClick={() => selectArea(i)} fill={areaColors[i]["color"]} />
               <text key={i + areaCoords.length} className="area-title" x={bigX(areaColors[i].points)} y={smallY(areaColors[i].points)}>
                 {areaColors[i].text}
               </text>
             </g>
           ))}
-          {sensorCoords.map((sensor, i) => (
-            <polygon key={i} className="sensor" points={sensor.points} onClick={() => selectSensor(i)} fill={sensorColors[i]} />
-          ))}
           {buildingCoords.map((wall, i) => (
             <g>
               <polygon key={i} className="wall" points={wall.points} />
             </g>
+          ))}
+          {sensorCoords.map((sensor, i) => (
+            <polygon key={i} className={selectedSensor === i ? "sensor-selected" : "sensor"} points={sensor.points} onClick={() => selectSensor(i)} fill={sensorColors[i]} />
           ))}
         </g>
       </svg>
