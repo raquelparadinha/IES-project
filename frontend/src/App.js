@@ -1,4 +1,12 @@
-import { DashboardOutlined, LoginOutlined, LogoutOutlined, NotificationOutlined, ToolOutlined, UnorderedListOutlined, UserOutlined } from "@ant-design/icons/lib/icons";
+import {
+  DashboardOutlined,
+  LoginOutlined,
+  LogoutOutlined,
+  NotificationOutlined,
+  ToolOutlined,
+  UnorderedListOutlined,
+  UserOutlined,
+} from "@ant-design/icons/lib/icons";
 import { Menu, notification } from "antd";
 import "antd/dist/reset.css";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
@@ -10,7 +18,11 @@ import Dashboard from "./components/Dashboard/dashboard";
 import GuardsList from "./components/GuardsList/guardsList";
 import Login, { Logged, SetLogged } from "./components/Login/Login";
 import MapaEstricado from "./components/MapaEstricado/MapaEstricado";
-import Notifications, { back_colors, colors, icons } from "./components/Notifications/notifications";
+import Notifications, {
+  back_colors,
+  colors,
+  icons,
+} from "./components/Notifications/notifications";
 import PrisionersList from "./components/prisionersList/prisionersList";
 import Guard_Profile from "./components/Profile/guard_profile";
 import Prisioner_Profile from "./components/Profile/prisioner_profile";
@@ -18,7 +30,6 @@ import Workstations from "./components/Workstations/workstations";
 
 function App() {
   const [api, contextHolder] = notification.useNotification();
-  const [max_id, setMaxId] = useState(0);
   const fetchData = () => {
     try {
       return axios
@@ -46,7 +57,6 @@ function App() {
             });
           });
         });
-      });
     } catch {
       console.log("Deu pylance");
       fetchData();
@@ -66,7 +76,8 @@ function App() {
         flexDirection: "column",
         flex: 1,
         height: "100vh",
-      }}>
+      }}
+    >
       {contextHolder}
       <SideMenu />
     </div>
@@ -81,7 +92,8 @@ export function SideMenu() {
         display: "flex",
         flexDirection: "row",
         flex: 1,
-      }}>
+      }}
+    >
       <Menu
         onClick={({ key }) => {
           if (key === "logout") {
@@ -93,7 +105,8 @@ export function SideMenu() {
         }}
         defaultSelectedKeys={[window.location.pathname]}
         items={islogged(Logged)}
-        style={{ backgroundColor: "#EFF5F5" }}></Menu>
+        style={{ backgroundColor: "#EFF5F5" }}
+      ></Menu>
       <Content />
     </div>
   );
@@ -111,7 +124,8 @@ function Content() {
             <div>
               <Dashboard />
             </div>
-          }></Route>
+          }
+        ></Route>
         <Route path="/userlist" element={<div>User List</div>}></Route>
         <Route path="/prisioners" element={<PrisionersList />}></Route>
         <Route path="/prisioners/:id" element={<Prisioner_Profile />}></Route>
@@ -122,7 +136,8 @@ function Content() {
             <div>
               <GuardsList />
             </div>
-          }></Route>
+          }
+        ></Route>
         <Route path="/notifications" element={<Notifications />}></Route>
         <Route path="/workstations" element={<Workstations />}></Route>
         <Route path="/map" element={<MapaEstricado />}></Route>
