@@ -27,7 +27,6 @@ public class MapDataController {
     
     // Static variables
 
-
     // Services
 
     @Autowired private AreaService areaService;
@@ -65,7 +64,7 @@ public class MapDataController {
             // area color
             int countInmates = a.getCurrentInmateIds().size();
             
-            String hex = "none";
+            String hex = "#D6E4E5";
             if (countInmates != 0) {
                 float f = countInmates / (float) a.getCapacity();
                 int coloridx = size - (int) Math.ceil(f * size) - 1;

@@ -1,6 +1,6 @@
-//eslint-disable-next-line
+import { Card, Col, Row, Space } from "antd";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { areaCoords, buildingCoords, sensorCoords } from "./mapdata";
 import "./mapstyle.css";
 
@@ -15,6 +15,7 @@ function MapaEstricado() {
   const fetchData = () => {
     try {
       return axios.get("http://localhost:5001/api/map").then((response) => {
+        console.log(response.data);
         const apiareasdata = response.data["areas"];
         const areasdata = { ...areaCoords };
         Object.keys(areaCoords).forEach((key) => {
@@ -38,33 +39,43 @@ function MapaEstricado() {
     return () => clearInterval(interval);
   }, []);
 
+  const [selectedArea, setSelectedArea] = useState(0);
+  function selectArea(idx) {
+    setSelectedArea(idx);
+  }
+
   console.log(areaData);
+  console.log(sensorData);
   return (
-    <svg ref={mapRef} className="map-container" preserveAspectRatio="xMidYMid meet">
-      <g transform={`translate(${width}, ${height}) scale(${scale})`}>
-        {areaCoords.map((_, i) => (
-          <g>
-            <polygon key={i} className="area" points={areaData[i].points} fill={areaData[i]["color"]} />
-            <text key={i + areaCoords.length} className="area-title" x={bigX(areaData[i].points)} y={smallY(areaData[i].points)}>
-              {areaData[i].text}
-            </text>
-          </g>
-        ))}
-        {sensorCoords.map((sensor, i) => (
-          <polygon key={i} className="sensor" points={sensor.points} fill={sensorData[i]} />
-        ))}
-        {buildingCoords.map((wall, i) => (
-          <g>
-            <polygon key={i} className="wall" points={wall.points} />
-          </g>
-        ))}
-      </g>
-    </svg>
+    <>
+      <svg ref={mapRef} className="map-container" preserveAspectRatio="xMidYMid meet">
+        <g transform={`translate(${width}, ${height}) scale(${scale})`}>
+          {areaCoords.map((_, i) => (
+            <g>
+              <polygon key={i} className="area" points={areaData[i].points} onClick={() => selectArea(i)} fill={areaData[i]["color"]} />
+              <text key={i + areaCoords.length} className="area-title" x={bigX(areaData[i].points)} y={smallY(areaData[i].points)}>
+                {areaData[i].text}
+              </text>
+            </g>
+          ))}
+          {sensorCoords.map((sensor, i) => (
+            <polygon key={i} className="sensor" points={sensor.points} fill={sensorData[i]} />
+          ))}
+          {buildingCoords.map((wall, i) => (
+            <g>
+              <polygon key={i} className="wall" points={wall.points} />
+            </g>
+          ))}
+        </g>
+      </svg>
+      <Card className="map-card" title={areaData[selectedArea].text}></Card>
+    </>
   );
 }
 
 export default MapaEstricado;
 
+// text positioning
 function bigX(points) {
   const strs = points.split(" ").filter((n, i) => {
     return i % 2 === 0;
@@ -80,3 +91,5 @@ function smallY(points) {
   const numbers = strs.map((s) => parseInt(s));
   return Math.max(...numbers) - 3;
 }
+
+// api POSTS
