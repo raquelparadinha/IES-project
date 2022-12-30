@@ -9,9 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ies.grupo51.lockedin.comms.Sender;
 import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
 import ies.grupo51.lockedin.models.Area;
 import ies.grupo51.lockedin.models.Guard;
@@ -40,6 +42,9 @@ public class AreaController {
 
     @Autowired
     private GuardService guardService;
+
+    @Autowired
+    private Sender sender;
 
     // GET METHODS
 
@@ -106,5 +111,61 @@ public class AreaController {
         }
         data.put("guards", guards);
         return ResponseEntity.ok().body(data);
+    }
+
+    // POST METHODS
+
+    @PostMapping("/{id}/lock")
+    public ResponseEntity<Area> lockArea(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
+        Area a = areaService.getAreaById(id);
+        
+        if(!a.getAccess()) {
+            return ResponseEntity.badRequest().body(a);
+        }
+
+        a.setAccess(false);
+        areaService.updateArea(a);
+        for (MoveSensor ms : moveSensorService.getMoveSensorsByEntryAreaId(id)) {
+            if (ms.isActive()) {
+                ms.setActive(false);
+                moveSensorService.updatMoveSensor(ms);
+                sender.lockSensor(ms.getId());
+            }
+        }
+        for (MoveSensor ms : moveSensorService.getMoveSensorsByExitAreaId(id)) {
+            if (ms.isActive()) {
+                ms.setActive(false);
+                moveSensorService.updatMoveSensor(ms);
+                sender.lockSensor(ms.getId());
+            }
+        }
+        return ResponseEntity.ok().body(a);
+    }
+
+    @PostMapping("/{id}/unlock")
+    public ResponseEntity<Area> unlockArea(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
+        Area a = areaService.getAreaById(id);
+        
+        if(a.getAccess()) {
+            return ResponseEntity.badRequest().body(a);
+        }
+
+        a.setAccess(true);
+        areaService.updateArea(a);
+        for (MoveSensor ms : moveSensorService.getMoveSensorsByEntryAreaId(id)) {
+            if (!ms.isActive()) {
+                ms.setActive(true);
+                moveSensorService.updatMoveSensor(ms);
+                sender.unlockSensor(ms.getId());
+            }
+        }
+        for (MoveSensor ms : moveSensorService.getMoveSensorsByExitAreaId(id)) {
+            if (!ms.isActive()) {
+                ms.setActive(true);
+                moveSensorService.updatMoveSensor(ms);
+                sender.unlockSensor(ms.getId());
+            }
+        }
+        return ResponseEntity.ok().body(a);
     }
 }

@@ -1,4 +1,5 @@
 .map-container {
+  float: right;
   height: 100%;
   width: 70%;
   background-color: rgb(214, 228, 229);
@@ -7,7 +8,7 @@
 .wall {
   fill: black;
   stroke: black;
-  stroke-width: 1.8;
+  stroke-width: 1.2;
 }
 
 .area {
@@ -23,9 +24,24 @@
   stroke-width: 0.7;
 }
 
-.map-card {
-  float: right;
-  width: 20%;
-  height: 80%;
-  transform: translate(-20%, 10%);
+.cards {
+  float: left;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  height: 100%;
+}
+
+.area-card {
+  margin: auto;
+  width: 300px;
+  height: 400px;
+  padding-bottom: 10px;
+}
+
+.sensor-card {
+  margin: auto;
+  width: 300px;
+  height: 400px;
+  padding-top: 10px;
 }

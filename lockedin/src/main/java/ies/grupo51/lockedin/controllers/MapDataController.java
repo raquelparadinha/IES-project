@@ -68,6 +68,7 @@ public class MapDataController {
             if (countInmates != 0) {
                 float f = countInmates / (float) a.getCapacity();
                 int coloridx = size - (int) Math.ceil(f * size) - 1;
+                if (coloridx >= size) coloridx = 59;
 
                 Color color = colors[coloridx];
                 hex = "#"+Integer.toHexString(color.getRGB()).substring(2).toUpperCase();

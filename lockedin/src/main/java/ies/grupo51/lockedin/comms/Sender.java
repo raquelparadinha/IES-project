@@ -18,20 +18,6 @@ public class Sender {
     
     @Autowired private MoveSensorService moveSensorService;
 
-    public void lockArea(long areaid) throws ResourceNotFoundException {
-        List<MoveSensor> sensors = moveSensorService.getMoveSensorsByExitAreaId(areaid);
-        for (MoveSensor ms: sensors) {
-            lockSensor(ms.getId());
-        }
-    }
-
-    public void unlockArea(long areaid) throws ResourceNotFoundException {
-        List<MoveSensor> sensors = moveSensorService.getMoveSensorsByExitAreaId(areaid);
-        for (MoveSensor ms: sensors) {
-            unlockSensor(ms.getId());
-        }
-    }
-
     public void lockSensor(long sensorid) {
         JSONObject jmsg = new JSONObject();
         jmsg.put("type", "lock");

@@ -1,6 +1,6 @@
-import { Card, Col, Row, Space } from "antd";
+import { Card, Col } from "antd";
 import axios from "axios";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { areaCoords, buildingCoords, sensorCoords } from "./mapdata";
 import "./mapstyle.css";
 
@@ -10,31 +10,61 @@ function MapaEstricado() {
   const height = (mapRef.current ? mapRef.current.clientHeight : 0) / 2;
   const scale = 3;
 
-  const [areaData, setAreaData] = useState(areaCoords);
-  const [sensorData, setSensorData] = useState(sensorCoords);
-  const fetchData = () => {
+  const [areaColors, setAreaColors] = useState(areaCoords);
+  const [sensorColors, setSensorColors] = useState(sensorCoords);
+  const fetchMapData = () => {
     try {
       return axios.get("http://localhost:5001/api/map").then((response) => {
-        console.log(response.data);
         const apiareasdata = response.data["areas"];
         const areasdata = { ...areaCoords };
         Object.keys(areaCoords).forEach((key) => {
           const areaname = areaCoords[key].name;
           areasdata[key] = { ...areaCoords[key], ...apiareasdata[areaname] };
         });
-        setAreaData(areasdata);
+        setAreaColors(areasdata);
 
         const apisensorsdata = response.data["sensors"];
-        setSensorData(apisensorsdata);
-        console.log(apisensorsdata);
+        setSensorColors(apisensorsdata);
       });
     } catch {
       console.log("failed fetching from api/map");
     }
   };
+  const [areaData, setAreaData] = useState(areaCoords);
+  const fetchAreaData = () => {
+    try {
+      return axios.get("http://localhost:5001/api/area").then((response) => {
+        const apidata = response.data;
+        apidata.forEach((area, i) => {
+          apidata[i]["countInmates"] = area.currentInmateIds.length;
+        });
+        setAreaData(apidata);
+      });
+    } catch {
+      console.log("Deu pylance");
+    }
+  };
+  const [sensorData, setSensorData] = useState(sensorCoords);
+  const fetchSensorData = () => {
+    try {
+      return axios.get("http://localhost:5001/api/sensor").then((response) => {
+        const apidata = response.data;
+        apidata.forEach((sensor, i) => {
+          apidata[i]["entryArea"] = areaCoords[sensor["entryAreaId"] - 1].text;
+          apidata[i]["exitArea"] = areaCoords[sensor["exitAreaId"] - 1].text;
+        });
+        setSensorData(apidata);
+      });
+    } catch {
+      console.log("Deu pylance");
+    }
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
-      fetchData();
+      fetchMapData();
+      fetchAreaData();
+      fetchSensorData();
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -44,7 +74,11 @@ function MapaEstricado() {
     setSelectedArea(idx);
   }
 
-  console.log(areaData);
+  const [selectedSensor, setSelectedSensor] = useState(0);
+  function selectSensor(idx) {
+    setSelectedSensor(idx);
+  }
+
   console.log(sensorData);
   return (
     <>
@@ -52,14 +86,14 @@ function MapaEstricado() {
         <g transform={`translate(${width}, ${height}) scale(${scale})`}>
           {areaCoords.map((_, i) => (
             <g>
-              <polygon key={i} className="area" points={areaData[i].points} onClick={() => selectArea(i)} fill={areaData[i]["color"]} />
-              <text key={i + areaCoords.length} className="area-title" x={bigX(areaData[i].points)} y={smallY(areaData[i].points)}>
-                {areaData[i].text}
+              <polygon key={i} className="area" points={areaColors[i].points} onClick={() => selectArea(i)} fill={areaColors[i]["color"]} />
+              <text key={i + areaCoords.length} className="area-title" x={bigX(areaColors[i].points)} y={smallY(areaColors[i].points)}>
+                {areaColors[i].text}
               </text>
             </g>
           ))}
           {sensorCoords.map((sensor, i) => (
-            <polygon key={i} className="sensor" points={sensor.points} fill={sensorData[i]} />
+            <polygon key={i} className="sensor" points={sensor.points} onClick={() => selectSensor(i)} fill={sensorColors[i]} />
           ))}
           {buildingCoords.map((wall, i) => (
             <g>
@@ -68,7 +102,22 @@ function MapaEstricado() {
           ))}
         </g>
       </svg>
-      <Card className="map-card" title={areaData[selectedArea].text}></Card>
+      <Col className="cards">
+        <Card className="area-card" title={areaColors[selectedArea].text}>
+          <p>Inmate Count: {areaData[selectedArea].countInmates}</p>
+          <p>Capacity: {areaData[selectedArea].capacity}</p>
+          <p>Access: {areaData[selectedArea].access ? "Yes" : "No"}</p>
+          <button onClick={() => lockArea(selectedArea)}>Lock Area</button>
+          <button onClick={() => unlockArea(selectedArea)}>Unlock Area</button>
+        </Card>
+        <Card className="sensor-card" title={sensorCoords[selectedSensor].name}>
+          <p>From: {sensorData[selectedSensor].entryArea}</p>
+          <p>To: {sensorData[selectedSensor].exitArea}</p>
+          <p>State: {sensorData[selectedSensor].active ? "Unlocked" : "Locked"}</p>
+          <button onClick={() => lockSensor(selectedSensor)}>Lock Sensor</button>
+          <button onClick={() => unlockSensor(selectedSensor)}>Unlock Sensor</button>
+        </Card>
+      </Col>
     </>
   );
 }
@@ -92,4 +141,35 @@ function smallY(points) {
   return Math.max(...numbers) - 3;
 }
 
-// api POSTS
+// api posts for datagen control
+function lockArea(idx) {
+  console.log(idx);
+  const url = "http://localhost:5001/api/area/" + (idx + 1) + "/lock";
+  axios.post(url).then((response) => {
+    console.log(response);
+  });
+}
+
+function unlockArea(idx) {
+  console.log(idx);
+  const url = "http://localhost:5001/api/area/" + (idx + 1) + "/unlock";
+  axios.post(url).then((response) => {
+    console.log(response);
+  });
+}
+
+function lockSensor(idx) {
+  console.log(idx);
+  const url = "http://localhost:5001/api/sensor/" + (idx + 1) + "/lock";
+  axios.post(url).then((response) => {
+    console.log(response);
+  });
+}
+
+function unlockSensor(idx) {
+  console.log(idx);
+  const url = "http://localhost:5001/api/sensor/" + (idx + 1) + "/unlock";
+  axios.post(url).then((response) => {
+    console.log(response);
+  });
+}
