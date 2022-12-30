@@ -27,6 +27,7 @@ function Timeline_prisioner(id) {
     }, 100);
     return () => clearInterval(interval);
   });
+  
   if (dataSource !== undefined) {
     console.log(dataSource[0]);
     data1 = dataSource.slice(0, 4);

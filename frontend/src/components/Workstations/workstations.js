@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Col, Row } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Space, Collapse } from "antd";
@@ -14,32 +14,6 @@ import {
   ReferenceLine,
   Label,
 } from "recharts";
-const data01 = [
-  {
-    x: "12/16/2022",
-    y: 20,
-  },
-  {
-    x: "12/17/2022",
-    y: 10,
-  },
-  {
-    x: "12/18/2022",
-    y: 30,
-  },
-  {
-    x: "12/19/2022",
-    y: 25,
-  },
-  {
-    x: "12/20/2022",
-    y: 40,
-  },
-  {
-    x: "12/21/2022",
-    y: 28,
-  },
-];
 
 const styles = {
   card: {
@@ -138,6 +112,14 @@ const Workstations = () => {
       fetchData3(id);
     }
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData();
+    }, 10000);
+    return () => clearInterval(interval);
+  });
+
 
   function SeeIfUndfined() {
     if (dataSource !== undefined) {
