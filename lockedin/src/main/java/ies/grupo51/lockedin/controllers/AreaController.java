@@ -126,14 +126,14 @@ public class AreaController {
         a.setAccess(false);
         areaService.updateArea(a);
         for (MoveSensor ms : moveSensorService.getMoveSensorsByEntryAreaId(id)) {
-            if (ms.isActive()) {
+            if (ms.isActive() && areaService.getAreaById(ms.getExitAreaId()).getAccess()) {
                 ms.setActive(false);
                 moveSensorService.updatMoveSensor(ms);
                 sender.lockSensor(ms.getId());
             }
         }
         for (MoveSensor ms : moveSensorService.getMoveSensorsByExitAreaId(id)) {
-            if (ms.isActive()) {
+            if (ms.isActive() && areaService.getAreaById(ms.getEntryAreaId()).getAccess()) {
                 ms.setActive(false);
                 moveSensorService.updatMoveSensor(ms);
                 sender.lockSensor(ms.getId());
@@ -153,14 +153,14 @@ public class AreaController {
         a.setAccess(true);
         areaService.updateArea(a);
         for (MoveSensor ms : moveSensorService.getMoveSensorsByEntryAreaId(id)) {
-            if (!ms.isActive()) {
+            if (!ms.isActive() && areaService.getAreaById(ms.getExitAreaId()).getAccess()){
                 ms.setActive(true);
                 moveSensorService.updatMoveSensor(ms);
                 sender.unlockSensor(ms.getId());
             }
         }
         for (MoveSensor ms : moveSensorService.getMoveSensorsByExitAreaId(id)) {
-            if (!ms.isActive()) {
+            if (!ms.isActive() && areaService.getAreaById(ms.getEntryAreaId()).getAccess()) {
                 ms.setActive(true);
                 moveSensorService.updatMoveSensor(ms);
                 sender.unlockSensor(ms.getId());
