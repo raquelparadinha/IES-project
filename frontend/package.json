@@ -10,6 +10,7 @@
     "antd": "^5.0.3",
     "axios": "^1.2.1",
     "bootstrap": "^4.6.2",
+    "cors": "^2.8.5",
     "devextreme": "22.2.3",
     "devextreme-react": "22.2.3",
     "moment": "^2.29.4",

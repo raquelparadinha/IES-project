@@ -1,7 +1,5 @@
 import "antd/dist/reset.css";
 import "./App.css";
-import { Menu, notification } from "antd";
-import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import {
   DashboardOutlined,
   LoginOutlined,
@@ -20,65 +18,58 @@ import PrisionersList from "./components/prisionersList/prisionersList";
 import Login, { Logged, SetLogged } from "./components/Login/Login";
 import Dashboard from "./components/Dashboard/dashboard";
 import GuardsList from "./components/GuardsList/guardsList";
-import Notifications from "./components/Notifications/notifications";
 import Prisioner_Profile from "./components/Profile/prisioner_profile";
 import Guard_Profile from "./components/Profile/guard_profile";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Dashboard from "./components/Dashboard/dashboard";
-import GuardsList from "./components/GuardsList/guardsList";
-import Login, { Logged, SetLogged } from "./components/Login/Login";
 import MapaEstricado from "./components/MapaEstricado/MapaEstricado";
 import Notifications, {
   back_colors,
   colors,
   icons,
 } from "./components/Notifications/notifications";
-import PrisionersList from "./components/prisionersList/prisionersList";
-import Guard_Profile from "./components/Profile/guard_profile";
-import Prisioner_Profile from "./components/Profile/prisioner_profile";
 import Workstations from "./components/Workstations/workstations";
 
 function App() {
-  const [api, contextHolder] = notification.useNotification();
-  const fetchData = () => {
-    try {
-      return axios
-        .get("http://localhost:5001/api/alert/new")
-        .then((res) => {
-          return res;
-        })
-        .then((response) => {
-          console.log(response.data);
-          response.data.forEach((message_) => {
-            api.open({
-              duration: 2,
-              message:
-                message_.type.charAt(0).toUpperCase() + message_.type.slice(1),
-              description: message_.information,
-              icon: (
-                <div
-                  style={{
-                    color: colors[`${message_.type}`],
-                  }}
-                >
-                  {icons[`${message_.type}`]}
-                </div>
-              ),
-            });
-          });
-        });
-    } catch {
-      console.log("Deu pylance");
-      fetchData();
-    }
-  };
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchData();
-    }, 1000);
-    return () => clearInterval(interval);
-  });
+  // const [api, contextHolder] = notification.useNotification();
+  // const fetchData = () => {
+  //   try {
+  //     return axios
+  //       .get("http://localhost:5001/api/alert/new")
+  //       .then((res) => {
+  //         return res;
+  //       })
+  //       .then((response) => {
+  //         console.log(response.data);
+  //         response.data.forEach((message_) => {
+  //           api.open({
+  //             duration: 2,
+  //             message:
+  //               message_.type.charAt(0).toUpperCase() + message_.type.slice(1),
+  //             description: message_.information,
+  //             icon: (
+  //               <div
+  //                 style={{
+  //                   color: colors[`${message_.type}`],
+  //                 }}
+  //               >
+  //                 {icons[`${message_.type}`]}
+  //               </div>
+  //             ),
+  //           });
+  //         });
+  //       });
+  //   } catch {
+  //     console.log("Deu pylance");
+  //     fetchData();
+  //   }
+  // };
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     fetchData();
+  //   }, 1000);
+  //   return () => clearInterval(interval);
+  // });
 
   return (
     <div
@@ -89,7 +80,7 @@ function App() {
         height: "100vh",
       }}
     >
-      {contextHolder}
+      {/* {contextHolder} */}
       <SideMenu />
     </div>
   );

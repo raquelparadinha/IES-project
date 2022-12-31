@@ -5,13 +5,8 @@ import { LockOutlined, UserOutlined, IdcardOutlined } from "@ant-design/icons";
 import Logo from "../../images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
 import { Button, Card, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
-
-
 import CheckButton from "react-validation/build/button";
 import AuthService from "../../services/auth.service";
-
-
-
 
 export let Logged = false;
 
@@ -45,7 +40,7 @@ const Login = () => {
   const handleLogin = (e) => {
     console.log("Adeus");
     console.log(username, password);
-    // e.preventDefault();
+    e.preventDefault();
 
     setMessage("");
     setLoading(true);
@@ -56,7 +51,7 @@ const Login = () => {
       console.log(username, password);
       AuthService.login(username, password).then(
         () => {
-          navigate("/profile");
+          navigate("/dashboard");
           window.location.reload();
         },
         (error) => {
@@ -121,11 +116,8 @@ const Login = () => {
         <Form
           name="normal_login"
           className="login-form"
-          initialValues={{
-            remember: true,
-          }}
           
-          onFinish={handleLogin} 
+          onSubmit={handleLogin} 
           // onFinish={onFinish}
           ref={form}
         >
@@ -165,10 +157,8 @@ const Login = () => {
           <div>
             <CheckButton
               type="primary"
-              htmlType="submit"
               className="login-form-button"
               ref={checkBtn}
-              block
             >
               Log in
             </CheckButton>
