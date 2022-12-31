@@ -1,13 +1,13 @@
 import React, { useState, useRef } from "react";
-
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
 import { LockOutlined, UserOutlined, IdcardOutlined } from "@ant-design/icons";
 import Logo from "../../images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
-import { Button, Card, Form, Input, Modal } from "antd";
+import { Button, Card, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 
-// import Form from "react-validation/build/form";
-// import Input from "react-validation/build/input";
-// import CheckButton from "react-validation/build/button";
+
+import CheckButton from "react-validation/build/button";
 import AuthService from "../../services/auth.service";
 
 
@@ -23,7 +23,7 @@ const Login = () => {
   console.log("Olá");
   const navigate = useNavigate();
   const form = useRef(null);
-  const checkBtn = useRef();
+  const checkBtn = useRef(null);
   // o que fazer quando carregamos no login
   const onFinish = (values) => {
     console.log("finish");
@@ -53,7 +53,7 @@ const Login = () => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      
+      console.log(username, password);
       AuthService.login(username, password).then(
         () => {
           navigate("/profile");
@@ -129,7 +129,7 @@ const Login = () => {
           // onFinish={onFinish}
           ref={form}
         >
-          <Form.Item
+          <div
             name="username"
             rules={[
               {
@@ -142,9 +142,10 @@ const Login = () => {
               prefix={<UserOutlined className="site-form-item-icon" />}
               placeholder="Username"
               value={username}
+              // validations={[required, email]}
             />
-          </Form.Item>
-          <Form.Item
+          </div>
+          <div
             name="password"
             rules={[
               {
@@ -158,10 +159,11 @@ const Login = () => {
               type="password"
               placeholder="Password"
               value={password}
+              // validations={[required]}
             />
-          </Form.Item>
-          <Form.Item>
-            <Button
+          </div>
+          <div>
+            <CheckButton
               type="primary"
               htmlType="submit"
               className="login-form-button"
@@ -169,8 +171,8 @@ const Login = () => {
               block
             >
               Log in
-            </Button>
-          </Form.Item>
+            </CheckButton>
+          </div>
         </Form>
       </Card>
     </div>

@@ -6,4 +6,4 @@ export default function authHeader() {
   } else {
     return {};
   }
-}
+} // não gosto de ti

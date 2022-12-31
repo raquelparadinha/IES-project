@@ -13,8 +13,7 @@ import {
 } from "@ant-design/icons/lib/icons";
 //import Logo from "./images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
 import PrisionersList from "./components/prisionersList/prisionersList";
-import Login from "./components/Login/Login";
-import { Logged, SetLogged } from "./components/Login/Login";
+import Login, { Logged, SetLogged } from "./components/Login/Login";
 import Dashboard from "./components/Dashboard/dashboard";
 import GuardsList from "./components/GuardsList/guardsList";
 import Notifications from "./components/Notifications/notifications";
