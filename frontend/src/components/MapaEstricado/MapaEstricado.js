@@ -1,32 +1,35 @@
-import React from "react";
-import VectorMap, { Layer, Tooltip, Label } from "devextreme-react/vector-map";
-import { roomsData, buildingData } from "./data.js";
+import { Card, Col, Row, Space } from "antd";
 import axios from "axios";
-import { useState, useEffect } from "react";
-import { LoadingOutlined } from "@ant-design/icons";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { areaCoords, buildingCoords, sensorCoords } from "./mapdata";
+import "./mapstyle.css";
 
-const projection = {
-  to: ([l, lt]) => [l / 100, lt / 100],
-  from: ([x, y]) => [x * 100, y * 100],
-};
+function MapaEstricado() {
+  const mapRef = useRef(null);
+  const width = (mapRef.current ? mapRef.current.clientWidth : 0) / 2;
+  const height = (mapRef.current ? mapRef.current.clientHeight : 0) / 2;
+  const scale = 3;
 
-const controlBar = {
-  enabled: false,
-};
-
-const size = {
-  height: "1000",
-  width:
-    "2000                                                                                                                                                                                                    ",
-};
-
-export default function MapaEstricado() {
-  const [dataSource, setDataSource] = useState();
+  const [areaData, setAreaData] = useState(areaCoords);
+  const [sensorData, setSensorData] = useState(sensorCoords);
   const fetchData = () => {
     try {
-      return axios.get("http://localhost:5001/api/area").then((response) => setDataSource(response.data));
+      return axios.get("http://localhost:5001/api/map").then((response) => {
+        console.log(response.data);
+        const apiareasdata = response.data["areas"];
+        const areasdata = { ...areaCoords };
+        Object.keys(areaCoords).forEach((key) => {
+          const areaname = areaCoords[key].name;
+          areasdata[key] = { ...areaCoords[key], ...apiareasdata[areaname] };
+        });
+        setAreaData(areasdata);
+
+        const apisensorsdata = response.data["sensors"];
+        setSensorData(apisensorsdata);
+        console.log(apisensorsdata);
+      });
     } catch {
-      console.log("Deu pylance");
+      console.log("failed fetching from api/map");
     }
   };
   useEffect(() => {
@@ -36,44 +39,57 @@ export default function MapaEstricado() {
     return () => clearInterval(interval);
   }, []);
 
-  function SeeIfUndfined() {
-    console.log(dataSource);
-    if (dataSource !== undefined) {
-      return dataSource.map((zone) => (
-        <>
-          <p style={{ color: "#12494c" }}>
-            {zone.name}: {zone.currentInmateIds.length} / {zone.capacity} | Acess: {zone.access.toString()}
-          </p>
-        </>
-      ));
-    } else {
-      fetchData();
-      return (
-        <div>
-          <LoadingOutlined />
-        </div>
-      );
-    }
+  const [selectedArea, setSelectedArea] = useState(0);
+  function selectArea(idx) {
+    setSelectedArea(idx);
   }
 
+  console.log(areaData);
+  console.log(sensorData);
   return (
-    <VectorMap id="vector-map" maxZoomFactor={4} size={size} projection={projection} controlBar={controlBar}>
-      <Layer dataSource={buildingData} hoverEnabled={false} name="building"></Layer>
-
-      <Layer dataSource={roomsData} name="rooms" borderWidth={1} color="transparent">
-        <Label enabled={true} dataField="name"></Label>
-      </Layer>
-
-      <Tooltip enabled={true} customizeTooltip={customizeTooltip}></Tooltip>
-    </VectorMap>
+    <>
+      <svg ref={mapRef} className="map-container" preserveAspectRatio="xMidYMid meet">
+        <g transform={`translate(${width}, ${height}) scale(${scale})`}>
+          {areaCoords.map((_, i) => (
+            <g>
+              <polygon key={i} className="area" points={areaData[i].points} onClick={() => selectArea(i)} fill={areaData[i]["color"]} />
+              <text key={i + areaCoords.length} className="area-title" x={bigX(areaData[i].points)} y={smallY(areaData[i].points)}>
+                {areaData[i].text}
+              </text>
+            </g>
+          ))}
+          {sensorCoords.map((sensor, i) => (
+            <polygon key={i} className="sensor" points={sensor.points} fill={sensorData[i]} />
+          ))}
+          {buildingCoords.map((wall, i) => (
+            <g>
+              <polygon key={i} className="wall" points={wall.points} />
+            </g>
+          ))}
+        </g>
+      </svg>
+      <Card className="map-card" title={areaData[selectedArea].text}></Card>
+    </>
   );
 }
 
-function customizeTooltip(arg) {
-  if (arg.layer.name === "rooms") {
-    if (arg.attribute("name").startsWith("Sensor")) {
-      return { text: `Sensor ${arg.attribute("id")}` };
-    }
-  }
-  return null;
+export default MapaEstricado;
+
+// text positioning
+function bigX(points) {
+  const strs = points.split(" ").filter((n, i) => {
+    return i % 2 === 0;
+  });
+  const numbers = strs.map((s) => parseInt(s));
+  return Math.min(...numbers) + 2;
 }
+
+function smallY(points) {
+  const strs = points.split(" ").filter((n, i) => {
+    return i % 2 !== 0;
+  });
+  const numbers = strs.map((s) => parseInt(s));
+  return Math.max(...numbers) - 3;
+}
+
+// api POSTS

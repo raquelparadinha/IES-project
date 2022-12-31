@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 echo "--=[ Stopping Containers ]=--"
-docker-compose down -v
+docker-compose stop web
 cd ./lockedin
 
 echo "--=[ Packaging ]=--"
@@ -8,8 +8,5 @@ echo "--=[ Packaging ]=--"
 cd ..
 
 echo "--=[ Starting Containers ]=--"
-docker-compose up -d --build
-
-echo "--=[ Starting Frontend Development Environment ]=--" 
-cd ./frontend
-npm start
+docker-compose up -d --build web
+docker-compose logs --follow web

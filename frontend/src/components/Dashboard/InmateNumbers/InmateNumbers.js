@@ -10,6 +10,9 @@ function InmateNumbers() {
     try {
       return axios
         .get("http://localhost:5001/api/area")
+        .then((res) => {
+          return res;
+        })
         .then((response) => setDataSource(response.data));
     } catch {
       console.log("Deu pylance");
@@ -26,6 +29,9 @@ function InmateNumbers() {
     try {
       return axios
         .get("http://localhost:5001/api/inmate")
+        .then((res) => {
+          return res;
+        })
         .then((response) => setDataSource2(response.data));
     } catch {
       console.log("Deu pylance");

@@ -11,6 +11,9 @@ function Prisioner_info(id) {
     try {
       return axios
         .get("http://localhost:5001/api/inmate/" + id)
+        .then((res) => {
+          return res;
+        })
         .then((response) => setDataSource(response.data));
     } catch {
       console.log("Deu pylance");
@@ -28,6 +31,9 @@ function Prisioner_info(id) {
     try {
       return axios
         .get("http://localhost:5001/api/inmate/" + id + "/health/last")
+        .then((res) => {
+          return res;
+        })
         .then((response) => setDataSource2(response.data));
     } catch {
       console.log("Deu pylance");

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Col, Row } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Space, Collapse } from "antd";
@@ -14,32 +14,6 @@ import {
   ReferenceLine,
   Label,
 } from "recharts";
-const data01 = [
-  {
-    x: "12/16/2022",
-    y: 20,
-  },
-  {
-    x: "12/17/2022",
-    y: 10,
-  },
-  {
-    x: "12/18/2022",
-    y: 30,
-  },
-  {
-    x: "12/19/2022",
-    y: 25,
-  },
-  {
-    x: "12/20/2022",
-    y: 40,
-  },
-  {
-    x: "12/21/2022",
-    y: 28,
-  },
-];
 
 const styles = {
   card: {
@@ -59,6 +33,13 @@ const Workstations = () => {
   const [dataSource4, setDataSource4] = useState([]);
   const [dataSource5, setDataSource5] = useState([]);
   const [dataSource6, setDataSource6] = useState([]);
+
+  const [details, setDetails] = useState([]);
+  const [details2, setDetails2] = useState([]);
+  const [details3, setDetails3] = useState([]);
+  const [details4, setDetails4] = useState([]);
+  const [details5, setDetails5] = useState([]);
+
   const myDataSources = [
     dataSource2,
     dataSource3,
@@ -73,10 +54,22 @@ const Workstations = () => {
     setDataSource5,
     setDataSource6,
   ];
+
+  const myDetails = [details, details2, details3, details4, details5];
+  const setMyDetails = [
+    setDetails,
+    setDetails2,
+    setDetails3,
+    setDetails4,
+    setDetails5,
+  ];
   const fetchData = () => {
     try {
       return axios
         .get("http://localhost:5001/api/workstation")
+        .then((res) => {
+          return res;
+        })
         .then((response) => setDataSource(response.data));
     } catch {
       console.log("Deu pylance");
@@ -89,28 +82,50 @@ const Workstations = () => {
     try {
       return axios
         .get("http://localhost:5001/api/workstation/" + id + "/worklogs")
+        .then((res) => {
+          return res;
+        })
         .then((response) => {
           setMyDataSources[id - 1](response.data);
+          console.log(myDataSources);
         });
     } catch {
       console.log("Deu pylance");
-      fetchData2();
+      fetchData2(id);
     }
   };
-  function AverageQuota(data) {
-    const sum = data.reduce(
-      (accumulator, currentValue) => accumulator + currentValue.y,
-      0
-    );
-    const average = sum / data.length;
-    return average.toFixed(2);
-  }
+
+  const fetchData3 = (id) => {
+    try {
+      return axios
+        .get("http://localhost:5001/api/workstation/" + id + "/details")
+        .then((res) => {
+          return res;
+        })
+        .then((response) => {
+          console.log(id);
+          setMyDetails[id - 1](response.data);
+          console.log(myDetails);
+        });
+    } catch {
+      console.log("Deu pylance");
+      fetchData3(id);
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData();
+    }, 10000);
+    return () => clearInterval(interval);
+  });
+
 
   function SeeIfUndfined() {
     if (dataSource !== undefined) {
       return new Array(dataSource.length).fill(null).map((_, i) => {
         fetchData2(dataSource[i].id);
-        const average = AverageQuota(myDataSources[i]);
+        fetchData3(dataSource[i].id);
         return (
           <Card
             type="inner"
@@ -123,20 +138,28 @@ const Workstations = () => {
             }
           >
             <Row>
-              <Col>
+              <Col style={{ width: "20%" }}>
+                {console.log(myDetails[i])}
                 <p style={{ marginTop: "10px" }}>
-                  Expected Quota : {dataSource[i].expectedQuota}
+                  Total worklogs : {myDetails[i].numWorkLogs}
                 </p>
-                <p style={{ marginTop: "40px" }}>Average Quota : {average}</p>
                 <p style={{ marginTop: "40px" }}>
-                  Diference :{" "}
-                  {(average - dataSource[i].expectedQuota).toFixed(2)}
+                  Expected Quota : {myDetails[i].expectedQuota}
+                </p>
+                <p style={{ marginTop: "40px" }}>
+                  Average Quota : {myDetails[i].averageQuota}
+                </p>
+                <p style={{ marginTop: "40px" }}>
+                  Best Worker: {myDetails[i].bestWorker}
+                </p>
+                <p style={{ marginTop: "40px" }}>
+                  Worst Worker: {myDetails[i].worstWoker}
                 </p>
               </Col>
-              <Col style={{ alignItems: "end" }}>
+              <Col style={{ alignItems: "end", width: "80%" }}>
                 <ScatterChart
-                  width={1000}
-                  height={300}
+                  width={800}
+                  height={400}
                   margin={{ top: 20, right: 20, bottom: 10, left: 10 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />

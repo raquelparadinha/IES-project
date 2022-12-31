@@ -29,6 +29,10 @@ public class InmateService {
         return repository.findAll();
     }
 
+    public long getInmateCount() {
+        return repository.count();
+    }
+
     public Inmate getInmateById(long id) throws ResourceNotFoundException {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
     }

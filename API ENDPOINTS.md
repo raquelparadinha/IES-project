@@ -31,7 +31,7 @@
 | ------ | ------------------- | ------------------------------------------------------------ | ----------------------------------------------- | ----------- |
 | GET    |                     | Returns all the guards                                       | [{Guard1},{Guard2},...] - list                  | None        |
 | GET    | /{guard_id}         | Returns a specific guard if it exists                        | {Guard} - dict                                  | Long        |
-| GET    | /{guard_id}/details | Returns the access to this guard's area and his collegues at the area | ["Open"/"Closed", "Silvia", "Paulo",...] - list | Long        |
+| GET    | /{guard_id}/details | Returns the access to this guard's area and his colleagues at the area | ["Open"/"Closed", "Silvia", "Paulo",...] - list | Long        |
 | PUT    | /{guard_id}         | Update guard                                                 | {Guard} - dict                                  | Long, Guard |
 | POST   |                     | Create guard                                                 | {Guard} - dict                                  | Guard       |
 
@@ -61,9 +61,10 @@
 | GET    |             | Returns the last 30 alert             | [{Alert1},{Alert2},{Alert300,..}] - list | None  |
 | GET    | /{alert_id} | Returns a specific alert if it exists | {Alert} - dict                           | Long  |
 | GET    | /new        | Returns the last 5 the new alerts     | [{Alert1},{Alert2}}] - list              | None  |
+<!-- 
 | GET    | /riot       | Returns the last 30 riot alert        | [{Alert1},{Alert2},{Alert300,..}] - list | None  |
 | GET    | /work       | Returns the last 30 work alert        | [{Alert1},{Alert2},{Alert300,..}] - list | None  |
-| GET    | /health     | Returns the last 30 health alert      | [{Alert1},{Alert2},{Alert300,..}] - list | None  |
+| GET    | /health     | Returns the last 30 health alert      | [{Alert1},{Alert2},{Alert300,..}] - list | None  | -->
 
 ## Work Station /api/workstation
 
@@ -73,5 +74,6 @@
 | GET    | /{id}                        | Returns a workstation                               | {WS1} - dict                             | Long  |
 | GET    | /{id}/details                | Returns the details of an workstation               | {expectedQuota, numWorkLogs, ...} - dict | Long  |
 | GET    | /{workstation_id}/worklogs   | Returns the quotas of the works at this workstation | [{x,y},{x,y},{x,y}] - list               | Long  |
-| GET    | /worklog/{worklog_id}/inmate | Return the general info of an worker                | {workLogId,inmateName} - dict            | Long  |
+<!-- 
+| GET    | /worklog/{worklog_id}/inmate | Return the general info of an worker                | {workLogId,inmateName} - dict            | Long  | -->
 

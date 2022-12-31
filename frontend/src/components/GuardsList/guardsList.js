@@ -146,6 +146,9 @@ function GuardsList() {
     try {
       return axios
         .get("http://localhost:5001/api/guard")
+        .then((res) => {
+          return res;
+        })
         .then((response) => setDataSource(response.data));
     } catch (error) {
       fetchData();

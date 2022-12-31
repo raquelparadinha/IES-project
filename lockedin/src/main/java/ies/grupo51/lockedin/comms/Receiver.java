@@ -120,7 +120,7 @@ public class Receiver {
                 workStation.addWorkLogId(logId);
                 workStationService.updatWorkStation(workStation);
                 // Trigger work alert
-                if (workStation.getExpectedQuota() > workLog.getQuota()) {
+                if (workStation.getExpectedQuota()-12 > workLog.getQuota()) {
                     WorkAlert workAlert = new WorkAlert(alertService.getNextId(), 
                     "work", 
                     "Inmate "+inmate.getName()+" is not doing an expected job",
@@ -164,9 +164,9 @@ public class Receiver {
                     symptoms.add("Low Uric Acid");
                 }
                 // CHOLESTEROL
-                if (healthLog.getCholesterol() > 200) {
+                if (healthLog.getCholesterol() > 215) {
                     symptoms.add("Elevated Cholesterol");
-                } else if (healthLog.getCholesterol() < 100) {
+                } else if (healthLog.getCholesterol() < 85) {
                     symptoms.add("Low Cholesterol");
                 }
                 // TOXIC SCREEN
