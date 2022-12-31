@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -113,9 +112,7 @@ public class AreaController {
         return ResponseEntity.ok().body(data);
     }
 
-    // POST METHODS
-
-    @PostMapping("/{id}/lock")
+    @GetMapping("/{id}/lock")
     public ResponseEntity<Area> lockArea(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
         Area a = areaService.getAreaById(id);
         
@@ -142,7 +139,7 @@ public class AreaController {
         return ResponseEntity.ok().body(a);
     }
 
-    @PostMapping("/{id}/unlock")
+    @GetMapping("/{id}/unlock")
     public ResponseEntity<Area> unlockArea(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
         Area a = areaService.getAreaById(id);
         

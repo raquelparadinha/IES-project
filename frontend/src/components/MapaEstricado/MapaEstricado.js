@@ -145,7 +145,7 @@ function smallY(points) {
 function lockArea(idx) {
   console.log(idx);
   const url = "http://localhost:5001/api/area/" + (idx + 1) + "/lock";
-  axios.post(url).then((response) => {
+  axios.get(url).then((response) => {
     console.log(response);
   });
 }
@@ -153,7 +153,7 @@ function lockArea(idx) {
 function unlockArea(idx) {
   console.log(idx);
   const url = "http://localhost:5001/api/area/" + (idx + 1) + "/unlock";
-  axios.post(url).then((response) => {
+  axios.get(url).then((response) => {
     console.log(response);
   });
 }
@@ -161,7 +161,7 @@ function unlockArea(idx) {
 function lockSensor(idx) {
   console.log(idx);
   const url = "http://localhost:5001/api/sensor/" + (idx + 1) + "/lock";
-  axios.post(url).then((response) => {
+  axios.get(url).then((response) => {
     console.log(response);
   });
 }
@@ -169,7 +169,7 @@ function lockSensor(idx) {
 function unlockSensor(idx) {
   console.log(idx);
   const url = "http://localhost:5001/api/sensor/" + (idx + 1) + "/unlock";
-  axios.post(url).then((response) => {
+  axios.get(url).then((response) => {
     console.log(response);
   });
 }
