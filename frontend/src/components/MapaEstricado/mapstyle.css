@@ -7,7 +7,7 @@
 
 .wall {
   fill: black;
-  stroke: black;
+  stroke: none;
   stroke-width: 1;
 }
 
