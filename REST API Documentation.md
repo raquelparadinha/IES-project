@@ -6,6 +6,8 @@ In order to better specify this API, the endpoints were divided into six control
 
 - AuthController (Authentication)
 - AreaController (Areas)
+- MapDataController (Prison Map)
+- MoveSensorController (Move Sensors)
 - GuardController (Guards)
 - InmateController (Inmates)
 - AlertController (Alerts)
@@ -132,42 +134,6 @@ Bearer Token obtained after authentication.
 
 <br/>
 
-## **GET** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; api/area/{area_id}/access
-
-```
-http://localhost:5001/api/area/{area_id}/access
-```
-
-### **Description**
-
-Changes the the access to an area if it stored in the system and returns that area after the update.
-
-### **Authorization**
-
-Bearer Token obtained after authentication
-
-### **Params**
-
-| URL         |   Input Type   |       Description |
-| :---------- | :------------: | ----------------: |
-| **area_id** | integer / long | Area's Identifier |
-
-### **Response Body**
-
-```json
-[
-    {
-        "id": 1,
-        "name": "entrance",
-        "capacity": 20,
-        "access": true,
-        "currentInmateIds": []
-    }
-]
-```
-
-<br/>
-
 ## **GET** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; api/area/{area_id}/inmates
 
 ```
@@ -256,6 +222,199 @@ Bearer Token obtained after authentication
 ```
 
 <br/>
+
+## **GET** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; api/area/{area_id}/lock
+
+```
+http://localhost:5001/api/area/{area_id}/lock
+```
+
+### **Description**
+
+Changes the access of an area to false. It also locks all the sensors of the area. Inmates will not be able to cross any of the sensors connecting to this area. Returns the changed area.
+
+### **Authorization**
+
+Bearer Token obtained after authentication
+
+### **Params**
+
+| URL         |   Input Type   |       Description |
+| :---------- | :------------: | ----------------: |
+| **area_id** | integer / long | Area's Identifier |
+
+### **Response Body**
+
+```json
+[
+    {
+        "id": 1,
+        "name": "entrance",
+        "capacity": 20,
+        "access": false,
+        "currentInmateIds": []
+    }
+]
+```
+
+Inmate's information is not totally expanded for abridgment reasons
+
+<br/>
+
+## **GET** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; api/area/{area_id}/unlock
+
+```
+http://localhost:5001/api/area/{area_id}/unlock
+```
+
+### **Description**
+
+Changes the access of an area to true. It also unlocks all the sensors of the area. Inmates will be able to cross all of the sensors connecting to this area. Returns the changed area.
+
+### **Authorization**
+
+Bearer Token obtained after authentication
+
+### **Params**
+
+| URL         |   Input Type   |       Description |
+| :---------- | :------------: | ----------------: |
+| **area_id** | integer / long | Area's Identifier |
+
+### **Response Body**
+
+```json
+[
+    {
+        "id": 1,
+        "name": "entrance",
+        "capacity": 20,
+        "access": true,
+        "currentInmateIds": []
+    }
+]
+```
+
+Inmate's information is not totally expanded for abridgment reasons
+
+<br/>
+
+<br/>
+
+## **MapDataController : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; api/map**
+
+<br/>
+
+## **GET** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; api/map
+
+```
+http://localhost:5001/api/map
+```
+
+### **Description**
+
+Returns all information necessary to display the map on the client-side. Mostly for presentation purposes.
+
+### **Authorization**
+
+Bearer Token obtained after authentication.
+
+### **Response Body**
+
+```json
+[
+    {
+        "id": 1,
+        "name": "Paulo Pinto",
+        "email": "ppnaopylance@buzzfeed.com",
+        "password": "souinfeliz",
+        "birthdate": "08/06/2002",
+        "phone": 9192345678,
+        "areaName": "showers",
+        "roles": [
+            "ROLE_USER"
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Licha Holdworth",
+        "email": "lholdworth1@buzzfeed.com",
+        "password": "fnf0vG",
+        "birthdate": "2/13/1971",
+        "phone": 4445307536,
+        "areaName": "showers",
+        "roles": [
+            "ROLE_USER"
+        ]
+    },
+]
+```
+
+<br/>
+
+<br/>
+
+## **MoveSensorController : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; api/sensor**
+
+<br/>
+
+## **GET** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; api/sensor/{sensor_id}/lock
+
+```
+http://localhost:5001/api/sensor/{sensor_id}/lock
+```
+
+### **Description**
+
+Locks a sensor, dis-enabling the movement from the sensor's exit area to sensor's entry area. Returns the updated sensor.
+
+### **Authorization**
+
+Bearer Token obtained after authentication.
+
+### **Response Body**
+
+```json
+{
+    "id": 1,
+    "entryAreaId": 1,
+    "exitAreaId": 2,
+    "active": false,
+    "moveLogIds": []
+}
+```
+
+<br/>
+
+## **MoveSensorController : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; api/sensor**
+
+<br/>
+
+## **GET** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; api/sensor/{sensor_id}/unlock
+
+```
+http://localhost:5001/api/sensor/{sensor_id}/unlock
+```
+
+### **Description**
+
+Unlocks a sensor, enabling the movement from the sensor's exit area to sensor's entry area. Returns the updated sensor.
+
+### **Authorization**
+
+Bearer Token obtained after authentication.
+
+### **Response Body**
+
+```json
+{
+    "id": 1,
+    "entryAreaId": 1,
+    "exitAreaId": 2,
+    "active": true,
+    "moveLogIds": []
+}
+```
 
 <br/>
 
