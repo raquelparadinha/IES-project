@@ -79,7 +79,6 @@ function MapaEstricado() {
     setSelectedSensor(idx);
   }
 
-  console.log(sensorData);
   return (
     <>
       <svg ref={mapRef} className="map-container" preserveAspectRatio="xMidYMid meet">

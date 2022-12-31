@@ -14,7 +14,6 @@ import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
 import ies.grupo51.lockedin.models.Area;
 import ies.grupo51.lockedin.models.MoveSensor;
 import ies.grupo51.lockedin.services.AreaService;
-import ies.grupo51.lockedin.services.InmateService;
 import ies.grupo51.lockedin.services.MoveSensorService;
 
 import java.awt.Color;
@@ -30,18 +29,12 @@ public class MapDataController {
     // Services
 
     @Autowired private AreaService areaService;
-    @Autowired private InmateService inmateService;
     @Autowired private MoveSensorService moveSensorService;
 
     // Mappings
     @GetMapping("")
     public ResponseEntity<HashMap<String, Object>> getMapData() throws ResourceNotFoundException {
         HashMap<String, Object> data = new HashMap<>();
-
-        // total inmates
-        int totalinmates = (int) inmateService.getInmateCount();
-        data.put("totalinmates", totalinmates);
-
 
         // logic for area occupation colors
         // using HSB color format instead of RGB to create a range from green - yellow - red
