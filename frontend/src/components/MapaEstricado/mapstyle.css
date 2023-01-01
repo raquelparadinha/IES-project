@@ -79,14 +79,17 @@
   table-layout: fixed;
 }
 
-.card-content tr {
-  margin: 0 5px;
+.card-content td {
+  padding-bottom: 5px;
 }
 
 .label {
   vertical-align: top;
+  text-align: left;
+  padding-right: 10px;
 }
 
 .data {
-  text-align: right;
+  text-align: left;
+  padding-left: 10px;
 }

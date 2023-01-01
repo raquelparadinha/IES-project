@@ -163,7 +163,7 @@ function MapaEstricado() {
               </Button>
             </div>
             <table className="card-content">
-              <col width="100px"></col>
+              <col width="80px"></col>
               <col></col>
               <tr>
                 <td className="label">State</td>
