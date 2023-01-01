@@ -48,14 +48,45 @@
 
 .area-card {
   margin: auto;
+  margin-top: 10%;
+  margin-bottom: 10%;
   width: 300px;
   height: 400px;
-  padding-bottom: 10px;
 }
 
 .sensor-card {
   margin: auto;
+  margin-top: 10%;
+  margin-bottom: 10%;
   width: 300px;
   height: 400px;
-  padding-top: 10px;
+}
+
+.lock-btns-container {
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 25px;
+}
+
+.lock-btn {
+  width: 115px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.card-content {
+  width: 250px;
+  table-layout: fixed;
+}
+
+.card-content tr {
+  margin: 0 5px;
+}
+
+.label {
+  vertical-align: top;
+}
+
+.data {
+  text-align: right;
 }

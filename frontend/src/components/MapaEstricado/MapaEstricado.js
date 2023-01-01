@@ -1,4 +1,4 @@
-import { Card, Col } from "antd";
+import { Button, Card, Col, ConfigProvider } from "antd";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { areaCoords, buildingCoords, sensorCoords } from "./mapdata";
@@ -74,6 +74,22 @@ function MapaEstricado() {
     setSelectedArea(idx);
   }
 
+  const [areaDetails, setAreaDetails] = useState(areaCoords[0]);
+  const fetchAreaDetails = () => {
+    try {
+      return axios.get("http://localhost:5001/api/area/" + (selectedArea + 1) + "/details").then((response) => {
+        const apidata = response.data;
+        apidata["guardstr"] = apidata.guards.join(", ");
+        setAreaDetails(apidata);
+      });
+    } catch {
+      console.log("Deu pylance");
+    }
+  };
+  useEffect(() => {
+    fetchAreaDetails();
+  }, [selectedArea]);
+
   const [selectedSensor, setSelectedSensor] = useState(0);
   function selectSensor(idx) {
     setSelectedSensor(idx);
@@ -101,22 +117,70 @@ function MapaEstricado() {
           ))}
         </g>
       </svg>
-      <Col className="cards">
-        <Card className="area-card" title={areaColors[selectedArea].text}>
-          <p>Inmate Count: {areaData[selectedArea].countInmates}</p>
-          <p>Capacity: {areaData[selectedArea].capacity}</p>
-          <p>Access: {areaData[selectedArea].access ? "Yes" : "No"}</p>
-          <button onClick={() => lockArea(selectedArea)}>Lock Area</button>
-          <button onClick={() => unlockArea(selectedArea)}>Unlock Area</button>
-        </Card>
-        <Card className="sensor-card" title={sensorCoords[selectedSensor].name}>
-          <p>From: {sensorData[selectedSensor].entryArea}</p>
-          <p>To: {sensorData[selectedSensor].exitArea}</p>
-          <p>State: {sensorData[selectedSensor].active ? "Unlocked" : "Locked"}</p>
-          <button onClick={() => lockSensor(selectedSensor)}>Lock Sensor</button>
-          <button onClick={() => unlockSensor(selectedSensor)}>Unlock Sensor</button>
-        </Card>
-      </Col>
+      <ConfigProvider theme={{ token: { colorPrimary: "#12494c" } }}>
+        <Col className="cards">
+          <Card className="area-card" title={areaColors[selectedArea].text}>
+            <div className="lock-btns-container">
+              <Button className="lock-btn" onClick={() => lockArea(selectedArea)}>
+                Lock Area
+              </Button>
+              <Button className="lock-btn" onClick={() => unlockArea(selectedArea)}>
+                Unlock Area
+              </Button>
+            </div>
+            <table className="card-content">
+              <col width="100px"></col>
+              <col></col>
+              <tr>
+                <td className="label">Access</td>
+                <td className="data">{areaData[selectedArea].access ? "Yes" : "No"}</td>
+              </tr>
+              <tr>
+                <td className="label">Danger Level</td>
+                <td className="data">{areaDetails.currentDangerLevel}</td>
+              </tr>
+              <tr>
+                <td className="label">Inmate Count</td>
+                <td className="data">{areaData[selectedArea].countInmates}</td>
+              </tr>
+              <tr>
+                <td className="label">Capacity</td>
+                <td className="data">{areaData[selectedArea].capacity}</td>
+              </tr>
+              <tr>
+                <td className="label">Guards</td>
+                <td className="data">{areaDetails.guardstr}</td>
+              </tr>
+            </table>
+          </Card>
+          <Card className="sensor-card" title={sensorCoords[selectedSensor].name}>
+            <div className="lock-btns-container">
+              <Button className="lock-btn" onClick={() => lockSensor(selectedSensor)}>
+                Lock Sensor
+              </Button>
+              <Button className="lock-btn" onClick={() => unlockSensor(selectedSensor)}>
+                Unlock Sensor
+              </Button>
+            </div>
+            <table className="card-content">
+              <col width="100px"></col>
+              <col></col>
+              <tr>
+                <td className="label">State</td>
+                <td className="data">{sensorData[selectedSensor].active ? "Unlocked" : "Locked"}</td>
+              </tr>
+              <tr>
+                <td className="label">From</td>
+                <td className="data">{sensorData[selectedSensor].entryArea}</td>
+              </tr>
+              <tr>
+                <td className="label">To</td>
+                <td className="data">{sensorData[selectedSensor].exitArea}</td>
+              </tr>
+            </table>
+          </Card>
+        </Col>
+      </ConfigProvider>
     </>
   );
 }
@@ -129,7 +193,7 @@ function bigX(points) {
     return i % 2 === 0;
   });
   const numbers = strs.map((s) => parseInt(s));
-  return Math.min(...numbers) + 2;
+  return Math.min(...numbers) + 3;
 }
 
 function smallY(points) {
@@ -137,7 +201,7 @@ function smallY(points) {
     return i % 2 !== 0;
   });
   const numbers = strs.map((s) => parseInt(s));
-  return Math.max(...numbers) - 3;
+  return Math.max(...numbers) - 4;
 }
 
 // api posts for datagen control
