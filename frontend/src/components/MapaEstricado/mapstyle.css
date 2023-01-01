@@ -50,7 +50,7 @@
   margin: auto;
   margin-top: 10%;
   margin-bottom: 10%;
-  width: 300px;
+  width: 320px;
   height: 400px;
 }
 
@@ -58,7 +58,7 @@
   margin: auto;
   margin-top: 10%;
   margin-bottom: 10%;
-  width: 300px;
+  width: 320px;
   height: 400px;
 }
 
@@ -72,6 +72,7 @@
   width: 115px;
   margin-left: 2px;
   margin-right: 2px;
+  padding: 1px;
 }
 
 .card-content {

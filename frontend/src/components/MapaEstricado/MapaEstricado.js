@@ -1,3 +1,4 @@
+import { LoadingOutlined } from "@ant-design/icons";
 import { Button, Card, Col, ConfigProvider } from "antd";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
@@ -10,8 +11,8 @@ function MapaEstricado() {
   const height = (mapRef.current ? mapRef.current.clientHeight : 0) / 2;
   const scale = 3;
 
-  const [areaColors, setAreaColors] = useState(areaCoords);
-  const [sensorColors, setSensorColors] = useState(sensorCoords);
+  const [areaColors, setAreaColors] = useState();
+  const [sensorColors, setSensorColors] = useState();
   const fetchMapData = () => {
     try {
       return axios.get("http://localhost:5001/api/map").then((response) => {
@@ -30,7 +31,7 @@ function MapaEstricado() {
       console.log("failed fetching from api/map");
     }
   };
-  const [areaData, setAreaData] = useState(areaCoords);
+  const [areaData, setAreaData] = useState();
   const fetchAreaData = () => {
     try {
       return axios.get("http://localhost:5001/api/area").then((response) => {
@@ -41,10 +42,10 @@ function MapaEstricado() {
         setAreaData(apidata);
       });
     } catch {
-      console.log("Deu pylance");
+      console.log("failed fetching from api/area");
     }
   };
-  const [sensorData, setSensorData] = useState(sensorCoords);
+  const [sensorData, setSensorData] = useState();
   const fetchSensorData = () => {
     try {
       return axios.get("http://localhost:5001/api/sensor").then((response) => {
@@ -56,7 +57,7 @@ function MapaEstricado() {
         setSensorData(apidata);
       });
     } catch {
-      console.log("Deu pylance");
+      console.log("failed fetching from api/sensor");
     }
   };
 
@@ -74,7 +75,7 @@ function MapaEstricado() {
     setSelectedArea(idx);
   }
 
-  const [areaDetails, setAreaDetails] = useState(areaCoords[0]);
+  const [areaDetails, setAreaDetails] = useState();
   const fetchAreaDetails = () => {
     try {
       return axios.get("http://localhost:5001/api/area/" + (selectedArea + 1) + "/details").then((response) => {
@@ -95,92 +96,117 @@ function MapaEstricado() {
     setSelectedSensor(idx);
   }
 
+  function loadMap() {
+    if (areaColors !== undefined && sensorColors !== undefined && areaData !== undefined) {
+      return (
+        <svg ref={mapRef} className="map-container" preserveAspectRatio="xMidYMid meet">
+          <g transform={`translate(${width}, ${height}) scale(${scale})`}>
+            {areaCoords.map((_, i) => (
+              <g>
+                <polygon key={i} className={selectedArea === i ? "area-selected" : "area"} points={areaColors[i].points} onClick={() => selectArea(i)} fill={areaColors[i]["color"]} />
+                <text key={i + areaCoords.length} className="area-title" x={bigX(areaColors[i].points)} y={smallY(areaColors[i].points)}>
+                  {areaColors[i].text}
+                </text>
+              </g>
+            ))}
+            {buildingCoords.map((wall, i) => (
+              <g>
+                <polygon key={i} className="wall" points={wall.points} />
+              </g>
+            ))}
+            {sensorCoords.map((sensor, i) => (
+              <polygon key={i} className={selectedSensor === i ? "sensor-selected" : "sensor"} points={sensor.points} onClick={() => selectSensor(i)} fill={sensorColors[i]} />
+            ))}
+          </g>
+        </svg>
+      );
+    } else {
+      fetchMapData();
+      fetchAreaData();
+      fetchSensorData();
+      return <LoadingOutlined />;
+    }
+  }
+
+  function loadCards() {
+    if (areaDetails !== undefined && sensorData !== undefined && areaData !== undefined) {
+      return (
+        <ConfigProvider theme={{ token: { colorPrimary: "#12494c" } }}>
+          <Col className="cards">
+            <Card className="area-card" title={areaColors[selectedArea].text}>
+              <div className="lock-btns-container">
+                <Button className="lock-btn" onClick={() => lockArea(selectedArea)}>
+                  Lock Area
+                </Button>
+                <Button className="lock-btn" onClick={() => unlockArea(selectedArea)}>
+                  Unlock Area
+                </Button>
+              </div>
+              <table className="card-content">
+                <col width="100px"></col>
+                <col></col>
+                <tr>
+                  <td className="label">Access</td>
+                  <td className="data">{areaData[selectedArea].access ? "Yes" : "No"}</td>
+                </tr>
+                <tr>
+                  <td className="label">Danger Level</td>
+                  <td className="data">{areaDetails.currentDangerLevel}</td>
+                </tr>
+                <tr>
+                  <td className="label">Inmate Count</td>
+                  <td className="data">{areaData[selectedArea].countInmates}</td>
+                </tr>
+                <tr>
+                  <td className="label">Capacity</td>
+                  <td className="data">{areaData[selectedArea].capacity}</td>
+                </tr>
+                <tr>
+                  <td className="label">Guards</td>
+                  <td className="data">{areaDetails.guardstr}</td>
+                </tr>
+              </table>
+            </Card>
+            <Card className="sensor-card" title={sensorCoords[selectedSensor].name}>
+              <div className="lock-btns-container">
+                <Button className="lock-btn" onClick={() => lockSensor(selectedSensor)}>
+                  Lock Sensor
+                </Button>
+                <Button className="lock-btn" onClick={() => unlockSensor(selectedSensor)}>
+                  Unlock Sensor
+                </Button>
+              </div>
+              <table className="card-content">
+                <col width="80px"></col>
+                <col></col>
+                <tr>
+                  <td className="label">State</td>
+                  <td className="data">{sensorData[selectedSensor].active ? "Unlocked" : "Locked"}</td>
+                </tr>
+                <tr>
+                  <td className="label">From</td>
+                  <td className="data">{sensorData[selectedSensor].entryArea}</td>
+                </tr>
+                <tr>
+                  <td className="label">To</td>
+                  <td className="data">{sensorData[selectedSensor].exitArea}</td>
+                </tr>
+              </table>
+            </Card>
+          </Col>
+        </ConfigProvider>
+      );
+    } else {
+      fetchAreaData();
+      fetchSensorData();
+      fetchAreaDetails();
+    }
+  }
+
   return (
     <>
-      <svg ref={mapRef} className="map-container" preserveAspectRatio="xMidYMid meet">
-        <g transform={`translate(${width}, ${height}) scale(${scale})`}>
-          {areaCoords.map((_, i) => (
-            <g>
-              <polygon key={i} className={selectedArea === i ? "area-selected" : "area"} points={areaColors[i].points} onClick={() => selectArea(i)} fill={areaColors[i]["color"]} />
-              <text key={i + areaCoords.length} className="area-title" x={bigX(areaColors[i].points)} y={smallY(areaColors[i].points)}>
-                {areaColors[i].text}
-              </text>
-            </g>
-          ))}
-          {buildingCoords.map((wall, i) => (
-            <g>
-              <polygon key={i} className="wall" points={wall.points} />
-            </g>
-          ))}
-          {sensorCoords.map((sensor, i) => (
-            <polygon key={i} className={selectedSensor === i ? "sensor-selected" : "sensor"} points={sensor.points} onClick={() => selectSensor(i)} fill={sensorColors[i]} />
-          ))}
-        </g>
-      </svg>
-      <ConfigProvider theme={{ token: { colorPrimary: "#12494c" } }}>
-        <Col className="cards">
-          <Card className="area-card" title={areaColors[selectedArea].text}>
-            <div className="lock-btns-container">
-              <Button className="lock-btn" onClick={() => lockArea(selectedArea)}>
-                Lock Area
-              </Button>
-              <Button className="lock-btn" onClick={() => unlockArea(selectedArea)}>
-                Unlock Area
-              </Button>
-            </div>
-            <table className="card-content">
-              <col width="100px"></col>
-              <col></col>
-              <tr>
-                <td className="label">Access</td>
-                <td className="data">{areaData[selectedArea].access ? "Yes" : "No"}</td>
-              </tr>
-              <tr>
-                <td className="label">Danger Level</td>
-                <td className="data">{areaDetails.currentDangerLevel}</td>
-              </tr>
-              <tr>
-                <td className="label">Inmate Count</td>
-                <td className="data">{areaData[selectedArea].countInmates}</td>
-              </tr>
-              <tr>
-                <td className="label">Capacity</td>
-                <td className="data">{areaData[selectedArea].capacity}</td>
-              </tr>
-              <tr>
-                <td className="label">Guards</td>
-                <td className="data">{areaDetails.guardstr}</td>
-              </tr>
-            </table>
-          </Card>
-          <Card className="sensor-card" title={sensorCoords[selectedSensor].name}>
-            <div className="lock-btns-container">
-              <Button className="lock-btn" onClick={() => lockSensor(selectedSensor)}>
-                Lock Sensor
-              </Button>
-              <Button className="lock-btn" onClick={() => unlockSensor(selectedSensor)}>
-                Unlock Sensor
-              </Button>
-            </div>
-            <table className="card-content">
-              <col width="80px"></col>
-              <col></col>
-              <tr>
-                <td className="label">State</td>
-                <td className="data">{sensorData[selectedSensor].active ? "Unlocked" : "Locked"}</td>
-              </tr>
-              <tr>
-                <td className="label">From</td>
-                <td className="data">{sensorData[selectedSensor].entryArea}</td>
-              </tr>
-              <tr>
-                <td className="label">To</td>
-                <td className="data">{sensorData[selectedSensor].exitArea}</td>
-              </tr>
-            </table>
-          </Card>
-        </Col>
-      </ConfigProvider>
+      {loadMap()}
+      {loadCards()}
     </>
   );
 }
