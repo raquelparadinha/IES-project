@@ -91,7 +91,7 @@ public class GuardController {
 
     @PostMapping("")
     public ResponseEntity<Guard> createGuard(@Valid @RequestBody Guard guard){
-        guard.setAreaId(guardService.getNextId());
+        guard.setId(guardService.getNextId());
         return ResponseEntity.ok(guardService.saveGuard(guard));
     }
 }

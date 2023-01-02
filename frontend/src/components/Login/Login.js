@@ -1,11 +1,12 @@
-import React from "react";
-import { LockOutlined, UserOutlined, IdcardOutlined } from "@ant-design/icons";
-import Logo from "../../images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
+import { IdcardOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Card, Form, Input, Modal } from "antd";
+import axios from "axios";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Logo from "../../images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
 const { Meta } = Card;
 
-export let Logged = false;
+export let Logged = undefined;
 
 export function SetLogged(params) {
   Logged = params;
@@ -13,33 +14,48 @@ export function SetLogged(params) {
 
 const Login = () => {
   const navigate = useNavigate();
-  // o que fazer quando carregamos no login
-  const onFinish = (values) => {
-    //console.log("Received values of form: ", values);
-    // nesgisse, nãp está como deve porque não está a DB pronta
-    if (true) {
-      Logged = true;
-      navigate("/dashboard");
-    } else {
-      countDown();
-    }
+
+  const handleLogin = (values) => {
+    console.log(values);
+    return axios
+      .post("http://localhost:5001/api/auth/signin", {
+        email: values.email,
+        password: values.password,
+      })
+      .catch((error) => {
+        countDown();
+        console.log("error in auth/signin post");
+      })
+      .then((response) => {
+        if (response) {
+          sessionStorage.setItem("user", JSON.stringify(response.data));
+          const data = response.data;
+          console.log(data);
+          if (data !== undefined) {
+            if (data.roles.includes("ROLE_ADMIN")) {
+              Logged = "admin";
+            } else if (data.roles.includes("ROLE_USER")) {
+              Logged = "user";
+            }
+            navigate("/map");
+          }
+        }
+      });
   };
 
   // mensagem de erro quando login invalido
   const countDown = () => {
+    console.log("counting down");
     let secondsToGo = 3;
 
     const modal = Modal.error({
       title: "Login Invalid",
-      content: `This modal will be destroyed after ${secondsToGo} second.`,
+      content: `Login credentials are not valid. Please try again.`,
       okType: "danger",
     });
 
     const timer = setInterval(() => {
       secondsToGo -= 1;
-      modal.update({
-        content: `This modal will be destroyed after ${secondsToGo} second.`,
-      });
     }, 1000);
 
     setTimeout(() => {
@@ -55,62 +71,39 @@ const Login = () => {
         justifyContent: "center",
         alignItems: "center",
         height: "90%",
-      }}
-    >
-      <Card
-        bordered
-        cover={
-          <img
-            src="https://www.shutterstock.com/image-vector/minimalist-prison-logo-black-white-600w-1521162209.jpg"
-            height={"300px"}
-          ></img>
-        }
-        style={{ width: "33%" }}
-      >
+      }}>
+      <Card bordered cover={<img src="https://www.shutterstock.com/image-vector/minimalist-prison-logo-black-white-600w-1521162209.jpg" height={"300px"}></img>} style={{ width: "33%" }}>
         <Form
           name="normal_login"
           className="login-form"
           initialValues={{
             remember: true,
           }}
-          onFinish={onFinish}
-        >
+          onFinish={handleLogin}>
           <Form.Item
-            name="username"
+            name="email"
             rules={[
               {
                 required: true,
-                message: "Please input your Username!",
+                type: "email",
+                message: "Please input your email!",
               },
-            ]}
-          >
-            <Input
-              prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Username"
-            />
+            ]}>
+            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
           </Form.Item>
           <Form.Item
             name="password"
             rules={[
               {
                 required: true,
+                type: "string",
                 message: "Please input your Password!",
               },
-            ]}
-          >
-            <Input
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Password"
-            />
+            ]}>
+            <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
           </Form.Item>
           <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="login-form-button"
-              block
-            >
+            <Button type="primary" htmlType="submit" className="login-form-button" block>
               Log in
             </Button>
           </Form.Item>
@@ -120,3 +113,13 @@ const Login = () => {
   );
 };
 export default Login;
+
+function authHeader() {
+  const user = JSON.parse(sessionStorage.getItem("user"));
+
+  if (user && user.accessToken) {
+    return { Authorization: "Bearer " + user.accessToken };
+  } else {
+    return {};
+  }
+}

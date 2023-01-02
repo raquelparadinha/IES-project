@@ -72,7 +72,6 @@ public class MapDataController {
             areas.put(a.getName(), areaData);
         }
         data.put("areas", areas);
-        System.out.println(data.toString());
 
         // sensors
         HashMap<String, Object> sensors = new HashMap<>();

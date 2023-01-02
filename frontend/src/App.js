@@ -1,4 +1,17 @@
-import { DashboardOutlined, LoginOutlined, LogoutOutlined, NotificationOutlined, ToolOutlined, UnorderedListOutlined, UserOutlined } from "@ant-design/icons/lib/icons";
+import {
+  ControlOutlined,
+  DashboardOutlined,
+  LoginOutlined,
+  LogoutOutlined,
+  MedicineBoxOutlined,
+  NotificationOutlined,
+  TeamOutlined,
+  ToolOutlined,
+  UnorderedListOutlined,
+  UserOutlined,
+} from "@ant-design/icons/lib/icons";
+import { faHandcuffs } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu, notification } from "antd";
 import "antd/dist/reset.css";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
@@ -22,7 +35,6 @@ function App() {
   const fetchData = () => {
     try {
       return axios.get("http://localhost:5001/api/alert/new").then((response) => {
-        console.log(response.data);
         response.data.forEach((message_) => {
           api.open({
             duration: 2,
@@ -77,14 +89,15 @@ export function SideMenu() {
       <Menu
         onClick={({ key }) => {
           if (key === "logout") {
-            SetLogged(false);
-            navigate("/dashboard");
+            logout();
+            SetLogged(undefined);
+            navigate("/login");
           } else {
             navigate(key);
           }
         }}
         defaultSelectedKeys={[window.location.pathname]}
-        items={islogged(Logged)}
+        items={islogged()}
         style={{ backgroundColor: "#EFF5F5" }}></Menu>
       <Content />
     </div>
@@ -96,7 +109,7 @@ function Content() {
     <div style={{ width: "100%", backgroundColor: "#D6E4E5" }}>
       {/* <BreadCrumb /> */}
       <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" />}></Route>
+        <Route path="/" element={<Navigate to="/login" />}></Route>
         <Route
           path="/dashboard"
           element={
@@ -104,7 +117,6 @@ function Content() {
               <Dashboard />
             </div>
           }></Route>
-        <Route path="/userlist" element={<div>User List</div>}></Route>
         <Route path="/prisioners" element={<PrisionersList />}></Route>
         <Route path="/prisioners/:id" element={<Prisioner_Profile />}></Route>
         <Route path="/guards/:id" element={<Guard_Profile />}></Route>
@@ -118,33 +130,38 @@ function Content() {
         <Route path="/notifications" element={<Notifications />}></Route>
         <Route path="/workstations" element={<Workstations />}></Route>
         <Route path="/map" element={<MapaEstricado />}></Route>
+
         <Route path="/login" element={<Login />}></Route>
       </Routes>
     </div>
   );
 }
-function islogged(params) {
-  if (params) {
+function islogged() {
+  const currentUser = getCurrentUser();
+  if (currentUser === null) {
+    return [];
+  } else if (currentUser.roles.includes("ROLE_ADMIN")) {
     return [
+      { label: "Map", key: "/map", icon: <ControlOutlined /> },
       {
-        label: "Dashboard",
-        key: "/dashboard",
-        icon: <DashboardOutlined />,
+        label: "Prisioners",
+        key: "/prisioners",
+        icon: <FontAwesomeIcon icon={faHandcuffs} style={{ height: "14px", width: "14px" }} />,
       },
       {
-        label: "Users List",
-        key: "/UserList",
-        icon: <UnorderedListOutlined />,
-        children: [
-          {
-            label: "Prisioners",
-            key: "/prisioners",
-          },
-          {
-            label: "Guards",
-            key: "/guards",
-          },
-        ],
+        label: "Guards",
+        key: "/guards",
+        icon: <TeamOutlined />,
+      },
+      {
+        label: "Health",
+        key: "/dashboard",
+        icon: <MedicineBoxOutlined />,
+      },
+      {
+        label: "Workstations",
+        key: "/workstations",
+        icon: <ToolOutlined />,
       },
       {
         label: "Notifications",
@@ -152,58 +169,51 @@ function islogged(params) {
         icon: <NotificationOutlined />,
       },
       {
+        label: "Logout",
+        key: "logout",
+        icon: <LogoutOutlined />,
+        danger: true,
+      },
+    ];
+  } else if (currentUser.roles.includes("ROLE_USER")) {
+    return [
+      { label: "Map", key: "/map", icon: <ControlOutlined /> },
+      {
+        label: "Prisioners",
+        key: "/prisioners",
+        icon: <FontAwesomeIcon icon={faHandcuffs} style={{ height: "14px", width: "14px" }} />,
+      },
+      {
+        label: "Health",
+        key: "/dashboard",
+        icon: <MedicineBoxOutlined />,
+      },
+      {
         label: "Workstations",
         key: "/workstations",
         icon: <ToolOutlined />,
       },
-      { label: "Profile", key: "/profile", icon: <UserOutlined /> },
       {
-        label: "LogOut",
+        label: "Notifications",
+        key: "/notifications",
+        icon: <NotificationOutlined />,
+      },
+      {
+        label: "Logout",
         key: "logout",
         icon: <LogoutOutlined />,
         danger: true,
       },
     ];
   }
-  return [
-    {
-      label: "Dashboard",
-      key: "/dashboard",
-      icon: <DashboardOutlined />,
-    },
-    {
-      label: "Users List",
-      key: "/UserList",
-      icon: <UnorderedListOutlined />,
-      children: [
-        {
-          label: "Prisioners",
-          key: "/prisioners",
-        },
-        {
-          label: "Guards",
-          key: "/guards",
-        },
-      ],
-    },
-    {
-      label: "Notifications",
-      key: "/notifications",
-      icon: <NotificationOutlined />,
-    },
-    {
-      label: "Workstations",
-      key: "/workstations",
-      icon: <ToolOutlined />,
-    },
-    { label: "Map", key: "/map", icon: <UserOutlined /> },
-    {
-      label: "Login",
-      key: "/login",
-      icon: <LoginOutlined />,
-      style: { color: "red" },
-    },
-  ];
 }
 
 export default App;
+
+const logout = () => {
+  sessionStorage.removeItem("user");
+};
+
+export const getCurrentUser = () => {
+  return JSON.parse(sessionStorage.getItem("user"));
+};

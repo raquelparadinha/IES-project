@@ -49,7 +49,6 @@ public class Receiver {
 
     @RabbitListener(queues = CommsConfig.RECV_QUEUE)
     public void listen(String receivedmsg) throws ResourceNotFoundException {
-        System.out.println("Received from datagen: " + receivedmsg);
 
         JSONObject jmsg = new JSONObject(receivedmsg);
 
@@ -188,6 +187,5 @@ public class Receiver {
                 System.err.println("Couldn't read message type.");
                 break;
         }
-        System.out.println("Succesfully handled message.");
     }
 }

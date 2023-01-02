@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Card, Col } from "antd";
-import {
-  DownOutlined,
-  LoadingOutlined,
-  ToolFilled,
-  HeartFilled,
-  AlertFilled,
-} from "@ant-design/icons";
-import { Dropdown, message, Space, Pagination } from "antd";
+import { AlertFilled, DownOutlined, HeartFilled, LoadingOutlined, ToolFilled } from "@ant-design/icons";
+import { Card, Col, Dropdown, message, Pagination, Space } from "antd";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 export const icons = {
   health: <HeartFilled />,
@@ -40,9 +33,7 @@ function Notifications() {
   const fetchData = () => {
     console.log(dataSource);
     try {
-      return axios
-        .get("http://localhost:5001/api/alert")
-        .then((response) => setDataSource(response.data));
+      return axios.get("http://localhost:5001/api/alert").then((response) => setDataSource(response.data));
     } catch {
       console.log("Deu pylance");
       fetchData();
@@ -62,15 +53,9 @@ function Notifications() {
   let currentCards;
 
   function Pagination_on() {
+    console.log(dataSource);
     if (dataSource.length > 0) {
-      return (
-        <Pagination
-          current={currentPage}
-          onChange={handlePageChange}
-          total={dataSource.length}
-          pageSize={cardsPerPage}
-        />
-      );
+      return <Pagination current={currentPage} onChange={handlePageChange} total={dataSource.length} pageSize={cardsPerPage} />;
     } else {
       return "No Data Available";
     }
@@ -85,10 +70,7 @@ function Notifications() {
 
       return (
         <Dropdown menu={{ items }}>
-          <a
-            onClick={(e) => e.preventDefault()}
-            style={{ color: colors[`${card.type}`] }}
-          >
+          <a onClick={(e) => e.preventDefault()} style={{ color: colors[`${card.type}`] }}>
             <Space>
               Symptoms
               <DownOutlined />
@@ -106,19 +88,15 @@ function Notifications() {
       <>
         <Col>
           <Card
-            title={
-              <div style={{ textAlign: "center", color: "#12494c" }}>
-                Notifications
-              </div>
-            }
+            title={<div style={{ textAlign: "center", color: "#12494c" }}>Notifications</div>}
             bodyStyle={{
               display: "flex",
               justifyContent: "center",
             }}
-            style={{ backgroundColor: "#D6E4E5" }}
-          >
+            style={{ backgroundColor: "#D6E4E5" }}>
             <Space direction="vertical">
               {currentCards.map((card) => {
+                console.log(card);
                 return (
                   <Card
                     //
@@ -131,12 +109,10 @@ function Notifications() {
                     type="inner"
                     title={
                       <div style={{ color: colors[`${card.type}`] }}>
-                        {icons[`${card.type}`]}{" "}
-                        {card.type.charAt(0).toUpperCase() + card.type.slice(1)}
+                        {icons[`${card.type}`]} {card.type.charAt(0).toUpperCase() + card.type.slice(1)}
                       </div>
                     }
-                    extra={Alert_type(card)}
-                  >
+                    extra={Alert_type(card)}>
                     {card.information}
                   </Card>
                 );
