@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useParams } from "react-router";
 import TheAvatar from "./Avatar/avatar";
 import Prisioner_info from "./prisioner_info/prisioner_info";
-import timeline_prisioner from "./timeline/timeline";
+import Timeline_prisioner from "./timeline/timeline";
 
 let url_params;
 const tabList = [
@@ -23,7 +23,7 @@ function Prisioner_Profile() {
   //console.log(url_params.id);
   const contentList = {
     prisioner_info: Prisioner_info(url_params.id),
-    timeline: timeline_prisioner(),
+    timeline: Timeline_prisioner(url_params.id),
   };
 
   const [activeTabKey1, setActiveTabKey1] = useState("prisioner_info");

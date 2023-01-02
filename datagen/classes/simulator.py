@@ -80,7 +80,6 @@ class Simulator():
 
         # init inamtes
         self.inmates = []
-        possibleblocks = [l for l in self.areas if l.id in [7, 8]]
         for i in inmatedata:
             id = i['_id']
             startarea = [a for a in self.areas if i['areaId'] == a.id][0]
@@ -172,7 +171,7 @@ class Simulator():
         area = sensor.exit
         areainmates = [i for i in self.inmates if i.area == area]
         inmate = areainmates[randint(1, len(areainmates)) - 1]
-        possiblesensors = [s for s in self.sensors if s.active and s.entry == area]
+        possiblesensors = [s for s in self.sensors if s.active and s.entry == area and len([i for i in self.inmates if i.area == s.exit]) < s.exit.capacity]
         sensor = possiblesensors[randint(1, len(possiblesensors)) - 1]
         return inmate, sensor
 

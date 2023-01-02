@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ies.grupo51.lockedin.comms.Sender;
 import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
 import ies.grupo51.lockedin.models.Area;
 import ies.grupo51.lockedin.models.Guard;
@@ -41,6 +42,9 @@ public class AreaController {
     @Autowired
     private GuardService guardService;
 
+    @Autowired
+    private Sender sender;
+
     // GET METHODS
 
     @GetMapping("")
@@ -54,12 +58,12 @@ public class AreaController {
         return ResponseEntity.ok().body(areaService.getAreaById(id));
     }
 
-    @GetMapping("/{id}/access")
-    public ResponseEntity<Area> changeAreaAcess(@PathVariable(value = "id") long id) throws ResourceNotFoundException {
-        Area area = areaService.getAreaById(id);
-        area.setAccess(!area.getAccess());
-        return ResponseEntity.ok(areaService.updateArea(area));
-    }
+    // @GetMapping("/{id}/access")
+    // public ResponseEntity<Area> changeAreaAcess(@PathVariable(value = "id") long id) throws ResourceNotFoundException {
+    //     Area area = areaService.getAreaById(id);
+    //     area.setAccess(!area.getAccess());
+    //     return ResponseEntity.ok(areaService.updateArea(area));
+    // }
 
     @GetMapping("/{id}/inmates")
     public ResponseEntity<List<Inmate>> getInmatesOfAnArea(@PathVariable(value = "id") long id) throws ResourceNotFoundException {
@@ -106,5 +110,59 @@ public class AreaController {
         }
         data.put("guards", guards);
         return ResponseEntity.ok().body(data);
+    }
+
+    @GetMapping("/{id}/lock")
+    public ResponseEntity<Area> lockArea(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
+        Area a = areaService.getAreaById(id);
+        
+        if(!a.getAccess()) {
+            return ResponseEntity.badRequest().body(a);
+        }
+
+        a.setAccess(false);
+        areaService.updateArea(a);
+        for (MoveSensor ms : moveSensorService.getMoveSensorsByEntryAreaId(id)) {
+            if (ms.isActive() && areaService.getAreaById(ms.getExitAreaId()).getAccess()) {
+                ms.setActive(false);
+                moveSensorService.updatMoveSensor(ms);
+                sender.lockSensor(ms.getId());
+            }
+        }
+        for (MoveSensor ms : moveSensorService.getMoveSensorsByExitAreaId(id)) {
+            if (ms.isActive() && areaService.getAreaById(ms.getEntryAreaId()).getAccess()) {
+                ms.setActive(false);
+                moveSensorService.updatMoveSensor(ms);
+                sender.lockSensor(ms.getId());
+            }
+        }
+        return ResponseEntity.ok().body(a);
+    }
+
+    @GetMapping("/{id}/unlock")
+    public ResponseEntity<Area> unlockArea(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
+        Area a = areaService.getAreaById(id);
+        
+        if(a.getAccess()) {
+            return ResponseEntity.badRequest().body(a);
+        }
+
+        a.setAccess(true);
+        areaService.updateArea(a);
+        for (MoveSensor ms : moveSensorService.getMoveSensorsByEntryAreaId(id)) {
+            if (!ms.isActive() && areaService.getAreaById(ms.getExitAreaId()).getAccess()){
+                ms.setActive(true);
+                moveSensorService.updatMoveSensor(ms);
+                sender.unlockSensor(ms.getId());
+            }
+        }
+        for (MoveSensor ms : moveSensorService.getMoveSensorsByExitAreaId(id)) {
+            if (!ms.isActive() && areaService.getAreaById(ms.getEntryAreaId()).getAccess()) {
+                ms.setActive(true);
+                moveSensorService.updatMoveSensor(ms);
+                sender.unlockSensor(ms.getId());
+            }
+        }
+        return ResponseEntity.ok().body(a);
     }
 }

@@ -11,29 +11,29 @@
 - Inmate Controller
 
   - Mapping("/api/inmate")
+
 - Alert Controller
   - Mapping("/api/alert")
 
-
 ## Area /api/area
 
-| Method | Mapping            | Description                                                  | Return (example - type)                          | Input |
-| ------ | ------------------ | ------------------------------------------------------------ | ------------------------------------------------ | ----- |
-| GET    |                    | Returns all the areas                                        | [{Area1},{Area2},...] - list                     | None  |
-| GET    | /{area_id}         | Returns a specific area if it exists                         | {Area} - dict                                    | Long  |
-| GET    | /{area_id}/access  | Changes the the access to an area                            | {Area} - dict                                    | Long  |
+| Method | Mapping            | Description                                                          | Return (example - type)                          | Input |
+| ------ | ------------------ | -------------------------------------------------------------------- | ------------------------------------------------ | ----- |
+| GET    |                    | Returns all the areas                                                | [{Area1},{Area2},...] - list                     | None  |
+| GET    | /{area_id}         | Returns a specific area if it exists                                 | {Area} - dict                                    | Long  |
+| GET    | /{area_id}/access  | Changes the the access to an area                                    | {Area} - dict                                    | Long  |
 | GET    | /{area_id}/inmates | Returns the list of inmates for an area based order by inmate danger | [{Inmate1001},{Inmate1002},...] - list           | Long  |
-| GET    | /{area_id}/details | Returns the details of an area                               | [{access,name,id,currentDangerLevel,...}] - list | Long  |
+| GET    | /{area_id}/details | Returns the details of an area                                       | [{access,name,id,currentDangerLevel,...}] - list | Long  |
 
 ## Guard /api/guard
 
-| Method | Mapping             | Description                                                  | Return (example - type)                         | Input       |
-| ------ | ------------------- | ------------------------------------------------------------ | ----------------------------------------------- | ----------- |
-| GET    |                     | Returns all the guards                                       | [{Guard1},{Guard2},...] - list                  | None        |
-| GET    | /{guard_id}         | Returns a specific guard if it exists                        | {Guard} - dict                                  | Long        |
-| GET    | /{guard_id}/details | Returns the access to this guard's area and his collegues at the area | ["Open"/"Closed", "Silvia", "Paulo",...] - list | Long        |
-| PUT    | /{guard_id}         | Update guard                                                 | {Guard} - dict                                  | Long, Guard |
-| POST   |                     | Create guard                                                 | {Guard} - dict                                  | Guard       |
+| Method | Mapping             | Description                                                            | Return (example - type)                         | Input       |
+| ------ | ------------------- | ---------------------------------------------------------------------- | ----------------------------------------------- | ----------- |
+| GET    |                     | Returns all the guards                                                 | [{Guard1},{Guard2},...] - list                  | None        |
+| GET    | /{guard_id}         | Returns a specific guard if it exists                                  | {Guard} - dict                                  | Long        |
+| GET    | /{guard_id}/details | Returns the access to this guard's area and his colleagues at the area | ["Open"/"Closed", "Silvia", "Paulo",...] - list | Long        |
+| PUT    | /{guard_id}         | Update guard                                                           | {Guard} - dict                                  | Long, Guard |
+| POST   |                     | Create guard                                                           | {Guard} - dict                                  | Guard       |
 
 ## Inmate /api/inmate
 
@@ -61,17 +61,26 @@
 | GET    |             | Returns the last 30 alert             | [{Alert1},{Alert2},{Alert300,..}] - list | None  |
 | GET    | /{alert_id} | Returns a specific alert if it exists | {Alert} - dict                           | Long  |
 | GET    | /new        | Returns the last 5 the new alerts     | [{Alert1},{Alert2}}] - list              | None  |
+
+<!--
 | GET    | /riot       | Returns the last 30 riot alert        | [{Alert1},{Alert2},{Alert300,..}] - list | None  |
 | GET    | /work       | Returns the last 30 work alert        | [{Alert1},{Alert2},{Alert300,..}] - list | None  |
-| GET    | /health     | Returns the last 30 health alert      | [{Alert1},{Alert2},{Alert300,..}] - list | None  |
+| GET    | /health     | Returns the last 30 health alert      | [{Alert1},{Alert2},{Alert300,..}] - list | None  | -->
 
 ## Work Station /api/workstation
 
-| Method | Mapping                      | Description                                         | Return (example - type)                  | Input |
-| ------ | ---------------------------- | --------------------------------------------------- | ---------------------------------------- | ----- |
-| GET    |                              | Returns all workstations                            | [{WS1},{WS2},{WS3,..}] - list            | None  |
-| GET    | /{id}                        | Returns a workstation                               | {WS1} - dict                             | Long  |
-| GET    | /{id}/details                | Returns the details of an workstation               | {expectedQuota, numWorkLogs, ...} - dict | Long  |
-| GET    | /{workstation_id}/worklogs   | Returns the quotas of the works at this workstation | [{x,y},{x,y},{x,y}] - list               | Long  |
-| GET    | /worklog/{worklog_id}/inmate | Return the general info of an worker                | {workLogId,inmateName} - dict            | Long  |
+| Method | Mapping                    | Description                                         | Return (example - type)                  | Input |
+| ------ | -------------------------- | --------------------------------------------------- | ---------------------------------------- | ----- |
+| GET    |                            | Returns all workstations                            | [{WS1},{WS2},{WS3,..}] - list            | None  |
+| GET    | /{id}                      | Returns a workstation                               | {WS1} - dict                             | Long  |
+| GET    | /{id}/details              | Returns the details of an workstation               | {expectedQuota, numWorkLogs, ...} - dict | Long  |
+| GET    | /{workstation_id}/worklogs | Returns the quotas of the works at this workstation | [{x,y},{x,y},{x,y}] - list               | Long  |
 
+<!--
+| GET    | /worklog/{worklog_id}/inmate | Return the general info of an worker                | {workLogId,inmateName} - dict            | Long  | -->
+
+## Map Data /api/map
+
+| Method | Mapping | Description                       | Return (example - type)                                          | Input |
+| ------ | ------- | --------------------------------- | ---------------------------------------------------------------- | ----- |
+| GET    |         | Returns the map rendering details | {areas: {areaname: {details}}, sensors {sensorid: color}} - dict | None  |
