@@ -82,8 +82,8 @@ function Notifications() {
   }
 
   if (dataSource !== undefined) {
+    console.log(dataSource);
     currentCards = dataSource.slice(indexOfFirstCard, indexOfLastCard);
-
     return (
       <>
         <Col>
@@ -96,24 +96,25 @@ function Notifications() {
             style={{ backgroundColor: "#D6E4E5" }}>
             <Space direction="vertical">
               {currentCards.map((card) => {
-                console.log(card);
+                console.log(card["Alert"]);
                 return (
                   <Card
                     //
                     headStyle={{ backgroundColor: back_colors[`${card.type}`] }}
                     bodyStyle={{ backgroundColor: "#eff5f5" }}
                     style={{
-                      marginTop: 16,
+                      marginBottom: 16,
                       width: "1000px",
                     }}
                     type="inner"
                     title={
                       <div style={{ color: colors[`${card.type}`] }}>
-                        {icons[`${card.type}`]} {card.type.charAt(0).toUpperCase() + card.type.slice(1)}
+                        {icons[`${card["Alert"].type}`]} {card["Alert"].type.charAt(0).toUpperCase() + card["Alert"].type.slice(1)}
                       </div>
                     }
                     extra={Alert_type(card)}>
-                    {card.information}
+                    {card["Alert"].information}
+                    {card["Alert"].symptoms ? `. Symptoms: ` + card["Alert"].symptoms : ""}
                   </Card>
                 );
               })}

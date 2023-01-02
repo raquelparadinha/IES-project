@@ -27,6 +27,7 @@ import Notifications, { back_colors, colors, icons } from "./components/Notifica
 import PrisionersList from "./components/prisionersList/prisionersList";
 import Guard_Profile from "./components/Profile/guard_profile";
 import Prisioner_Profile from "./components/Profile/prisioner_profile";
+import Profile from "./components/Profile/profile";
 import Workstations from "./components/Workstations/workstations";
 
 function App() {
@@ -130,7 +131,7 @@ function Content() {
         <Route path="/notifications" element={<Notifications />}></Route>
         <Route path="/workstations" element={<Workstations />}></Route>
         <Route path="/map" element={<MapaEstricado />}></Route>
-
+        <Route path="/profile" element={<Profile />}></Route>
         <Route path="/login" element={<Login />}></Route>
       </Routes>
     </div>
@@ -169,6 +170,12 @@ function islogged() {
         icon: <NotificationOutlined />,
       },
       {
+        label: "Profile",
+        key: "profile",
+        icon: <UserOutlined />,
+        danger: true,
+      },
+      {
         label: "Logout",
         key: "logout",
         icon: <LogoutOutlined />,
@@ -197,6 +204,12 @@ function islogged() {
         label: "Notifications",
         key: "/notifications",
         icon: <NotificationOutlined />,
+      },
+      {
+        label: "Profile",
+        key: "profile",
+        icon: <UserOutlined />,
+        danger: true,
       },
       {
         label: "Logout",
