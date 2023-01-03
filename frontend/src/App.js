@@ -64,8 +64,9 @@ function App() {
     return () => clearInterval(interval);
   });
 
+  const [currentUser, setCurrentUser] = useState(getCurrentUser());
   function checkLogin() {
-    if (getCurrentUser() === null) {
+    if (currentUser) {
       return contextHolder;
     } else {
       return null;

@@ -97,45 +97,6 @@ public class WorkStationController {
             System.out.println(i.getName() + " - " + avgQuotas.get(i));
         }
 
-        // for (Inmate inmate : inmateWorks.keySet()) {
-        //     int newInmateWorks = 0;
-        //     for (WorkLog workLog : inmateWorks.get(inmate)) {
-        //         newInmateWorks += workLog.getQuota();
-        //     }
-        //     newInmateWorks = newInmateWorks/inmateWorks.get(inmate).size();
-        //     System.out.println("newinmate: + " + inmate.getName());
-        //     System.out.println(newInmateWorks);
-
-        //     if (bestWorker == null) {
-        //         bestWorker = inmate;
-        //     } else {
-        //         int bestWorkerWorks = 0;
-        //         for (WorkLog workLog : inmateWorks.get(bestWorker)) {
-        //             bestWorkerWorks += workLog.getQuota();
-        //         }
-        //         bestWorkerWorks = bestWorkerWorks/inmateWorks.get(bestWorker).size();
-        //         System.out.println(bestWorkerWorks);
-
-        //         if (bestWorkerWorks <= newInmateWorks) {
-        //             bestWorker = inmate;
-        //         }
-        //     }
-        //     if (worstWoker == null) {
-        //         worstWoker = inmate;
-        //     } else {
-        //         int worstWokerWorks = 0;
-        //         for (WorkLog workLog : inmateWorks.get(worstWoker)) {
-        //             worstWokerWorks += workLog.getQuota();
-        //         }
-        //         worstWokerWorks = worstWokerWorks/inmateWorks.get(worstWoker).size();
-        //         System.out.println(worstWokerWorks);
-
-        //         if (worstWokerWorks >= newInmateWorks) {
-        //             worstWoker = inmate;
-        //         }
-        //     }
-        // }
-
         System.out.println("workers");
         System.out.println(bestWorker);
         System.out.println(worstWoker);
