@@ -2,6 +2,7 @@ package ies.grupo51.lockedin.controllers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,70 +58,92 @@ public class WorkStationController {
 
         int averageQuota = 0;
         HashMap<Inmate, List<WorkLog>> inmateWorks = new HashMap<>();
+
+        Inmate bestWorker = null, worstWoker = null;
+        float bestAvgQuota = 0.0f, worstAvgQuota = 100.0f;
         for (long workLogId : workStation.getWorkLogIds()) {
             WorkLog workLog = workLogService.getWorkLogById(workLogId);
+            System.out.println(workLog.getId() + " - " + workLog.getInmateId() + " - " + workLog.getQuota());
             // averageQuota
             averageQuota += workLog.getQuota();
 
             // inmateWorks
             Inmate inmate = inmateService.getInmateById(workLog.getInmateId());
             inmateWorks.putIfAbsent(inmate, new ArrayList<>());
-            List<WorkLog> works = inmateWorks.get(inmate); works.add(workLog);
+            List<WorkLog> works = inmateWorks.get(inmate);
+            works.add(workLog);
             inmateWorks.put(inmate, works);
         }
 
-        Inmate bestWorker = null, worstWoker = null;
+        Map<Inmate, Float> avgQuotas = new HashMap<>();
+
         for (Inmate inmate : inmateWorks.keySet()) {
-            int newInmateWorks = 0;
-            for (WorkLog workLog : inmateWorks.get(inmate)) {
-                newInmateWorks += workLog.getQuota();
-            }
-            newInmateWorks = newInmateWorks/inmateWorks.get(inmate).size();
-
-            if (bestWorker == null) {
+            int inmateQuotaSum = 0;
+            for (WorkLog workLog : inmateWorks.get(inmate))
+                inmateQuotaSum += workLog.getQuota();
+            float inmateAvgQuota = (float) inmateQuotaSum / inmateWorks.get(inmate).size();
+            avgQuotas.put(inmate, inmateAvgQuota);
+            
+            if (inmateAvgQuota > bestAvgQuota) {
                 bestWorker = inmate;
-            } else {
-                int bestWorkerWorks = 0;
-                for (WorkLog workLog : inmateWorks.get(bestWorker)) {
-                    bestWorkerWorks += workLog.getQuota();
-                }
-                bestWorkerWorks = bestWorkerWorks/inmateWorks.get(bestWorker).size();
-
-                if (bestWorkerWorks <= newInmateWorks) {
-                    bestWorker = inmate;
-                }
-            }
-            if (worstWoker == null) {
+                bestAvgQuota = inmateAvgQuota;
+            } else if (inmateAvgQuota < worstAvgQuota) {
                 worstWoker = inmate;
-            } else {
-                int worstWokerWorks = 0;
-                for (WorkLog workLog : inmateWorks.get(worstWoker)) {
-                    worstWokerWorks += workLog.getQuota();
-                }
-                worstWokerWorks = worstWokerWorks/inmateWorks.get(worstWoker).size();
-
-                if (worstWokerWorks >= newInmateWorks) {
-                    worstWoker = inmate;
-                }
+                worstAvgQuota = inmateAvgQuota;
             }
         }
 
-        if (workStation.getWorkLogIds().size() != 0) {
-            data.put("averageQuota", averageQuota/workStation.getWorkLogIds().size());
-        } else {
-            data.put("averageQuota", 0);
+        for (Inmate i : avgQuotas.keySet()) {
+            System.out.println(i.getName() + " - " + avgQuotas.get(i));
         }
 
-        if (bestWorker != null) {
-            data.put("bestWorker", bestWorker.getName());
-        } else {
-            data.put("bestWorker", "");
-        }
-        if (worstWoker != null) {
-            data.put("worstWoker", worstWoker.getName());
-        } else {
-            data.put("worstWoker", "");
-        }
+        // for (Inmate inmate : inmateWorks.keySet()) {
+        //     int newInmateWorks = 0;
+        //     for (WorkLog workLog : inmateWorks.get(inmate)) {
+        //         newInmateWorks += workLog.getQuota();
+        //     }
+        //     newInmateWorks = newInmateWorks/inmateWorks.get(inmate).size();
+        //     System.out.println("newinmate: + " + inmate.getName());
+        //     System.out.println(newInmateWorks);
+
+        //     if (bestWorker == null) {
+        //         bestWorker = inmate;
+        //     } else {
+        //         int bestWorkerWorks = 0;
+        //         for (WorkLog workLog : inmateWorks.get(bestWorker)) {
+        //             bestWorkerWorks += workLog.getQuota();
+        //         }
+        //         bestWorkerWorks = bestWorkerWorks/inmateWorks.get(bestWorker).size();
+        //         System.out.println(bestWorkerWorks);
+
+        //         if (bestWorkerWorks <= newInmateWorks) {
+        //             bestWorker = inmate;
+        //         }
+        //     }
+        //     if (worstWoker == null) {
+        //         worstWoker = inmate;
+        //     } else {
+        //         int worstWokerWorks = 0;
+        //         for (WorkLog workLog : inmateWorks.get(worstWoker)) {
+        //             worstWokerWorks += workLog.getQuota();
+        //         }
+        //         worstWokerWorks = worstWokerWorks/inmateWorks.get(worstWoker).size();
+        //         System.out.println(worstWokerWorks);
+
+        //         if (worstWokerWorks >= newInmateWorks) {
+        //             worstWoker = inmate;
+        //         }
+        //     }
+        // }
+
+        System.out.println("workers");
+        System.out.println(bestWorker);
+        System.out.println(worstWoker);
+
+        data.put("averageQuota", workStation.getWorkLogIds().size() != 0 ? averageQuota/workStation.getWorkLogIds().size() : 0);
+
+        data.put("bestWorker", bestWorker != null ? bestWorker.getName() : "");
+        data.put("worstWoker", worstWoker != null ? worstWoker.getName() : "");
 
         return ResponseEntity.ok().body(data);
     }

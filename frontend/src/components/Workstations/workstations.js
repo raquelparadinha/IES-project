@@ -217,7 +217,7 @@ const Workstations = () => {
           }
         >
           <Space align="center" direction="vertical" style={{ width: "100%" }}>
-            <Collapse bordered={false}>
+            <Collapse ghost={true} style={{ backgroundColor: "#D6E4E5" }}>
               <Space direction="vertical" size={50}>
                 {SeeIfUndfined()}
               </Space>

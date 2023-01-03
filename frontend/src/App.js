@@ -64,6 +64,14 @@ function App() {
     return () => clearInterval(interval);
   });
 
+  function checkLogin() {
+    if (getCurrentUser() === null) {
+      return contextHolder;
+    } else {
+      return null;
+    }
+  }
+
   return (
     <div
       style={{
@@ -72,7 +80,7 @@ function App() {
         flex: 1,
         height: "100vh",
       }}>
-      {contextHolder}
+      {checkLogin()}
       <SideMenu />
     </div>
   );
@@ -110,7 +118,7 @@ function Content() {
     <div style={{ width: "100%", backgroundColor: "#D6E4E5" }}>
       {/* <BreadCrumb /> */}
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />}></Route>
+        <Route path="/" element={<Navigate to="/prisioners" />}></Route>
         <Route
           path="/dashboard"
           element={
@@ -143,7 +151,6 @@ function islogged() {
     return [];
   } else if (currentUser.roles.includes("ROLE_ADMIN")) {
     return [
-      { label: "Map", key: "/map", icon: <ControlOutlined /> },
       {
         label: "Prisioners",
         key: "/prisioners",
@@ -169,6 +176,7 @@ function islogged() {
         key: "/notifications",
         icon: <NotificationOutlined />,
       },
+      { label: "Map", key: "/map", icon: <ControlOutlined /> },
       {
         label: "Profile",
         key: "profile",
@@ -184,7 +192,6 @@ function islogged() {
     ];
   } else if (currentUser.roles.includes("ROLE_USER")) {
     return [
-      { label: "Map", key: "/map", icon: <ControlOutlined /> },
       {
         label: "Prisioners",
         key: "/prisioners",
@@ -205,6 +212,7 @@ function islogged() {
         key: "/notifications",
         icon: <NotificationOutlined />,
       },
+      { label: "Map", key: "/map", icon: <ControlOutlined /> },
       {
         label: "Profile",
         key: "profile",

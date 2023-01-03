@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
+
+import ies.grupo51.lockedin.exceptions.ResourceNotFoundException;
 import ies.grupo51.lockedin.models.Warden;
 import ies.grupo51.lockedin.services.WardenService;
 
@@ -20,7 +22,7 @@ public class WardenController {
     private WardenService wardenService;
 
     @GetMapping("/profile")
-    public ResponseEntity<Warden> getWarden() {
+    public ResponseEntity<Warden> getWarden() throws ResourceNotFoundException {
         Warden data = wardenService.getWardens().get(0);
         return ResponseEntity.ok().body(data);
     }

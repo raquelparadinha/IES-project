@@ -357,7 +357,7 @@ function GuardsList() {
                 if (bool) {
                   Modal.success({
                     title: "Edit Successful",
-                    content: `Prisioner changed with success.`,
+                    content: `Guard changed with success.`,
                     okType: "ghost",
                   });
                   return editingGuard;
@@ -406,7 +406,7 @@ function GuardsList() {
             }}
           />
           <Input
-            addonBefore="AreadId"
+            addonBefore="AreaId"
             value={editingGuard?.areaId}
             onChange={(e) => {
               setEditingGuard((pre) => {
