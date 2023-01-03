@@ -102,10 +102,8 @@ export function SideMenu() {
           if (key === "logout") {
             logout();
             navigate("/login");
-            checkLogin();
           } else {
             navigate(key);
-            checkLogin();
           }
         }}
         defaultSelectedKeys={[window.location.pathname]}

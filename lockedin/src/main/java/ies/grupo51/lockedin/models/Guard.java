@@ -18,7 +18,6 @@ public class Guard {
     private String birthdate;
     private long areaId;
     private String password;
-    @DBRef
     private List<String> roles;
 
     public Guard () {
