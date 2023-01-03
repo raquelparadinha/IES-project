@@ -17,6 +17,9 @@ public class HealthLogService {
     private HealthLogRepository repository;
 
     public HealthLog saveHealthLog(HealthLog healthLog){
+        if (repository.count() > 5000) {
+            repository.deleteById(getFirstId());
+        }
         return repository.save(healthLog);
     }
 
@@ -45,5 +48,17 @@ public class HealthLogService {
             }
         }
         return max_id+1;
+    }
+
+    public long getFirstId() {
+        long min_id = 0;
+        for (HealthLog alert : getHealthLogs()) {
+            long id = alert.getId();
+            if (id < min_id) {
+                min_id = id;
+            }
+        }
+        
+        return min_id;
     }
 }

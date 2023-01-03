@@ -15,7 +15,10 @@ public class MoveSensorLogService {
     
     @Autowired private MoveSensorLogRepository repository;
     
-    public MoveSensorLog saveMoveSensorLog(MoveSensorLog moveSensorLog){
+    public MoveSensorLog saveMoveSensorLog(MoveSensorLog moveSensorLog) {
+        if (repository.count() > 5000) {
+            repository.deleteById(getFirstId());
+        }
         return repository.save(moveSensorLog);
     }
 
@@ -41,5 +44,17 @@ public class MoveSensorLogService {
         }
         
         return max_id+1;
+    }
+
+    public long getFirstId() {
+        long min_id = 0;
+        for (MoveSensorLog alert : getMoveSensorLogs()) {
+            long id = alert.getId();
+            if (id < min_id) {
+                min_id = id;
+            }
+        }
+        
+        return min_id;
     }
 }
