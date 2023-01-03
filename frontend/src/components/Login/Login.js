@@ -6,17 +6,10 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../../images/cartoon-pug-dog-in-prison-costume-with-sign-vector.jpeg";
 const { Meta } = Card;
 
-export let Logged = undefined;
-
-export function SetLogged(params) {
-  Logged = params;
-}
-
 const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = (values) => {
-    console.log(values);
     return axios
       .post("http://localhost:5001/api/auth/signin", {
         email: values.email,
@@ -31,13 +24,8 @@ const Login = () => {
           sessionStorage.setItem("user", JSON.stringify(response.data));
           const data = response.data;
           console.log(data);
-          if (data !== undefined) {
-            if (data.roles.includes("ROLE_ADMIN")) {
-              Logged = "admin";
-            } else if (data.roles.includes("ROLE_USER")) {
-              Logged = "user";
-            }
-            navigate("/map");
+          if (data) {
+            navigate("/prisioners");
           }
         }
       });

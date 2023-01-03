@@ -21,7 +21,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Dashboard from "./components/Dashboard/dashboard";
 import GuardsList from "./components/GuardsList/guardsList";
-import Login, { Logged, SetLogged } from "./components/Login/Login";
+import Login from "./components/Login/Login";
 import MapaEstricado from "./components/MapaEstricado/MapaEstricado";
 import Notifications, { back_colors, colors, icons } from "./components/Notifications/notifications";
 import PrisionersList from "./components/prisionersList/prisionersList";
@@ -100,7 +100,6 @@ export function SideMenu() {
         onClick={({ key }) => {
           if (key === "logout") {
             logout();
-            SetLogged(undefined);
             navigate("/login");
           } else {
             navigate(key);
@@ -119,7 +118,7 @@ function Content() {
     <div style={{ width: "100%", backgroundColor: "#D6E4E5" }}>
       {/* <BreadCrumb /> */}
       <Routes>
-        <Route path="/" element={<Navigate to="/prisioners" />}></Route>
+        <Route path="/" element={<Navigate to="/login" />}></Route>
         <Route
           path="/dashboard"
           element={
@@ -148,7 +147,7 @@ function Content() {
 }
 function islogged() {
   const currentUser = getCurrentUser();
-  if (currentUser === null) {
+  if (!currentUser) {
     return [];
   } else if (currentUser.roles.includes("ROLE_ADMIN")) {
     return [

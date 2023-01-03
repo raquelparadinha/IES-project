@@ -8,7 +8,7 @@ from pymongo import MongoClient
 
 HEALTHFILE = 'data/health.json'
 
-RIOT_CHANCE = 4 # %
+RIOT_CHANCE = 10 # %
 
 class Simulator():
     def __init__(self, host, port, username='user1', password='user1'):
@@ -107,12 +107,15 @@ class Simulator():
                 inmate = [i for i in self.inmates if i.id == inmateid][0]
                 self.inmates.remove(inmate)
 
-        elif msgtype in ['solitary']:
+        elif msgtype in ['insolitary', 'outsolitary']:
             inmateid = jmsg['inmateid']
             inmate = [i for i in self.inmates if i.id == inmateid][0]
-
-            inmate.solitary = False if inmate.solitary else True
-            # TODO location too
+            solitary = [a for a in self.areas if a.name == 'solitary'][0]
+            if msgtype == 'insolitary':
+                inmate.solitary = True
+                inmate.area = solitary
+            elif msgtype == 'outsolitary':
+                inmate.solitary = False
 
     # main loop method
     def run(self):
@@ -124,11 +127,6 @@ class Simulator():
             msg['inmateid'] = inmate.id
             msg['sensorid'] = sensor.id
             messages.append(msg)
-
-            if self.tryRiot(sensor.exit):
-                msg = {'type': 'riot'}
-                msg['areaid'] = sensor.exit.id
-                messages.append(msg)
 
             if sensor.entry.name == 'jobwing':
                 ws, wq = self.makeWork()
@@ -144,13 +142,20 @@ class Simulator():
                 msg['inmateid'] = inmate.id
                 msg['healthcheck'] = hc
                 messages.append(msg)
+        
+        area, bool = self.tryRiot()
+        if bool:
+            msg = {'type': 'riot'}
+            msg['areaid'] = area.id
+            messages.append(msg)
 
         return messages
 
     # random generation methods
     def moveInmate(self):
-        inmateidx = randint(1, len(self.inmates)) - 1
-        inmate = self.inmates[inmateidx]
+        inmates = [i for i in self.inmates if not i.solitary]
+        inmateidx = randint(1, len(inmates)) - 1
+        inmate = inmates[inmateidx]
 
         possiblesensors = [s for s in self.sensors if s.active and s.entry == inmate.area]
         if inmate.motivate():
@@ -169,26 +174,28 @@ class Simulator():
             return inmate, sensor
             
         area = sensor.exit
-        areainmates = [i for i in self.inmates if i.area == area]
+        areainmates = [i for i in self.inmates if i.area == area and not i.solitary]
         inmate = areainmates[randint(1, len(areainmates)) - 1]
         possiblesensors = [s for s in self.sensors if s.active and s.entry == area and len([i for i in self.inmates if i.area == s.exit]) < s.exit.capacity]
         sensor = possiblesensors[randint(1, len(possiblesensors)) - 1]
         return inmate, sensor
 
-    def tryRiot(self, area):
+    def tryRiot(self):
+        area = [a for a in self.areas if a.name != 'solitary'][randint(1, len(self.areas)) - 1]
         if self.lastriot == area:
             self.riotcounter += 1
             if self.riotcounter <= 50:
-                return False
+                return None, False
 
         count = len([inmate for inmate in self.inmates if inmate.area == area])
-        if count > area.capacity:
+        if count > (area.capacity * 0.85):
             if randint(0, 100) >= RIOT_CHANCE:
-                return False
+                return None, False
             
             self.riotcounter = 0
             self.lastriot = area
-            return True
+            return area, True
+        return None, False
 
     def makeHealthcheck(self):
         def genValue(key):

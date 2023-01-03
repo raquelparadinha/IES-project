@@ -43,9 +43,17 @@ public class Sender {
         send(jmsg);
     }
 
-    public void solitaryToggle(long inmateid) {
+    public void inSolitary(long inmateid) {
         JSONObject jmsg = new JSONObject();
-        jmsg.put("type", "solitary");
+        jmsg.put("type", "insolitary");
+        jmsg.put("inmateid", inmateid);
+
+        send(jmsg);
+    }
+
+    public void outSolitary(long inmateid) {
+        JSONObject jmsg = new JSONObject();
+        jmsg.put("type", "outsolitary");
         jmsg.put("inmateid", inmateid);
 
         send(jmsg);
