@@ -60,13 +60,12 @@ public class WorkStationController {
         HashMap<Inmate, List<WorkLog>> inmateWorks = new HashMap<>();
 
         Inmate bestWorker = null, worstWoker = null;
-        float bestAvgQuota = 0.0f, worstAvgQuota = 100.0f;
         for (long workLogId : workStation.getWorkLogIds()) {
             WorkLog workLog = workLogService.getWorkLogById(workLogId);
             System.out.println(workLog.getId() + " - " + workLog.getInmateId() + " - " + workLog.getQuota());
             // averageQuota
             averageQuota += workLog.getQuota();
-
+            
             // inmateWorks
             Inmate inmate = inmateService.getInmateById(workLog.getInmateId());
             inmateWorks.putIfAbsent(inmate, new ArrayList<>());
@@ -74,9 +73,10 @@ public class WorkStationController {
             works.add(workLog);
             inmateWorks.put(inmate, works);
         }
-
+        
         Map<Inmate, Float> avgQuotas = new HashMap<>();
-
+        
+        float bestAvgQuota = 0.0f, worstAvgQuota = 100.0f;
         for (Inmate inmate : inmateWorks.keySet()) {
             int inmateQuotaSum = 0;
             for (WorkLog workLog : inmateWorks.get(inmate))
@@ -87,7 +87,8 @@ public class WorkStationController {
             if (inmateAvgQuota > bestAvgQuota) {
                 bestWorker = inmate;
                 bestAvgQuota = inmateAvgQuota;
-            } else if (inmateAvgQuota < worstAvgQuota) {
+            } 
+            if (inmateAvgQuota < worstAvgQuota) {
                 worstWoker = inmate;
                 worstAvgQuota = inmateAvgQuota;
             }

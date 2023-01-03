@@ -181,7 +181,7 @@ class Simulator():
         return inmate, sensor
 
     def tryRiot(self):
-        area = [a for a in self.areas if a.name != 'solitary'][randint(1, len(self.areas)) - 1]
+        area = [a for a in self.areas if a.name != 'solitary'][randint(1, len(self.areas)- 1) - 1]
         if self.lastriot == area:
             self.riotcounter += 1
             if self.riotcounter <= 50:
