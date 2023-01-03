@@ -73,9 +73,6 @@ function App() {
       return null;
     }
   }
-  useEffect(() => {
-    window.location.reload();
-  }, [currentUser]);
 
   return (
     <div
