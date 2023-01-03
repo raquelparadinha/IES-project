@@ -1,7 +1,7 @@
 #!/bin/bash
 
-jar_local=./api/ShopAholytics/target/ShopAholytics-0.0.1-SNAPSHOT.jar
-frontend_local=./FrontEnd
+jar_local=./lockedin/target/lockedin-0.0.1-SNAPSHOT.jar
+frontend_local=./frontend
 
 jar_remote=~/ies_52/build/api/api.jar
 frontend_remote=~/ies_52/src/client

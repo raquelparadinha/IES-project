@@ -5,4 +5,4 @@ echo "--=[ Packaging ]=--"
 ./mvnw package
 cd ..
 echo "--=[ Starting Containers ]=--"
-docker-compose up --build
+docker-compose up
