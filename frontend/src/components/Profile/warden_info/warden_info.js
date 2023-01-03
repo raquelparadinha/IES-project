@@ -20,6 +20,7 @@ function Warden_info() {
 
     function SeeIfUndfined() {
         if (dataSource !== undefined) {
+            console.log(dataSource);
           return (
             <>
               <p style={{ color: "#12494c" }}>Id: {dataSource.id}</p>

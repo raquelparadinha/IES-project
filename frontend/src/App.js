@@ -66,7 +66,8 @@ function App() {
 
   const [currentUser, setCurrentUser] = useState(getCurrentUser());
   function checkLogin() {
-    if (currentUser) {
+    console.log("user", currentUser);
+    if (currentUser !== null) {
       return contextHolder;
     } else {
       return null;
@@ -102,8 +103,10 @@ export function SideMenu() {
             logout();
             SetLogged(undefined);
             navigate("/login");
+            checkLogin();
           } else {
             navigate(key);
+            checkLogin();
           }
         }}
         defaultSelectedKeys={[window.location.pathname]}

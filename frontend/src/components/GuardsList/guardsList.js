@@ -259,6 +259,7 @@ function GuardsList() {
   };
 
   function editGuard(Edited_guard) {
+    console.log("Editado", Edited_guard);
     try {
       axios.put(
         "http://localhost:5001/api/guard/" + Edited_guard.id,
@@ -406,11 +407,11 @@ function GuardsList() {
             }}
           />
           <Input
-            addonBefore="AreaId"
-            value={editingGuard?.areaId}
+            addonBefore="AreaName"
+            value={editingGuard?.areaName}
             onChange={(e) => {
               setEditingGuard((pre) => {
-                return { ...pre, areaId: e.target.value };
+                return { ...pre, areaName: e.target.value };
               });
             }}
           />
